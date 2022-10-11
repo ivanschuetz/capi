@@ -1,5 +1,6 @@
 import {
   Algodv2,
+  encodeAddress,
   makeApplicationCallTxnFromObject,
   OnApplicationComplete,
 } from "algosdk";
@@ -19,6 +20,9 @@ export const claim = async (
     foreignAssets: [fundsAsset],
     onComplete: OnApplicationComplete.NoOpOC,
   });
+
+  let encoded = encodeAddress(tx.from.publicKey);
+  console.log("!!! encoded: " + encoded);
 
   tx.fee = tx.fee * 2;
 
