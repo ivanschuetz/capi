@@ -72,7 +72,8 @@ export default function Home() {
       <main>
         <div>{"Hello Algorand!"}</div>
         <Foo />
-        <button onClick={() => signTx()}>{"Sign a tx"}</button>
+        {/* <button onClick={() => signTx()}>{"Sign a tx"}</button> */}
+        <button onClick={() => signTransaction()}>{"Sign a tx"}</button>
       </main>
     </div>
   );
