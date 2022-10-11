@@ -1,6 +1,29 @@
-import Head from 'next/head'
+import algosdk from "algosdk";
+import Head from "next/head";
+import { useEffect } from "react";
+
+const testAlgo = async () => {
+  const token =
+    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
+  const server = "http://127.0.0.1";
+  const port = 4001;
+  const client = new algosdk.Algodv2(token, server, port);
+
+  console.log("testing algo!!");
+
+  (async () => {
+    // console.log(await client.status().do());
+    console.log(await client.getTransactionParams().do());
+  })().catch((e) => {
+    console.log(e);
+  });
+};
 
 export default function Home() {
+  useEffect(() => {
+    testAlgo();
+  }, []);
+
   return (
     <div className="container">
       <Head>
@@ -54,8 +77,7 @@ export default function Home() {
           target="_blank"
           rel="noopener noreferrer"
         >
-          Powered by{' '}
-          <img src="/vercel.svg" alt="Vercel" className="logo" />
+          Powered by <img src="/vercel.svg" alt="Vercel" className="logo" />
         </a>
       </footer>
 
@@ -205,5 +227,5 @@ export default function Home() {
         }
       `}</style>
     </div>
-  )
+  );
 }
