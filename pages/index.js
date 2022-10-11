@@ -1,6 +1,7 @@
 import algosdk from "algosdk";
 import Head from "next/head";
 import { useEffect } from "react";
+import { Foo } from "../components/foo";
 
 const testAlgo = async () => {
   const token =
@@ -33,6 +34,7 @@ export default function Home() {
 
       <main>
         <div>{"Hello Algorand!"}</div>
+        <Foo />
       </main>
     </div>
   );
