@@ -4,6 +4,7 @@ import { useEffect } from "react";
 import { Foo } from "../components/foo";
 import { claim, submit } from "../core/claim";
 import MyAlgoConnect from "@randlabs/myalgo-connect";
+import { signTransaction } from "../core/foo";
 
 const testAlgo = async () => {
   const token =
@@ -23,7 +24,7 @@ const testAlgo = async () => {
 
   let tx = await claim(
     client,
-    "DNQPINWK4K5QZYLCK7DVJFEWRUXPXGW36TEUIHNSNOFYI2RMPG2BZPQ7DE",
+    "7ZLNWP5YP5DCCCLHAYYETZQLFH4GTBEKTBFQDHA723I7BBZ2FKCOZCBE4I",
     123,
     123
   );
@@ -40,7 +41,7 @@ const signTx = async () => {
   const client = new algosdk.Algodv2(token, server, port);
   let tx = await claim(
     client,
-    "DNQPINWK4K5QZYLCK7DVJFEWRUXPXGW36TEUIHNSNOFYI2RMPG2BZPQ7DE",
+    "7ZLNWP5YP5DCCCLHAYYETZQLFH4GTBEKTBFQDHA723I7BBZ2FKCOZCBE4I",
     123,
     123
   );
