@@ -2,7 +2,7 @@ import algosdk, { decodeAddress } from "algosdk";
 import Head from "next/head";
 import { useEffect } from "react";
 import { Foo } from "../components/foo";
-import { claim, submit } from "../core/claim";
+import { claim, submit } from "../core/flows/claim";
 import MyAlgoConnect from "@randlabs/myalgo-connect";
 import { signTransaction } from "../core/foo";
 import { toAppId, toFundsAsset } from "../core/common/types";

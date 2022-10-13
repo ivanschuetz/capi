@@ -4,9 +4,9 @@ import {
   makeApplicationCallTxnFromObject,
   OnApplicationComplete,
 } from "algosdk";
-import { encodeAddress } from "./common/address";
-import { AppId, FundsAsset } from "./common/types";
-import { from } from "./infra/newtype";
+import { encodeAddress } from "../common/address";
+import { AppId, FundsAsset } from "../common/types";
+import { from } from "../infra/newtype";
 
 export const claim = async (
   algod: Algodv2,
