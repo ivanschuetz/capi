@@ -4,20 +4,22 @@ import {
   makeApplicationCallTxnFromObject,
   OnApplicationComplete,
 } from "algosdk";
+import { AppId, FundsAsset } from "./common/types";
+import { from } from "./infra/newtype";
 
 export const claim = async (
   algod: Algodv2,
   claimer: string,
-  appId: number,
-  fundsAsset: number
+  appId: AppId,
+  fundsAsset: FundsAsset
 ) => {
   const params = await algod.getTransactionParams().do();
 
   const tx = makeApplicationCallTxnFromObject({
     suggestedParams: params,
     from: claimer,
-    appIndex: appId,
-    foreignAssets: [fundsAsset],
+    appIndex: from(appId),
+    foreignAssets: [from(fundsAsset)],
     onComplete: OnApplicationComplete.NoOpOC,
   });
 

@@ -5,6 +5,7 @@ import { Foo } from "../components/foo";
 import { claim, submit } from "../core/claim";
 import MyAlgoConnect from "@randlabs/myalgo-connect";
 import { signTransaction } from "../core/foo";
+import { toAppId, toFundsAsset } from "../core/common/types";
 
 const testAlgo = async () => {
   const token =
@@ -25,8 +26,8 @@ const testAlgo = async () => {
   let tx = await claim(
     client,
     "7ZLNWP5YP5DCCCLHAYYETZQLFH4GTBEKTBFQDHA723I7BBZ2FKCOZCBE4I",
-    123,
-    123
+    toAppId(123),
+    toFundsAsset(123)
   );
 
   console.log("tx: %o", tx);
@@ -42,8 +43,8 @@ const signTx = async () => {
   let tx = await claim(
     client,
     "7ZLNWP5YP5DCCCLHAYYETZQLFH4GTBEKTBFQDHA723I7BBZ2FKCOZCBE4I",
-    123,
-    123
+    toAppId(123),
+    toFundsAsset(123)
   );
 
   const accounts = await myAlgoWallet.connect();
