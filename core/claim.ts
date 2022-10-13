@@ -1,10 +1,10 @@
 import {
   Address,
   Algodv2,
-  encodeAddress,
   makeApplicationCallTxnFromObject,
   OnApplicationComplete,
 } from "algosdk";
+import { encodeAddress } from "./common/address";
 import { AppId, FundsAsset } from "./common/types";
 import { from } from "./infra/newtype";
 
@@ -18,7 +18,7 @@ export const claim = async (
 
   const tx = makeApplicationCallTxnFromObject({
     suggestedParams: params,
-    from: encodeAddress(claimer.publicKey),
+    from: encodeAddress(claimer),
     appIndex: from(appId),
     foreignAssets: [from(fundsAsset)],
     onComplete: OnApplicationComplete.NoOpOC,
