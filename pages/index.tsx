@@ -1,4 +1,4 @@
-import algosdk from "algosdk";
+import algosdk, { decodeAddress } from "algosdk";
 import Head from "next/head";
 import { useEffect } from "react";
 import { Foo } from "../components/foo";
@@ -25,7 +25,7 @@ const testAlgo = async () => {
 
   let tx = await claim(
     client,
-    "7ZLNWP5YP5DCCCLHAYYETZQLFH4GTBEKTBFQDHA723I7BBZ2FKCOZCBE4I",
+    decodeAddress("7ZLNWP5YP5DCCCLHAYYETZQLFH4GTBEKTBFQDHA723I7BBZ2FKCOZCBE4I"),
     toAppId(123),
     toFundsAsset(123)
   );
@@ -42,7 +42,7 @@ const signTx = async () => {
   const client = new algosdk.Algodv2(token, server, port);
   let tx = await claim(
     client,
-    "7ZLNWP5YP5DCCCLHAYYETZQLFH4GTBEKTBFQDHA723I7BBZ2FKCOZCBE4I",
+    decodeAddress("7ZLNWP5YP5DCCCLHAYYETZQLFH4GTBEKTBFQDHA723I7BBZ2FKCOZCBE4I"),
     toAppId(123),
     toFundsAsset(123)
   );

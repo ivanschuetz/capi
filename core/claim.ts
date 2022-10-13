@@ -1,4 +1,5 @@
 import {
+  Address,
   Algodv2,
   encodeAddress,
   makeApplicationCallTxnFromObject,
@@ -9,7 +10,7 @@ import { from } from "./infra/newtype";
 
 export const claim = async (
   algod: Algodv2,
-  claimer: string,
+  claimer: Address,
   appId: AppId,
   fundsAsset: FundsAsset
 ) => {
@@ -17,14 +18,11 @@ export const claim = async (
 
   const tx = makeApplicationCallTxnFromObject({
     suggestedParams: params,
-    from: claimer,
+    from: encodeAddress(claimer.publicKey),
     appIndex: from(appId),
     foreignAssets: [from(fundsAsset)],
     onComplete: OnApplicationComplete.NoOpOC,
   });
-
-  let encoded = encodeAddress(tx.from.publicKey);
-  console.log("!!! encoded: " + encoded);
 
   tx.fee = tx.fee * 2;
 
