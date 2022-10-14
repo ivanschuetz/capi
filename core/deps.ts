@@ -1,24 +1,18 @@
 import { Algodv2 } from "algosdk";
 
 export const makeAlgod = () => {
-  return algodForEnv(Env.SandboxPrivate);
-};
+  const server = process.env.NEXT_PUBLIC_ALGOD_SERVER;
+  const port = process.env.NEXT_PUBLIC_ALGOD_PORT;
+  const token = process.env.NEXT_PUBLIC_ALGOD_TOKEN;
 
-export const algodForEnv = (env: Env) => {
-  switch (env) {
-    case Env.SandboxPrivate:
-      return sandboxPrivateAlgod();
-  }
-};
+  console.log(
+    "Instantiating algod with server: %o, port: %o, token: %o",
+    server,
+    port,
+    token
+  );
 
-enum Env {
-  SandboxPrivate = "SandboxPrivate",
-}
-
-const sandboxPrivateAlgod = () => {
-  const token =
-    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-  const server = "http://127.0.0.1";
-  const port = 4001;
-  return new Algodv2(token, server, port);
+  // third parties don't expect a token (and default port).
+  // The SDK expects empty string if not set.
+  return new Algodv2(token ?? "", server, port ?? "");
 };
