@@ -28,7 +28,3 @@ export const claim = async (
 
   return tx;
 };
-
-export const submit = (algod: Algodv2, tx: Uint8Array | Uint8Array[]) => {
-  return algod.sendRawTransaction(tx).do();
-};

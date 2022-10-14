@@ -5,13 +5,9 @@ import { Algodv2, makePaymentTxnWithSuggestedParams } from "algosdk";
 export async function signTransaction() {
   const myAlgoWallet = new MyAlgoConnect();
 
-  const token =
-    "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa";
-  const server = "http://127.0.0.1";
-  const port = 4001;
-  const algodClient = new Algodv2(token, server, port);
+  const algod = makeAlgod();
 
-  const suggestedParams = await algodClient.getTransactionParams().do();
+  const suggestedParams = await algod.getTransactionParams().do();
 
   try {
     const txn = makePaymentTxnWithSuggestedParams(
@@ -25,7 +21,7 @@ export async function signTransaction() {
 
     const signedTxn = await myAlgoWallet.signTransaction(txn.toByte());
 
-    const response = await algodClient.sendRawTransaction(signedTxn.blob).do();
+    const response = await algod.sendRawTransaction(signedTxn.blob).do();
     console.log(response);
   } catch (err) {
     console.error(err);

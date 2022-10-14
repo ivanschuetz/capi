@@ -7,33 +7,28 @@ import {
   SuggestedParams,
   Transaction,
 } from "algosdk";
-import Compile from "algosdk/dist/types/src/client/v2/algod/compile";
-import { encodeAddress } from "../common/address";
+import { encodeAddress } from "../../common/address";
 import {
-  AppId,
   CompiledTeal,
   FundsAmount,
-  FundsAsset,
   Integer,
   ShareAmount,
   TealSource,
   TealSourceTemplate,
   VersionedTealSourceTemplate,
-} from "../common/types";
-import { from, to } from "../infra/newtype";
-import { CapiAddress, CapiAssetDaoDeps } from "../models/capi_deps";
-import { CreateSharesSpecs } from "../models/CreateSharesSpecs";
-import { SetupDaoSpecs } from "../models/SetupDaoSpecs";
-import { SharesPercentage } from "../models/SharesPercentage";
-
-// dao name, dao descr, social media, versions, image nft url, prospectus url, prospectus hash, team url
-const GLOBAL_SCHEMA_NUM_BYTE_SLICES = 8;
-// total received, shares asset id, funds asset id, share price, investors part, shares locked, funds target, funds target date,
-// raised, image nft asset id, setup date, min invest shares, max invest shares
-const GLOBAL_SCHEMA_NUM_INTS = 14;
-
-const LOCAL_SCHEMA_NUM_BYTE_SLICES = 3; // signed prospectus url, signed prospectus hash, signed prospectus timestamp
-const LOCAL_SCHEMA_NUM_INTS = 3; // for investors: "shares", "claimed total", "claimed init"
+} from "../../common/types";
+import { from, to } from "../../infra/newtype";
+import { CapiAddress, CapiAssetDaoDeps } from "../../models/capi_deps";
+import { CreateSharesSpecs } from "../../models/CreateSharesSpecs";
+import { SetupDaoSpecs } from "../../models/SetupDaoSpecs";
+import { SharesPercentage } from "../../models/SharesPercentage";
+import {
+  GLOBAL_SCHEMA_NUM_BYTE_SLICES,
+  GLOBAL_SCHEMA_NUM_INTS,
+  LOCAL_SCHEMA_NUM_BYTE_SLICES,
+  LOCAL_SCHEMA_NUM_INTS,
+} from "../../state/dao_state";
+import { renderTemplate } from "../../teal";
 
 export type CreateAssetsTxs = {
   createApp: Transaction;
@@ -233,20 +228,4 @@ const renderCentralAppApprovalV1 = (
 
   // save_rendered_teal("dao_app_approval", redered); // debugging
   return rendered;
-};
-
-const renderTemplate = (
-  template: TealSourceTemplate,
-  keyValues: Map<string, string>
-): TealSource => {
-  // TODO ensure that this utf-8 (doc doesn't say?)?
-  let tealStr = new TextDecoder().decode(from(template));
-
-  keyValues.forEach((value: string, key: string) => {
-    tealStr = tealStr.replaceAll(key, value);
-  });
-
-  //   console.log("Rendered tealStr: " + tealStr);
-
-  return to<TealSource>(new TextEncoder().encode(tealStr));
 };
