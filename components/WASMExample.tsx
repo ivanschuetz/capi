@@ -1,12 +1,21 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { WASMContext } from "../context/WASM";
 
 export const WASMExample = () => {
+  const [version, setVersion] = useState("...");
+
   const ctx = useContext(WASMContext);
 
-  if (!ctx.wasm) {
-    return <>...</>;
-  }
+  useEffect(() => {
+    const getVersion = async () => {
+      if (ctx.wasm) {
+        const v = await ctx.wasm.bridge_wasm_version();
+        console.log("version: %o", v);
+        setVersion(v);
+      }
+    };
+    getVersion();
+  }, [ctx.wasm]);
 
-  return <>Computed from WASM: 4+3={ctx.wasm.add(4, 3)}</>;
+  return <div>{"WASM version: " + version}</div>;
 };
