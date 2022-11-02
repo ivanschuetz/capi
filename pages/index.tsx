@@ -9,6 +9,7 @@ import { toAppId, toFundsAsset } from "../core/common/types";
 import { makeAlgod } from "../core/deps";
 import { submit } from "../core/common/tx_utils";
 import { createAssetsFlow } from "../core/flows/create_assets/createAssetsFlow";
+import { WASMExample } from "../components/WASMExample";
 
 const testAlgo = async () => {
   const algod = makeAlgod();
@@ -67,6 +68,7 @@ export default function Home() {
       </Head>
       <main>
         <div>{"Hello Algorand!"}</div>
+        <WASMExample />
         <Foo />
         {/* <button onClick={() => signTx()}>{"Sign a tx"}</button> */}
         <button onClick={() => signTransaction()}>{"Sign a tx"}</button>
