@@ -86,7 +86,7 @@ export const LabeledInput = ({
           disabled,
           inputTextLengthClass()
         )}
-        {img && <img src={img} alt="img" />}
+        {img && <img src={img.src} alt="img" />}
       </div>
       <ValidationMsg errorMsg={errorMsg} />
     </div>
@@ -94,7 +94,7 @@ export const LabeledInput = ({
 };
 
 export const InfoView = ({ info: infoText }) => {
-  return wrapWithInfoView(infoText, <img src={info} alt="info" />);
+  return wrapWithInfoView(infoText, <img src={info.src} alt="info" />);
 };
 
 export const wrapWithInfoView = (infoText, element) => {
@@ -129,7 +129,7 @@ export const LabeledCurrencyInput = ({
       </div>
       <div className="input_with_image__container">
         {input(inputValue, "number", onChange, placeholder)}
-        <img src={funds} alt="img" />
+        <img src={funds.src} alt="img" />
       </div>
       <ValidationMsg errorMsg={errorMsg} />
     </div>
@@ -159,7 +159,7 @@ export const LabeledAmountInput = ({
 export const ValidationMsg = ({ errorMsg }) => {
   return (
     <div className="labeled_input__error">
-      {errorMsg ? <img src={error} alt="error" /> : ""}
+      {errorMsg ? <img src={error.src} alt="error" /> : ""}
       {errorMsg}
     </div>
   );
@@ -288,7 +288,7 @@ export const LabeledTextArea = ({
             setShowLength(false);
           }}
         />
-        {img && <img src={img} alt="img" />}
+        {img && <img src={img.src} alt="img" />}
       </div>
     </div>
   );
@@ -326,7 +326,7 @@ export const LabeledDateInput = ({
           disabled
         )}
         <img
-          src={calendar}
+          src={calendar.src}
           alt="img"
           onClick={() => setShowMinRaiseTargetEndDateModal(true)}
         />

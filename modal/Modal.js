@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import ReactDOM from "react-dom";
-
+import close from "../images/svg/close.svg";
 import styles from "./modal.module.sass";
 
 const modalContainerId = "modal_container";
@@ -31,7 +31,7 @@ export const Modal = ({ title, children, onClose }) => {
           className={styles.modal_topbar_x}
           onClick={(e) => handleCloseClick(e)}
         >
-          <img src="/images/close.svg" alt="close" />
+          <img src={close.src} alt="close" />
         </div>
         <div className={styles.modal_topbar}>
           <p className={styles.modal_topbar_title}>{title}</p>

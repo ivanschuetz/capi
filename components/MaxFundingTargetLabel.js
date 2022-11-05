@@ -14,12 +14,12 @@ export const MaxFundingTargetLabel = ({ text }) => {
               "The maximum amount that can be raised (share supply x price)"
             }
           >
-            <img src={info} alt="info" />
+            <img src={info.src} alt="info" />
           </div>
           <ReactTooltip />
         </div>
         <div className="d-flex align-center h-64px">
-          <img src={funds} alt="img" />
+          <img src={funds.src} alt="img" />
           <div className="ml-10">{text}</div>
         </div>
       </div>
