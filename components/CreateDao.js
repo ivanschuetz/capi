@@ -10,8 +10,7 @@ import {
 import { ContentTitle } from "./ContentTitle";
 import { calculateTotalPrice, createDao } from "../controller/create_dao";
 import { ImageUpload } from "./ImageUpload";
-// TODO react -> nextjs
-// import { useNavigate } from "react-router-dom";
+import { useRouter } from "next/router";
 import { SubmitButton } from "./SubmitButton";
 import { SelectWalletModal } from "../wallet/SelectWalletModal";
 import { BuyAlgosModal } from "../buy_currency/BuyAlgosModal";
@@ -60,8 +59,7 @@ export const CreateDao = ({ deps }) => {
 
   const [submitting, setSubmitting] = useState(false);
 
-  // TODO react -> nextjs
-  //   const navigate = useNavigate();
+  const router = useRouter();
 
   const [showBuyCurrencyInfoModal, setShowBuyCurrencyInfoModal] =
     useState(false);
@@ -101,8 +99,7 @@ export const CreateDao = ({ deps }) => {
           minInvestShares,
           maxInvestShares,
 
-          // TODO react -> nextjs
-          //   navigate,
+          router,
 
           setDaoNameError,
           setDaoDescrError,

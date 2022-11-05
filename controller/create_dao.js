@@ -26,8 +26,7 @@ export const createDao = async (
   minInvestShares,
   maxInvestShares,
 
-  // TODO react -> nextjs
-  //   navigate,
+  router,
 
   setDaoNameError,
   setDaoDescrError,
@@ -106,8 +105,7 @@ export const createDao = async (
     });
     console.log("submitDaoRes: " + JSON.stringify(submitDaoRes));
 
-    // TODO react -> nextjs
-    // navigate(submitDaoRes.dao.dao_link);
+    router.push(submitDaoRes.dao.dao_link);
 
     showProgress(false);
     statusMsg.success("Project created!");
