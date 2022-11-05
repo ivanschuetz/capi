@@ -1,6 +1,5 @@
 import Head from "next/head";
 import MyApp from "../components/MyApp";
-import { WASMExample } from "../components/WASMExample";
 
 export default function Home() {
   return (
@@ -10,7 +9,6 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main>
-        <WASMExample />
         <MyApp />
       </main>
     </div>

@@ -1,6 +1,7 @@
 import { useContext, useEffect, useState } from "react";
 import { WASMContext } from "../context/WASM";
 
+// TODO decide whether we'll use context or not for wasm and delete this and adjust everywhere rest if needed
 export const WASMExample = () => {
   const [version, setVersion] = useState("...");
 

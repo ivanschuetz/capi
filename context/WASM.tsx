@@ -5,6 +5,7 @@ const initial: IWASMContext = {};
 
 export const WASMContext = createContext(initial);
 
+// TODO decide whether we'll use context or not for wasm and adjust everywhere rest if needed
 export const WASMContextProvider: React.FC<WASMContextProviderProps> = ({
   children,
 }) => {
