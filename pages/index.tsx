@@ -2,6 +2,7 @@ import { decodeAddress } from "algosdk";
 import Head from "next/head";
 import { useEffect } from "react";
 import { Foo } from "../components/foo";
+import MyApp from "../components/MyApp";
 import { claim } from "../core/flows/claim";
 import MyAlgoConnect from "@randlabs/myalgo-connect";
 import { signTransaction } from "../core/foo";
@@ -73,6 +74,8 @@ export default function Home() {
         {/* <button onClick={() => signTx()}>{"Sign a tx"}</button> */}
         <button onClick={() => signTransaction()}>{"Sign a tx"}</button>
         <button onClick={() => createAssetsFlow()}>{"Create assets"}</button>
+
+        <MyApp />
       </main>
     </div>
   );
