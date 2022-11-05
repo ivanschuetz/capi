@@ -1,16 +1,109 @@
-import Head from "next/head";
-import MyApp from "../components/MyApp";
+import React, { useState, useEffect, Fragment } from "react";
+import { StatusMsgUpdater } from "../components/StatusMsgUpdater";
+import Modal from "../modal/modal";
+import OpenWalletModal from "../wallet/OpenWalletModal";
+import { initWcWalletIfAvailable } from "../wallet/walletConnectWallet";
+import { ToastContainer } from "react-toastify";
+import { CreateDao } from "../components/CreateDao";
+import "react-toastify/dist/ReactToastify.css";
+import { useWindowSize } from "../hooks/useWindowSize";
 
-export default function Home() {
+const Home = () => {
+  const [myAddress, setMyAddress] = useState("");
+
+  const [statusMsgUpdater] = useState(StatusMsgUpdater());
+  const [modal, setModal] = useState(null);
+  const [wallet, setWallet] = useState(null);
+  // this is only used when the selected wallet is wallet connect
+  const [wcShowOpenWalletModal, setWcShowOpenWalletModal] = useState(false);
+
+  const windowSize = useWindowSize();
+
+  useEffect(() => {
+    initWcWalletIfAvailable(
+      statusMsgUpdater,
+      setMyAddress,
+      setWallet,
+      setWcShowOpenWalletModal
+    );
+  }, [statusMsgUpdater]);
+
+  const body = () => {
+    return (
+      <Fragment>
+        {/* <div>{connectButton()}</div> */}
+
+        {/* TODO react -> nextjs, */}
+        {/* and remove CreateDao from here */}
+        {/* {navigation()} */}
+        <CreateDao
+          deps={{
+            // conditional features
+            features: {
+              prospectus: true,
+              minMaxInvestment: true,
+              // shows info labels in diverse places when the project hasn't finished the fundsraising phase
+              stillRaisingFundsLabels: true,
+              developer: true,
+              team: false,
+            },
+            myAddress: myAddress,
+            setMyAddress: setMyAddress,
+
+            setModal: setModal,
+
+            statusMsg: statusMsgUpdater,
+
+            wallet: wallet,
+            setWallet: setWallet,
+
+            setWcShowOpenWalletModal: setWcShowOpenWalletModal,
+
+            size: windowSizeClasses(windowSize),
+          }}
+        />
+      </Fragment>
+    );
+  };
+
   return (
-    <div className="container">
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <main>
-        <MyApp />
-      </main>
+    <div>
+      <div id="container">
+        {body()}
+        {modal && (
+          <Modal title={modal.title} onClose={() => setModal(null)}>
+            {modal.body}
+          </Modal>
+        )}
+        {wcShowOpenWalletModal && (
+          <OpenWalletModal setShowModal={setWcShowOpenWalletModal} />
+        )}
+        <ToastContainer />
+      </div>
     </div>
   );
-}
+};
+
+export default Home;
+
+const SIZE_TABLET_THRESHOLD = 1330;
+const SIZE_PHONE_THRESHOLD = 600;
+
+// returns an object with all size classes, where at least one is expected to be true
+// we use abstract identifiers like "s1", to accomodate possible new cases (phone-landscape, tablet with certain aspect ratio etc.) while keeping naming simple
+const windowSizeClasses = (windowSize) => {
+  const windowWidth = windowSize.width;
+  console.log("Window width updated: " + windowWidth);
+
+  // Note: tablet and phone here implies portrait mode. Landscape hasn't been explicitly designed for or tested yet.
+  const isTablet =
+    windowWidth <= SIZE_TABLET_THRESHOLD && windowWidth > SIZE_PHONE_THRESHOLD;
+  const isPhone = windowWidth <= SIZE_PHONE_THRESHOLD;
+
+  return {
+    s1: windowWidth > SIZE_TABLET_THRESHOLD, // desktop
+    s2: isTablet,
+    s3: isPhone,
+    s4: isTablet || isPhone, // convenience size, so caller doesn't have to keep writing this
+  };
+};
