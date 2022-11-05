@@ -1,5 +1,6 @@
 import MyAlgoConnect from "@randlabs/myalgo-connect";
 import { Algodv2, makePaymentTxnWithSuggestedParams } from "algosdk";
+import { makeAlgod } from "./deps";
 
 /*Warning: Browser will block pop-up if user doesn't trigger myAlgoWallet.connect() with a button interation */
 export async function signTransaction() {
