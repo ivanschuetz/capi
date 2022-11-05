@@ -177,6 +177,7 @@ export const calculateTotalPrice = async (
   const { bridge_calculate_max_funds } = await wasmPromise;
 
   try {
+    let version = bridge_wasm_version();
     let res = await bridge_calculate_max_funds({
       shares_amount: shareAmount,
       share_price: sharePrice,

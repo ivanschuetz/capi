@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from "react";
+import React, { useState, useEffect, Fragment, useCallback } from "react";
 import { StatusMsgUpdater } from "../components/StatusMsgUpdater";
 import Modal from "../modal/modal";
 import OpenWalletModal from "../wallet/OpenWalletModal";
@@ -7,17 +7,64 @@ import { ToastContainer } from "react-toastify";
 import { CreateDao } from "../components/CreateDao";
 import "react-toastify/dist/ReactToastify.css";
 import { useWindowSize } from "../hooks/useWindowSize";
+import {
+  fetchSharesDistribution,
+  fetchHoldersChange,
+} from "../controller/shares_distribution";
+import {
+  fetchAvailableShares,
+  initLog,
+  loadRaisedFunds,
+  updateDao_,
+  updateMyBalance_,
+  updateMyDividend_,
+  updateMyShares,
+} from "../controller/app";
+import { checkForUpdates } from "../functions/common";
+import {
+  shortedAddress,
+  updateFunds_,
+  updateInvestmentData_,
+} from "../functions/shared";
+import { loadFundsActivity } from "../controller/funds_activity";
 
 const Home = () => {
   const [myAddress, setMyAddress] = useState("");
 
-  const [statusMsgUpdater] = useState(StatusMsgUpdater());
+  const [myBalance, setMyBalance] = useState("");
+
+  const [myShares, setMyShares] = useState(null);
+  const [myDividend, setMyDividend] = useState(null);
+  const [funds, setFunds] = useState(null);
+  const [fundsChange, setFundsChange] = useState(null);
+  const [daoVersion, setDaoVersion] = useState(null);
+
+  const [myAddressDisplay, setMyAddressDisplay] = useState("");
   const [modal, setModal] = useState(null);
+
+  const [investmentData, setInvestmentData] = useState(null);
+
+  const [dao, setDao] = useState(null);
+
+  const [statusMsgUpdater] = useState(StatusMsgUpdater());
   const [wallet, setWallet] = useState(null);
-  // this is only used when the selected wallet is wallet connect
-  const [wcShowOpenWalletModal, setWcShowOpenWalletModal] = useState(false);
 
   const windowSize = useWindowSize();
+
+  const [availableShares, setAvailableShares] = useState(null);
+  const [availableSharesNumber, setAvailableSharesNumber] = useState(null);
+  const [raisedFundsNumber, setRaisedFundsNumber] = useState(null);
+  const [raisedFunds, setRaisedFunds] = useState(null);
+  const [raiseState, setRaiseState] = useState(null);
+
+  const [compactFundsActivity, setCompactFundsActivity] = useState(null);
+
+  const [sharesDistr, setSharesDistr] = useState(null);
+  const [notOwnedShares, setNotOwnedShares] = useState(null);
+  const [holdersChange, setHoldersChange] = useState(null);
+
+  // this is only used when the selected wallet is wallet connect
+  const [wcShowOpenWalletModal, setWcShowOpenWalletModal] = useState(false);
 
   useEffect(() => {
     initWcWalletIfAvailable(
@@ -27,6 +74,161 @@ const Home = () => {
       setWcShowOpenWalletModal
     );
   }, [statusMsgUpdater]);
+
+  const updateMyBalance = useCallback(
+    async (myAddress) => {
+      if (myAddress) {
+        await updateMyBalance_(statusMsgUpdater, myAddress, setMyBalance);
+      }
+    },
+    [statusMsgUpdater]
+  );
+
+  useEffect(() => {
+    async function asyncInit() {
+      await initLog(statusMsgUpdater);
+    }
+    asyncInit();
+  }, [statusMsgUpdater]);
+
+  useEffect(() => {
+    initWcWalletIfAvailable(
+      statusMsgUpdater,
+      setMyAddress,
+      setWallet,
+      setWcShowOpenWalletModal
+    );
+  }, [statusMsgUpdater]);
+
+  useEffect(() => {
+    async function nestedAsync() {
+      if (myAddress) {
+        setMyAddressDisplay(shortedAddress(myAddress));
+        await updateMyBalance(myAddress);
+      }
+    }
+    nestedAsync();
+  }, [myAddress, updateMyBalance]);
+
+  const updateAvailableShares = useCallback(
+    async (daoId) => {
+      await fetchAvailableShares(
+        statusMsgUpdater,
+        daoId,
+        setAvailableShares,
+        setAvailableSharesNumber
+      );
+    },
+    [statusMsgUpdater]
+  );
+
+  const updateDao = useCallback(
+    async (daoId) => {
+      if (daoId) {
+        await updateDao_(daoId, setDao, statusMsgUpdater);
+      }
+    },
+    [statusMsgUpdater]
+  );
+
+  const updateShares = useCallback(
+    async (daoId, myAddress) => {
+      if (myAddress) {
+        await updateMyShares(statusMsgUpdater, daoId, myAddress, setMyShares);
+      }
+    },
+    [statusMsgUpdater]
+  );
+
+  const updateInvestmentData = useCallback(
+    async (daoId, myAddress) => {
+      if (myAddress) {
+        await updateInvestmentData_(
+          statusMsgUpdater,
+          myAddress,
+          daoId,
+          setInvestmentData
+        );
+      }
+    },
+    [statusMsgUpdater]
+  );
+
+  const updateMyDividend = useCallback(
+    async (daoId, myAddress) => {
+      if (myAddress) {
+        await updateMyDividend_(
+          statusMsgUpdater,
+          daoId,
+          myAddress,
+          setMyDividend
+        );
+      }
+    },
+    [statusMsgUpdater]
+  );
+
+  const updateFunds = useCallback(
+    async (daoId) => {
+      await updateFunds_(daoId, setFunds, setFundsChange, statusMsgUpdater);
+    },
+    [statusMsgUpdater]
+  );
+
+  const updateDaoVersion = useCallback(
+    async (daoId) => {
+      await checkForUpdates(statusMsgUpdater, daoId, setDaoVersion);
+    },
+    [statusMsgUpdater]
+  );
+
+  const updateRaisedFunds = useCallback(
+    async (daoId) => {
+      await loadRaisedFunds(
+        statusMsgUpdater,
+        daoId,
+        setRaisedFunds,
+        setRaisedFundsNumber,
+        setRaiseState
+      );
+    },
+    [statusMsgUpdater]
+  );
+
+  const updateCompactFundsActivity = useCallback(
+    async (daoId) => {
+      await loadFundsActivity(
+        statusMsgUpdater,
+        daoId,
+        setCompactFundsActivity,
+        "3"
+      );
+    },
+    [statusMsgUpdater]
+  );
+
+  const updateSharesDistr = useCallback(
+    async (dao) => {
+      if (dao) {
+        await fetchSharesDistribution(
+          statusMsgUpdater,
+          dao.shares_asset_id,
+          dao.share_supply_number,
+          dao.app_id,
+          setSharesDistr,
+          setNotOwnedShares
+        );
+
+        await fetchHoldersChange(
+          statusMsgUpdater,
+          dao.shares_asset_id,
+          dao.app_id,
+          setHoldersChange
+        );
+      }
+    },
+    [statusMsgUpdater]
+  );
 
   const body = () => {
     return (
@@ -47,17 +249,61 @@ const Home = () => {
               developer: true,
               team: false,
             },
+
             myAddress: myAddress,
             setMyAddress: setMyAddress,
+
+            myAddressDisplay: myAddressDisplay,
+            setMyAddressDisplay: setMyAddressDisplay,
 
             setModal: setModal,
 
             statusMsg: statusMsgUpdater,
 
+            myBalance: myBalance,
+            updateMyBalance: updateMyBalance,
+
+            myShares: myShares,
+            updateMyShares: updateShares,
+
+            myDividend: myDividend,
+            updateMyDividend: updateMyDividend,
+
+            investmentData: investmentData,
+            updateInvestmentData: updateInvestmentData,
+
+            funds: funds,
+            updateFunds: updateFunds,
+
+            fundsChange: fundsChange,
+
+            dao: dao,
+            updateDao: updateDao,
+
+            daoVersion: daoVersion,
+            updateDaoVersion: updateDaoVersion,
+
             wallet: wallet,
             setWallet: setWallet,
 
             setWcShowOpenWalletModal: setWcShowOpenWalletModal,
+
+            availableShares: availableShares,
+            availableSharesNumber: availableSharesNumber,
+            updateAvailableShares: updateAvailableShares,
+
+            updateRaisedFunds: updateRaisedFunds,
+            raisedFundsNumber: raisedFundsNumber,
+            raisedFunds: raisedFunds,
+            raiseState: raiseState,
+
+            updateCompactFundsActivity: updateCompactFundsActivity,
+            compactFundsActivity: compactFundsActivity,
+
+            updateSharesDistr: updateSharesDistr,
+            sharesDistr: sharesDistr,
+            notOwnedShares: notOwnedShares,
+            holdersChange: holdersChange,
 
             size: windowSizeClasses(windowSize),
           }}
