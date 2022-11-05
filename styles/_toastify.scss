@@ -1,0 +1,40 @@
+@import "global_vars";
+
+:root {
+  --toastify-color-error: #{$red-20};
+  --toastify-color-success: #{$green-20};
+  --toastify-font-family: "Gilroy", sans-serif;
+  --toastify-text-color-light: #{$black};
+  --toastify-color-light: #{$green-10};
+  --toastify-toast-width: 100%;
+  --toastify-toast-min-height: 120px;
+}
+
+.Toastify__toast-container {
+  max-width: 500px;
+  word-break: break-all;
+
+  .Toastify__toast {
+      padding: 26px;
+      border-radius: 24px;
+      box-shadow: none;
+
+      .Toastify__toast-icon {
+          margin-inline-end: 32px;
+      }
+
+      .Toastify__close-button {
+          align-self: center;
+          margin-left: 32px;
+      }
+
+      .Toastify__close-button--light {
+          color: #{$grey-190};
+          opacity: 1;
+      }
+  }
+
+  .Toastify__toast--error.Toastify__toast-theme--light {
+      --toastify-color-light: #{$pink-10};
+  }
+}

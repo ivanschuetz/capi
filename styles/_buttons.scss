@@ -1,0 +1,154 @@
+@import "global_vars";
+
+button {
+    font-family: "Gilroy", sans-serif;
+    font-size: 16px;
+    border-radius: $button-border-radius;
+    line-height: 24px;
+    padding: 12px 16px;
+    text-align: center;
+    border: none;
+    color: $white;
+    cursor: pointer;
+    outline: 0;
+
+    &:focus {
+        outline: none;
+    }
+
+    &:disabled {
+        cursor: not-allowed;
+        pointer-events: none;
+    }
+
+    .loader {
+        svg {
+            z-index: 300;
+        }
+    }
+}
+
+.button-primary {
+    background-color: $red-10;
+    color: $white;
+    font-weight: 700;
+
+    &:hover {
+        background-color: $red-40;
+        transition: 0.3s;
+    }
+
+    &:active {
+        background-color: $red-50;
+        transition: 0.3s;
+    }
+
+    &:disabled {
+        background-color: $grey-110;
+        color: $grey-140;
+        pointer-events: none;
+    }
+}
+
+.button-cyan {
+    background-color: $cyan-20;
+    color: $white;
+    font-weight: 700;
+
+    &:hover {
+        background-color: $cyan-30;
+        transition: 0.3s;
+    }
+
+    &:active {
+        background-color: $cyan-30;
+        transition: 0.3s;
+    }
+
+    &:disabled {
+        background-color: $grey-110;
+        color: $grey-140;
+        pointer-events: none;
+    }
+}
+
+.link_button {
+    text-align: center;
+    color: $cyan-20;
+    padding: 0 8px;
+    margin-top: 16px;
+    border-radius: 5px;
+    border: 1px solid transparent;
+    text-decoration: underline;
+    font-weight: 700;
+    background-color: transparent;
+
+    &:hover {
+        transition: 0.3s;
+    }
+
+    &:active {
+        transition: 0.3s;
+        color: $cyan-30;
+    }
+
+    &:disabled {
+        color: $grey-140;
+        border: 1px solid $grey-140;
+    }
+}
+
+.secondary-button {
+    border: 1px solid $red-10;
+    color: $red-10;
+    background-color: $white;
+    font-weight: 700;
+    cursor: pointer;
+
+    &:hover {
+        transition: 0.3s;
+        background-color: $pink-20;
+    }
+
+    &:disabled {
+        color: $grey-140;
+        border: 1px solid $grey-140;
+    }
+}
+
+.upload-form-image {
+    border-radius: 32px;
+    position: relative;
+
+    &.highlighted {
+        transition: 0.3s;
+        background-color: $blue-10;
+    }
+
+    .upload-container {
+        aspect-ratio: $image-uploader-aspect-ratio;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        background-image: url("data:image/svg+xml,%3csvg width='100%25' height='100%25' xmlns='http://www.w3.org/2000/svg'%3e%3crect width='100%25' height='100%25' fill='none' rx='32' ry='32' stroke='%23DEE2E2FF' stroke-width='2' stroke-dasharray='6%2c 14' stroke-dashoffset='0' stroke-linecap='round'/%3e%3c/svg%3e");
+
+        &.prospectus {
+            height: 200px;
+            width: 100%;
+        }
+
+        .upload-custom {
+            .file-custom {
+                content: "Upload image";
+            }
+
+            .upload-input {
+                opacity: 0;
+                z-index: 100;
+                cursor: pointer;
+            }
+        }
+    }
+}

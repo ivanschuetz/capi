@@ -1,0 +1,59 @@
+@import "global_vars";
+
+#shares_const_container,
+#retrieved-profits {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+
+    svg {
+        height: 16px;
+        margin-left: 4px;
+    }
+}
+
+.box-container {
+    margin-bottom: 80px;
+
+    .flex-block {
+        width: auto;
+        display: flex;
+        gap: 12px;
+
+        .arrow {
+            margin-top: -16px;
+        }
+
+        .fund-asset {
+            width: 22px;
+            height: 22px;
+        }
+    }
+
+    .chartBlock {
+        display: flex;
+        align-items: center;
+        margin-bottom: 16px;
+        gap: 16px;
+
+        .numbers {
+            min-width: 55px;
+            flex-shrink: 0;
+        }
+    }
+
+    .button-primary {
+        width: 236px;
+    }
+
+    @media only screen and (max-width: $mobile-max-width) {
+    
+        .button-primary {
+            width: 100%;
+        }
+    }
+
+    .labeled_input {
+        margin-top: 40px;
+    }
+}
