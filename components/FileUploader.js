@@ -1,16 +1,20 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useDropzone } from "react-dropzone";
 import { InfoView } from "./labeled_inputs";
 
-// TODO react -> nextjs
-// const fileReader = new FileReader();
-
 export const FileUploader = ({ setBytes }) => {
   const [filename, setFilename] = useState("");
+  const [fileReader, setFileReader] = useState(null);
+
+  useEffect(() => {
+    setFileReader(new FileReader());
+  }, []);
 
   const onDrop = useDrop((file) => {
-    setFilename(file.name);
-    setBytesFromFile(file, setBytes);
+    if (fileReader) {
+      setFilename(file.name);
+      setBytesFromFile(fileReader, file, setBytes);
+    }
   });
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
@@ -49,14 +53,13 @@ export const FileUploader = ({ setBytes }) => {
   );
 };
 
-const setBytesFromFile = (file, setBytes) => {
-  // TODO react -> nextjs
-  //   fileReader.onload = () => {
-  //     const binaryStr = fileReader.result;
-  //     console.log(binaryStr);
-  //     setBytes(binaryStr);
-  //   };
-  //   fileReader.readAsArrayBuffer(file);
+const setBytesFromFile = (fileReader, file, setBytes) => {
+  fileReader.onload = () => {
+    const binaryStr = fileReader.result;
+    console.log(binaryStr);
+    setBytes(binaryStr);
+  };
+  fileReader.readAsArrayBuffer(file);
 };
 
 // shared callback to be used for regular file and image upload

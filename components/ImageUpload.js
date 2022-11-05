@@ -4,12 +4,14 @@ import { useDropzone } from "react-dropzone";
 import { useEffect } from "react";
 import { useDrop } from "./FileUploader";
 
-// TODO react -> nextjs
-// const fileReader = new FileReader();
-
 export const ImageUpload = ({ initImageBytes, setImageBytes }) => {
   // the initial image - not updated when changing the crop area
   const [inputImg, setInputImg] = useState(null);
+  const [fileReader, setFileReader] = useState(null);
+
+  useEffect(() => {
+    setFileReader(new FileReader());
+  }, []);
 
   useEffect(() => {
     // Quick fix: "object" check: prevents a circular update, where on initialization
@@ -22,16 +24,24 @@ export const ImageUpload = ({ initImageBytes, setImageBytes }) => {
 
   // sets image: called when uploading image with button or dropping it in target zone
   const onDrop = useDrop((file) => {
-    setImageFromFile(file, setInputImg);
+    if (fileReader) {
+      setImageFromFile(fileReader, file, setInputImg);
+    } else {
+      console.log(
+        "Warn: no file reader set on drop. Should be already loaded."
+      );
+    }
   });
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
   // called when the crop area is updated (also triggered by setting the image)
   const updateCrop = async (blob) => {
-    const bytes = await blobToArrayBuffer(blob);
-    console.log("crop updated - setting image bytes: %o", bytes);
-    setImageBytes(bytes);
+    if (fileReader) {
+      const bytes = await blobToArrayBuffer(fileReader, blob);
+      console.log("crop updated - setting image bytes: %o", bytes);
+      setImageBytes(bytes);
+    }
   };
 
   const clear = () => {
@@ -77,30 +87,27 @@ export const ImageUpload = ({ initImageBytes, setImageBytes }) => {
   );
 };
 
-async function blobToArrayBuffer(blob) {
+async function blobToArrayBuffer(fileReader, blob) {
   if ("arrayBuffer" in blob) return await blob.arrayBuffer();
 
   return new Promise((resolve, reject) => {
-    // TODO react -> nextjs
-    // const reader = new FileReader();
-    // reader.onload = () => resolve(reader.result);
-    // reader.onerror = () => reject;
-    // reader.readAsArrayBuffer(blob);
+    reader.onload = () => resolve(fileReader.result);
+    reader.onerror = () => reject;
+    reader.readAsArrayBuffer(blob);
   });
 }
 
 // convert image file to base64 string and set
-const setImageFromFile = (file, setImg) => {
-  // TODO react -> nextjs
-  //   fileReader.addEventListener(
-  //     "load",
-  //     () => {
-  //       //   console.log("init bytes have to look like this: %o", fileReader.result);
-  //       setImg(fileReader.result);
-  //     },
-  //     false
-  //   );
-  //   if (file) {
-  //     fileReader.readAsDataURL(file);
-  //   }
+const setImageFromFile = (fileReader, file, setImg) => {
+  fileReader.addEventListener(
+    "load",
+    () => {
+      //   console.log("init bytes have to look like this: %o", fileReader.result);
+      setImg(fileReader.result);
+    },
+    false
+  );
+  if (file) {
+    fileReader.readAsDataURL(file);
+  }
 };
