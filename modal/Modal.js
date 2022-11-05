@@ -1,28 +1,51 @@
-import * as ReactDOM from "react-dom";
-import React from "react";
-import close from "../images/svg/close.svg";
+import React, { useEffect, useState } from "react";
+import ReactDOM from "react-dom";
 
-const Modal = ({ title, children, onCloseClick }) => {
+import styles from "./modal.module.sass";
+
+const modalContainerId = "modal_container";
+
+export const Modal = ({ title, children, onClose }) => {
+  const [isBrowser, setIsBrowser] = useState(false);
+
+  useEffect(() => {
+    setIsBrowser(true);
+  }, []);
+
+  const handleCloseClick = (e) => {
+    e.preventDefault();
+    onClose();
+  };
+
+  // close with click on bg
   const onModalClick = (event) => {
-    if (event.target === document.querySelector(".modal")) {
-      onCloseClick();
+    if (event.target === document.querySelector(`#${modalContainerId}`)) {
+      onClose();
     }
   };
 
-  return ReactDOM.createPortal(
-    <div className="modal" onClick={onModalClick}>
-      <div className="modal-content modal-content-size">
-        <div className="modal-topbar-x" onClick={() => onCloseClick()}>
-          <img src={close} alt="close" />
+  const view = (
+    <div id={modalContainerId} className={styles.modal} onClick={onModalClick}>
+      <div className={`${styles.modal_content} ${styles.modal_content_size}`}>
+        <div
+          className={styles.modal_topbar_x}
+          onClick={(e) => handleCloseClick(e)}
+        >
+          <img src="/images/close.svg" alt="close" />
         </div>
-        <div className="modal-topbar">
-          <p className="modal-topbar-title">{title}</p>
+        <div className={styles.modal_topbar}>
+          <p className={styles.modal_topbar_title}>{title}</p>
         </div>
-        <div className="modal-body">{children}</div>
+        <div className={styles.modal_body}>{children}</div>
       </div>
-    </div>,
-    document.getElementById("modal-root")
+    </div>
   );
+
+  if (isBrowser) {
+    return ReactDOM.createPortal(view, document.getElementById("modal_root"));
+  } else {
+    return null;
+  }
 };
 
 export default Modal;

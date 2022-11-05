@@ -1,4 +1,4 @@
-import Modal from "./Modal";
+import Modal from "./modal";
 import Calendar from "react-calendar";
 import moment from "moment";
 import { SubmitButton } from "../components/SubmitButton";
@@ -9,7 +9,7 @@ export const SelectDateModal = ({ closeModal, endDate, setEndDate }) => {
   const [newEndDate, setNewEndDate] = useState(endDate);
 
   return (
-    <Modal title={"Select end date"} onCloseClick={() => closeModal()}>
+    <Modal title={"Select end date"} onClose={() => closeModal()}>
       <Calendar
         onChange={(value) => {
           setNewEndDate(moment(value)); // date -> moment

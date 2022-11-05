@@ -1,9 +1,9 @@
 import { SubmitButton } from "../common_comps/SubmitButton";
-import Modal from "./Modal";
+import Modal from "./modal";
 
 export const OkModal = ({ title, closeModal, children, okLabel }) => {
   return (
-    <Modal title={title} onCloseClick={() => closeModal()}>
+    <Modal title={title} onClose={() => closeModal()}>
       <div>
         {children}
         <div className="d-flex gap-40">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment } from "react";
 import { StatusMsgUpdater } from "./StatusMsgUpdater";
-import Modal from "../modal/Modal";
+import Modal from "../modal/modal";
 import OpenWalletModal from "../wallet/OpenWalletModal";
 import { initWcWalletIfAvailable } from "../wallet/walletConnectWallet";
 import { ToastContainer } from "react-toastify";
@@ -72,7 +72,7 @@ const MyApp = () => {
       <div id="container">
         {body()}
         {modal && (
-          <Modal title={modal.title} onCloseClick={() => setModal(null)}>
+          <Modal title={modal.title} onClose={() => setModal(null)}>
             {modal.body}
           </Modal>
         )}

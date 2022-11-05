@@ -1,5 +1,5 @@
 import { SubmitButton } from "../components/SubmitButton";
-import Modal from "./Modal";
+import Modal from "./modal";
 
 export const OkCancelModal = ({
   title,
@@ -10,7 +10,7 @@ export const OkCancelModal = ({
   cancelLabel,
 }) => {
   return (
-    <Modal title={title} onCloseClick={() => closeModal()}>
+    <Modal title={title} onClose={() => closeModal()}>
       <div>
         {children}
         <div className="d-flex gap-40">
