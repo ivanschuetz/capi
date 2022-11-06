@@ -1,6 +1,6 @@
 import React, { useState, useEffect, Fragment, useCallback } from "react";
 import { StatusMsgUpdater } from "../components/StatusMsgUpdater";
-import Modal from "../modal/modal";
+import Modal from "../modal/Modal";
 import OpenWalletModal from "../wallet/OpenWalletModal";
 import { initWcWalletIfAvailable } from "../wallet/walletConnectWallet";
 import { ToastContainer } from "react-toastify";

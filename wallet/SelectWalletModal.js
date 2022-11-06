@@ -1,4 +1,4 @@
-import Modal from "../modal/modal";
+import Modal from "../modal/Modal";
 import { SelectWallet } from "./SelectWallet";
 
 export const SelectWalletModal = ({ deps, setShowModal }) => {

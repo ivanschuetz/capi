@@ -1,4 +1,4 @@
-import Modal from "./modal";
+import Modal from "./Modal";
 import Calendar from "react-calendar";
 import moment from "moment";
 import { SubmitButton } from "../components/SubmitButton";

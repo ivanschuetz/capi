@@ -1,5 +1,5 @@
 import { SubmitButton } from "../components/SubmitButton";
-import Modal from "./modal";
+import Modal from "./Modal";
 
 export const OkCancelModal = ({
   title,
