@@ -1,3 +1,4 @@
+import { ready } from "../functions/common_ts_tmp";
 import { toBytes, toBytesForRust } from "../functions/common";
 import { toErrorMsg } from "../functions/validation";
 import { toMaybeIpfsUrl } from "../ipfs/store";
@@ -43,11 +44,7 @@ export const createDao = async (
   setMaxInvestSharesError,
   setShowBuyCurrencyInfoModal
 ) => {
-  const {
-    bridge_create_dao_assets_txs,
-    bridge_create_dao,
-    bridge_submit_create_dao,
-  } = await wasmPromise;
+  const wasm = await ready(wasmPromise);
 
   statusMsg.clear();
 
@@ -61,7 +58,7 @@ export const createDao = async (
   const prospectusBytesForRust = toBytesForRust(prospectusBytesResolved);
 
   try {
-    let createDaoAssetsRes = await bridge_create_dao_assets_txs({
+    let createDaoAssetsRes = await wasm.bridge_create_dao_assets_txs({
       inputs: {
         creator: myAddress,
         dao_name: daoName,
@@ -88,7 +85,7 @@ export const createDao = async (
     console.log("createAssetSigned: " + JSON.stringify(createAssetSigned));
 
     showProgress(true);
-    let createDaoRes = await bridge_create_dao({
+    let createDaoRes = await wasm.bridge_create_dao({
       create_assets_signed_txs: createAssetSigned,
       pt: createDaoAssetsRes.pt,
     });
@@ -99,7 +96,7 @@ export const createDao = async (
     console.log("createDaoSigned: " + JSON.stringify(createDaoSigned));
 
     showProgress(true);
-    let submitDaoRes = await bridge_submit_create_dao({
+    let submitDaoRes = await wasm.bridge_submit_create_dao({
       txs: createDaoSigned,
       pt: createDaoRes.pt, // passthrough
     });
@@ -174,11 +171,13 @@ export const calculateTotalPrice = async (
     return;
   }
 
-  const { bridge_calculate_max_funds } = await wasmPromise;
+  const wasm = await ready(wasmPromise);
+
+  const wasm2 = await wasmPromise;
+  await wasm2.default();
 
   try {
-    let version = bridge_wasm_version();
-    let res = await bridge_calculate_max_funds({
+    let res = await wasm.bridge_calculate_max_funds({
       shares_amount: shareAmount,
       share_price: sharePrice,
     });

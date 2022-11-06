@@ -7,9 +7,9 @@ export const loadFundsActivity = async (
   maxResults // null if it shouldn't be limited
 ) => {
   try {
-    const { bridge_load_funds_activity } = await wasmPromise;
+    const wasm = await ready(wasmPromise);
 
-    const fundsActivityRes = await bridge_load_funds_activity({
+    const fundsActivityRes = await wasm.bridge_load_funds_activity({
       dao_id: daoId,
       max_results: maxResults,
     });
@@ -23,9 +23,9 @@ export const loadFundsActivity = async (
 
 export const loadDao = async (statusMsg, daoId, setDao) => {
   try {
-    const { bridge_load_dao } = await wasmPromise;
+    const wasm = await ready(wasmPromise);
 
-    let dao = await bridge_load_dao(daoId);
+    let dao = await wasm.bridge_load_dao(daoId);
     console.log("dao: " + JSON.stringify(dao));
     setDao(dao);
   } catch (e) {

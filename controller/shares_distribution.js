@@ -9,8 +9,8 @@ export const fetchSharesDistribution = async (
   setNotOwnedShares
 ) => {
   try {
-    const { bridge_shares_distribution } = await wasmPromise;
-    let res = await bridge_shares_distribution({
+    const wasm = await ready(wasmPromise);
+    let res = await wasm.bridge_shares_distribution({
       asset_id: assetId,
       share_supply: assetSupply,
       app_id: appId,
@@ -39,8 +39,8 @@ export const fetchHoldersChange = async (
   setHoldersChange
 ) => {
   try {
-    const { bridge_holders_change } = await wasmPromise;
-    let res = await bridge_holders_change({
+    const wasm = await ready(wasmPromise);
+    let res = await wasm.bridge_holders_change({
       asset_id: assetId,
       app_id: appId,
     });
