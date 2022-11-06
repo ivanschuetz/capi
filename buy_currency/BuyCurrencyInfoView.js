@@ -1,4 +1,4 @@
-import { SubmitButton } from "../common_comps/SubmitButton";
+import { SubmitButton } from "../components/SubmitButton";
 import useScript from "../common_hooks/useScript";
 
 export const BuyCurrencyInfoView = ({ closeModal, children, onSubmit }) => {

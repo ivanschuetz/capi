@@ -27,6 +27,7 @@ import {
   updateInvestmentData_,
 } from "../functions/shared";
 import { loadFundsActivity } from "../controller/funds_activity";
+import { WireframeWrapper } from "../wireframes/WireframeWrapper";
 
 const Home = () => {
   const [myAddress, setMyAddress] = useState("");
@@ -230,6 +231,75 @@ const Home = () => {
     [statusMsgUpdater]
   );
 
+  const deps = {
+    // conditional features
+    features: {
+      prospectus: true,
+      minMaxInvestment: true,
+      // shows info labels in diverse places when the project hasn't finished the fundsraising phase
+      stillRaisingFundsLabels: true,
+      developer: true,
+      team: false,
+    },
+
+    myAddress: myAddress,
+    setMyAddress: setMyAddress,
+
+    myAddressDisplay: myAddressDisplay,
+    setMyAddressDisplay: setMyAddressDisplay,
+
+    setModal: setModal,
+
+    statusMsg: statusMsgUpdater,
+
+    myBalance: myBalance,
+    updateMyBalance: updateMyBalance,
+
+    myShares: myShares,
+    updateMyShares: updateShares,
+
+    myDividend: myDividend,
+    updateMyDividend: updateMyDividend,
+
+    investmentData: investmentData,
+    updateInvestmentData: updateInvestmentData,
+
+    funds: funds,
+    updateFunds: updateFunds,
+
+    fundsChange: fundsChange,
+
+    dao: dao,
+    updateDao: updateDao,
+
+    daoVersion: daoVersion,
+    updateDaoVersion: updateDaoVersion,
+
+    wallet: wallet,
+    setWallet: setWallet,
+
+    setWcShowOpenWalletModal: setWcShowOpenWalletModal,
+
+    availableShares: availableShares,
+    availableSharesNumber: availableSharesNumber,
+    updateAvailableShares: updateAvailableShares,
+
+    updateRaisedFunds: updateRaisedFunds,
+    raisedFundsNumber: raisedFundsNumber,
+    raisedFunds: raisedFunds,
+    raiseState: raiseState,
+
+    updateCompactFundsActivity: updateCompactFundsActivity,
+    compactFundsActivity: compactFundsActivity,
+
+    updateSharesDistr: updateSharesDistr,
+    sharesDistr: sharesDistr,
+    notOwnedShares: notOwnedShares,
+    holdersChange: holdersChange,
+
+    size: windowSizeClasses(windowSize),
+  };
+
   const body = () => {
     return (
       <Fragment>
@@ -238,75 +308,10 @@ const Home = () => {
         {/* TODO react -> nextjs, */}
         {/* and remove CreateDao from here */}
         {/* {navigation()} */}
-        <CreateDao
-          deps={{
-            // conditional features
-            features: {
-              prospectus: true,
-              minMaxInvestment: true,
-              // shows info labels in diverse places when the project hasn't finished the fundsraising phase
-              stillRaisingFundsLabels: true,
-              developer: true,
-              team: false,
-            },
-
-            myAddress: myAddress,
-            setMyAddress: setMyAddress,
-
-            myAddressDisplay: myAddressDisplay,
-            setMyAddressDisplay: setMyAddressDisplay,
-
-            setModal: setModal,
-
-            statusMsg: statusMsgUpdater,
-
-            myBalance: myBalance,
-            updateMyBalance: updateMyBalance,
-
-            myShares: myShares,
-            updateMyShares: updateShares,
-
-            myDividend: myDividend,
-            updateMyDividend: updateMyDividend,
-
-            investmentData: investmentData,
-            updateInvestmentData: updateInvestmentData,
-
-            funds: funds,
-            updateFunds: updateFunds,
-
-            fundsChange: fundsChange,
-
-            dao: dao,
-            updateDao: updateDao,
-
-            daoVersion: daoVersion,
-            updateDaoVersion: updateDaoVersion,
-
-            wallet: wallet,
-            setWallet: setWallet,
-
-            setWcShowOpenWalletModal: setWcShowOpenWalletModal,
-
-            availableShares: availableShares,
-            availableSharesNumber: availableSharesNumber,
-            updateAvailableShares: updateAvailableShares,
-
-            updateRaisedFunds: updateRaisedFunds,
-            raisedFundsNumber: raisedFundsNumber,
-            raisedFunds: raisedFunds,
-            raiseState: raiseState,
-
-            updateCompactFundsActivity: updateCompactFundsActivity,
-            compactFundsActivity: compactFundsActivity,
-
-            updateSharesDistr: updateSharesDistr,
-            sharesDistr: sharesDistr,
-            notOwnedShares: notOwnedShares,
-            holdersChange: holdersChange,
-
-            size: windowSizeClasses(windowSize),
-          }}
+        <WireframeWrapper
+          deps={deps}
+          isGlobal={true}
+          nested={<CreateDao deps={deps} />}
         />
       </Fragment>
     );

@@ -1,4 +1,4 @@
-import { SubmitButton } from "../common_comps/SubmitButton";
+import { SubmitButton } from "../components/SubmitButton";
 import Modal from "./modal";
 
 export const OkModal = ({ title, closeModal, children, okLabel }) => {

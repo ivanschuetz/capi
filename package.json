@@ -23,7 +23,8 @@
     "@walletconnect/client": "^1.7.8",
     "algorand-walletconnect-qrcode-modal": "^1.6.1",
     "@json-rpc-tools/utils": "^1.7.6",
-    "react-toastify": "9.0.3"
+    "react-toastify": "9.0.3",
+    "react-copy-to-clipboard": "^5.0.4"
   },
 
   "devDependencies": {
