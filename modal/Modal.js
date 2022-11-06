@@ -12,11 +12,6 @@ export const Modal = ({ title, children, onClose }) => {
     setIsBrowser(true);
   }, []);
 
-  const handleCloseClick = (e) => {
-    e.preventDefault();
-    onClose();
-  };
-
   // close with click on bg
   const onModalClick = (event) => {
     if (event.target === document.querySelector(`#${modalContainerId}`)) {
@@ -25,18 +20,15 @@ export const Modal = ({ title, children, onClose }) => {
   };
 
   const view = (
-    <div id={modalContainerId} className={styles.modal} onClick={onModalClick}>
-      <div className={`${styles.modal_content} ${styles.modal_content_size}`}>
-        <div
-          className={styles.modal_topbar_x}
-          onClick={(e) => handleCloseClick(e)}
-        >
+    <div className="modal" onClick={onModalClick}>
+      <div className="modal-content modal-content-size">
+        <div className="modal-topbar-x" onClick={() => onClose()}>
           <img src={close.src} alt="close" />
         </div>
-        <div className={styles.modal_topbar}>
-          <p className={styles.modal_topbar_title}>{title}</p>
+        <div className="modal-topbar">
+          <p className="modal-topbar-title">{title}</p>
         </div>
-        <div className={styles.modal_body}>{children}</div>
+        <div className="modal-body">{children}</div>
       </div>
     </div>
   );
