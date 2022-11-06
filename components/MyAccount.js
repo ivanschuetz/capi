@@ -78,11 +78,11 @@ const myAddressView = (deps, daoId) => {
             />
           </div>
           <div id="my_account_my_balance__balance">
-            <img className="mr-10 s-16" src={funds} alt="funds" />
+            <img className="mr-10 s-16" src={funds.src} alt="funds" />
             <div>{deps.myBalance.balance_funds_asset}</div>
             <img
               className="arrow"
-              src={arrow}
+              src={arrow.src}
               alt="arrow"
               onClick={async () => await disconnect(deps)}
             />
@@ -114,7 +114,7 @@ const DividendSection = ({ deps, daoId }) => {
         <div className="mb-32 desc d-flex align-center justify-between">
           {"Claimable dividend: "}
           <div className="d-flex align-center gap-10 mr-26">
-            <img className="s-16" src={funds} alt="funds" />
+            <img className="s-16" src={funds.src} alt="funds" />
             {deps.myDividend}
           </div>
         </div>
