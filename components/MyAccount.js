@@ -30,7 +30,7 @@ export const MyAccount = ({ deps, daoId }) => {
       {showSelectWalletModal && (
         <Modal
           title={"Choose a wallet"}
-          onCloseClick={() => setShowSelectWalletModal(false)}
+          onClose={() => setShowSelectWalletModal(false)}
         >
           <SelectWallet
             deps={deps}
