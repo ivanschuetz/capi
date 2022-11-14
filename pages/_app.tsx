@@ -21,15 +21,18 @@ import "../styles/_toastify.scss";
 import "../styles/_react-calendar.scss";
 import "../styles/_utils.scss";
 import Head from "next/head";
+import { AppContextProvider } from "../context/App";
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (
     <WASMContextProvider>
-      <Head>
-        <title>Create Next App</title>
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Component {...pageProps} />
+      <AppContextProvider>
+        <Head>
+          <title>Create Next App</title>
+          <link rel="icon" href="/favicon.ico" />
+        </Head>
+        <Component {...pageProps} />
+      </AppContextProvider>
     </WASMContextProvider>
   );
 };
