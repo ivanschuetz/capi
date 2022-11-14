@@ -30,7 +30,7 @@ import {
 import { useWindowSize } from "../hooks/useWindowSize";
 import { initWcWalletIfAvailable } from "../wallet/walletConnectWallet";
 
-const initial: IAppContext = { deps: undefined };
+const initial: IAppContext = {};
 
 export const AppContext = createContext(initial);
 
@@ -312,7 +312,10 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 };
 
 interface IAppContext {
-  deps: any;
+  // optional just for ts, which needs a default state
+  // this is set synchronously so we expect it to be always set
+  // TODO better solution?
+  deps?: any;
 }
 
 interface AppContextProviderProps {
