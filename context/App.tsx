@@ -255,6 +255,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     myAddressDisplay: myAddressDisplay,
     setMyAddressDisplay: setMyAddressDisplay,
 
+    modal: modal,
     setModal: setModal,
 
     statusMsg: statusMsgUpdater,
@@ -285,6 +286,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     wallet: wallet,
     setWallet: setWallet,
 
+    wcShowOpenWalletModal: wcShowOpenWalletModal,
     setWcShowOpenWalletModal: setWcShowOpenWalletModal,
 
     availableShares: availableShares,
@@ -315,11 +317,83 @@ interface IAppContext {
   // optional just for ts, which needs a default state
   // this is set synchronously so we expect it to be always set
   // TODO better solution?
-  deps?: any;
+  deps?: Deps;
+}
+
+interface Deps {
+  features: Features;
+
+  myAddress: any;
+  setMyAddress: any;
+
+  myAddressDisplay: any;
+  setMyAddressDisplay: any;
+
+  modal: any;
+  setModal: any;
+
+  statusMsg: any;
+
+  myBalance: any;
+  updateMyBalance: any;
+
+  myShares: any;
+  updateMyShares: any;
+
+  myDividend: any;
+  updateMyDividend: any;
+
+  investmentData: any;
+  updateInvestmentData: any;
+
+  funds: any;
+  updateFunds: any;
+
+  fundsChange: any;
+
+  dao: any;
+  updateDao: any;
+
+  daoVersion: any;
+  updateDaoVersion: any;
+
+  wallet: any;
+  setWallet: any;
+
+  wcShowOpenWalletModal: any;
+  setWcShowOpenWalletModal: any;
+
+  availableShares: any;
+  availableSharesNumber: any;
+  updateAvailableShares: any;
+
+  updateRaisedFunds: any;
+  raisedFundsNumber: any;
+  raisedFunds: any;
+  raiseState: any;
+
+  updateCompactFundsActivity: any;
+  compactFundsActivity: any;
+
+  updateSharesDistr: any;
+  sharesDistr: any;
+  notOwnedShares: any;
+  holdersChange: any;
+
+  size: any;
 }
 
 interface AppContextProviderProps {
   children: ReactNode;
+}
+
+interface Features {
+  prospectus: boolean;
+  minMaxInvestment: boolean;
+  // shows info labels in diverse places when the project hasn't finished the fundsraising phase
+  stillRaisingFundsLabels: boolean;
+  developer: boolean;
+  team: boolean;
 }
 
 const SIZE_TABLET_THRESHOLD = 1330;
