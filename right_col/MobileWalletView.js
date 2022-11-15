@@ -1,16 +1,15 @@
 import React, { useEffect } from "react";
 import { MyAccount } from "../components/MyAccount";
-import { useRouter } from "next/router";
+import { useDaoId } from "../hooks/useDaoId";
 
 export const MobileWalletView = ({ deps, containerClass, onClose }) => {
-  const router = useRouter();
-  const { daoId } = router.query;
+  const daoId = useDaoId();
 
   useEffect(() => {
     async function asyncFn() {
       await deps.updateMyShares.call(null, daoId, deps.myAddress);
     }
-    if (deps.myAddress) {
+    if (daoId && deps.myAddress) {
       asyncFn();
     }
   }, [daoId, deps.myAddress, deps.updateMyShares]);
@@ -19,14 +18,14 @@ export const MobileWalletView = ({ deps, containerClass, onClose }) => {
     async function asyncFn() {
       deps.updateMyDividend.call(null, daoId, deps.myAddress);
     }
-    if (deps.myAddress) {
+    if (daoId && deps.myAddress) {
       asyncFn();
     }
   }, [daoId, deps.myAddress, deps.updateMyDividend]);
 
   return (
     <div id={containerClass}>
-      <MyAccount deps={deps} daoId={daoId} onClose={onClose} />
+      {daoId && <MyAccount deps={deps} daoId={daoId} onClose={onClose} />}
     </div>
   );
 };

@@ -1,11 +1,10 @@
 import React, { useEffect, useRef } from "react";
 import Progress from "./Progress";
 import renderFundsProgressChart from "../charts/renderFundsBarChart";
-import { useRouter } from "next/router";
+import { useDaoId } from "../hooks/useDaoId";
 
 export const RaisedFunds = ({ deps, dao }) => {
-  const router = useRouter();
-  const { daoId } = router.query;
+  const daoId = useDaoId();
 
   const chart = useRef(null);
 
@@ -13,7 +12,9 @@ export const RaisedFunds = ({ deps, dao }) => {
 
   useEffect(() => {
     async function nestedAsync() {
-      deps.updateRaisedFunds.call(null, daoId);
+      if (daoId) {
+        deps.updateRaisedFunds.call(null, daoId);
+      }
     }
     nestedAsync();
   }, [daoId, dao, deps.statusMsg, deps.updateRaisedFunds]);

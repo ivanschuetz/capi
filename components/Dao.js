@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from "react";
-import { useRouter } from "next/router";
 import { IncomeSpendingBox } from "./IncomeSpendingBox";
 import { SharesDistributionBox } from "./SharesDistributionBox";
 import { InvestEmbedded } from "./InvestEmbedded";
@@ -7,10 +6,10 @@ import Progress from "./Progress";
 import { loadDescription } from "../controller/dao";
 import { FundsActivityEmbedded } from "./FundsActivityEmbedded";
 import { RaisedFunds } from "./RaisedFunds";
+import { useDaoId } from "../hooks/useDaoId";
 
 export const Dao = ({ deps }) => {
-  const router = useRouter();
-  const { daoId } = router.query;
+  const daoId = useDaoId();
 
   const [description, setDescription] = useState(null);
 
@@ -18,7 +17,9 @@ export const Dao = ({ deps }) => {
     async function asyncInit() {
       await deps.updateDao.call(null, daoId);
     }
-    asyncInit();
+    if (daoId) {
+      asyncInit();
+    }
   }, [daoId, deps.statusMsg, deps.updateDao]);
 
   useEffect(() => {

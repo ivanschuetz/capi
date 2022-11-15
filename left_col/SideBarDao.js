@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useRouter } from "next/router";
 import home from "../images/sidebar/home.svg";
 import stats from "../images/sidebar/stats.svg";
 import funds from "../images/sidebar/funds.svg";
@@ -11,18 +10,18 @@ import SideBarItem from "./SideBarItem";
 import logo from "../images/logo.svg";
 import { DevSettingsModal } from "../dev_settings/DevSettingsModal";
 import { AppVersion } from "./AppVersion";
+import { useDaoId } from "../hooks/useDaoId";
 
 export const SideBarDao = ({ deps, containerClass }) => {
   const [devSettingsModal, setDevSettingsModal] = useState(false);
 
-  const router = useRouter();
-  const { daoId } = router.query;
+  const daoId = useDaoId();
 
   useEffect(() => {
     async function asyncFn() {
       deps.updateMyShares.call(null, daoId, deps.myAddress);
     }
-    if (deps.myAddress) {
+    if (daoId && deps.myAddress) {
       asyncFn();
     }
   }, [daoId, deps.myAddress, deps.updateMyShares]);
@@ -31,7 +30,9 @@ export const SideBarDao = ({ deps, containerClass }) => {
     async function asyncInit() {
       await deps.updateDao.call(null, daoId);
     }
-    asyncInit();
+    if (daoId) {
+      asyncInit();
+    }
   }, [daoId, deps.statusMsg, deps.updateDao]);
 
   const iHaveShares = deps.myShares && deps.myShares.total > 0;

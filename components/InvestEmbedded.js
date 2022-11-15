@@ -1,10 +1,10 @@
-import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { BuyFundsAssetModal } from "../buy_currency/BuyFundsAssetModal";
 import {
   invest,
   updateTotalPriceAndPercentage,
 } from "../controller/invest_embedded";
+import { useDaoId } from "../hooks/useDaoId";
 import funds from "../images/funds.svg";
 import error from "../images/svg/error.svg";
 import { AckProspectusModal } from "../prospectus/AckProspectusModal";
@@ -13,8 +13,7 @@ import { InfoView } from "./labeled_inputs";
 import { SubmitButton } from "./SubmitButton";
 
 export const InvestEmbedded = ({ deps, dao }) => {
-  const router = useRouter();
-  const { daoId } = router.query;
+  const daoId = useDaoId();
 
   const [buySharesCount, setBuySharesCount] = useState("1");
   const [totalCost, setTotalCost] = useState(null);
@@ -42,12 +41,14 @@ export const InvestEmbedded = ({ deps, dao }) => {
   };
 
   useEffect(() => {
-    deps.updateAvailableShares.call(null, daoId);
+    if (daoId) {
+      deps.updateAvailableShares.call(null, daoId);
+    }
   }, [deps.updateAvailableShares, deps.statusMsg, daoId]);
 
   useEffect(() => {
     async function nestedAsync() {
-      if (deps.availableSharesNumber != null) {
+      if (daoId && deps.availableSharesNumber != null) {
         if (buySharesCount) {
           updateTotalPriceAndPercentage(
             deps.availableSharesNumber,
@@ -79,7 +80,7 @@ export const InvestEmbedded = ({ deps, dao }) => {
 
   useEffect(() => {
     async function nestedAsync() {
-      if (deps.wallet && buyIntent && deps.myAddress) {
+      if (daoId && deps.wallet && buyIntent && deps.myAddress) {
         setBuyIntent(false);
 
         await invest(

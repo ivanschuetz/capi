@@ -1,17 +1,16 @@
 import React, { useEffect } from "react";
 import { FundsActivityEmbedded } from "../components/FundsActivityEmbedded";
 import { MyAccount } from "../components/MyAccount";
-import { useRouter } from "next/router";
+import { useDaoId } from "../hooks/useDaoId";
 
 export const RightDaoCol = ({ deps }) => {
-  const router = useRouter();
-  const { daoId } = router.query;
+  const daoId = useDaoId();
 
   useEffect(() => {
     async function asyncFn() {
       await deps.updateMyShares.call(null, daoId, deps.myAddress);
     }
-    if (deps.myAddress) {
+    if (daoId && deps.myAddress) {
       asyncFn();
     }
   }, [daoId, deps.myAddress, deps.updateMyShares]);
@@ -20,7 +19,7 @@ export const RightDaoCol = ({ deps }) => {
     async function asyncFn() {
       deps.updateMyDividend.call(null, daoId, deps.myAddress);
     }
-    if (deps.myAddress) {
+    if (daoId && deps.myAddress) {
       asyncFn();
     }
   }, [daoId, deps.myAddress, deps.updateMyDividend]);
@@ -29,13 +28,15 @@ export const RightDaoCol = ({ deps }) => {
     async function asyncFn() {
       deps.updateFunds.call(null, daoId);
     }
-    asyncFn();
+    if (daoId) {
+      asyncFn();
+    }
   }, [daoId, deps.updateFunds]);
 
   return (
     <div id="rightcol">
-      <MyAccount deps={deps} daoId={daoId} />
-      <FundsActivityEmbedded deps={deps} daoId={daoId} />
+      {daoId && <MyAccount deps={deps} daoId={daoId} />}
+      {daoId && <FundsActivityEmbedded deps={deps} daoId={daoId} />}
     </div>
   );
 };

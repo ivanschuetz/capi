@@ -1,13 +1,12 @@
 import React, { useEffect } from "react";
-import { useRouter } from "next/router";
 import { Wireframe } from "./Wireframe";
 import { WireframeMobile } from "./WireframeMobile";
+import { useDaoId } from "../hooks/useDaoId";
 
 // TODO nextjs
 // export const WireframeWrapper = ({ isGlobal, deps }) => {
 export const WireframeWrapper = ({ isGlobal, deps, nested }) => {
-  const router = useRouter();
-  const { daoId } = router.query;
+  const daoId = useDaoId();
 
   useEffect(() => {
     async function asyncInit() {
