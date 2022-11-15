@@ -1,5 +1,6 @@
 import arrowUp from "../images/svg/green-arrow.svg";
 import arrowDown from "../images/svg/arrow.svg";
+import { ready } from "../functions/common_ts_tmp";
 
 const wasmPromise = import("wasm");
 
@@ -10,10 +11,10 @@ export const updateInvestmentData_ = async (
   setInvestmentData
 ) => {
   try {
-    const { bridge_load_investment } = await wasmPromise;
+    const wasm = await ready(wasmPromise);
 
     if (myAddress) {
-      let data = await bridge_load_investment({
+      let data = await wasm.bridge_load_investment({
         dao_id: daoId,
         investor_address: myAddress,
       });
@@ -37,11 +38,11 @@ export const retrieveProfits = async (
   wallet
 ) => {
   try {
-    const { bridge_claim, bridge_submit_claim } = await wasmPromise;
+    const wasm = await ready(wasmPromise);
     statusMsg.clear();
 
     showProgress(true);
-    let claimRes = await bridge_claim({
+    let claimRes = await wasm.bridge_claim({
       dao_id: daoId,
       investor_address: myAddress,
     });
@@ -52,7 +53,7 @@ export const retrieveProfits = async (
     console.log("claimResSigned: " + JSON.stringify(claimResSigned));
 
     showProgress(true);
-    let submitClaimRes = await bridge_submit_claim({
+    let submitClaimRes = await wasm.bridge_submit_claim({
       investor_address_for_diagnostics: myAddress,
       dao_id_for_diagnostics: daoId,
 
@@ -93,8 +94,8 @@ export const updateFunds_ = async (
   /// We don't have a function in WASM yet to fetch only the funds so we re-fetch the dao.
   /// TODO: optimize: fetch only the funds (probably pass dao as input), so request is quicker.
   try {
-    const { bridge_view_dao, get_balance_change } = await wasmPromise;
-    let viewDao = await bridge_view_dao({
+    const wasm = await ready(wasmPromise);
+    let viewDao = await wasm.bridge_view_dao({
       dao_id: daoId,
     });
     // setViewDao(viewDao);
@@ -103,7 +104,7 @@ export const updateFunds_ = async (
     setFunds(viewDao.available_funds);
 
     // all this (updateFunds_) can be optimized, the implementation of this fetches the dao again (when requesting withdrawals)
-    let balance_change_res = await get_balance_change({
+    let balance_change_res = await wasm.get_balance_change({
       dao_id: daoId,
     });
     setFundsChange(balance_change_res.change);

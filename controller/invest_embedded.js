@@ -1,4 +1,5 @@
 import { toErrorMsg } from "../functions/validation";
+import { ready } from "../functions/common_ts_tmp";
 
 // Note: no locking for the embedded view because there's no design yet
 
@@ -63,9 +64,9 @@ const calculateSharesPrice = async (
   lockedShares
 ) => {
   try {
-    const { bridge_calculate_shares_price } = await wasmPromise;
+    const wasm = await ready(wasmPromise);
 
-    let res = await bridge_calculate_shares_price({
+    let res = await wasm.bridge_calculate_shares_price({
       shares_amount: shareCount,
       available_shares: availableSharesNumber,
 
@@ -108,11 +109,7 @@ export const invest = async (
   totalCostNumber
 ) => {
   try {
-    const {
-      bridge_opt_in_to_apps_if_needed,
-      bridge_buy_shares,
-      bridge_submit_buy_shares,
-    } = await wasmPromise;
+    const wasm = await ready(wasmPromise);
 
     statusMsg.clear();
     setShareAmountError(null);
@@ -121,7 +118,7 @@ export const invest = async (
     // TODO refactor invest/lock
     // 1. sign tx for app opt-in
     showProgress(true);
-    let optInToAppsRes = await bridge_opt_in_to_apps_if_needed({
+    let optInToAppsRes = await wasm.bridge_opt_in_to_apps_if_needed({
       app_id: "" + dao.app_id,
       investor_address: myAddress,
     });
@@ -139,7 +136,7 @@ export const invest = async (
     showProgress(true);
     // 2. buy the shares (requires app opt-in for local state)
     // TODO write which local state
-    let buyRes = await bridge_buy_shares({
+    let buyRes = await wasm.bridge_buy_shares({
       dao_id: daoId,
       share_count: buySharesCount,
       available_shares: availableSharesNumber,
@@ -154,7 +151,7 @@ export const invest = async (
     console.log("buySharesSigned: " + JSON.stringify(buySharesSigned));
 
     showProgress(true);
-    let submitBuySharesRes = await bridge_submit_buy_shares({
+    let submitBuySharesRes = await wasm.bridge_submit_buy_shares({
       investor_address: myAddress,
       buy_total_cost: totalCostNumber,
       txs: buySharesSigned,

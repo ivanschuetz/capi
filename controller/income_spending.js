@@ -1,3 +1,5 @@
+import { ready } from "../functions/common_ts_tmp";
+
 const wasmPromise = import("wasm");
 
 export const fetchIncomeSpendingChartData = async (
@@ -6,8 +8,8 @@ export const fetchIncomeSpendingChartData = async (
   interval
 ) => {
   try {
-    const { bridge_income_vs_spending } = await wasmPromise;
-    let res = await bridge_income_vs_spending({
+    const wasm = await ready(wasmPromise);
+    let res = await wasm.bridge_income_vs_spending({
       dao_id: daoId,
       interval: interval,
     });

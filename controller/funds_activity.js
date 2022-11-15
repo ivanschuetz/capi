@@ -1,3 +1,5 @@
+import { ready } from "../functions/common_ts_tmp";
+
 const wasmPromise = import("wasm");
 
 export const loadFundsActivity = async (

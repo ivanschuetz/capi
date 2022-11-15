@@ -1,4 +1,5 @@
 const wasmPromise = import("wasm");
+import { ready } from "../functions/common_ts_tmp";
 
 export const toBytesForRust = (bytes) => {
   if (bytes && bytes.byteLength > 0) {
@@ -19,8 +20,8 @@ export const toBytes = (str) => {
 
 export const checkForUpdates = async (statusMsg, daoId, setVersionData) => {
   try {
-    const { bridge_check_for_updates } = await wasmPromise;
-    let versionData = await bridge_check_for_updates({ dao_id: daoId });
+    const wasm = await ready(wasmPromise);
+    let versionData = await wasm.bridge_check_for_updates({ dao_id: daoId });
 
     if (versionData) {
       setVersionData(versionData);

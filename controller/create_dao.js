@@ -2,6 +2,7 @@ import { ready } from "../functions/common_ts_tmp";
 import { toBytes, toBytesForRust } from "../functions/common";
 import { toErrorMsg } from "../functions/validation";
 import { toMaybeIpfsUrl } from "../ipfs/store";
+import { ready } from "../functions/common_ts_tmp";
 
 const wasmPromise = import("wasm");
 
@@ -172,9 +173,6 @@ export const calculateTotalPrice = async (
   }
 
   const wasm = await ready(wasmPromise);
-
-  const wasm2 = await wasmPromise;
-  await wasm2.default();
 
   try {
     let res = await wasm.bridge_calculate_max_funds({
