@@ -1,4 +1,4 @@
-import useScript from "../common_hooks/useScript";
+import useScript from "../hooks/useScript";
 import { OkCancelModal } from "../modal/OkCancelModal";
 import { BuyFundsAssetContent } from "./BuyFundsAssetContent";
 import { startBuyCurrencyFlow } from "./controller";
