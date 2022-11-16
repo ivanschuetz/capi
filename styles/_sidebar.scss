@@ -26,10 +26,28 @@
         background-color: $grey-120;
     }
 
+    a {
+        color: $grey-190;
+    }
+
+    a:hover,
+    a.menu_active {
+        color: $cyan-20;
+        font-weight: 700;
+        transition: 0.2s;
+    }
+
+    a:hover img,
+    a.menu_active > * > img {
+        transition: 0.2s;
+        filter: invert(70%) sepia(14%) saturate(980%) hue-rotate(134deg) brightness(94%) contrast(93%);
+    }
+
     .sidebar-item {
         display: flex;
         align-items: center;
         cursor: pointer;
+        gap: 12px;
 
         .settings-dot {
             width: 12px;
@@ -44,29 +62,8 @@
             margin-left: 10px;
         }
 
-
         img {
             width: 20px;
-        }
-
-        a {
-            display: flex;
-            gap: 12px;
-            align-items: center;
-            color: $grey-190;
-        }
-
-        &:hover a,
-        a.menu_active {
-            color: $cyan-20;
-            font-weight: 700;
-            transition: 0.2s;
-        }
-
-        &:hover img,
-        a.menu_active img {
-            transition: 0.2s;
-            filter: invert(70%) sepia(14%) saturate(980%) hue-rotate(134deg) brightness(94%) contrast(93%);
         }
     }
 }
@@ -107,7 +104,6 @@
 }
 
 @media only screen and (max-width: $tablet-max-width) {
-
     .sidebar-container {
         width: 250px;
         height: 100vh;
