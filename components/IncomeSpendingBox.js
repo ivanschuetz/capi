@@ -5,6 +5,7 @@ import Select from "react-select";
 import Progress from "./Progress";
 import { ChartLegends } from "../charts/ChartLegends";
 import renderBarChart from "../charts/renderBarChart";
+import { AppContext } from "../context/App";
 
 const barsOptions = [
   { value: "days7", label: "Last 7 days" },
