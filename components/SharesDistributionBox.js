@@ -3,8 +3,8 @@ import { SharesDistributionChart } from "../shares_distribution_chart/SharesDist
 import { LabeledBox } from "./LabeledBox";
 import { HolderEntry } from "../shares_distribution_chart/HolderEntry";
 import Progress from "./Progress";
-import { pieChartColors } from "../functions/common";
-import { changeArrow } from "../functions/common";
+import { pieChartColors } from "../functions/utils";
+import { changeArrow } from "../functions/utils";
 
 // Currently contains only a labeled chart but later could contain also e.g. list of holders / top holders
 export const SharesDistributionBox = ({ deps }) => {

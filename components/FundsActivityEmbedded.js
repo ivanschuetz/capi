@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import { loadDao } from "../controller/funds_activity";
 import funds from "../images/funds.svg";
-import { changeArrow, shortedAddress } from "../functions/shared";
+import { changeArrow, shortedAddress } from "../functions/utils";
 import CopyPasteText from "../components/CopyPastText";
 import { CompactFundsActivityEntry } from "./CompactFundsActivityEntry";
 import Progress from "../components/Progress";

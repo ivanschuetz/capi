@@ -1,5 +1,5 @@
 import * as d3 from "d3";
-import { PIE_CHART_GRAY } from "../functions/common";
+import { PIE_CHART_GRAY } from "../functions/utils";
 
 const NOT_OWNED = "not_owned";
 const RED = "#DF5C60";

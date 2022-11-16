@@ -22,7 +22,7 @@ import {
   fetchHoldersChange,
   fetchSharesDistribution,
 } from "../controller/shares_distribution";
-import { checkForUpdates } from "../functions/common";
+import { checkForUpdates } from "../functions/utils";
 import {
   shortedAddress,
   updateFunds_,

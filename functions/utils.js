@@ -52,3 +52,30 @@ export const logUnexpected = (statusMsg, consoleMsg) => {
   console.error(consoleMsg);
   statusMsg.error("Unexpected error. Please contact support.");
 };
+
+export const changeArrow = (change) => {
+  if (change === "up") {
+    return (
+      <div className="arrow-container">
+        <img src={arrowUp.src} alt="arrow up" />
+      </div>
+    );
+  } else if (change === "down") {
+    return (
+      <div className="arrow-container">
+        <img src={arrowDown.src} alt="arrow down" />
+      </div>
+    );
+  } else {
+    return null;
+  }
+};
+
+export const shortedAddress = (address) => {
+  console.log("shortening address: " + address);
+
+  const short_chars = 3;
+  const leading = address.substring(0, short_chars);
+  const trailing = address.substring(address.length - short_chars);
+  return leading + "..." + trailing;
+};
