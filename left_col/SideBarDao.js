@@ -11,11 +11,16 @@ import logo from "../images/logo.svg";
 import { DevSettingsModal } from "../dev_settings/DevSettingsModal";
 import { AppVersion } from "./AppVersion";
 import { useDaoId } from "../hooks/useDaoId";
+import { useRouter } from "next/router";
 
 export const SideBarDao = ({ deps, containerClass }) => {
+  const router = useRouter();
   const [devSettingsModal, setDevSettingsModal] = useState(false);
-
   const daoId = useDaoId();
+
+  const daoPath = (relativePath) => {
+    return `${router.asPath}/${relativePath}`;
+  };
 
   useEffect(() => {
     async function asyncFn() {
@@ -57,30 +62,38 @@ export const SideBarDao = ({ deps, containerClass }) => {
       {deps.features.developer && <AppVersion deps={deps} />}
 
       <div className="dividing-line"></div>
-      <SideBarItem imageSrc={home} route="" label="Project Home" />
+      <SideBarItem imageSrc={home} route={daoPath("")} label="Project Home" />
       {deps.features.team && (
-        <SideBarItem imageSrc={project} route="team" label="Team" />
+        <SideBarItem imageSrc={project} route={daoPath("team")} label="Team" />
       )}
-      <SideBarItem imageSrc={stats} route="stats" label="Statistics" />
+      <SideBarItem
+        imageSrc={stats}
+        route={daoPath("stats")}
+        label="Statistics"
+      />
       {iHaveShares && (
         <SideBarItem
           imageSrc={funds}
-          route="investment"
           label="My Investment"
+          route={daoPath("investment")}
         />
       )}
       {iAmDaoOwner && deps.dao && deps.dao.funds_raised === "true" && (
-        <SideBarItem imageSrc={funds} route="withdraw" label="Withdraw" />
+        <SideBarItem
+          imageSrc={funds}
+          route={daoPath("withdraw")}
+          label="Withdraw"
+        />
       )}
       <SideBarItem
         imageSrc={arrows}
-        route="funds_activity"
+        route={daoPath("funds_activity")}
         label="Funds activity"
       />
       {iAmDaoOwner && (
         <SideBarItem
           imageSrc={settings}
-          route="settings"
+          route={daoPath("settings")}
           label="Project settings"
           showBadge={deps.daoVersion?.update_data}
         />
