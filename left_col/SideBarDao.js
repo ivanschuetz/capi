@@ -46,7 +46,7 @@ export const SideBarDao = ({ deps, containerClass }) => {
   return (
     <div className={containerClass}>
       <div className="logo-container">
-        <img src={logo} alt="logo" />
+        <img src={logo.src} alt="logo" />
       </div>
       <SideBarItem imageSrc={create} route="/" label="Create" />
       <SideBarItem
