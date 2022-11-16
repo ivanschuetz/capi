@@ -69,8 +69,15 @@ export const CreateDao = ({ deps }) => {
   const [totalSharePrice, setTotalSharePrice] = useState("");
 
   useEffect(() => {
-    calculateTotalPrice(deps.wasm, shareCount, sharePrice, setTotalSharePrice);
-  }, [shareCount, sharePrice]);
+    if (deps.wasm) {
+      calculateTotalPrice(
+        deps.wasm,
+        shareCount,
+        sharePrice,
+        setTotalSharePrice
+      );
+    }
+  }, [deps.wasm, shareCount, sharePrice]);
 
   useEffect(() => {
     async function nestedAsync() {
