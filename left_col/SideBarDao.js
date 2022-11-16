@@ -62,7 +62,12 @@ export const SideBarDao = ({ deps, containerClass }) => {
       {deps.features.developer && <AppVersion deps={deps} />}
 
       <div className="dividing-line"></div>
-      <SideBarItem imageSrc={home} route={daoPath("")} label="Project Home" />
+      <SideBarItem
+        imageSrc={home}
+        route={daoPath("")}
+        label="Project Home"
+        matchRoute="/[daoId]"
+      />
       {deps.features.team && (
         <SideBarItem imageSrc={project} route={daoPath("team")} label="Team" />
       )}
