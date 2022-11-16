@@ -76,7 +76,7 @@ export const Dao = ({ deps }) => {
             </Link> */}
             {deps.dao && <SharesDistributionBox deps={deps} />}
 
-            {deps.dao && deps.dao && deps.dao.funds_raised === "true" && (
+            {deps.dao && deps.dao.funds_raised === "true" && (
               <IncomeSpendingBox statusMsg={deps.statusMsg} daoId={daoId} />
             )}
           </div>
