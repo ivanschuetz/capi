@@ -23,11 +23,8 @@ import {
   fetchSharesDistribution,
 } from "../controller/shares_distribution";
 import { checkForUpdates } from "../functions/utils";
-import {
-  shortedAddress,
-  updateFunds_,
-  updateInvestmentData_,
-} from "../functions/shared";
+import { updateFunds_, updateInvestmentData_ } from "../functions/shared";
+import { shortedAddress } from "../functions/utils";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { initWcWalletIfAvailable } from "../wallet/walletConnectWallet";
 import { WASMContext } from "./WASM";
