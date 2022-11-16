@@ -123,13 +123,15 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 
   const updateAvailableShares = useCallback(
     async (daoId) => {
-      await fetchAvailableShares(
-        wasm,
-        statusMsgUpdater,
-        daoId,
-        setAvailableShares,
-        setAvailableSharesNumber
-      );
+      if (wasm) {
+        await fetchAvailableShares(
+          wasm,
+          statusMsgUpdater,
+          daoId,
+          setAvailableShares,
+          setAvailableSharesNumber
+        );
+      }
     },
     [wasm, statusMsgUpdater]
   );
@@ -145,7 +147,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 
   const updateShares = useCallback(
     async (daoId, myAddress) => {
-      if (myAddress) {
+      if (wasm && myAddress) {
         await updateMyShares(
           wasm,
           statusMsgUpdater,
@@ -214,14 +216,16 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 
   const updateRaisedFunds = useCallback(
     async (daoId) => {
-      await loadRaisedFunds(
-        wasm,
-        statusMsgUpdater,
-        daoId,
-        setRaisedFunds,
-        setRaisedFundsNumber,
-        setRaiseState
-      );
+      if (wasm) {
+        await loadRaisedFunds(
+          wasm,
+          statusMsgUpdater,
+          daoId,
+          setRaisedFunds,
+          setRaisedFundsNumber,
+          setRaiseState
+        );
+      }
     },
     [wasm, statusMsgUpdater]
   );
@@ -243,7 +247,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 
   const updateSharesDistr = useCallback(
     async (dao) => {
-      if (dao) {
+      if (wasm && dao) {
         await fetchSharesDistribution(
           wasm,
           statusMsgUpdater,

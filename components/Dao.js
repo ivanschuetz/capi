@@ -31,8 +31,10 @@ export const Dao = ({ deps }) => {
         setDescription
       );
     }
-    fetch();
-  }, [deps.statusMsg, deps.dao, setDescription]);
+    if (deps.wasm) {
+      fetch();
+    }
+  }, [deps.wasm, deps.statusMsg, deps.dao, setDescription]);
 
   const maybeInvestView = (dao) => {
     if (!deps.features.prospectus) {
