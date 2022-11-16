@@ -1,12 +1,9 @@
-import { ready } from "../functions/common_ts_tmp";
 import { toBytes, toBytesForRust } from "../functions/common";
 import { toErrorMsg } from "../functions/validation";
 import { toMaybeIpfsUrl } from "../ipfs/store";
-import { ready } from "../functions/common_ts_tmp";
-
-const wasmPromise = import("wasm");
 
 export const createDao = async (
+  wasm,
   statusMsg,
   myAddress,
   wallet,
@@ -45,8 +42,6 @@ export const createDao = async (
   setMaxInvestSharesError,
   setShowBuyCurrencyInfoModal
 ) => {
-  const wasm = await ready(wasmPromise);
-
   statusMsg.clear();
 
   showProgress(true);
@@ -164,6 +159,7 @@ const showErrorNotificationIfError = (statusMsg, payload) => {
 };
 
 export const calculateTotalPrice = async (
+  wasm,
   shareAmount,
   sharePrice,
   setTotalPrice
@@ -171,8 +167,6 @@ export const calculateTotalPrice = async (
   if (!shareAmount || !sharePrice) {
     return;
   }
-
-  const wasm = await ready(wasmPromise);
 
   try {
     let res = await wasm.bridge_calculate_max_funds({

@@ -48,9 +48,10 @@ export const InvestEmbedded = ({ deps, dao }) => {
 
   useEffect(() => {
     async function nestedAsync() {
-      if (daoId && deps.availableSharesNumber != null) {
+      if (deps.wasm && daoId && deps.availableSharesNumber != null) {
         if (buySharesCount) {
           updateTotalPriceAndPercentage(
+            deps.wasm,
             deps.availableSharesNumber,
 
             buySharesCount,
@@ -70,6 +71,7 @@ export const InvestEmbedded = ({ deps, dao }) => {
     }
     nestedAsync();
   }, [
+    deps.wasm,
     deps.statusMsg,
     deps.availableSharesNumber,
     deps.investmentData?.investor_locked_shares,
@@ -80,10 +82,11 @@ export const InvestEmbedded = ({ deps, dao }) => {
 
   useEffect(() => {
     async function nestedAsync() {
-      if (daoId && deps.wallet && buyIntent && deps.myAddress) {
+      if (deps.wasm && daoId && deps.wallet && buyIntent && deps.myAddress) {
         setBuyIntent(false);
 
         await invest(
+          deps.wasm,
           deps.statusMsg,
           deps.myAddress,
           deps.wallet,
@@ -112,6 +115,7 @@ export const InvestEmbedded = ({ deps, dao }) => {
     // we want to send whatever is in the form when user submits - so we care only about the conditions that trigger submit
     // suppress lint? are we approaching this incorrectly?
   }, [
+    deps.wasm,
     deps.statusMsg,
     deps.myAddress,
     deps.wallet,

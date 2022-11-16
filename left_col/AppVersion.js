@@ -6,10 +6,12 @@ export const AppVersion = ({ deps }) => {
 
   useEffect(() => {
     async function asyncInit() {
-      getWasmVersion(deps.statusMsg, setWasmVersion);
+      if (deps.wasm) {
+        getWasmVersion(deps.wasm, deps.statusMsg, setWasmVersion);
+      }
     }
     asyncInit();
-  }, [deps.statusMsg]);
+  }, [deps.wasm, deps.statusMsg]);
 
   return (
     <div>

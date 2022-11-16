@@ -2,6 +2,7 @@ import React, {
   createContext,
   ReactNode,
   useCallback,
+  useContext,
   useEffect,
   useState,
 } from "react";
@@ -29,6 +30,7 @@ import {
 } from "../functions/shared";
 import { useWindowSize } from "../hooks/useWindowSize";
 import { initWcWalletIfAvailable } from "../wallet/walletConnectWallet";
+import { WASMContext } from "./WASM";
 
 const initial: IAppContext = {};
 
@@ -74,6 +76,8 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   // this is only used when the selected wallet is wallet connect
   const [wcShowOpenWalletModal, setWcShowOpenWalletModal] = useState(false);
 
+  const { wasm } = useContext(WASMContext);
+
   useEffect(() => {
     initWcWalletIfAvailable(
       statusMsgUpdater,
@@ -85,19 +89,21 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 
   const updateMyBalance = useCallback(
     async (myAddress) => {
-      if (myAddress) {
-        await updateMyBalance_(statusMsgUpdater, myAddress, setMyBalance);
+      if (wasm && myAddress) {
+        await updateMyBalance_(wasm, statusMsgUpdater, myAddress, setMyBalance);
       }
     },
-    [statusMsgUpdater]
+    [wasm, statusMsgUpdater]
   );
 
   useEffect(() => {
     async function asyncInit() {
-      await initLog(statusMsgUpdater);
+      if (wasm) {
+        await initLog(wasm, statusMsgUpdater);
+      }
     }
     asyncInit();
-  }, [statusMsgUpdater]);
+  }, [wasm, statusMsgUpdater]);
 
   useEffect(() => {
     initWcWalletIfAvailable(
@@ -121,37 +127,45 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   const updateAvailableShares = useCallback(
     async (daoId) => {
       await fetchAvailableShares(
+        wasm,
         statusMsgUpdater,
         daoId,
         setAvailableShares,
         setAvailableSharesNumber
       );
     },
-    [statusMsgUpdater]
+    [wasm, statusMsgUpdater]
   );
 
   const updateDao = useCallback(
     async (daoId) => {
-      if (daoId) {
-        await updateDao_(daoId, setDao, statusMsgUpdater);
+      if (wasm && daoId) {
+        await updateDao_(wasm, daoId, setDao, statusMsgUpdater);
       }
     },
-    [statusMsgUpdater]
+    [wasm, statusMsgUpdater]
   );
 
   const updateShares = useCallback(
     async (daoId, myAddress) => {
       if (myAddress) {
-        await updateMyShares(statusMsgUpdater, daoId, myAddress, setMyShares);
+        await updateMyShares(
+          wasm,
+          statusMsgUpdater,
+          daoId,
+          myAddress,
+          setMyShares
+        );
       }
     },
-    [statusMsgUpdater]
+    [wasm, statusMsgUpdater]
   );
 
   const updateInvestmentData = useCallback(
     async (daoId, myAddress) => {
-      if (myAddress) {
+      if (wasm && myAddress) {
         await updateInvestmentData_(
+          wasm,
           statusMsgUpdater,
           myAddress,
           daoId,
@@ -159,13 +173,14 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
         );
       }
     },
-    [statusMsgUpdater]
+    [wasm, statusMsgUpdater]
   );
 
   const updateMyDividend = useCallback(
     async (daoId, myAddress) => {
-      if (myAddress) {
+      if (wasm && myAddress) {
         await updateMyDividend_(
+          wasm,
           statusMsgUpdater,
           daoId,
           myAddress,
@@ -173,26 +188,37 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
         );
       }
     },
-    [statusMsgUpdater]
+    [wasm, statusMsgUpdater]
   );
 
   const updateFunds = useCallback(
     async (daoId) => {
-      await updateFunds_(daoId, setFunds, setFundsChange, statusMsgUpdater);
+      if (wasm) {
+        await updateFunds_(
+          wasm,
+          daoId,
+          setFunds,
+          setFundsChange,
+          statusMsgUpdater
+        );
+      }
     },
-    [statusMsgUpdater]
+    [wasm, statusMsgUpdater]
   );
 
   const updateDaoVersion = useCallback(
     async (daoId) => {
-      await checkForUpdates(statusMsgUpdater, daoId, setDaoVersion);
+      if (wasm) {
+        await checkForUpdates(wasm, statusMsgUpdater, daoId, setDaoVersion);
+      }
     },
-    [statusMsgUpdater]
+    [wasm, statusMsgUpdater]
   );
 
   const updateRaisedFunds = useCallback(
     async (daoId) => {
       await loadRaisedFunds(
+        wasm,
         statusMsgUpdater,
         daoId,
         setRaisedFunds,
@@ -200,25 +226,29 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
         setRaiseState
       );
     },
-    [statusMsgUpdater]
+    [wasm, statusMsgUpdater]
   );
 
   const updateCompactFundsActivity = useCallback(
     async (daoId) => {
-      await loadFundsActivity(
-        statusMsgUpdater,
-        daoId,
-        setCompactFundsActivity,
-        "3"
-      );
+      if (wasm) {
+        await loadFundsActivity(
+          wasm,
+          statusMsgUpdater,
+          daoId,
+          setCompactFundsActivity,
+          "3"
+        );
+      }
     },
-    [statusMsgUpdater]
+    [statusMsgUpdater, wasm]
   );
 
   const updateSharesDistr = useCallback(
     async (dao) => {
       if (dao) {
         await fetchSharesDistribution(
+          wasm,
           statusMsgUpdater,
           dao.shares_asset_id,
           dao.share_supply_number,
@@ -228,6 +258,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
         );
 
         await fetchHoldersChange(
+          wasm,
           statusMsgUpdater,
           dao.shares_asset_id,
           dao.app_id,
@@ -235,7 +266,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
         );
       }
     },
-    [statusMsgUpdater]
+    [wasm, statusMsgUpdater]
   );
 
   const deps = {
@@ -307,6 +338,8 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     holdersChange: holdersChange,
 
     size: windowSizeClasses(windowSize),
+
+    wasm: wasm,
   };
   return (
     <AppContext.Provider value={{ deps: deps }}>{children}</AppContext.Provider>
@@ -381,6 +414,8 @@ interface Deps {
   holdersChange: any;
 
   size: any;
+
+  wasm: any;
 }
 
 interface AppContextProviderProps {

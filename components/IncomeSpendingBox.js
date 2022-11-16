@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useMemo, useRef } from "react";
+import React, { useEffect, useState, useMemo, useRef, useContext } from "react";
 import { LabeledBox } from "./LabeledBox";
 import { fetchIncomeSpendingChartData } from "../controller/income_spending";
 import Select from "react-select";
@@ -13,6 +13,8 @@ const barsOptions = [
 ];
 
 export const IncomeSpendingBox = ({ statusMsg, daoId }) => {
+  const { deps } = useContext(AppContext);
+
   const [chartData, setChartData] = useState(null);
 
   const [selectedBarsInterval, setSelectedBarsInterval] = useState(
@@ -28,6 +30,7 @@ export const IncomeSpendingBox = ({ statusMsg, daoId }) => {
   useEffect(() => {
     async function fetchData() {
       const chartData = await fetchIncomeSpendingChartData(
+        deps.wasm,
         statusMsg,
         daoId,
         selectedBarsInterval.value
@@ -43,8 +46,11 @@ export const IncomeSpendingBox = ({ statusMsg, daoId }) => {
         );
       }
     }
-    fetchData();
-  }, [statusMsg, daoId, selectedBarsInterval.value, colors]);
+
+    if (deps.wasm) {
+      fetchData();
+    }
+  }, [deps.wasm, statusMsg, daoId, selectedBarsInterval.value, colors]);
 
   const content = () => {
     if (chartData) {

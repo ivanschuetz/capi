@@ -1,11 +1,9 @@
 import { toErrorMsg } from "../functions/validation";
-import { ready } from "../functions/common_ts_tmp";
 
 // Note: no locking for the embedded view because there's no design yet
 
-const wasmPromise = import("wasm");
-
 export const updateTotalPriceNumber = async (
+  wasm,
   availableSharesNumber,
 
   shareCount,
@@ -15,6 +13,7 @@ export const updateTotalPriceNumber = async (
 ) => {
   try {
     let res = await calculateSharesPrice(
+      wasm,
       availableSharesNumber,
       shareCount,
       dao,
@@ -30,6 +29,7 @@ export const updateTotalPriceNumber = async (
 };
 
 export const updateTotalPriceAndPercentage = async (
+  wasm,
   availableSharesNumber,
 
   shareCount,
@@ -41,6 +41,7 @@ export const updateTotalPriceAndPercentage = async (
 ) => {
   try {
     let res = await calculateSharesPrice(
+      wasm,
       availableSharesNumber,
       shareCount,
       dao,
@@ -58,14 +59,13 @@ export const updateTotalPriceAndPercentage = async (
 };
 
 const calculateSharesPrice = async (
+  wasm,
   availableSharesNumber,
   shareCount,
   dao,
   lockedShares
 ) => {
   try {
-    const wasm = await ready(wasmPromise);
-
     let res = await wasm.bridge_calculate_shares_price({
       shares_amount: shareCount,
       available_shares: availableSharesNumber,
@@ -87,6 +87,7 @@ const calculateSharesPrice = async (
 };
 
 export const invest = async (
+  wasm,
   statusMsg,
   myAddress,
   wallet,
@@ -109,8 +110,6 @@ export const invest = async (
   totalCostNumber
 ) => {
   try {
-    const wasm = await ready(wasmPromise);
-
     statusMsg.clear();
     setShareAmountError(null);
 

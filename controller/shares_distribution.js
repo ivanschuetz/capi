@@ -1,8 +1,5 @@
-import { ready } from "../functions/common_ts_tmp";
-
-const wasmPromise = import("wasm");
-
 export const fetchSharesDistribution = async (
+  wasm,
   statusMsg,
   assetId,
   assetSupply,
@@ -11,7 +8,6 @@ export const fetchSharesDistribution = async (
   setNotOwnedShares
 ) => {
   try {
-    const wasm = await ready(wasmPromise);
     let res = await wasm.bridge_shares_distribution({
       asset_id: assetId,
       share_supply: assetSupply,
@@ -35,13 +31,13 @@ export const fetchSharesDistribution = async (
 };
 
 export const fetchHoldersChange = async (
+  wasm,
   statusMsg,
   assetId,
   appId,
   setHoldersChange
 ) => {
   try {
-    const wasm = await ready(wasmPromise);
     let res = await wasm.bridge_holders_change({
       asset_id: assetId,
       app_id: appId,

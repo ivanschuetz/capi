@@ -69,7 +69,7 @@ export const CreateDao = ({ deps }) => {
   const [totalSharePrice, setTotalSharePrice] = useState("");
 
   useEffect(() => {
-    calculateTotalPrice(shareCount, sharePrice, setTotalSharePrice);
+    calculateTotalPrice(deps.wasm, shareCount, sharePrice, setTotalSharePrice);
   }, [shareCount, sharePrice]);
 
   useEffect(() => {
@@ -78,6 +78,7 @@ export const CreateDao = ({ deps }) => {
         setSubmitDaoIntent(false);
 
         await createDao(
+          deps.wasm,
           deps.statusMsg,
           deps.myAddress,
           deps.wallet,

@@ -125,7 +125,13 @@ const DividendSection = ({ deps, daoId }) => {
             isLoading={submitting}
             disabled={deps.investmentData?.investor_claimable_dividend === "0"}
             onClick={async () => {
+              if (!deps.wasm) {
+                // ignoring this seems reasonable, wasm file should be normally loaded before user can interact
+                console.error("Click before wasm is ready: ignored");
+                return;
+              }
               await retrieveProfits(
+                deps.wasm,
                 deps.myAddress,
                 setSubmitting,
                 deps.statusMsg,

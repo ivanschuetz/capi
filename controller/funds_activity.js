@@ -1,16 +1,11 @@
-import { ready } from "../functions/common_ts_tmp";
-
-const wasmPromise = import("wasm");
-
 export const loadFundsActivity = async (
+  wasm,
   statusMsg,
   daoId,
   setActivityEntries,
   maxResults // null if it shouldn't be limited
 ) => {
   try {
-    const wasm = await ready(wasmPromise);
-
     const fundsActivityRes = await wasm.bridge_load_funds_activity({
       dao_id: daoId,
       max_results: maxResults,
@@ -23,10 +18,8 @@ export const loadFundsActivity = async (
   }
 };
 
-export const loadDao = async (statusMsg, daoId, setDao) => {
+export const loadDao = async (wasm, statusMsg, daoId, setDao) => {
   try {
-    const wasm = await ready(wasmPromise);
-
     let dao = await wasm.bridge_load_dao(daoId);
     console.log("dao: " + JSON.stringify(dao));
     setDao(dao);
