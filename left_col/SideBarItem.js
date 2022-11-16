@@ -19,7 +19,7 @@ const SideBarItem = ({ imageSrc, route, label, showBadge, matchRoute }) => {
       }
     >
       <div className="sidebar-item">
-        <img src={imageSrc} alt="" />
+        <img src={imageSrc.src} alt="" />
         {label}
         {showBadge && <div className="settings-dot">{"1"}</div>}
       </div>
