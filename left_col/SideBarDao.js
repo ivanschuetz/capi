@@ -75,12 +75,14 @@ export const SideBarDao = ({ deps, containerClass }) => {
         imageSrc={stats}
         route={daoPath("stats")}
         label="Statistics"
+        matchRoute="/[daoId]/stats"
       />
       {iHaveShares && (
         <SideBarItem
           imageSrc={funds}
           label="My Investment"
           route={daoPath("investment")}
+          matchRoute="/[daoId]/investment"
         />
       )}
       {iAmDaoOwner && deps.dao && deps.dao.funds_raised === "true" && (
@@ -88,12 +90,14 @@ export const SideBarDao = ({ deps, containerClass }) => {
           imageSrc={funds}
           route={daoPath("withdraw")}
           label="Withdraw"
+          matchRoute="/[daoId]/withdraw"
         />
       )}
       <SideBarItem
         imageSrc={arrows}
         route={daoPath("funds_activity")}
         label="Funds activity"
+        matchRoute="/[daoId]/funds_activity"
       />
       {iAmDaoOwner && (
         <SideBarItem
@@ -101,6 +105,7 @@ export const SideBarDao = ({ deps, containerClass }) => {
           route={daoPath("settings")}
           label="Project settings"
           showBadge={deps.daoVersion?.update_data}
+          matchRoute="/[daoId]/settings"
         />
       )}
       {devSettingsModal && (
