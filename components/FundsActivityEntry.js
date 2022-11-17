@@ -104,7 +104,7 @@ export const nestedAmountView = (entry) => {
         <div data-tip={entry.amount_without_fee}>
           {entry.short_amount_without_fee}
         </div>
-        <ReactTooltip />
+        <ReactTooltip uuid={"nestedamount" + entry.amount_without_fee} />
       </Fragment>
     );
   } else {

@@ -103,7 +103,7 @@ export const wrapWithInfoView = (infoText, element) => {
       <div className="d-flex align-center" data-tip={infoText}>
         {element}
       </div>
-      <ReactTooltip />
+      <ReactTooltip uuid={"infoview" + infoText} />
     </Fragment>
   );
 };

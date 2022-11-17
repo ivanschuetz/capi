@@ -16,7 +16,7 @@ export const MaxFundingTargetLabel = ({ text }) => {
           >
             <img src={info.src} alt="info" />
           </div>
-          <ReactTooltip />
+          <ReactTooltip uuid={"maxtarget" + text} />
         </div>
         <div className="d-flex align-center h-64px">
           <img src={funds.src} alt="img" />
