@@ -3,6 +3,7 @@ import { useDaoId } from "../../hooks/useDaoId";
 import { SharesDistributionBox } from "../../components/SharesDistributionBox";
 import { IncomeSpendingBox } from "../../components/IncomeSpendingBox";
 import { AppContext } from "../../context/App";
+import { DaoContainer } from "../../components/DaoContainer";
 
 const StatsPage = () => {
   const { deps } = useContext(AppContext);
@@ -14,11 +15,15 @@ const StatsPage = () => {
   }, [deps.updateDao, daoId]);
 
   return (
-    <div>
-      {deps.dao && <SharesDistributionBox deps={deps} />}
+    <DaoContainer
+      nested={
+        <div>
+          {deps.dao && <SharesDistributionBox deps={deps} />}
 
-      <IncomeSpendingBox statusMsg={deps.statusMsg} daoId={daoId} />
-    </div>
+          <IncomeSpendingBox statusMsg={deps.statusMsg} daoId={daoId} />
+        </div>
+      }
+    ></DaoContainer>
   );
 };
 
