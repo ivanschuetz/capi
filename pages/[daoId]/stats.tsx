@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import { useDaoId } from "../../hooks/useDaoId";
 import { SharesDistributionBox } from "../../components/SharesDistributionBox";
 import { IncomeSpendingBox } from "../../components/IncomeSpendingBox";
