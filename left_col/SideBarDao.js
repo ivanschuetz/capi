@@ -11,10 +11,8 @@ import logo from "../images/logo.svg";
 import { DevSettingsModal } from "../dev_settings/DevSettingsModal";
 import { AppVersion } from "./AppVersion";
 import { useDaoId } from "../hooks/useDaoId";
-import { useRouter } from "next/router";
 
 export const SideBarDao = ({ deps, containerClass }) => {
-  const router = useRouter();
   const [devSettingsModal, setDevSettingsModal] = useState(false);
   const daoId = useDaoId();
 
