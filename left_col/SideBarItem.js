@@ -14,9 +14,7 @@ const SideBarItem = ({ imageSrc, route, label, showBadge, matchRoute }) => {
       //   TODO nextjs - what was this for actually?
       // end
       href={route}
-      className={
-        router.pathname === routeToCompare ? "menu_active" : "menu_inactive"
-      }
+      className={router.asPath === route ? "menu_active" : "menu_inactive"}
     >
       <div className="sidebar-item">
         <img src={imageSrc.src} alt="" />

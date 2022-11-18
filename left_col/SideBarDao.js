@@ -19,7 +19,11 @@ export const SideBarDao = ({ deps, containerClass }) => {
   const daoId = useDaoId();
 
   const daoPath = (relativePath) => {
-    return `${router.asPath}/${relativePath}`;
+    var path = router.asPath;
+    if (relativePath) {
+      path = `${path}/${relativePath}`;
+    }
+    return path;
   };
 
   useEffect(() => {
