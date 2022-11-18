@@ -278,7 +278,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
       // shows info labels in diverse places when the project hasn't finished the fundsraising phase
       stillRaisingFundsLabels: true,
       developer: true,
-      team: false,
+      team: true,
     },
 
     myAddress: myAddress,
