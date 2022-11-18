@@ -58,12 +58,7 @@ export const SideBarDao = ({ deps, containerClass }) => {
       {deps.features.developer && <AppVersion deps={deps} />}
 
       <div className="dividing-line"></div>
-      <SideBarItem
-        imageSrc={home}
-        route={`/${daoId}`}
-        label="Project Home"
-        matchRoute="/[daoId]"
-      />
+      <SideBarItem imageSrc={home} route={`/${daoId}`} label="Project Home" />
       {deps.features.team && (
         <SideBarItem imageSrc={project} route={`/${daoId}/team`} label="Team" />
       )}
@@ -71,14 +66,12 @@ export const SideBarDao = ({ deps, containerClass }) => {
         imageSrc={stats}
         route={`/${daoId}/stats`}
         label="Statistics"
-        matchRoute="/[daoId]/stats"
       />
       {iHaveShares && (
         <SideBarItem
           imageSrc={funds}
           label="My Investment"
           route={`/${daoId}/investment`}
-          matchRoute="/[daoId]/investment"
         />
       )}
       {iAmDaoOwner && deps.dao && deps.dao.funds_raised === "true" && (
@@ -86,14 +79,12 @@ export const SideBarDao = ({ deps, containerClass }) => {
           imageSrc={funds}
           route={`/${daoId}/withdraw`}
           label="Withdraw"
-          matchRoute="/[daoId]/withdraw"
         />
       )}
       <SideBarItem
         imageSrc={arrows}
         route={`/${daoId}/funds_activity`}
         label="Funds activity"
-        matchRoute="/[daoId]/funds_activity"
       />
       {iAmDaoOwner && (
         <SideBarItem
@@ -101,7 +92,6 @@ export const SideBarDao = ({ deps, containerClass }) => {
           route={`/${daoId}/settings`}
           label="Project settings"
           showBadge={deps.daoVersion?.update_data}
-          matchRoute="/[daoId]/settings"
         />
       )}
       {devSettingsModal && (
