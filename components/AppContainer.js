@@ -1,6 +1,6 @@
 import Modal from "../modal/Modal"
 import React, { useContext } from "react"
-import { AppContext } from "../context/App"
+import { AppContext } from "../context/AppContext"
 import { ToastContainer } from "react-toastify"
 
 export const AppContainer = ({ children }) => {

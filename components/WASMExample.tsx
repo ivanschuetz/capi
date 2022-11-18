@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react"
-import { WASMContext } from "../context/WASM"
+import { WASMContext } from "../context/WASMContext"
 
 // TODO decide whether we'll use context or not for wasm and delete this and adjust everywhere rest if needed
 export const WASMExample = () => {

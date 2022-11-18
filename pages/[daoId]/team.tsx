@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import { Team } from "../../components/Team"
-import { AppContext } from "../../context/App"
+import { AppContext } from "../../context/AppContext"
 import { DaoContainer } from "../../components/DaoContainer"
 
 const TeamPage = () => {

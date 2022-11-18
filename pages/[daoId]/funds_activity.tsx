@@ -1,6 +1,6 @@
 import React, { useContext } from "react"
 import { FundsActivity } from "../../components/FundsActivity"
-import { AppContext } from "../../context/App"
+import { AppContext } from "../../context/AppContext"
 import { DaoContainer } from "../../components/DaoContainer"
 
 const FundsActivityPage = () => {

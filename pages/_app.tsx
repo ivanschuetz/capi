@@ -1,6 +1,6 @@
 // import "../styles/globals.css";
 import type { AppProps } from "next/app"
-import { WASMContextProvider } from "../context/WASM"
+import { WASMContextProvider } from "../context/WASMContext"
 
 import "../styles/_global.scss"
 import "../styles/_margins.scss"
@@ -21,7 +21,7 @@ import "../styles/_toastify.scss"
 import "../styles/_react-calendar.scss"
 import "../styles/_utils.scss"
 import Head from "next/head"
-import { AppContextProvider } from "../context/App"
+import { AppContextProvider } from "../context/AppContext"
 
 const App = ({ Component, pageProps }: AppProps) => {
   return (

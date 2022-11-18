@@ -2,7 +2,7 @@ import React, { useContext, useEffect } from "react"
 import { useDaoId } from "../../hooks/useDaoId"
 import { SharesDistributionBox } from "../../components/SharesDistributionBox"
 import { IncomeSpendingBox } from "../../components/IncomeSpendingBox"
-import { AppContext } from "../../context/App"
+import { AppContext } from "../../context/AppContext"
 import { DaoContainer } from "../../components/DaoContainer"
 
 const StatsPage = () => {

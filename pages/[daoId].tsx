@@ -2,7 +2,7 @@ import { useContext } from "react"
 import "react-toastify/dist/ReactToastify.css"
 import { Dao } from "../components/Dao"
 import { DaoContainer } from "../components/DaoContainer"
-import { AppContext } from "../context/App"
+import { AppContext } from "../context/AppContext"
 
 const DaoPage = () => {
   const { deps } = useContext(AppContext)
