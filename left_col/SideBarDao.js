@@ -18,14 +18,6 @@ export const SideBarDao = ({ deps, containerClass }) => {
   const [devSettingsModal, setDevSettingsModal] = useState(false);
   const daoId = useDaoId();
 
-  const daoPath = (relativePath) => {
-    var path = router.asPath;
-    if (relativePath) {
-      path = `${path}/${relativePath}`;
-    }
-    return path;
-  };
-
   useEffect(() => {
     async function asyncFn() {
       deps.updateMyShares.call(null, daoId, deps.myAddress);
@@ -68,16 +60,16 @@ export const SideBarDao = ({ deps, containerClass }) => {
       <div className="dividing-line"></div>
       <SideBarItem
         imageSrc={home}
-        route={daoPath("")}
+        route={`/${daoId}`}
         label="Project Home"
         matchRoute="/[daoId]"
       />
       {deps.features.team && (
-        <SideBarItem imageSrc={project} route={daoPath("team")} label="Team" />
+        <SideBarItem imageSrc={project} route={`/${daoId}/team`} label="Team" />
       )}
       <SideBarItem
         imageSrc={stats}
-        route={daoPath("stats")}
+        route={`/${daoId}/stats`}
         label="Statistics"
         matchRoute="/[daoId]/stats"
       />
@@ -85,28 +77,28 @@ export const SideBarDao = ({ deps, containerClass }) => {
         <SideBarItem
           imageSrc={funds}
           label="My Investment"
-          route={daoPath("investment")}
+          route={`/${daoId}/investment`}
           matchRoute="/[daoId]/investment"
         />
       )}
       {iAmDaoOwner && deps.dao && deps.dao.funds_raised === "true" && (
         <SideBarItem
           imageSrc={funds}
-          route={daoPath("withdraw")}
+          route={`/${daoId}/withdraw`}
           label="Withdraw"
           matchRoute="/[daoId]/withdraw"
         />
       )}
       <SideBarItem
         imageSrc={arrows}
-        route={daoPath("funds_activity")}
+        route={`/${daoId}/funds_activity`}
         label="Funds activity"
         matchRoute="/[daoId]/funds_activity"
       />
       {iAmDaoOwner && (
         <SideBarItem
           imageSrc={settings}
-          route={daoPath("settings")}
+          route={`/${daoId}/settings`}
           label="Project settings"
           showBadge={deps.daoVersion?.update_data}
           matchRoute="/[daoId]/settings"
