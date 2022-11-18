@@ -12,7 +12,7 @@ export const Team = ({ deps }) => {
   useEffect(() => {
     async function asyncInit() {
       if (deps.wasm && deps.dao?.team_url) {
-        await getTeam(deps.statusMsg, deps.dao.team_url, setTeam);
+        await getTeam(deps.wasm, deps.statusMsg, deps.dao.team_url, setTeam);
       }
     }
     asyncInit();
