@@ -37,10 +37,6 @@ export const SharesDistributionBox = ({ deps }) => {
     return pieChartColors()
   }, [])
 
-  const color = (index) => {
-    return col[Math.round(index % col.length)]
-  }
-
   const onAddressSelected = useCallback(
     (address) => {
       const addressIndex = ownedSharesDistr.findIndex(
@@ -90,6 +86,7 @@ export const SharesDistributionBox = ({ deps }) => {
                   selectedAddress={selectedAddress}
                   showMoreSelected={showMoreSelected}
                   setShowMoreSelected={setShowMoreSelected}
+                  col={col}
                 />
               </div>
             </div>
@@ -101,7 +98,17 @@ export const SharesDistributionBox = ({ deps }) => {
                 animated={true}
               />
             </div>
-            <div className="d-tablet-none">{holdersListItems()}</div>
+            <div className="d-tablet-none">
+              <HoldersListItems
+                deps={deps}
+                ownedSharesDistr={ownedSharesDistr}
+                entries={entries}
+                selectedAddress={selectedAddress}
+                showMoreSelected={showMoreSelected}
+                setShowMoreSelected={setShowMoreSelected}
+                col={col}
+              />
+            </div>
           </div>
         </LabeledBox>
       )
@@ -122,7 +129,12 @@ const HoldersListItems = ({
   selectedAddress,
   showMoreSelected,
   setShowMoreSelected,
+  col,
 }) => {
+  const color = (index) => {
+    return col[Math.round(index % col.length)]
+  }
+
   if (ownedSharesDistr && entries) {
     return (
       <div className="holder_list_container">

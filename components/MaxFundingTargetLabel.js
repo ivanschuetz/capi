@@ -6,7 +6,7 @@ export const MaxFundingTargetLabel = ({ text }) => {
   return (
     <div className="f-basis-50">
       <div className="pl-25 grey-160">
-        <Tooltip uuid={"maxtarget" + maxTarget} />
+        <Tooltip uuid={"maxtarget" + text} />
         <div className="d-flex align-center h-64px">
           <img src={funds.src} alt="img" />
           <div className="ml-10">{text}</div>
