@@ -1,6 +1,6 @@
 /** @type {import('next').NextConfig} */
 
-const { version } = require("./package.json");
+const { version } = require("./package.json")
 
 const nextConfig = {
   reactStrictMode: true,
@@ -21,9 +21,9 @@ const nextConfig = {
           },
         },
       ],
-    });
-    return config;
+    })
+    return config
   },
-};
+}
 
-module.exports = nextConfig;
+module.exports = nextConfig

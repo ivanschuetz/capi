@@ -1,293 +1,293 @@
 @import "global_vars";
 
 #dao_actions_top_bar {
-    display: flex;
-    gap: 40px;
-    align-items: center;
-    margin-bottom: 40px;
+  display: flex;
+  gap: 40px;
+  align-items: center;
+  margin-bottom: 40px;
 
-    .link_button {
-        color: $grey-150;
-        text-decoration: none;
-        padding: 0 0 10px 0;
-        cursor: pointer;
-        font-size: 24px;
-        font-weight: 600;
-        border-bottom: 2px solid transparent;
+  .link_button {
+    color: $grey-150;
+    text-decoration: none;
+    padding: 0 0 10px 0;
+    cursor: pointer;
+    font-size: 24px;
+    font-weight: 600;
+    border-bottom: 2px solid transparent;
 
-        &:hover {
-            color: $red-40;
-        }
+    &:hover {
+      color: $red-40;
     }
+  }
 
-    .numbers {
-        width: 100px;
-    }
+  .numbers {
+    width: 100px;
+  }
 
-    .dao_action_tab_item__sel {
-        border-radius: 0;
-        color: $red-10;
-        border-bottom: 2px solid $red-10;
-        font-weight: 600;
-    }
+  .dao_action_tab_item__sel {
+    border-radius: 0;
+    color: $red-10;
+    border-bottom: 2px solid $red-10;
+    font-weight: 600;
+  }
 }
 
 @media only screen and (max-width: $mobile-max-width) {
-    #dao_actions_top_bar {
-        margin-bottom: 60px;
-    }
+  #dao_actions_top_bar {
+    margin-bottom: 60px;
+  }
 }
 
 #dao_description {
-    width: 80%;
-    color: $grey-160;
-    margin-bottom: 60px;
-    line-height: 25.6px;
+  width: 80%;
+  color: $grey-160;
+  margin-bottom: 60px;
+  line-height: 25.6px;
 }
 
 @media only screen and (max-width: $tablet-max-width) {
-    #dao_description {
-        width: 100%;
-    }
+  #dao_description {
+    width: 100%;
+  }
 }
 
 #dao_funds {
-    &__val {
-        font-size: 1.2rem;
-        font-weight: 600;
-        text-align: right;
+  &__val {
+    font-size: 1.2rem;
+    font-weight: 600;
+    text-align: right;
 
-        // for the icon
-        display: flex;
-        align-items: center;
-        justify-items: right;
-        height: 100%;
-        gap: 4px;
+    // for the icon
+    display: flex;
+    align-items: center;
+    justify-items: right;
+    height: 100%;
+    gap: 4px;
 
-        svg {
-            height: 16px;
-        }
+    svg {
+      height: 16px;
     }
+  }
 }
 
 .dao_action_active_tab {
+  display: flex;
+  flex-direction: column;
+
+  .dao-shares {
     display: flex;
     flex-direction: column;
+    flex-wrap: wrap;
 
-    .dao-shares {
+    .top-block {
+      margin-bottom: 48px;
+
+      .blue-circle {
+        width: 8px;
+        height: 8px;
+        background-color: $cyan-20;
+        border-radius: 50%;
+      }
+
+      .available-shares {
         display: flex;
         flex-direction: column;
-        flex-wrap: wrap;
 
-        .top-block {
-            margin-bottom: 48px;
-
-            .blue-circle {
-                width: 8px;
-                height: 8px;
-                background-color: $cyan-20;
-                border-radius: 50%;
-            }
-
-            .available-shares {
-                display: flex;
-                flex-direction: column;
-
-                .shares-block {
-                    white-space: nowrap;
-                    display: flex;
-                    gap: 12px;
-                    align-items: center;
-                    line-height: 25.6px;
-                }
-            }
+        .shares-block {
+          white-space: nowrap;
+          display: flex;
+          gap: 12px;
+          align-items: center;
+          line-height: 25.6px;
         }
+      }
     }
+  }
 
-    .label-input-style {
-        margin-bottom: 32px;
-    }
+  .label-input-style {
+    margin-bottom: 32px;
+  }
 }
 
 #withdraw_icon {
-    display: block;
-    margin: 0 auto;
-    margin-left: 6px;
-    cursor: pointer;
+  display: block;
+  margin: 0 auto;
+  margin-left: 6px;
+  cursor: pointer;
 }
 
 .create-dao-container,
 .update-dao-data {
-    .description {
-        border: 2px solid $red-30;
-    }
+  .description {
+    border: 2px solid $red-30;
+  }
 
-    .info {
-        color: $grey-160;
-        font-weight: bold;
-        font-size: 24px;
-        margin: 40px 0;
-    }
+  .info {
+    color: $grey-160;
+    font-weight: bold;
+    font-size: 24px;
+    margin: 40px 0;
+  }
 
-    .dao-title {
-        font-size: 24px;
-        color: $grey-150;
-        font-weight: bold;
-        margin-bottom: 40px;
-    }
+  .dao-title {
+    font-size: 24px;
+    color: $grey-150;
+    font-weight: bold;
+    margin-bottom: 40px;
+  }
 
-    .labeled_input {
-        .labeled_input__label {
-            display: flex;
-            align-items: center;
-            gap: 10px;
-            margin-left: 24px;
-            margin-bottom: 8px;
-        }
+  .labeled_input {
+    .labeled_input__label {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-left: 24px;
+      margin-bottom: 8px;
     }
+  }
 }
 
 .date-input__container {
-    position: relative;
+  position: relative;
 
-    input:disabled {
-        background: $white;
-        color: $grey-190;
-    }
+  input:disabled {
+    background: $white;
+    color: $grey-190;
+  }
 
-    img {
-        position: absolute;
-        right: 25px;
-        top: 50%;
-        transform: translate(-50%, -50%);
-        cursor: pointer;
-    }
+  img {
+    position: absolute;
+    right: 25px;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    cursor: pointer;
+  }
 
-    .label-input-style {
-        padding-right: 56px;
-    }
+  .label-input-style {
+    padding-right: 56px;
+  }
 }
 
 .social-media-buttons {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+
+  .button__follow {
+    border: 1px solid $blue-20;
+
+    &:hover {
+      transition: 0.3s;
+      background-color: $blue-20;
+    }
+
+    &:hover img {
+      filter: brightness(0) invert(1);
+    }
+  }
+
+  .button-share {
+    border: 1px solid $cyan-20;
+
+    &:hover {
+      transition: 0.3s;
+      background-color: $cyan-20;
+    }
+
+    &:hover img {
+      filter: brightness(0) invert(1);
+    }
+  }
+
+  .share-icon {
+    border-radius: 50%;
+    width: 48px;
+    height: 48px;
     display: flex;
-    gap: 16px;
     align-items: center;
-
-    .button__follow {
-        border: 1px solid $blue-20;
-
-        &:hover {
-            transition: 0.3s;
-            background-color: $blue-20;
-        }
-
-        &:hover img {
-            filter: brightness(0) invert(1);
-        }
-    }
-
-    .button-share {
-        border: 1px solid $cyan-20;
-
-        &:hover {
-            transition: 0.3s;
-            background-color: $cyan-20;
-        }
-
-        &:hover img {
-            filter: brightness(0) invert(1);
-        }
-    }
-
-    .share-icon {
-        border-radius: 50%;
-        width: 48px;
-        height: 48px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        color: $white;
-        cursor: pointer;
-    }
+    justify-content: center;
+    color: $white;
+    cursor: pointer;
+  }
 }
 
 .buy-shares-content {
-    display: flex;
-    justify-content: space-between;
+  display: flex;
+  justify-content: space-between;
 
-    .buy-shares-right-col {
-        display: flex;
-        flex-direction: column;
-        gap: 40px;
-    }
+  .buy-shares-right-col {
+    display: flex;
+    flex-direction: column;
+    gap: 40px;
+  }
 }
 
 .arrow-container {
-    display: flex;
-    align-items: flex-start;
-    height: 36px;
+  display: flex;
+  align-items: flex-start;
+  height: 36px;
 }
 
 @media only screen and (min-width: 1780px) {
-    .buy-shares-content {
-        justify-content: flex-start;
-        gap: 150px;
-    }
+  .buy-shares-content {
+    justify-content: flex-start;
+    gap: 150px;
+  }
 }
 
 @media only screen and (max-width: 1700px) {
-    .buy-shares-content {
-        flex-direction: column;
-        gap: 40px;
+  .buy-shares-content {
+    flex-direction: column;
+    gap: 40px;
 
-        .buy-shares-right-col {
-            flex-direction: row;
-            gap: 130px;
-        }
+    .buy-shares-right-col {
+      flex-direction: row;
+      gap: 130px;
     }
+  }
 }
 
 @media only screen and (max-width: 1430px) {
-    .shares-block {
-        flex-wrap: wrap;
-    }
+  .shares-block {
+    flex-wrap: wrap;
+  }
 }
 
 @media only screen and (max-width: $mobile-max-width) {
-    .dao_action_active_tab {
-        .dao-shares {
-            .top-block {
-                .blue-circle {
-                    display: none;
-                }
-
-                .available-shares {
-                    .shares-block {
-                        flex-direction: column;
-                        align-items: flex-start;
-                        margin-top: 8px;
-                    }
-                }
-            }
+  .dao_action_active_tab {
+    .dao-shares {
+      .top-block {
+        .blue-circle {
+          display: none;
         }
-    }
 
-    .available-shares {
-        .arrow-container {
-            display: none;
-        }
-    }
-
-    .buy-shares-content {
-        .buy-shares-right-col {
+        .available-shares {
+          .shares-block {
             flex-direction: column;
-            align-items: center;
-            gap: 24px;
-
-            #shares_const_container,
-            #retrieved-profits {
-                align-items: center;
-            }
+            align-items: flex-start;
+            margin-top: 8px;
+          }
         }
+      }
     }
+  }
+
+  .available-shares {
+    .arrow-container {
+      display: none;
+    }
+  }
+
+  .buy-shares-content {
+    .buy-shares-right-col {
+      flex-direction: column;
+      align-items: center;
+      gap: 24px;
+
+      #shares_const_container,
+      #retrieved-profits {
+        align-items: center;
+      }
+    }
+  }
 }

@@ -1,5 +1,5 @@
-import { OkCancelModal } from "../modal/OkCancelModal";
-import { AckProspectusView } from "./AckProspectusView";
+import { OkCancelModal } from "../modal/OkCancelModal"
+import { AckProspectusView } from "./AckProspectusView"
 
 export const AckProspectusModal = ({
   url,
@@ -16,5 +16,5 @@ export const AckProspectusModal = ({
     >
       <AckProspectusView url={url} hash={prospectusHash} />
     </OkCancelModal>
-  );
-};
+  )
+}

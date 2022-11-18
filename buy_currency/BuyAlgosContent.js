@@ -16,5 +16,5 @@ export const BuyAlgosContent = () => {
         </span>
       </div>
     </div>
-  );
-};
+  )
+}

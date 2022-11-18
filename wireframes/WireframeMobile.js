@@ -1,48 +1,48 @@
-import React, { useMemo, useState } from "react";
-import Link from "next/link";
-import { DaoTop } from "../components/DaoTop";
-import { SideBar } from "../left_col/SideBar";
-import { SideBarDao } from "../left_col/SideBarDao";
-import menu from "../images/svg/menu.svg";
-import logo from "../images/logo.svg";
-import { MobileWalletView } from "../right_col/MobileWalletView";
-import wallet from "../images/svg/account.svg";
+import React, { useMemo, useState } from "react"
+import Link from "next/link"
+import { DaoTop } from "../components/DaoTop"
+import { SideBar } from "../left_col/SideBar"
+import { SideBarDao } from "../left_col/SideBarDao"
+import menu from "../images/svg/menu.svg"
+import logo from "../images/logo.svg"
+import { MobileWalletView } from "../right_col/MobileWalletView"
+import wallet from "../images/svg/account.svg"
 
 // TODO nextjs
 // export const WireframeMobile = ({ isGlobal, deps }) => {
 export const WireframeMobile = ({ isGlobal, deps, nested }) => {
-  const [showSidebar, setShowSidebar] = useState(false);
-  const [showWallet, setShowWallet] = useState(false);
+  const [showSidebar, setShowSidebar] = useState(false)
+  const [showWallet, setShowWallet] = useState(false)
 
   const sideMenuClass = useMemo(() => {
     if (showSidebar) {
-      return "sidebar-container";
+      return "sidebar-container"
     } else {
-      return "sidebar-container sidebar-container-closing";
+      return "sidebar-container sidebar-container-closing"
     }
-  }, [showSidebar]);
+  }, [showSidebar])
 
   const rightColClass = useMemo(() => {
     if (showWallet) {
-      return "rightcol";
+      return "rightcol"
     } else {
-      return "rightcol-closing";
+      return "rightcol-closing"
     }
-  }, [showWallet]);
+  }, [showWallet])
 
   const sideBar = () => {
     if (isGlobal) {
-      return <SideBar deps={deps} containerClass={sideMenuClass} />;
+      return <SideBar deps={deps} containerClass={sideMenuClass} />
     } else {
-      return <SideBarDao deps={deps} containerClass={sideMenuClass} />;
+      return <SideBarDao deps={deps} containerClass={sideMenuClass} />
     }
-  };
+  }
 
   const daoTop = () => {
-    return !isGlobal && deps.dao && <DaoTop dao={deps.dao} />;
-  };
+    return !isGlobal && deps.dao && <DaoTop dao={deps.dao} />
+  }
 
-  const showOverlay = showSidebar || showWallet;
+  const showOverlay = showSidebar || showWallet
 
   return (
     <>
@@ -71,20 +71,20 @@ export const WireframeMobile = ({ isGlobal, deps, nested }) => {
         {/* <Outlet /> */}
       </div>
     </>
-  );
-};
+  )
+}
 
 const ContentOverlay = ({ setShowSidebar, setShowWallet }) => {
   return (
     <div
       id="mob_nav_bar_overlay"
       onClick={() => {
-        setShowSidebar(false);
-        setShowWallet(false);
+        setShowSidebar(false)
+        setShowWallet(false)
       }}
     />
-  );
-};
+  )
+}
 
 const MobNavBar = ({ setShowSidebar, setShowWallet }) => {
   return (
@@ -103,5 +103,5 @@ const MobNavBar = ({ setShowSidebar, setShowWallet }) => {
         onClick={() => setShowWallet((s) => !s)}
       />
     </div>
-  );
-};
+  )
+}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react"
 import {
   LabeledAmountInput,
   LabeledCurrencyInput,
@@ -6,83 +6,78 @@ import {
   LabeledTextArea,
   LabeledDateInput,
   ValidationMsg,
-} from "./labeled_inputs";
-import { ContentTitle } from "./ContentTitle";
-import { calculateTotalPrice, createDao } from "../controller/create_dao";
-import { ImageUpload } from "./ImageUpload";
-import { useRouter } from "next/router";
-import { SubmitButton } from "./SubmitButton";
-import { SelectWalletModal } from "../wallet/SelectWalletModal";
-import { BuyAlgosModal } from "../buy_currency/BuyAlgosModal";
-import link from "../images/svg/link.svg";
-import moment from "moment";
+} from "./labeled_inputs"
+import { ContentTitle } from "./ContentTitle"
+import { calculateTotalPrice, createDao } from "../controller/create_dao"
+import { ImageUpload } from "./ImageUpload"
+import { useRouter } from "next/router"
+import { SubmitButton } from "./SubmitButton"
+import { SelectWalletModal } from "../wallet/SelectWalletModal"
+import { BuyAlgosModal } from "../buy_currency/BuyAlgosModal"
+import link from "../images/svg/link.svg"
+import moment from "moment"
 
-import { MaxFundingTargetLabel } from "./MaxFundingTargetLabel";
-import { FileUploader } from "./FileUploader";
+import { MaxFundingTargetLabel } from "./MaxFundingTargetLabel"
+import { FileUploader } from "./FileUploader"
 
 export const CreateDao = ({ deps }) => {
-  const [daoName, setDaoName] = useState("My project");
-  const [daoDescr, setDaoDescr] = useState("Lorem ipsum dolor sit amet");
-  const [shareCount, setShareCount] = useState("100");
-  const [sharePrice, setSharePrice] = useState("10");
-  const [investorsShare, setInvestorsShare] = useState("40");
-  const [sharesForInvestors, setSharesForInvestors] = useState("100");
-  const [minInvestShares, setMinInvestShares] = useState("3");
-  const [maxInvestShares, setMaxInvestShares] = useState("10");
-  const [imageBytes, setImageBytes] = useState([]);
+  const [daoName, setDaoName] = useState("My project")
+  const [daoDescr, setDaoDescr] = useState("Lorem ipsum dolor sit amet")
+  const [shareCount, setShareCount] = useState("100")
+  const [sharePrice, setSharePrice] = useState("10")
+  const [investorsShare, setInvestorsShare] = useState("40")
+  const [sharesForInvestors, setSharesForInvestors] = useState("100")
+  const [minInvestShares, setMinInvestShares] = useState("3")
+  const [maxInvestShares, setMaxInvestShares] = useState("10")
+  const [imageBytes, setImageBytes] = useState([])
   const [socialMediaUrl, setSocialMediaUrl] = useState(
     "https://twitter.com/doesnotexist"
-  );
+  )
 
-  const [minRaiseTarget, setMinRaiseTarget] = useState("100");
+  const [minRaiseTarget, setMinRaiseTarget] = useState("100")
   const [minRaiseTargetEndDate, setMinRaiseTargetEndDate] = useState(
     moment(new Date()).add(1, "M")
-  );
-  const [prospectusBytes, setProspectusBytes] = useState([]);
+  )
+  const [prospectusBytes, setProspectusBytes] = useState([])
 
-  const [daoNameError, setDaoNameError] = useState("");
-  const [daoDescrError, setDaoDescrError] = useState("");
-  const [shareCountError, setShareCountError] = useState("");
-  const [sharePriceError, setSharePriceError] = useState("");
-  const [investorsShareError, setInvestorsShareError] = useState("");
-  const [sharesForInvestorsError, setSharesForInvestorsError] = useState("");
-  const [minInvestSharesError, setMinInvestSharesError] = useState("");
-  const [maxInvestSharesError, setMaxInvestSharesError] = useState("");
-  const [socialMediaUrlError, setSocialMediaUrlError] = useState("");
-  const [minRaiseTargetError, setMinRaiseTargetError] = useState("");
+  const [daoNameError, setDaoNameError] = useState("")
+  const [daoDescrError, setDaoDescrError] = useState("")
+  const [shareCountError, setShareCountError] = useState("")
+  const [sharePriceError, setSharePriceError] = useState("")
+  const [investorsShareError, setInvestorsShareError] = useState("")
+  const [sharesForInvestorsError, setSharesForInvestorsError] = useState("")
+  const [minInvestSharesError, setMinInvestSharesError] = useState("")
+  const [maxInvestSharesError, setMaxInvestSharesError] = useState("")
+  const [socialMediaUrlError, setSocialMediaUrlError] = useState("")
+  const [minRaiseTargetError, setMinRaiseTargetError] = useState("")
 
   const [minRaiseTargetEndDateError, setMinRaiseTargetEndDateError] =
-    useState("");
+    useState("")
 
-  const [imageError, setImageError] = useState("");
-  const [prospectusError, setProspectusError] = useState("");
+  const [imageError, setImageError] = useState("")
+  const [prospectusError, setProspectusError] = useState("")
 
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(false)
 
-  const router = useRouter();
+  const router = useRouter()
 
   const [showBuyCurrencyInfoModal, setShowBuyCurrencyInfoModal] =
-    useState(false);
-  const [showSelectWalletModal, setShowSelectWalletModal] = useState(false);
-  const [pendingSubmitDao, setSubmitDaoIntent] = useState(false);
+    useState(false)
+  const [showSelectWalletModal, setShowSelectWalletModal] = useState(false)
+  const [pendingSubmitDao, setSubmitDaoIntent] = useState(false)
 
-  const [totalSharePrice, setTotalSharePrice] = useState("");
+  const [totalSharePrice, setTotalSharePrice] = useState("")
 
   useEffect(() => {
     if (deps.wasm) {
-      calculateTotalPrice(
-        deps.wasm,
-        shareCount,
-        sharePrice,
-        setTotalSharePrice
-      );
+      calculateTotalPrice(deps.wasm, shareCount, sharePrice, setTotalSharePrice)
     }
-  }, [deps.wasm, shareCount, sharePrice]);
+  }, [deps.wasm, shareCount, sharePrice])
 
   useEffect(() => {
     async function nestedAsync() {
       if (deps.wallet && pendingSubmitDao && deps.myAddress) {
-        setSubmitDaoIntent(false);
+        setSubmitDaoIntent(false)
 
         await createDao(
           deps.wasm,
@@ -123,14 +118,14 @@ export const CreateDao = ({ deps }) => {
           setMinInvestSharesError,
           setMaxInvestSharesError,
           setShowBuyCurrencyInfoModal
-        );
+        )
       }
     }
-    nestedAsync();
+    nestedAsync()
     // TODO warning about missing deps here - we *don't* want to trigger this effect when inputs change,
     // we want to send whatever is in the form when user submits - so we care only about the conditions that trigger submit
     // suppress lint? are we approaching this incorrectly?
-  }, [pendingSubmitDao, deps.wallet, deps.myAddress]);
+  }, [pendingSubmitDao, deps.wallet, deps.myAddress])
 
   const formView = () => {
     return (
@@ -174,7 +169,7 @@ export const CreateDao = ({ deps }) => {
           label={"Share supply"}
           inputValue={shareCount}
           onChange={(input) => {
-            setShareCount(input);
+            setShareCount(input)
           }}
           errorMsg={shareCountError}
         />
@@ -204,7 +199,7 @@ export const CreateDao = ({ deps }) => {
               label={"Share price (unit)"}
               inputValue={sharePrice}
               onChange={(input) => {
-                setSharePrice(input);
+                setSharePrice(input)
               }}
               errorMsg={sharePriceError}
             />
@@ -269,16 +264,16 @@ export const CreateDao = ({ deps }) => {
             // if other dependencies are already present (connected wallet / address), an effect will trigger submit
             // if they're not, we start the wallet connection flow next (select wallet modal),
             // which sets these dependencies when finished, which triggers the effect too
-            setSubmitDaoIntent(true);
-            var myAddress = deps.myAddress;
+            setSubmitDaoIntent(true)
+            var myAddress = deps.myAddress
             if (myAddress === "") {
-              setShowSelectWalletModal(true);
+              setShowSelectWalletModal(true)
             }
           }}
         />
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <div>
@@ -298,5 +293,5 @@ export const CreateDao = ({ deps }) => {
         />
       )}
     </div>
-  );
-};
+  )
+}

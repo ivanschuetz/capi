@@ -1,5 +1,5 @@
-import { OkCancelModal } from "../modal/OkCancelModal";
-import { PdfView } from "./PdfView";
+import { OkCancelModal } from "../modal/OkCancelModal"
+import { PdfView } from "./PdfView"
 
 export const PdfModal = ({ url, onAccept, closeModal }) => {
   return (
@@ -11,5 +11,5 @@ export const PdfModal = ({ url, onAccept, closeModal }) => {
     >
       <PdfView url={url} />
     </OkCancelModal>
-  );
-};
+  )
+}

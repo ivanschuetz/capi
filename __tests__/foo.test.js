@@ -1,6 +1,6 @@
-var cp = require("child_process");
+var cp = require("child_process")
 
-const scriptsDir = ".scripts";
+const scriptsDir = ".scripts"
 
 // jest.setTimeout(100000);
 // jest.useRealTimers();
@@ -8,39 +8,39 @@ const scriptsDir = ".scripts";
 test("script", (done) => {
   resetSandbox(() =>
     foundAccounts(() => {
-      console.log("finish!");
-      done();
+      console.log("finish!")
+      done()
     })
-  );
-}, 200000);
+  )
+}, 200000)
 
 const resetSandbox = (onDone) => {
-  const script = cp.exec(`${scriptsDir}/sandbox_dev_reset.sh`);
+  const script = cp.exec(`${scriptsDir}/sandbox_dev_reset.sh`)
   script.stdout.on("data", (data) => {
     // console.log("stdout: " + data);
     if (isResetFinished(data)) {
-      console.log("Sandbox reset finished!");
-      onDone();
+      console.log("Sandbox reset finished!")
+      onDone()
     }
-  });
+  })
   script.stderr.on("data", (data) => {
     // console.error("stderr: " + data);
-  });
-};
+  })
+}
 
 const foundAccounts = (onDone) => {
-  console.log("Will call fund accounts script..");
-  const script = cp.exec(`${scriptsDir}/fund_accounts_sandbox.sh`);
+  console.log("Will call fund accounts script..")
+  const script = cp.exec(`${scriptsDir}/fund_accounts_sandbox.sh`)
   script.stdout.on("data", (data) => {
-    console.log("stdout: " + data);
+    console.log("stdout: " + data)
     if (isFundFinished(data)) {
-      onDone();
+      onDone()
     }
-  });
+  })
   script.stderr.on("data", (data) => {
-    console.error("stderr: " + data);
-  });
-};
+    console.error("stderr: " + data)
+  })
+}
 
 const isResetFinished = (data) => {
   // this is a string that appears in the last log message
@@ -50,16 +50,16 @@ const isResetFinished = (data) => {
       `Soon after sending the transaction it will appear in indexer`
     )
   ) {
-    console.log("found the last log message (reset)!");
-    return true;
+    console.log("found the last log message (reset)!")
+    return true
   }
-  return false;
-};
+  return false
+}
 
 const isFundFinished = (data) => {
   if (data.includes(`done!`)) {
-    console.log("found the last log message (funding)!");
-    return true;
+    console.log("found the last log message (funding)!")
+    return true
   }
-  return false;
-};
+  return false
+}

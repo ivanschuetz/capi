@@ -1,29 +1,29 @@
-import React from "react";
+import React from "react"
 
 export const HolderEntry = ({ entry, isSelected, col }) => {
   if (entry.type_ === "holder") {
-    return holderEntry(entry, isSelected, col);
+    return holderEntry(entry, isSelected, col)
   } else if (entry.type_ === "not_owned") {
-    return notOwnedEntry(entry, isSelected);
+    return notOwnedEntry(entry, isSelected)
   }
-};
+}
 
 const holderEntry = (entry, isSelected, col) => {
   return (
     <a href={entry.address_browser_link} target="_blank" rel="noreferrer">
       {entryBody(entry, isSelected, col)}
     </a>
-  );
-};
+  )
+}
 
 const notOwnedEntry = (entry, isSelected) => {
-  return entryBody(entry, isSelected);
-};
+  return entryBody(entry, isSelected)
+}
 
 const entryBody = (entry, isSelected, col) => {
-  var containerClasses = "holder_item__container";
+  var containerClasses = "holder_item__container"
   if (isSelected) {
-    containerClasses = containerClasses + " selected";
+    containerClasses = containerClasses + " selected"
   }
   return (
     <div className={containerClasses}>
@@ -41,5 +41,5 @@ const entryBody = (entry, isSelected, col) => {
       </div>
       <div className="grey-190">{entry.label}</div>
     </div>
-  );
-};
+  )
+}

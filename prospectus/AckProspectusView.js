@@ -1,4 +1,4 @@
-import { ProspectusView } from "./ProspectusView";
+import { ProspectusView } from "./ProspectusView"
 
 export const AckProspectusView = ({ deps, url, hash }) => {
   return (
@@ -10,5 +10,5 @@ export const AckProspectusView = ({ deps, url, hash }) => {
         }
       </div>
     </div>
-  );
-};
+  )
+}

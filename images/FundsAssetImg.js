@@ -19,5 +19,5 @@ export const FundsAssetImg = ({ className }) => {
         fill="#fff"
       />
     </svg>
-  );
-};
+  )
+}

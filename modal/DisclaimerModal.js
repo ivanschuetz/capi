@@ -1,4 +1,4 @@
-import { OkCancelModal } from "../modal/OkCancelModal";
+import { OkCancelModal } from "../modal/OkCancelModal"
 
 export const DisclaimerModal = ({ closeModal, onAccept }) => {
   return (
@@ -105,5 +105,5 @@ export const DisclaimerModal = ({ closeModal, onAccept }) => {
         </ol>
       </div>
     </OkCancelModal>
-  );
-};
+  )
+}

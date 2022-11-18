@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "next/link"
 
 export const DaoName = (props) => {
   return (
@@ -6,13 +6,13 @@ export const DaoName = (props) => {
       <Link href={props.dao.dao_link}>{props.dao.name}</Link>
       {props.children}
     </div>
-  );
-};
+  )
+}
 
 export const ContentTitle = ({ title, children }) => {
   return (
     <div id="content__title">
       {title} {children}
     </div>
-  );
-};
+  )
+}

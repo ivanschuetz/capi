@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from "react";
-import Link from "next/link";
-import { loadDao } from "../controller/funds_activity";
-import funds from "../images/funds.svg";
-import { changeArrow, shortedAddress } from "../functions/utils";
-import CopyPasteText from "../components/CopyPastText";
-import { CompactFundsActivityEntry } from "./CompactFundsActivityEntry";
-import Progress from "../components/Progress";
+import React, { useEffect, useState } from "react"
+import Link from "next/link"
+import { loadDao } from "../controller/funds_activity"
+import funds from "../images/funds.svg"
+import { changeArrow, shortedAddress } from "../functions/utils"
+import CopyPasteText from "../components/CopyPastText"
+import { CompactFundsActivityEntry } from "./CompactFundsActivityEntry"
+import Progress from "../components/Progress"
 
 export const FundsActivityEmbedded = ({ deps, daoId }) => {
-  const [dao, setDao] = useState(null);
+  const [dao, setDao] = useState(null)
 
   useEffect(() => {
     if (deps.wasm) {
       // TODO use dao in deps? - might need to call update
-      loadDao(deps.wasm, deps.statusMsg, daoId, setDao);
+      loadDao(deps.wasm, deps.statusMsg, daoId, setDao)
     }
-  }, [deps.wasm, daoId, deps.statusMsg]);
+  }, [deps.wasm, daoId, deps.statusMsg])
 
   useEffect(() => {
-    deps.updateCompactFundsActivity.call(null, daoId);
-  }, [deps.updateCompactFundsActivity, daoId]);
+    deps.updateCompactFundsActivity.call(null, daoId)
+  }, [deps.updateCompactFundsActivity, daoId])
 
   const hasEntries = () => {
-    return deps.compactFundsActivity && deps.compactFundsActivity.length > 0;
-  };
+    return deps.compactFundsActivity && deps.compactFundsActivity.length > 0
+  }
 
   const fundsActivity = () => {
     if (deps.compactFundsActivity) {
@@ -38,14 +38,14 @@ export const FundsActivityEmbedded = ({ deps, daoId }) => {
               />
             ))}
           </div>
-        );
+        )
       } else {
-        return null;
+        return null
       }
     } else {
-      return <Progress />;
+      return <Progress />
     }
-  };
+  }
 
   const box = () => {
     return (
@@ -86,16 +86,16 @@ export const FundsActivityEmbedded = ({ deps, daoId }) => {
           </div>
         )}
       </div>
-    );
-  };
+    )
+  }
 
   const view = () => {
     if (deps.funds || dao || hasEntries()) {
-      return box();
+      return box()
     } else {
-      return null;
+      return null
     }
-  };
+  }
 
-  return <div>{view()}</div>;
-};
+  return <div>{view()}</div>
+}

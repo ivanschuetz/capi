@@ -1,178 +1,179 @@
 @import "global_vars";
 
 .sidebar-container {
-    width: 200px;
-    color: $grey-190;
+  width: 200px;
+  color: $grey-190;
+  display: flex;
+  flex-direction: column;
+  gap: 34px;
+  flex-shrink: 0;
+
+  .logo-container {
     display: flex;
-    flex-direction: column;
-    gap: 34px;
-    flex-shrink: 0;
+    justify-content: center;
+    width: 70px;
+    height: 30px;
 
-    .logo-container {
-        display: flex;
-        justify-content: center;
-        width: 70px;
-        height: 30px;
-
-        img {
-            margin: auto;
-            width: 100%;
-        }
+    img {
+      margin: auto;
+      width: 100%;
     }
+  }
 
-    .dividing-line {
-        width: 80%;
-        height: 1px;
-        background-color: $grey-120;
-    }
+  .dividing-line {
+    width: 80%;
+    height: 1px;
+    background-color: $grey-120;
+  }
 
-    a {
-        color: $grey-190;
-    }
+  a {
+    color: $grey-190;
+  }
 
-    a:hover,
-    a.menu_active {
-        color: $cyan-20;
-        font-weight: 700;
-        transition: 0.2s;
-    }
+  a:hover,
+  a.menu_active {
+    color: $cyan-20;
+    font-weight: 700;
+    transition: 0.2s;
+  }
 
-    a:hover img,
-    a.menu_active > * > img {
-        transition: 0.2s;
-        filter: invert(70%) sepia(14%) saturate(980%) hue-rotate(134deg) brightness(94%) contrast(93%);
-    }
+  a:hover img,
+  a.menu_active > * > img {
+    transition: 0.2s;
+    filter: invert(70%) sepia(14%) saturate(980%) hue-rotate(134deg)
+      brightness(94%) contrast(93%);
+  }
 
-    .sidebar-item {
-        display: flex;
-        align-items: center;
-        cursor: pointer;
-        gap: 12px;
-
-        .settings-dot {
-            width: 12px;
-            height: 12px;
-            border-radius: 50%;
-            background-color: $red-10;
-            font-size: 8px;
-            color: $white;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-left: 10px;
-        }
-
-        img {
-            width: 20px;
-        }
-    }
-}
-
-.mob_nav_bar {
-    background-color: $white;
-    width: 100%;
+  .sidebar-item {
     display: flex;
     align-items: center;
-    position: fixed;
-    top: 0;
-    height: 60px;
-    padding: 0 42px;
-    z-index: 2000;
-    justify-content: space-between;
+    cursor: pointer;
+    gap: 12px;
 
-    a {
-        display: flex;
-        align-items: center;
+    .settings-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      background-color: $red-10;
+      font-size: 8px;
+      color: $white;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      margin-left: 10px;
     }
 
     img {
-        cursor: pointer;
+      width: 20px;
     }
+  }
+}
+
+.mob_nav_bar {
+  background-color: $white;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  position: fixed;
+  top: 0;
+  height: 60px;
+  padding: 0 42px;
+  z-index: 2000;
+  justify-content: space-between;
+
+  a {
+    display: flex;
+    align-items: center;
+  }
+
+  img {
+    cursor: pointer;
+  }
 }
 
 #mob_nav_bar_overlay {
-    width: 100%;
-    height: 100%;
-    z-index: 3000;
-    backdrop-filter: brightness(60%);
-    height: 100%;
-    position: fixed;
-    left: 0;
-    top: 0;
-    overflow-x: hidden;
-    cursor: pointer;
+  width: 100%;
+  height: 100%;
+  z-index: 3000;
+  backdrop-filter: brightness(60%);
+  height: 100%;
+  position: fixed;
+  left: 0;
+  top: 0;
+  overflow-x: hidden;
+  cursor: pointer;
 }
 
 @media only screen and (max-width: $tablet-max-width) {
-    .sidebar-container {
-        width: 250px;
-        height: 100vh;
-        position: fixed;
-        top: 0;
-        left: 0;
-        z-index: 10000;
-        background-color: $white;
-        padding: 16px 40px;
-        backdrop-filter: brightness(60%);
+  .sidebar-container {
+    width: 250px;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10000;
+    background-color: $white;
+    padding: 16px 40px;
+    backdrop-filter: brightness(60%);
 
-        .dividing-line {
-            width: 100%;
-        }
-
-        .settings {
-            border-top: 1px solid $grey-120;
-            padding-top: 32px;
-            margin-top: 0;
-        }
+    .dividing-line {
+      width: 100%;
     }
 
-    .sidebar-container {
-        animation-name: sidebar;
-        animation-duration: 0.3s;
-        transform: translateX(-100%);
-        animation-fill-mode: forwards;
-        overflow-y: hidden;
+    .settings {
+      border-top: 1px solid $grey-120;
+      padding-top: 32px;
+      margin-top: 0;
     }
+  }
 
-    .sidebar-container-closing {
-        animation-name: sidebarClosing;
-        animation-duration: 0.3s;
-        transform: translateX(0%);
-        animation-fill-mode: forwards;
-        overflow-y: hidden;
-    }
+  .sidebar-container {
+    animation-name: sidebar;
+    animation-duration: 0.3s;
+    transform: translateX(-100%);
+    animation-fill-mode: forwards;
+    overflow-y: hidden;
+  }
 
-    @keyframes sidebar {
-        100% {
-            transform: translateX(0%);
-        }
-    }
+  .sidebar-container-closing {
+    animation-name: sidebarClosing;
+    animation-duration: 0.3s;
+    transform: translateX(0%);
+    animation-fill-mode: forwards;
+    overflow-y: hidden;
+  }
 
-    @keyframes sidebarClosing {
-        100% {
-            transform: translateX(-100%);
-        }
+  @keyframes sidebar {
+    100% {
+      transform: translateX(0%);
     }
+  }
+
+  @keyframes sidebarClosing {
+    100% {
+      transform: translateX(-100%);
+    }
+  }
 }
 
 @media only screen and (max-width: $mobile-max-width) {
-    .mob_nav_bar {
-        height: 68px;
-    }
+  .mob_nav_bar {
+    height: 68px;
+  }
 
-    .sidebar-container {
-        width: 100%;
-        top: 68px;
-        padding: 20px;
-        z-index: 1900;
+  .sidebar-container {
+    width: 100%;
+    top: 68px;
+    padding: 20px;
+    z-index: 1900;
 
-        .logo-container {
-            display: none;
-        }
+    .logo-container {
+      display: none;
     }
+  }
 
-    #mob_nav_bar_overlay {
-        backdrop-filter: none;
-        display: none;
-    }
+  #mob_nav_bar_overlay {
+    backdrop-filter: none;
+    display: none;
+  }
 }

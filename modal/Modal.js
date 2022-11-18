@@ -1,23 +1,23 @@
-import React, { useEffect, useState } from "react";
-import ReactDOM from "react-dom";
-import close from "../images/svg/close.svg";
-import styles from "./modal.module.sass";
+import React, { useEffect, useState } from "react"
+import ReactDOM from "react-dom"
+import close from "../images/svg/close.svg"
+import styles from "./modal.module.sass"
 
-const modalContainerId = "modal_container";
+const modalContainerId = "modal_container"
 
 export const Modal = ({ title, children, onClose }) => {
-  const [isBrowser, setIsBrowser] = useState(false);
+  const [isBrowser, setIsBrowser] = useState(false)
 
   useEffect(() => {
-    setIsBrowser(true);
-  }, []);
+    setIsBrowser(true)
+  }, [])
 
   // close with click on bg
   const onModalClick = (event) => {
     if (event.target === document.querySelector(`#${modalContainerId}`)) {
-      onClose();
+      onClose()
     }
-  };
+  }
 
   const view = (
     <div className="modal" onClick={onModalClick}>
@@ -31,13 +31,13 @@ export const Modal = ({ title, children, onClose }) => {
         <div className="modal-body">{children}</div>
       </div>
     </div>
-  );
+  )
 
   if (isBrowser) {
-    return ReactDOM.createPortal(view, document.getElementById("modal_root"));
+    return ReactDOM.createPortal(view, document.getElementById("modal_root"))
   } else {
-    return null;
+    return null
   }
-};
+}
 
-export default Modal;
+export default Modal

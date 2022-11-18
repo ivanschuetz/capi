@@ -9,18 +9,18 @@ export const startBuyCurrencyFlow = async (
       address: deps.myAddress,
       dst_currency: dstCurrency,
       dst_amount: dstAmount,
-    });
+    })
 
     // TODO return only reservation in rust - we don't use url
-    openWyreCheckoutDialog(deps, reserveWyreRes.reservation, closeModal);
+    openWyreCheckoutDialog(deps, reserveWyreRes.reservation, closeModal)
   } catch (e) {
-    deps.statusMsg.error(e);
+    deps.statusMsg.error(e)
   }
-};
+}
 
 // see https://docs.sendwyre.com/docs/checkout-hosted-dialog
 const openWyreCheckoutDialog = (deps, reservation, closeModal) => {
-  const Wyre = window.Wyre;
+  const Wyre = window.Wyre
 
   // debit card popup
   // note: currently lists credit / debit and Apple Pay on Safari
@@ -32,15 +32,15 @@ const openWyreCheckoutDialog = (deps, reservation, closeModal) => {
     operation: {
       type: "debitcard-hosted-dialog",
     },
-  });
+  })
 
   widget.on("paymentSuccess", function (e) {
-    console.log("paymentSuccess", e);
-    deps.statusMsg.success("Account funded");
+    console.log("paymentSuccess", e)
+    deps.statusMsg.success("Account funded")
     // note that we don't refresh the view as it doesn't show algos
     // will do when we buy stables
-  });
+  })
 
-  widget.open();
-  closeModal();
-};
+  widget.open()
+  closeModal()
+}

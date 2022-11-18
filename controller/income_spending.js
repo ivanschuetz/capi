@@ -1,5 +1,5 @@
 export const fetchIncomeSpendingChartData = async (
-    wasm,
+  wasm,
   statusMsg,
   daoId,
   interval
@@ -8,11 +8,11 @@ export const fetchIncomeSpendingChartData = async (
     let res = await wasm.bridge_income_vs_spending({
       dao_id: daoId,
       interval: interval,
-    });
-    console.log("Income and spending chart: %o", res);
-    return res;
+    })
+    console.log("Income and spending chart: %o", res)
+    return res
   } catch (e) {
-    statusMsg.error(e);
-    return null;
+    statusMsg.error(e)
+    return null
   }
-};
+}

@@ -1,8 +1,8 @@
-import { SubmitButton } from "../components/SubmitButton";
-import useScript from "../hooks/useScript";
+import { SubmitButton } from "../components/SubmitButton"
+import useScript from "../hooks/useScript"
 
 export const BuyCurrencyInfoView = ({ closeModal, children, onSubmit }) => {
-  useScript("https://verify.sendwyre.com/js/verify-module-init-beta.js");
+  useScript("https://verify.sendwyre.com/js/verify-module-init-beta.js")
 
   return (
     <div>
@@ -20,5 +20,5 @@ export const BuyCurrencyInfoView = ({ closeModal, children, onSubmit }) => {
         />
       </div>
     </div>
-  );
-};
+  )
+}

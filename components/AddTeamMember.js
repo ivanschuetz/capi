@@ -1,8 +1,8 @@
-import { useState } from "react";
-import { LabeledInput, LabeledTextArea } from "./labeled_inputs";
-import { SubmitButton } from "./SubmitButton";
-import { addTeamMember } from "../controller/team";
-import { useDaoId } from "../hooks/useDaoId";
+import { useState } from "react"
+import { LabeledInput, LabeledTextArea } from "./labeled_inputs"
+import { SubmitButton } from "./SubmitButton"
+import { addTeamMember } from "../controller/team"
+import { useDaoId } from "../hooks/useDaoId"
 
 export const AddTeamMember = ({
   deps,
@@ -11,21 +11,21 @@ export const AddTeamMember = ({
   setTeam,
   onAdded,
 }) => {
-  let daoId = useDaoId();
+  let daoId = useDaoId()
 
-  const [name, setName] = useState(prefillData.name);
-  const [role, setRole] = useState(prefillData.role);
-  const [descr, setDescr] = useState(prefillData.descr);
-  const [picture, setPicture] = useState(prefillData.picture);
-  const [social, setSocial] = useState(prefillData.social);
+  const [name, setName] = useState(prefillData.name)
+  const [role, setRole] = useState(prefillData.role)
+  const [descr, setDescr] = useState(prefillData.descr)
+  const [picture, setPicture] = useState(prefillData.picture)
+  const [social, setSocial] = useState(prefillData.social)
 
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(false)
 
-  const [nameError, setNameError] = useState("");
-  const [roleError, setRoleError] = useState("");
-  const [descrError, setDescrError] = useState("");
-  const [pictureError, setPictureError] = useState("");
-  const [socialError, setSocialError] = useState("");
+  const [nameError, setNameError] = useState("")
+  const [roleError, setRoleError] = useState("")
+  const [descrError, setDescrError] = useState("")
+  const [pictureError, setPictureError] = useState("")
+  const [socialError, setSocialError] = useState("")
 
   const contentView = () => {
     return (
@@ -73,8 +73,8 @@ export const AddTeamMember = ({
           onClick={async () => {
             if (!deps.wasm) {
               // should be unlikely, as wasm should initialize quickly
-              console.error("Click while wasm isn't ready. Ignoring.");
-              return;
+              console.error("Click while wasm isn't ready. Ignoring.")
+              return
             }
 
             await addTeamMember(
@@ -102,18 +102,18 @@ export const AddTeamMember = ({
               setDescrError,
               setPictureError,
               setSocialError
-            );
+            )
 
-            onAdded();
+            onAdded()
           }}
         />
       </div>
-    );
-  };
+    )
+  }
 
   if (deps.myAddress) {
-    return contentView();
+    return contentView()
   } else {
-    return null;
+    return null
   }
-};
+}

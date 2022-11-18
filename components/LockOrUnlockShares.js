@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { SubmitButton } from "./SubmitButton";
-import { SharesDistributionChart } from "../shares_distribution_chart/SharesDistributionChart";
-import { LabeledAmountInput, wrapWithInfoView } from "./labeled_inputs";
-import { pieChartColors } from "../functions/utils";
-import redArrow from "../images/svg/arrow.svg";
+import React, { useState } from "react"
+import { SubmitButton } from "./SubmitButton"
+import { SharesDistributionChart } from "../shares_distribution_chart/SharesDistributionChart"
+import { LabeledAmountInput, wrapWithInfoView } from "./labeled_inputs"
+import { pieChartColors } from "../functions/utils"
+import redArrow from "../images/svg/arrow.svg"
 
 export const LockOrUnlockShares = ({
   dao,
@@ -16,8 +16,8 @@ export const LockOrUnlockShares = ({
   // parameter: input (can be null if there's no input element or input text)
   onSubmit,
 }) => {
-  const [input, setInput] = useState(null);
-  const [inputError, setInputError] = useState(null);
+  const [input, setInput] = useState(null)
+  const [inputError, setInputError] = useState(null)
 
   const submitButton = () => {
     return (
@@ -27,29 +27,29 @@ export const LockOrUnlockShares = ({
         className="button-primary"
         isLoading={submitting}
         onClick={async () => {
-          onSubmit(input, setInputError);
+          onSubmit(input, setInputError)
         }}
       />
-    );
-  };
+    )
+  }
 
   const submitButtonWithMaybeTooltip = () => {
-    const button = submitButton();
+    const button = submitButton()
     if (dao.funds_raised === "true") {
-      return button;
+      return button
     } else if (dao.funds_raised === "false") {
       return wrapWithInfoView(
         "You can't unlock or lock shares before the funds raising phase is finished",
         button
-      );
+      )
     } else {
       console.error(
         "Invalid state: funds raised should be true or false: %o",
         dao.funds_raised
-      );
-      return null;
+      )
+      return null
     }
-  };
+  }
 
   const view = () => {
     return (
@@ -137,12 +137,12 @@ export const LockOrUnlockShares = ({
           />
         </div>
       </div>
-    );
-  };
+    )
+  }
 
-  return <div>{dao && investmentData && view()}</div>;
-};
+  return <div>{dao && investmentData && view()}</div>
+}
 
 const to_pie_chart_slice = (percentage) => {
-  return { percentage_number: percentage };
-};
+  return { percentage_number: percentage }
+}

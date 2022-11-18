@@ -1,12 +1,12 @@
-import twitter from "../images/svg/twitter.svg";
-import share from "../images/svg/share.svg";
-import Modal from "../modal/Modal";
-import ShareView from "./ShareView";
-import React, { useState } from "react";
-import Progress from "./Progress";
+import twitter from "../images/svg/twitter.svg"
+import share from "../images/svg/share.svg"
+import Modal from "../modal/Modal"
+import ShareView from "./ShareView"
+import React, { useState } from "react"
+import Progress from "./Progress"
 
 export const DaoTop = ({ dao }) => {
-  const [showShareModal, setShowShareModal] = useState(false);
+  const [showShareModal, setShowShareModal] = useState(false)
   return (
     <div>
       <div>{LogoView(dao)}</div>
@@ -37,11 +37,11 @@ export const DaoTop = ({ dao }) => {
         </Modal>
       )}
     </div>
-  );
-};
+  )
+}
 
 const LogoView = (dao) => {
-  const [imgLoaded, setImageLoaded] = useState(false);
+  const [imgLoaded, setImageLoaded] = useState(false)
   return (
     dao.image_url && (
       <div className="content-img-container">
@@ -54,9 +54,9 @@ const LogoView = (dao) => {
         />
       </div>
     )
-  );
-};
+  )
+}
 
 const projectUrl = (daoId) => {
-  return window.location.protocol + "//" + window.location.host + "/" + daoId;
-};
+  return window.location.protocol + "//" + window.location.host + "/" + daoId
+}

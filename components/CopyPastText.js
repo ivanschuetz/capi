@@ -1,6 +1,6 @@
-import React from "react";
-import { CopyToClipboard } from "react-copy-to-clipboard";
-import myalgo from "../images/svg/myalgo.svg";
+import React from "react"
+import { CopyToClipboard } from "react-copy-to-clipboard"
+import myalgo from "../images/svg/myalgo.svg"
 // import checkmark from "../images/svg/checkmark.svg";
 
 const CopyPasteText = ({ statusMsg, text, copyText: copyTextOpt, copyMsg }) => {
@@ -11,20 +11,20 @@ const CopyPasteText = ({ statusMsg, text, copyText: copyTextOpt, copyMsg }) => {
       statusMsg={statusMsg}
       copyMsg={copyMsg}
     />
-  );
-};
+  )
+}
 
-export default CopyPasteText;
+export default CopyPasteText
 
 export const CopyPasteHtml = ({ statusMsg, element, copyText, copyMsg }) => {
   //   const [isCopied, _setIsCopied] = useState(false);
-  const isCopied = false;
+  const isCopied = false
 
   const onCopy = () => {
     if (copyMsg) {
-      statusMsg.success(copyMsg, true);
+      statusMsg.success(copyMsg, true)
     }
-  };
+  }
 
   return (
     <CopyToClipboard text={copyText} onCopy={onCopy}>
@@ -41,8 +41,8 @@ export const CopyPasteHtml = ({ statusMsg, element, copyText, copyMsg }) => {
         </span>
       </div>
     </CopyToClipboard>
-  );
-};
+  )
+}
 
 export const CopyPasteCompleteText = ({ text, copyText: copyTextOpt }) => {
   return (
@@ -50,8 +50,8 @@ export const CopyPasteCompleteText = ({ text, copyText: copyTextOpt }) => {
       element={<div className="grey-190">{text}</div>}
       copyText={copyTextOpt ?? text}
     />
-  );
-};
+  )
+}
 
 export const CopyPasteCompleteHtml = ({ element, copyText }) => {
   return (
@@ -60,5 +60,5 @@ export const CopyPasteCompleteHtml = ({ element, copyText }) => {
         <span>{element}</span>
       </div>
     </CopyToClipboard>
-  );
-};
+  )
+}

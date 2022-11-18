@@ -1,10 +1,10 @@
-import useScript from "../hooks/useScript";
-import { OkCancelModal } from "../modal/OkCancelModal";
-import { BuyFundsAssetContent } from "./BuyFundsAssetContent";
-import { startBuyCurrencyFlow } from "./controller";
+import useScript from "../hooks/useScript"
+import { OkCancelModal } from "../modal/OkCancelModal"
+import { BuyFundsAssetContent } from "./BuyFundsAssetContent"
+import { startBuyCurrencyFlow } from "./controller"
 
 export const BuyFundsAssetModal = ({ deps, amount, closeModal }) => {
-  useScript("https://verify.sendwyre.com/js/verify-module-init-beta.js");
+  useScript("https://verify.sendwyre.com/js/verify-module-init-beta.js")
 
   return (
     <OkCancelModal
@@ -14,5 +14,5 @@ export const BuyFundsAssetModal = ({ deps, amount, closeModal }) => {
     >
       <BuyFundsAssetContent />
     </OkCancelModal>
-  );
-};
+  )
+}

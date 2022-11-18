@@ -1,13 +1,13 @@
-import SideBarItem from "./SideBarItem";
-import create from "../images/sidebar/create.svg";
-import project from "../images/sidebar/projects.svg";
-import logo from "../images/logo.svg";
-import { useState } from "react";
-import { DevSettingsModal } from "../dev_settings/DevSettingsModal";
-import { AppVersion } from "./AppVersion";
+import SideBarItem from "./SideBarItem"
+import create from "../images/sidebar/create.svg"
+import project from "../images/sidebar/projects.svg"
+import logo from "../images/logo.svg"
+import { useState } from "react"
+import { DevSettingsModal } from "../dev_settings/DevSettingsModal"
+import { AppVersion } from "./AppVersion"
 
 export const SideBar = ({ deps, containerClass }) => {
-  const [devSettingsModal, setDevSettingsModal] = useState(false);
+  const [devSettingsModal, setDevSettingsModal] = useState(false)
 
   return (
     <div className={containerClass}>
@@ -30,5 +30,5 @@ export const SideBar = ({ deps, containerClass }) => {
         <DevSettingsModal closeModal={() => setDevSettingsModal(false)} />
       )}
     </div>
-  );
-};
+  )
+}

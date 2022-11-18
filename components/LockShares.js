@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { lock } from "../controller/lock_shares";
-import { LockOrUnlockShares } from "./LockOrUnlockShares";
+import React, { useState } from "react"
+import { lock } from "../controller/lock_shares"
+import { LockOrUnlockShares } from "./LockOrUnlockShares"
 
 export const LockShares = ({ deps, dao, daoId, onLockOpt }) => {
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(false)
 
   return (
     <LockOrUnlockShares
@@ -17,8 +17,8 @@ export const LockShares = ({ deps, dao, daoId, onLockOpt }) => {
       onSubmit={async (input, setInputError) => {
         if (!deps.wasm) {
           // should be unlikely, as wasm should initialize quickly
-          console.error("Click while wasm isn't ready. Ignoring.");
-          return;
+          console.error("Click while wasm isn't ready. Ignoring.")
+          return
         }
 
         await lock(
@@ -36,8 +36,8 @@ export const LockShares = ({ deps, dao, daoId, onLockOpt }) => {
           input,
           onLockOpt,
           setInputError
-        );
+        )
       }}
     />
-  );
-};
+  )
+}

@@ -1,10 +1,10 @@
-import Modal from "../modal/Modal";
-import React, { useContext } from "react";
-import { AppContext } from "../context/App";
-import { ToastContainer } from "react-toastify";
+import Modal from "../modal/Modal"
+import React, { useContext } from "react"
+import { AppContext } from "../context/App"
+import { ToastContainer } from "react-toastify"
 
 export const AppContainer = ({ children }) => {
-  const { deps } = useContext(AppContext);
+  const { deps } = useContext(AppContext)
 
   return (
     <div>
@@ -24,5 +24,5 @@ export const AppContainer = ({ children }) => {
         <ToastContainer />
       </div>
     </div>
-  );
-};
+  )
+}

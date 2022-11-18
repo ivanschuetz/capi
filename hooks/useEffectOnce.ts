@@ -1,13 +1,13 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef } from "react"
 
 export default function useEffectOnce(f: () => void) {
-  const ref = useRef(true);
+  const ref = useRef(true)
   useEffect(() => {
     if (ref.current) {
-      f();
+      f()
     }
     return () => {
-      ref.current = false;
-    };
-  }, [f]);
+      ref.current = false
+    }
+  }, [f])
 }

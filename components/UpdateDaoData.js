@@ -1,54 +1,54 @@
-import React, { useEffect, useState } from "react";
-import { SubmitButton } from "./SubmitButton";
+import React, { useEffect, useState } from "react"
+import { SubmitButton } from "./SubmitButton"
 import {
   LabeledAmountInput,
   LabeledInput,
   LabeledTextArea,
   ValidationMsg,
-} from "./labeled_inputs";
+} from "./labeled_inputs"
 import {
   prefillInputs,
   rekeyOwner,
   updateDaoData,
-} from "../controller/update_app";
-import { ImageUpload } from "./ImageUpload";
-import { OkCancelModal } from "../modal/OkCancelModal";
-import { FileUploader } from "./FileUploader";
-import { ProspectusModal } from "../prospectus/ProspectusModal";
-import { useDaoId } from "../hooks/useDaoId";
+} from "../controller/update_app"
+import { ImageUpload } from "./ImageUpload"
+import { OkCancelModal } from "../modal/OkCancelModal"
+import { FileUploader } from "./FileUploader"
+import { ProspectusModal } from "../prospectus/ProspectusModal"
+import { useDaoId } from "../hooks/useDaoId"
 
 export const UpdateDaoData = ({ deps }) => {
-  const daoId = useDaoId();
+  const daoId = useDaoId()
 
-  const [daoName, setDaoName] = useState("");
-  const [daoDescr, setDaoDescr] = useState("");
-  const [sharePrice, setSharePrice] = useState("");
-  const [imageBytes, setImageBytes] = useState(null);
-  const [socialMediaUrl, setSocialMediaUrl] = useState("");
-  const [minInvestShares, setMinInvestShares] = useState("");
-  const [maxInvestShares, setMaxInvestShares] = useState("");
+  const [daoName, setDaoName] = useState("")
+  const [daoDescr, setDaoDescr] = useState("")
+  const [sharePrice, setSharePrice] = useState("")
+  const [imageBytes, setImageBytes] = useState(null)
+  const [socialMediaUrl, setSocialMediaUrl] = useState("")
+  const [minInvestShares, setMinInvestShares] = useState("")
+  const [maxInvestShares, setMaxInvestShares] = useState("")
 
   // prefill-only (new url and hash are only generated when submitting and not set here), thus prefill prefix
-  const [prefillProspectus, setPrefillProspectus] = useState([]);
+  const [prefillProspectus, setPrefillProspectus] = useState([])
   // the bytes of prospectus uploaded - note that this is *not
-  const [prospectusBytes, setProspectusBytes] = useState([]);
+  const [prospectusBytes, setProspectusBytes] = useState([])
 
-  const [rekeyAuthAddress, setRekeyAuthAddress] = useState("");
-  const [submitting, setSubmitting] = useState(false);
+  const [rekeyAuthAddress, setRekeyAuthAddress] = useState("")
+  const [submitting, setSubmitting] = useState(false)
 
-  const [daoNameError, setDaoNameError] = useState("");
-  const [daoDescrError, setDaoDescrError] = useState("");
-  const [socialMediaUrlError, setSocialMediaUrlError] = useState("");
-  const [minInvestSharesError, setMinInvestSharesError] = useState("");
-  const [maxInvestSharesError, setMaxInvestSharesError] = useState("");
+  const [daoNameError, setDaoNameError] = useState("")
+  const [daoDescrError, setDaoDescrError] = useState("")
+  const [socialMediaUrlError, setSocialMediaUrlError] = useState("")
+  const [minInvestSharesError, setMinInvestSharesError] = useState("")
+  const [maxInvestSharesError, setMaxInvestSharesError] = useState("")
 
-  const [imageError, setImageError] = useState("");
-  const [prospectusError, setProspectusError] = useState("");
+  const [imageError, setImageError] = useState("")
+  const [prospectusError, setProspectusError] = useState("")
 
-  const [rekeyAddressError, setRekeyAddressError] = useState("");
+  const [rekeyAddressError, setRekeyAddressError] = useState("")
 
-  const [showConfirmRekeyModal, setShowConfirmRekeyModal] = useState(false);
-  const [showProspectusModal, setShowProspectusModal] = useState(false);
+  const [showConfirmRekeyModal, setShowConfirmRekeyModal] = useState(false)
+  const [showProspectusModal, setShowProspectusModal] = useState(false)
 
   useEffect(() => {
     async function prefill() {
@@ -65,11 +65,11 @@ export const UpdateDaoData = ({ deps }) => {
           setMinInvestShares,
           setMaxInvestShares,
           setPrefillProspectus
-        );
+        )
       }
     }
-    prefill();
-  }, [daoId, deps.statusMsg]);
+    prefill()
+  }, [daoId, deps.statusMsg])
 
   const body = () => {
     return (
@@ -174,7 +174,7 @@ export const UpdateDaoData = ({ deps }) => {
               setSocialMediaUrlError,
               setMinInvestSharesError,
               setMaxInvestSharesError
-            );
+            )
           }}
         />
         <div className="info">{"Ownership"}</div>
@@ -190,12 +190,12 @@ export const UpdateDaoData = ({ deps }) => {
           isLoading={submitting}
           disabled={!rekeyAuthAddress}
           onClick={async () => {
-            setShowConfirmRekeyModal(true);
+            setShowConfirmRekeyModal(true)
           }}
         />
       </div>
-    );
-  };
+    )
+  }
 
   return (
     <div>
@@ -215,8 +215,8 @@ export const UpdateDaoData = ({ deps }) => {
               daoId,
               rekeyAuthAddress,
               setRekeyAddressError
-            );
-            setShowConfirmRekeyModal(false);
+            )
+            setShowConfirmRekeyModal(false)
           }}
         >
           <div className="mb-32 line-height-1">
@@ -257,5 +257,5 @@ export const UpdateDaoData = ({ deps }) => {
         />
       )}
     </div>
-  );
-};
+  )
+}

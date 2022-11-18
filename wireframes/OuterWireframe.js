@@ -7,5 +7,5 @@ export const OuterWireframe = () => {
   // but it might be in the future, so leaving it
   // TODO nextjs routing
   //   return <Outlet />;
-  return <div />;
-};
+  return <div />
+}

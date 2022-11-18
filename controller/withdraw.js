@@ -1,18 +1,18 @@
 export const init = async (wasm, statusMsg, daoId, daoMaybe, setDao) => {
   try {
     // if we're loading via URL (instead of another page that passes the dao as parameter), fetch the dao
-    var dao = null;
+    var dao = null
     if (daoMaybe) {
-      dao = daoMaybe;
+      dao = daoMaybe
     } else {
-      dao = await wasm.bridge_load_dao(daoId);
+      dao = await wasm.bridge_load_dao(daoId)
     }
 
-    setDao(dao);
+    setDao(dao)
   } catch (e) {
-    statusMsg.error(e);
+    statusMsg.error(e)
   }
-};
+}
 
 export const withdraw = async (
   wasm,
@@ -29,37 +29,37 @@ export const withdraw = async (
   withdrawalDescr
 ) => {
   try {
-    statusMsg.clear();
+    statusMsg.clear()
 
-    showProgress(true);
+    showProgress(true)
     let withdrawRes = await wasm.bridge_withdraw({
       dao_id: daoId,
       sender: myAddress,
       withdrawal_amount: withdrawalAmount,
       description: withdrawalDescr,
-    });
+    })
     // TODO update list with returned withdrawals list
-    console.log("withdrawRes: " + JSON.stringify(withdrawRes));
-    showProgress(false);
+    console.log("withdrawRes: " + JSON.stringify(withdrawRes))
+    showProgress(false)
 
-    let withdrawResSigned = await wallet.signTxs(withdrawRes.to_sign);
-    console.log("withdrawResSigned: " + withdrawResSigned);
+    let withdrawResSigned = await wallet.signTxs(withdrawRes.to_sign)
+    console.log("withdrawResSigned: " + withdrawResSigned)
 
-    showProgress(true);
+    showProgress(true)
     let submitWithdrawRes = await wasm.bridge_submit_withdraw({
       txs: withdrawResSigned,
       pt: withdrawRes.pt,
-    });
+    })
 
-    console.log("submitWithdrawRes: " + JSON.stringify(submitWithdrawRes));
+    console.log("submitWithdrawRes: " + JSON.stringify(submitWithdrawRes))
 
-    statusMsg.success("Withdrawal request submitted");
-    showProgress(false);
+    statusMsg.success("Withdrawal request submitted")
+    showProgress(false)
 
-    await updateMyBalance(myAddress);
-    await updateFunds(daoId);
+    await updateMyBalance(myAddress)
+    await updateFunds(daoId)
   } catch (e) {
-    statusMsg.error(e);
-    showProgress(false);
+    statusMsg.error(e)
+    showProgress(false)
   }
-};
+}

@@ -1,30 +1,31 @@
-
 @font-face {
-    font-family: "Gilroy";
-    font-weight: 300;
-    src: local("Gilroy-Light"), url(../fonts/Gilroy-Light.otf) format("truetype");
+  font-family: "Gilroy";
+  font-weight: 300;
+  src: local("Gilroy-Light"), url(../fonts/Gilroy-Light.otf) format("truetype");
 }
 
 @font-face {
-    font-family: "Gilroy";
-    font-weight: 400;
-    src: local("Gilroy"), url(../fonts/Gilroy-Regular.woff) format("truetype");
+  font-family: "Gilroy";
+  font-weight: 400;
+  src: local("Gilroy"), url(../fonts/Gilroy-Regular.woff) format("truetype");
 }
 
 @font-face {
-    font-family: "Gilroy";
-    font-weight: 500;
-    src: local("Gilroy-Medium"), url(../fonts/Gilroy-Medium.woff2) format("truetype");
+  font-family: "Gilroy";
+  font-weight: 500;
+  src: local("Gilroy-Medium"),
+    url(../fonts/Gilroy-Medium.woff2) format("truetype");
 }
 
 @font-face {
-    font-family: "Gilroy";
-    font-weight: 600;
-    src: local("Gilroy-Semibold"), url(../fonts/Gilroy-Semibold.woff2) format("truetype");
+  font-family: "Gilroy";
+  font-weight: 600;
+  src: local("Gilroy-Semibold"),
+    url(../fonts/Gilroy-Semibold.woff2) format("truetype");
 }
 
 @font-face {
-    font-family: "Gilroy";
-    font-weight: 700;
-    src: local("Gilroy-Bold"), url(../fonts/Gilroy-Bold.woff) format("truetype");
+  font-family: "Gilroy";
+  font-weight: 700;
+  src: local("Gilroy-Bold"), url(../fonts/Gilroy-Bold.woff) format("truetype");
 }

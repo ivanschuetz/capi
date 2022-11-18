@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import renderPieChart from "../charts/renderPieChart";
+import React, { useEffect, useRef } from "react"
+import renderPieChart from "../charts/renderPieChart"
 
 // onAddressSelected has to return selected status, to highlight the segment
 export const SharesDistributionChart = ({
@@ -9,7 +9,7 @@ export const SharesDistributionChart = ({
   animated,
   disableClick,
 }) => {
-  const chart = useRef(null);
+  const chart = useRef(null)
 
   useEffect(() => {
     if (sharesDistr && chart.current) {
@@ -18,14 +18,14 @@ export const SharesDistributionChart = ({
         sharesDistr,
         (d) => d.percentage_number,
         (d) => {
-          return onAddressSelected(d.address);
+          return onAddressSelected(d.address)
         },
         col,
         animated,
         disableClick
-      );
+      )
     }
-  }, [onAddressSelected, sharesDistr, col, animated, disableClick]);
+  }, [onAddressSelected, sharesDistr, col, animated, disableClick])
 
-  return <svg className="pie_chart__svg" ref={chart} />;
-};
+  return <svg className="pie_chart__svg" ref={chart} />
+}

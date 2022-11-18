@@ -10,7 +10,7 @@ export const SubmitButton = ({
       className={`position-relative ${className}`}
       disabled={disabled}
       onClick={async () => {
-        onClick();
+        onClick()
       }}
     >
       <span className={isLoading ? "opacity-0" : ""}>{label}</span>
@@ -29,5 +29,5 @@ export const SubmitButton = ({
         </svg>
       )}
     </button>
-  );
-};
+  )
+}

@@ -1,5 +1,5 @@
-import { SubmitButton } from "../components/SubmitButton";
-import Modal from "./Modal";
+import { SubmitButton } from "../components/SubmitButton"
+import Modal from "./Modal"
 
 export const OkCancelModal = ({
   title,
@@ -27,5 +27,5 @@ export const OkCancelModal = ({
         </div>
       </div>
     </Modal>
-  );
-};
+  )
+}

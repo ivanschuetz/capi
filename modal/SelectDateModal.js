@@ -1,18 +1,18 @@
-import Modal from "./Modal";
-import Calendar from "react-calendar";
-import moment from "moment";
-import { SubmitButton } from "../components/SubmitButton";
-import { useState } from "react";
+import Modal from "./Modal"
+import Calendar from "react-calendar"
+import moment from "moment"
+import { SubmitButton } from "../components/SubmitButton"
+import { useState } from "react"
 
 // endDate, setEndDate: moment.js date (converted internally to/from regular date for calendar)
 export const SelectDateModal = ({ closeModal, endDate, setEndDate }) => {
-  const [newEndDate, setNewEndDate] = useState(endDate);
+  const [newEndDate, setNewEndDate] = useState(endDate)
 
   return (
     <Modal title={"Select end date"} onClose={() => closeModal()}>
       <Calendar
         onChange={(value) => {
-          setNewEndDate(moment(value)); // date -> moment
+          setNewEndDate(moment(value)) // date -> moment
         }}
         value={newEndDate.toDate()} // moment -> date
       />
@@ -21,8 +21,8 @@ export const SelectDateModal = ({ closeModal, endDate, setEndDate }) => {
           label={"Save"}
           className="button-primary"
           onClick={() => {
-            setEndDate(newEndDate);
-            closeModal();
+            setEndDate(newEndDate)
+            closeModal()
           }}
         />
         <SubmitButton
@@ -32,5 +32,5 @@ export const SelectDateModal = ({ closeModal, endDate, setEndDate }) => {
         />
       </div>
     </Modal>
-  );
-};
+  )
+}

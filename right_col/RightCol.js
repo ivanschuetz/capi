@@ -1,4 +1,4 @@
-import { MyAccount } from "../components/MyAccount";
+import { MyAccount } from "../components/MyAccount"
 
 export const RightCol = ({ deps }) => {
   return (
@@ -9,5 +9,5 @@ export const RightCol = ({ deps }) => {
         daoId={null}
       />
     </div>
-  );
-};
+  )
+}

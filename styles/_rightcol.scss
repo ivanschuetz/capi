@@ -2,162 +2,162 @@
 
 #rightcol,
 #rightcol-closing {
-    width: 420px;
-    flex-shrink: 0;
+  width: 420px;
+  flex-shrink: 0;
 
-    .my-account-container {
-        border: 1px solid $grey-100;
-        padding: 40px;
-        border-radius: $global-border-radius-m;
-        height: auto;
-        display: flex;
-        flex-direction: column;
-        gap: 24px;
+  .my-account-container {
+    border: 1px solid $grey-100;
+    padding: 40px;
+    border-radius: $global-border-radius-m;
+    height: auto;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
 
-        .text {
-            color: $grey-190;
-            font-weight: 700;
-            font-size: 24px;
-        }
+    .text {
+      color: $grey-190;
+      font-weight: 700;
+      font-size: 24px;
     }
+  }
 }
 
 .my_address {
-    margin-bottom: 24px;
-    display: flex;
-    justify-content: space-between;
+  margin-bottom: 24px;
+  display: flex;
+  justify-content: space-between;
 
-    .arrow {
-        width: 20px;
-        height: 18px;
-        margin-left: 6px;
-        cursor: pointer;
-    }
+  .arrow {
+    width: 20px;
+    height: 18px;
+    margin-left: 6px;
+    cursor: pointer;
+  }
 }
 
 .my_address > a {
-    color: $black;
-    font-size: 18px;
+  color: $black;
+  font-size: 18px;
 }
 
 #user_data {
-    display: flex;
-    flex-direction: column;
-    gap: 6px;
-    justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  justify-content: space-between;
 }
 
 #my_account_my_balance {
-    &__balance {
-        color: $grey-190;
-        display: flex;
-        align-items: center;
-        font-weight: 600;
-    }
+  &__balance {
+    color: $grey-190;
+    display: flex;
+    align-items: center;
+    font-weight: 600;
+  }
 }
 
 @media only screen and (max-width: $desktop-max-width) {
-    .first_dao_widget {
-        padding: 24px;
-        margin-top: 24px;
-    }
+  .first_dao_widget {
+    padding: 24px;
+    margin-top: 24px;
+  }
 
-    #rightcol {
-        width: 350px;
+  #rightcol {
+    width: 350px;
 
-        .my-account-container {
-            padding: 24px;
-        }
+    .my-account-container {
+      padding: 24px;
     }
+  }
 }
 
 @media only screen and (max-width: $tablet-max-width) {
-    #rightcol,
-    #rightcol-closing {
-        width: 100%;
-        min-width: auto;
-        position: fixed;
-        bottom: 0px;
-        z-index: 10000;
-        background-color: $white;
-        border-radius: 32px 32px 0 0;
-        border: 1px solid $grey-120;
-        transform: translateY(100%);
-        animation-name: wallet;
-        animation-duration: 0.3s;
-        animation-fill-mode: forwards;
+  #rightcol,
+  #rightcol-closing {
+    width: 100%;
+    min-width: auto;
+    position: fixed;
+    bottom: 0px;
+    z-index: 10000;
+    background-color: $white;
+    border-radius: 32px 32px 0 0;
+    border: 1px solid $grey-120;
+    transform: translateY(100%);
+    animation-name: wallet;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
 
-        .my-account-container {
-            border: none;
-            height: 350px;
+    .my-account-container {
+      border: none;
+      height: 350px;
 
-            .my-address {
-                width: 50%;
+      .my-address {
+        width: 50%;
 
-                .button-primary {
-                    width: 295px;
-                }
-            }
+        .button-primary {
+          width: 295px;
         }
+      }
     }
+  }
 
-    #rightcol-closing {
-        transform: translateY(0%);
-        animation-name: walletClose;
-        animation-duration: 0.3s;
-        animation-fill-mode: forwards;
-    }
+  #rightcol-closing {
+    transform: translateY(0%);
+    animation-name: walletClose;
+    animation-duration: 0.3s;
+    animation-fill-mode: forwards;
+  }
 
-    @keyframes wallet {
-        100% {
-            transform: translateY(0%);
-        }
+  @keyframes wallet {
+    100% {
+      transform: translateY(0%);
     }
+  }
 
-    @keyframes walletClose {
-        100% {
-            transform: translateY(100%);
-        }
+  @keyframes walletClose {
+    100% {
+      transform: translateY(100%);
     }
+  }
 }
 
 @media only screen and (max-width: $mobile-max-width) {
-    #rightcol,
-    #rightcol-closing {
-        bottom: auto;
-        top: 48px;
-        height: calc(100vh - 48px);
-        border: none;
-        z-index: 100;
-        transform: translateX(50%);
-        border-radius: 0;
+  #rightcol,
+  #rightcol-closing {
+    bottom: auto;
+    top: 48px;
+    height: calc(100vh - 48px);
+    border: none;
+    z-index: 100;
+    transform: translateX(50%);
+    border-radius: 0;
 
-        .my-account-container {
-            border-radius: 0;
+    .my-account-container {
+      border-radius: 0;
 
-            .text {
-                font-size: 32px;
-            }
+      .text {
+        font-size: 32px;
+      }
 
-            .my-address {
-                width: 100%;
+      .my-address {
+        width: 100%;
 
-                .button-primary {
-                    width: 100%;
-                }
-            }
+        .button-primary {
+          width: 100%;
         }
+      }
     }
+  }
 
-    @keyframes wallet {
-        100% {
-            transform: translateX(0%);
-        }
+  @keyframes wallet {
+    100% {
+      transform: translateX(0%);
     }
+  }
 
-    @keyframes walletClose {
-        100% {
-            transform: translateX(100%);
-        }
+  @keyframes walletClose {
+    100% {
+      transform: translateX(100%);
     }
+  }
 }

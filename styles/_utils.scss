@@ -5,7 +5,7 @@
 }
 
 .d-none {
-    display: none;
+  display: none;
 }
 
 .flex-column {
@@ -65,7 +65,7 @@
 }
 
 .clickable {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .s-16 {
@@ -170,55 +170,55 @@
 
 @media only screen and (min-width: $desktop-lg-min-width) {
   .d-desktop-none {
-      display: none;
+    display: none;
   }
 }
 
 @media only screen and (min-width: $tablet-min-width) {
-    .tablet-desktop-none {
-        display: none;
-    }
+  .tablet-desktop-none {
+    display: none;
+  }
 
-    .justify-between-tablet {
-      justify-content: space-between;
-    }
+  .justify-between-tablet {
+    justify-content: space-between;
+  }
 }
 
 @media only screen and (min-width: $tablet-min-width) and (max-width: $desktop-max-width) {
-    .d-tablet-none {
-        display: none;
-    }
+  .d-tablet-none {
+    display: none;
+  }
 
-    .d-tablet-block {
-        margin-top: 40px;
-        display: block;
-    }
+  .d-tablet-block {
+    margin-top: 40px;
+    display: block;
+  }
 }
 
 @media only screen and (min-width: $tablet-min-width) and (max-width: $tablet-max-width) {
-    .tablet-none {
-        display: none;
-    }
+  .tablet-none {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: $desktop-max-width) {
-    .d-tablet-mobile-none {
-        display: none;
-    }
+  .d-tablet-mobile-none {
+    display: none;
+  }
 }
 
 @media only screen and (max-width: $tablet-max-width) {
   .d-tablet-flex-column {
-      flex-direction: column;
+    flex-direction: column;
   }
 }
 
 @media only screen and (max-width: $mobile-max-width) {
   .d-mobile-block {
-      display: block;
+    display: block;
   }
 
   .d-mobile-none {
-      display: none;
+    display: none;
   }
 }

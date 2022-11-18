@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import { SubmitButton } from "./SubmitButton";
-import twitter from "../images/svg/twitter.svg";
-import { getTeam } from "../controller/team";
-import { ContentTitle } from "./ContentTitle";
-import { AddTeamMember } from "./AddTeamMember";
+import React, { useEffect, useState } from "react"
+import { SubmitButton } from "./SubmitButton"
+import twitter from "../images/svg/twitter.svg"
+import { getTeam } from "../controller/team"
+import { ContentTitle } from "./ContentTitle"
+import { AddTeamMember } from "./AddTeamMember"
 
 export const Team = ({ deps }) => {
-  const [team, setTeam] = useState([]);
-  const [isAdding, setIsAdding] = useState(false);
+  const [team, setTeam] = useState([])
+  const [isAdding, setIsAdding] = useState(false)
 
   useEffect(() => {
     async function asyncInit() {
       if (deps.wasm && deps.dao?.team_url) {
-        await getTeam(deps.wasm, deps.statusMsg, deps.dao.team_url, setTeam);
+        await getTeam(deps.wasm, deps.statusMsg, deps.dao.team_url, setTeam)
       }
     }
-    asyncInit();
-  }, [deps.wasm, deps.dao?.team_url, deps.statusMsg]);
+    asyncInit()
+  }, [deps.wasm, deps.dao?.team_url, deps.statusMsg])
 
   return (
     <div className="mt-80">
@@ -42,8 +42,8 @@ export const Team = ({ deps }) => {
         />
       )}
     </div>
-  );
-};
+  )
+}
 
 const dummyPrefillData = () => {
   return {
@@ -53,8 +53,8 @@ const dummyPrefillData = () => {
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
     picture: "https://placekitten.com/200/300",
     social: "https://twitter.com",
-  };
-};
+  }
+}
 
 const TeamMember = ({ data }) => {
   return (
@@ -69,29 +69,29 @@ const TeamMember = ({ data }) => {
         ))}
       </div>
     </div>
-  );
-};
+  )
+}
 
 const SocialLink = ({ url }) => {
   return (
     <a href={url}>
       <SocialMediaImage url={url} />
     </a>
-  );
-};
+  )
+}
 
 const SocialMediaImage = ({ url }) => {
-  var src;
+  var src
   if (url.includes("twitter")) {
-    src = twitter.src;
+    src = twitter.src
     // TODO other social media
   } else {
     // TODO generic link default
-    src = twitter.src;
+    src = twitter.src
   }
-  return <img src={src} alt="" />;
-};
+  return <img src={src} alt="" />
+}
 
 const EmptyTeamView = () => {
-  return <div>{"No team yet"}</div>;
-};
+  return <div>{"No team yet"}</div>
+}

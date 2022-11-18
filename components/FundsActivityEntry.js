@@ -1,16 +1,16 @@
-import React, { Fragment } from "react";
-import arrowUp from "../images/svg/arrow-up.svg";
-import arrowDown from "../images/svg/arrow-down.svg";
-import funds from "../images/funds.svg";
-import ReactTooltip from "react-tooltip";
+import React, { Fragment } from "react"
+import arrowUp from "../images/svg/arrow-up.svg"
+import arrowDown from "../images/svg/arrow-down.svg"
+import funds from "../images/funds.svg"
+import ReactTooltip from "react-tooltip"
 
 export const FundsActivityEntry = ({ deps, entry }) => {
   if (deps.size.s4) {
-    return mobileEntryView(entry);
+    return mobileEntryView(entry)
   } else {
-    return desktopEntryView(entry);
+    return desktopEntryView(entry)
   }
-};
+}
 
 const desktopEntryView = (entry) => {
   return (
@@ -28,8 +28,8 @@ const desktopEntryView = (entry) => {
       </div>
       {detailsLink(entry)}
     </div>
-  );
-};
+  )
+}
 
 const mobileEntryView = (entry) => {
   return (
@@ -52,8 +52,8 @@ const mobileEntryView = (entry) => {
       </div>
       {detailsLink(entry)}
     </div>
-  );
-};
+  )
+}
 
 const detailsLink = (entry) => {
   return (
@@ -63,25 +63,25 @@ const detailsLink = (entry) => {
         {"Details"}
       </a>
     </div>
-  );
-};
+  )
+}
 
 export const fundsActivityEntryLabel = (entry) => {
   if (entry.is_income === "true") {
-    return "Income";
+    return "Income"
   } else {
-    return "Withdrawal";
+    return "Withdrawal"
   }
-};
+}
 
 const AmountView = ({ entry }) => {
-  var className;
+  var className
   if (entry.is_income === "true") {
-    className = "funds_act_entry__amount__number";
+    className = "funds_act_entry__amount__number"
   } else if (entry.is_income === "false") {
-    className = "funds_act_entry__amount__number";
+    className = "funds_act_entry__amount__number"
   } else {
-    throw Error("Invalid entry: " + JSON.stringify(entry));
+    throw Error("Invalid entry: " + JSON.stringify(entry))
   }
   return (
     <div className="funds_act_entry__amount__container">
@@ -94,8 +94,8 @@ const AmountView = ({ entry }) => {
 
       <div className={className}>{nestedAmountView(entry)}</div>
     </div>
-  );
-};
+  )
+}
 
 export const nestedAmountView = (entry) => {
   if (entry.amount_without_fee !== entry.short_amount_without_fee) {
@@ -106,8 +106,8 @@ export const nestedAmountView = (entry) => {
         </div>
         <ReactTooltip uuid={"nestedamount" + entry.amount_without_fee} />
       </Fragment>
-    );
+    )
   } else {
-    return entry.short_amount_without_fee;
+    return entry.short_amount_without_fee
   }
-};
+}

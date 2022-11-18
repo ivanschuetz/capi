@@ -1,32 +1,32 @@
-import React, { useEffect, useState, useMemo, useRef, useContext } from "react";
-import { LabeledBox } from "./LabeledBox";
-import { fetchIncomeSpendingChartData } from "../controller/income_spending";
-import Select from "react-select";
-import Progress from "./Progress";
-import { ChartLegends } from "../charts/ChartLegends";
-import renderBarChart from "../charts/renderBarChart";
-import { AppContext } from "../context/App";
+import React, { useEffect, useState, useMemo, useRef, useContext } from "react"
+import { LabeledBox } from "./LabeledBox"
+import { fetchIncomeSpendingChartData } from "../controller/income_spending"
+import Select from "react-select"
+import Progress from "./Progress"
+import { ChartLegends } from "../charts/ChartLegends"
+import renderBarChart from "../charts/renderBarChart"
+import { AppContext } from "../context/App"
 
 const barsOptions = [
   { value: "days7", label: "Last 7 days" },
   { value: "months3", label: "Last 3 months" },
   { value: "year", label: "Last year" },
-];
+]
 
 export const IncomeSpendingBox = ({ statusMsg, daoId }) => {
-  const { deps } = useContext(AppContext);
+  const { deps } = useContext(AppContext)
 
-  const [chartData, setChartData] = useState(null);
+  const [chartData, setChartData] = useState(null)
 
   const [selectedBarsInterval, setSelectedBarsInterval] = useState(
     barsOptions[0]
-  );
+  )
 
-  const chart = useRef(null);
+  const chart = useRef(null)
 
   const colors = useMemo(() => {
-    return ["#DE5C62", "#6BB9BC"];
-  }, []);
+    return ["#DE5C62", "#6BB9BC"]
+  }, [])
 
   useEffect(() => {
     async function fetchData() {
@@ -35,8 +35,8 @@ export const IncomeSpendingBox = ({ statusMsg, daoId }) => {
         statusMsg,
         daoId,
         selectedBarsInterval.value
-      );
-      setChartData(chartData);
+      )
+      setChartData(chartData)
 
       if (chartData && chart.current) {
         renderBarChart(
@@ -44,14 +44,14 @@ export const IncomeSpendingBox = ({ statusMsg, daoId }) => {
           chartData.points,
           colors,
           selectedBarsInterval.value
-        );
+        )
       }
     }
 
     if (deps.wasm) {
-      fetchData();
+      fetchData()
     }
-  }, [deps.wasm, statusMsg, daoId, selectedBarsInterval.value, colors]);
+  }, [deps.wasm, statusMsg, daoId, selectedBarsInterval.value, colors])
 
   const content = () => {
     if (chartData) {
@@ -76,11 +76,11 @@ export const IncomeSpendingBox = ({ statusMsg, daoId }) => {
             <svg className="mb--40" ref={chart} />
           </div>
         </LabeledBox>
-      );
+      )
     } else {
-      return <Progress />;
+      return <Progress />
     }
-  };
+  }
 
-  return <div className="charts-container mt-80">{content()}</div>;
-};
+  return <div className="charts-container mt-80">{content()}</div>
+}

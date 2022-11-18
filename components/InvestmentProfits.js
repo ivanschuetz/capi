@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { FundsAssetImg } from "../images/FundsAssetImg";
+import React, { useEffect, useState } from "react"
+import { FundsAssetImg } from "../images/FundsAssetImg"
 // import {updateChainInvestmentData_ as updateInvestmentData_} from "./controller";
-import { init } from "../controller/investment";
-import { retrieveProfits } from "../functions/shared";
-import { SubmitButton } from "./SubmitButton";
-import Progress from "./Progress";
-import { useDaoId } from "../hooks/useDaoId";
+import { init } from "../controller/investment"
+import { retrieveProfits } from "../functions/shared"
+import { SubmitButton } from "./SubmitButton"
+import Progress from "./Progress"
+import { useDaoId } from "../hooks/useDaoId"
 
 export const InvestmentProfits = ({ deps }) => {
-  let daoId = useDaoId();
+  let daoId = useDaoId()
 
-  const [dao, setDao] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
+  const [dao, setDao] = useState(null)
+  const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
     async function doInit() {
@@ -24,12 +24,12 @@ export const InvestmentProfits = ({ deps }) => {
 
         daoId,
         setDao
-      );
+      )
     }
     if (deps.wasm) {
-      doInit();
+      doInit()
     }
-    doInit();
+    doInit()
   }, [
     deps.wasm,
     daoId,
@@ -37,7 +37,7 @@ export const InvestmentProfits = ({ deps }) => {
     deps.statusMsg,
     deps.updateInvestmentData,
     deps.updateMyShares,
-  ]);
+  ])
 
   const view = () => {
     if (dao && deps.investmentData) {
@@ -72,7 +72,7 @@ export const InvestmentProfits = ({ deps }) => {
                       deps.updateFunds,
                       deps.updateMyDividend,
                       deps.wallet
-                    );
+                    )
                   }}
                 />
               </div>
@@ -89,15 +89,15 @@ export const InvestmentProfits = ({ deps }) => {
             </div>
           </div>
         </div>
-      );
+      )
     } else {
-      return <Progress />;
+      return <Progress />
     }
-  };
+  }
 
   return (
     <div>
       <div className="mt-40">{view()}</div>
     </div>
-  );
-};
+  )
+}

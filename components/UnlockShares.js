@@ -1,9 +1,9 @@
-import React, { useState } from "react";
-import { unlock } from "../controller/investment";
-import { LockOrUnlockShares } from "./LockOrUnlockShares";
+import React, { useState } from "react"
+import { unlock } from "../controller/investment"
+import { LockOrUnlockShares } from "./LockOrUnlockShares"
 
 export const UnlockShares = ({ deps, dao, daoId }) => {
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(false)
 
   return (
     <LockOrUnlockShares
@@ -17,8 +17,8 @@ export const UnlockShares = ({ deps, dao, daoId }) => {
       onSubmit={async () => {
         if (!deps.wasm) {
           // should be unlikely, as wasm should initialize quickly
-          console.error("Click while wasm isn't ready. Ignoring.");
-          return;
+          console.error("Click while wasm isn't ready. Ignoring.")
+          return
         }
 
         await unlock(
@@ -31,8 +31,8 @@ export const UnlockShares = ({ deps, dao, daoId }) => {
           deps.updateMyShares,
           setSubmitting,
           daoId
-        );
+        )
       }}
     />
-  );
-};
+  )
+}

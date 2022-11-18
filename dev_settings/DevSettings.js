@@ -1,14 +1,14 @@
-import { useState } from "react";
+import { useState } from "react"
 import {
   saveDevSettingCapiAddress,
   saveDevSettingFundsAssetId,
-} from "../modal/storage";
-import { LabeledInput } from "../components/labeled_inputs";
-import { SubmitButton } from "../components/SubmitButton";
+} from "../modal/storage"
+import { LabeledInput } from "../components/labeled_inputs"
+import { SubmitButton } from "../components/SubmitButton"
 
 export const DevSettings = ({ closeModal }) => {
-  const [fundsAssetId, setFundsAssetId] = useState("");
-  const [capiAddress, setCapiAddress] = useState("");
+  const [fundsAssetId, setFundsAssetId] = useState("")
+  const [capiAddress, setCapiAddress] = useState("")
   return (
     <div>
       <div>{"Enter data displayed when network_test_util completes."}</div>
@@ -35,11 +35,11 @@ export const DevSettings = ({ closeModal }) => {
         className={"button-primary"}
         disabled={fundsAssetId === "" || capiAddress === ""}
         onClick={async () => {
-          saveDevSettingCapiAddress(capiAddress);
-          saveDevSettingFundsAssetId(fundsAssetId);
-          closeModal();
+          saveDevSettingCapiAddress(capiAddress)
+          saveDevSettingFundsAssetId(fundsAssetId)
+          closeModal()
         }}
       />
     </div>
-  );
-};
+  )
+}

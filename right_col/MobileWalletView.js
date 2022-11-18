@@ -1,31 +1,31 @@
-import React, { useEffect } from "react";
-import { MyAccount } from "../components/MyAccount";
-import { useDaoId } from "../hooks/useDaoId";
+import React, { useEffect } from "react"
+import { MyAccount } from "../components/MyAccount"
+import { useDaoId } from "../hooks/useDaoId"
 
 export const MobileWalletView = ({ deps, containerClass, onClose }) => {
-  const daoId = useDaoId();
+  const daoId = useDaoId()
 
   useEffect(() => {
     async function asyncFn() {
-      await deps.updateMyShares.call(null, daoId, deps.myAddress);
+      await deps.updateMyShares.call(null, daoId, deps.myAddress)
     }
     if (daoId && deps.myAddress) {
-      asyncFn();
+      asyncFn()
     }
-  }, [daoId, deps.myAddress, deps.updateMyShares]);
+  }, [daoId, deps.myAddress, deps.updateMyShares])
 
   useEffect(() => {
     async function asyncFn() {
-      deps.updateMyDividend.call(null, daoId, deps.myAddress);
+      deps.updateMyDividend.call(null, daoId, deps.myAddress)
     }
     if (daoId && deps.myAddress) {
-      asyncFn();
+      asyncFn()
     }
-  }, [daoId, deps.myAddress, deps.updateMyDividend]);
+  }, [daoId, deps.myAddress, deps.updateMyDividend])
 
   return (
     <div id={containerClass}>
       {daoId && <MyAccount deps={deps} daoId={daoId} onClose={onClose} />}
     </div>
-  );
-};
+  )
+}

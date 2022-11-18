@@ -1,4 +1,4 @@
-import React from "react";
+import React from "react"
 
 export const ChartLegends = ({ legends }) => {
   const legendsViews = () => {
@@ -11,11 +11,11 @@ export const ChartLegends = ({ legends }) => {
           ))}
         </div>
       )
-    );
-  };
+    )
+  }
 
-  return <div>{legendsViews()}</div>;
-};
+  return <div>{legendsViews()}</div>
+}
 
 const ChartLegend = ({ legend }) => {
   return (
@@ -25,5 +25,5 @@ const ChartLegend = ({ legend }) => {
       </svg>
       <span className="chart_legend__text">{legend.text}</span>
     </div>
-  );
-};
+  )
+}

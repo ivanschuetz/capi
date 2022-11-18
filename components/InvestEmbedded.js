@@ -1,50 +1,49 @@
-import { useEffect, useState } from "react";
-import { BuyFundsAssetModal } from "../buy_currency/BuyFundsAssetModal";
+import { useEffect, useState } from "react"
+import { BuyFundsAssetModal } from "../buy_currency/BuyFundsAssetModal"
 import {
   invest,
   updateTotalPriceAndPercentage,
-} from "../controller/invest_embedded";
-import { useDaoId } from "../hooks/useDaoId";
-import funds from "../images/funds.svg";
-import error from "../images/svg/error.svg";
-import { AckProspectusModal } from "../prospectus/AckProspectusModal";
-import { SelectWalletModal } from "../wallet/SelectWalletModal";
-import { InfoView } from "./labeled_inputs";
-import { SubmitButton } from "./SubmitButton";
+} from "../controller/invest_embedded"
+import { useDaoId } from "../hooks/useDaoId"
+import funds from "../images/funds.svg"
+import error from "../images/svg/error.svg"
+import { AckProspectusModal } from "../prospectus/AckProspectusModal"
+import { SelectWalletModal } from "../wallet/SelectWalletModal"
+import { InfoView } from "./labeled_inputs"
+import { SubmitButton } from "./SubmitButton"
 
 export const InvestEmbedded = ({ deps, dao }) => {
-  const daoId = useDaoId();
+  const daoId = useDaoId()
 
-  const [buySharesCount, setBuySharesCount] = useState("1");
-  const [totalCost, setTotalCost] = useState(null);
-  const [totalCostNumber, setTotalCostNumber] = useState(null);
-  const [totalPercentage, setProfitPercentage] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
+  const [buySharesCount, setBuySharesCount] = useState("1")
+  const [totalCost, setTotalCost] = useState(null)
+  const [totalCostNumber, setTotalCostNumber] = useState(null)
+  const [totalPercentage, setProfitPercentage] = useState(null)
+  const [submitting, setSubmitting] = useState(false)
 
-  const [shareAmountError, setShareAmountError] = useState("");
+  const [shareAmountError, setShareAmountError] = useState("")
 
-  const [showSelectWalletModal, setShowSelectWalletModal] = useState(false);
-  const [buyIntent, setBuyIntent] = useState(false);
+  const [showSelectWalletModal, setShowSelectWalletModal] = useState(false)
+  const [buyIntent, setBuyIntent] = useState(false)
 
-  const [showProspectusModal, setShowProspectusModal] = useState(false);
+  const [showProspectusModal, setShowProspectusModal] = useState(false)
 
   // show modal carries an object here, to pass details
-  const [showBuyCurrencyInfoModal, setShowBuyCurrencyInfoModal] =
-    useState(null);
+  const [showBuyCurrencyInfoModal, setShowBuyCurrencyInfoModal] = useState(null)
 
   const onSubmitBuy = () => {
-    setBuyIntent(true);
-    var myAddress = deps.myAddress;
+    setBuyIntent(true)
+    var myAddress = deps.myAddress
     if (myAddress === "") {
-      setShowSelectWalletModal(true);
+      setShowSelectWalletModal(true)
     }
-  };
+  }
 
   useEffect(() => {
     if (daoId) {
-      deps.updateAvailableShares.call(null, daoId);
+      deps.updateAvailableShares.call(null, daoId)
     }
-  }, [deps.updateAvailableShares, deps.statusMsg, daoId]);
+  }, [deps.updateAvailableShares, deps.statusMsg, daoId])
 
   useEffect(() => {
     async function nestedAsync() {
@@ -60,16 +59,16 @@ export const InvestEmbedded = ({ deps, dao }) => {
             setTotalCostNumber,
             setProfitPercentage,
             deps.investmentData?.investor_locked_shares
-          );
+          )
         } else {
           // no input: clear fields
-          setTotalCost(null);
-          setTotalCostNumber(null);
-          setProfitPercentage(null);
+          setTotalCost(null)
+          setTotalCostNumber(null)
+          setProfitPercentage(null)
         }
       }
     }
-    nestedAsync();
+    nestedAsync()
   }, [
     deps.wasm,
     deps.statusMsg,
@@ -78,12 +77,12 @@ export const InvestEmbedded = ({ deps, dao }) => {
     daoId,
     buySharesCount,
     dao,
-  ]);
+  ])
 
   useEffect(() => {
     async function nestedAsync() {
       if (deps.wasm && daoId && deps.wallet && buyIntent && deps.myAddress) {
-        setBuyIntent(false);
+        setBuyIntent(false)
 
         await invest(
           deps.wasm,
@@ -107,10 +106,10 @@ export const InvestEmbedded = ({ deps, dao }) => {
           setShareAmountError,
           setShowBuyCurrencyInfoModal,
           totalCostNumber
-        );
+        )
       }
     }
-    nestedAsync();
+    nestedAsync()
     // TODO warning about missing deps here - we *don't* want to trigger this effect when inputs change,
     // we want to send whatever is in the form when user submits - so we care only about the conditions that trigger submit
     // suppress lint? are we approaching this incorrectly?
@@ -134,7 +133,7 @@ export const InvestEmbedded = ({ deps, dao }) => {
     dao,
     daoId,
     totalCostNumber,
-  ]);
+  ])
 
   const view = () => {
     return (
@@ -164,9 +163,9 @@ export const InvestEmbedded = ({ deps, dao }) => {
                 isLoading={submitting}
                 onClick={async (_) => {
                   if (deps.features.prospectus) {
-                    setShowProspectusModal(true);
+                    setShowProspectusModal(true)
                   } else {
-                    onSubmitBuy();
+                    onSubmitBuy()
                   }
                 }}
               />
@@ -199,18 +198,18 @@ export const InvestEmbedded = ({ deps, dao }) => {
             prospectusHash={deps.dao.prospectus.hash}
             closeModal={() => setShowProspectusModal(false)}
             onAccept={() => {
-              setShowProspectusModal(false);
+              setShowProspectusModal(false)
               // continue with buy flow: assumes that the disclaimer here is (only) shown when clicking on buy
-              onSubmitBuy();
+              onSubmitBuy()
             }}
           />
         )}
       </div>
-    );
-  };
+    )
+  }
 
-  return deps.availableShares && view();
-};
+  return deps.availableShares && view()
+}
 
 const TopBlock = ({ deps }) => {
   return (
@@ -241,8 +240,8 @@ const TopBlock = ({ deps }) => {
         )}
       </div>
     </div>
-  );
-};
+  )
+}
 
 const TopBlockItem = ({ label, value }) => {
   return (
@@ -250,8 +249,8 @@ const TopBlockItem = ({ label, value }) => {
       <div className="mr-3">{label}</div>
       <div className="ft-weight-700">{value}</div>
     </div>
-  );
-};
+  )
+}
 
 const RightView = ({ funds, totalCost, totalPercentage }) => {
   return (
@@ -281,5 +280,5 @@ const RightView = ({ funds, totalCost, totalPercentage }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

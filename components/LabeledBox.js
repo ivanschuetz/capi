@@ -4,5 +4,5 @@ export const LabeledBox = ({ label, children }) => {
       <div className="labeled_box_label">{label}</div>
       <div className="labeled_box_children">{children}</div>
     </div>
-  );
-};
+  )
+}

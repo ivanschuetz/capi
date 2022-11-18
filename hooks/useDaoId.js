@@ -1,12 +1,12 @@
-import { useRouter } from "next/router";
-import { useEffect } from "react";
+import { useRouter } from "next/router"
+import { useEffect } from "react"
 
 export const useDaoId = () => {
   const {
     query: { daoId },
-  } = useRouter();
-  return daoId;
-};
+  } = useRouter()
+  return daoId
+}
 
 // NOTE: experimental - not used currently, just think about for possible refactoring
 // TODO examine whether deps is needed
@@ -15,7 +15,7 @@ export const useDaoId = () => {
 export const useEffectWithDaoId = (daoId, deps, f) => {
   useEffect(() => {
     if (daoId) {
-      f();
+      f()
     }
-  }, [daoId, deps.statusMsg, deps.updateDao]);
-};
+  }, [daoId, deps.statusMsg, deps.updateDao])
+}

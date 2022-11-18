@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useMemo, Fragment } from "react";
-import ReactTooltip from "react-tooltip";
-import moment from "moment";
-import { SelectDateModal } from "../modal/SelectDateModal";
-import info from "../images/svg/info.svg";
-import error from "../images/svg/error.svg";
-import funds from "../images/funds.svg";
-import calendar from "../images/calendar_today.svg";
+import React, { useState, useEffect, useMemo, Fragment } from "react"
+import ReactTooltip from "react-tooltip"
+import moment from "moment"
+import { SelectDateModal } from "../modal/SelectDateModal"
+import info from "../images/svg/info.svg"
+import error from "../images/svg/error.svg"
+import funds from "../images/funds.svg"
+import calendar from "../images/calendar_today.svg"
 
 export const LabeledInput = ({
   label,
@@ -18,42 +18,42 @@ export const LabeledInput = ({
   info,
   disabled,
 }) => {
-  const [inputLength, setInputLength] = useState(0);
-  const [showLength, setShowLength] = useState(false);
+  const [inputLength, setInputLength] = useState(0)
+  const [showLength, setShowLength] = useState(false)
 
-  const container_class = img ? "input_with_image__container" : "";
+  const container_class = img ? "input_with_image__container" : ""
 
   const remainingChars = useMemo(() => {
-    return maxLength - inputLength;
-  }, [maxLength, inputLength]);
+    return maxLength - inputLength
+  }, [maxLength, inputLength])
 
   const stateForRemainingChars = useMemo(() => {
     if (remainingChars < 0) {
-      return "over";
+      return "over"
     } else {
-      return "ok";
+      return "ok"
     }
-  }, [remainingChars]);
+  }, [remainingChars])
 
   const inputTextLengthClass = () => {
     if (stateForRemainingChars === "over") {
-      return "input-length-error";
+      return "input-length-error"
     } else {
-      return null;
+      return null
     }
-  };
+  }
 
   const counterClass = () => {
     if (stateForRemainingChars === "over") {
-      return "red-20";
+      return "red-20"
     } else {
-      return null;
+      return null
     }
-  };
+  }
 
   useEffect(() => {
-    setInputLength(inputValue?.length ?? 0);
-  }, [inputValue]);
+    setInputLength(inputValue?.length ?? 0)
+  }, [inputValue])
 
   return (
     <div className="labeled_input">
@@ -76,12 +76,12 @@ export const LabeledInput = ({
           inputValue,
           "text",
           (input) => {
-            setInputLength(input.length);
-            onChange(input);
+            setInputLength(input.length)
+            onChange(input)
           },
           placeholder,
           (focus) => {
-            setShowLength(focus);
+            setShowLength(focus)
           },
           disabled,
           inputTextLengthClass()
@@ -90,12 +90,12 @@ export const LabeledInput = ({
       </div>
       <ValidationMsg errorMsg={errorMsg} />
     </div>
-  );
-};
+  )
+}
 
 export const InfoView = ({ info: infoText }) => {
-  return wrapWithInfoView(infoText, <img src={info.src} alt="info" />);
-};
+  return wrapWithInfoView(infoText, <img src={info.src} alt="info" />)
+}
 
 export const wrapWithInfoView = (infoText, element) => {
   return (
@@ -105,12 +105,12 @@ export const wrapWithInfoView = (infoText, element) => {
       </div>
       <ReactTooltip uuid={"infoview" + infoText} />
     </Fragment>
-  );
-};
+  )
+}
 
 const InputLength = ({ remainingChars, className }) => {
-  return <div className={className}>{remainingChars}</div>;
-};
+  return <div className={className}>{remainingChars}</div>
+}
 
 export const LabeledCurrencyInput = ({
   label,
@@ -133,8 +133,8 @@ export const LabeledCurrencyInput = ({
       </div>
       <ValidationMsg errorMsg={errorMsg} />
     </div>
-  );
-};
+  )
+}
 
 export const LabeledAmountInput = ({
   label,
@@ -153,8 +153,8 @@ export const LabeledAmountInput = ({
       {input(inputValue, "number", onChange, placeholder)}
       <ValidationMsg errorMsg={errorMsg} />
     </div>
-  );
-};
+  )
+}
 
 export const ValidationMsg = ({ errorMsg }) => {
   return (
@@ -162,8 +162,8 @@ export const ValidationMsg = ({ errorMsg }) => {
       {errorMsg ? <img src={error.src} alt="error" /> : ""}
       {errorMsg}
     </div>
-  );
-};
+  )
+}
 
 // onFocusToggle: optional: pass to be called when the input gains or loses focus
 const input = (
@@ -175,9 +175,9 @@ const input = (
   disabled,
   textLengthClass
 ) => {
-  var className = "label-input-style";
+  var className = "label-input-style"
   if (textLengthClass) {
-    className += ` ${textLengthClass}`;
+    className += ` ${textLengthClass}`
   }
 
   return (
@@ -190,21 +190,21 @@ const input = (
       value={inputValue}
       disabled={disabled}
       onChange={(event) => {
-        onChange(event.target.value);
+        onChange(event.target.value)
       }}
       onFocus={(e) => {
         if (onFocusToggle) {
-          onFocusToggle(true);
+          onFocusToggle(true)
         }
       }}
       onBlur={(e) => {
         if (onFocusToggle) {
-          onFocusToggle(false);
+          onFocusToggle(false)
         }
       }}
     />
-  );
-};
+  )
+}
 
 // TODO refactor common code with LabeledInput
 export const LabeledTextArea = ({
@@ -218,42 +218,42 @@ export const LabeledTextArea = ({
   className,
   rows = 10,
 }) => {
-  const [inputLength, setInputLength] = useState(0);
-  const [showLength, setShowLength] = useState(false);
+  const [inputLength, setInputLength] = useState(0)
+  const [showLength, setShowLength] = useState(false)
 
-  const container_class = img ? "textarea_with_image__container" : "";
+  const container_class = img ? "textarea_with_image__container" : ""
 
   const remainingChars = useMemo(() => {
-    return maxLength - inputLength;
-  }, [maxLength, inputLength]);
+    return maxLength - inputLength
+  }, [maxLength, inputLength])
 
   const stateForRemainingChars = useMemo(() => {
     if (remainingChars < 0) {
-      return "over";
+      return "over"
     } else {
-      return "ok";
+      return "ok"
     }
-  }, [remainingChars]);
+  }, [remainingChars])
 
   const inputTextLengthClass = () => {
     if (stateForRemainingChars === "over") {
-      return "input-length-error";
+      return "input-length-error"
     } else {
-      return null;
+      return null
     }
-  };
+  }
 
   const counterClass = () => {
     if (stateForRemainingChars === "over") {
-      return "red-20";
+      return "red-20"
     } else {
-      return null;
+      return null
     }
-  };
+  }
 
   useEffect(() => {
-    setInputLength(inputValue?.length ?? 0);
-  }, [inputValue]);
+    setInputLength(inputValue?.length ?? 0)
+  }, [inputValue])
 
   return (
     <div className={`labeled_input ${className}`}>
@@ -277,22 +277,22 @@ export const LabeledTextArea = ({
           value={inputValue}
           placeholder={placeholder}
           onChange={(event) => {
-            const input = event.target.value;
-            setInputLength(input.length);
-            onChange(input);
+            const input = event.target.value
+            setInputLength(input.length)
+            onChange(input)
           }}
           onFocus={(e) => {
-            setShowLength(true);
+            setShowLength(true)
           }}
           onBlur={(e) => {
-            setShowLength(false);
+            setShowLength(false)
           }}
         />
         {img && <img src={img.src} alt="img" />}
       </div>
     </div>
-  );
-};
+  )
+}
 
 export const LabeledDateInput = ({
   label,
@@ -304,11 +304,11 @@ export const LabeledDateInput = ({
   disabled,
 }) => {
   const [showMinRaiseTargetEndDateModal, setShowMinRaiseTargetEndDateModal] =
-    useState(false);
+    useState(false)
 
   const formattedMinRaiseTargetEndDate = useMemo(() => {
-    return moment(inputValue).format("D MMM YYYY");
-  }, [inputValue]);
+    return moment(inputValue).format("D MMM YYYY")
+  }, [inputValue])
 
   return (
     <div className="labeled_input">
@@ -340,5 +340,5 @@ export const LabeledDateInput = ({
         />
       )}
     </div>
-  );
-};
+  )
+}

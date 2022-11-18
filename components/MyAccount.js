@@ -1,22 +1,22 @@
-import React, { useEffect, useState } from "react";
-import arrow from "../images/svg/arrow-right.svg";
-import { retrieveProfits } from "../functions/shared";
-import { CopyPasteHtml } from "./CopyPastText";
-import Progress from "./Progress";
-import { SubmitButton } from "./SubmitButton";
-import { SelectWallet } from "../wallet/SelectWallet";
-import Modal from "../modal/Modal";
-import funds from "../images/funds.svg";
+import React, { useEffect, useState } from "react"
+import arrow from "../images/svg/arrow-right.svg"
+import { retrieveProfits } from "../functions/shared"
+import { CopyPasteHtml } from "./CopyPastText"
+import Progress from "./Progress"
+import { SubmitButton } from "./SubmitButton"
+import { SelectWallet } from "../wallet/SelectWallet"
+import Modal from "../modal/Modal"
+import funds from "../images/funds.svg"
 import {
   needsToAcceptDisclaimer,
   saveAcceptedDisclaimer,
-} from "../modal/storage";
-import { DisclaimerModal } from "../modal/DisclaimerModal";
+} from "../modal/storage"
+import { DisclaimerModal } from "../modal/DisclaimerModal"
 
 export const MyAccount = ({ deps, daoId }) => {
-  const [showSelectWalletModal, setShowSelectWalletModal] = useState(false);
+  const [showSelectWalletModal, setShowSelectWalletModal] = useState(false)
 
-  const [showDisclaimerModal, setShowDisclaimerModal] = useState(false);
+  const [showDisclaimerModal, setShowDisclaimerModal] = useState(false)
 
   return (
     <div className="my-account-container">
@@ -42,16 +42,16 @@ export const MyAccount = ({ deps, daoId }) => {
         <DisclaimerModal
           closeModal={() => setShowDisclaimerModal(false)}
           onAccept={() => {
-            saveAcceptedDisclaimer();
-            setShowDisclaimerModal(false);
+            saveAcceptedDisclaimer()
+            setShowDisclaimerModal(false)
             // continue to select wallet: assumes that the disclaimer here is (only) shown when clicking on connect wallet
-            setShowSelectWalletModal(true);
+            setShowSelectWalletModal(true)
           }}
         />
       )}
     </div>
-  );
-};
+  )
+}
 
 const myAddressView = (deps, daoId) => {
   if (deps.myAddress !== "") {
@@ -90,23 +90,23 @@ const myAddressView = (deps, daoId) => {
         </div>
         {daoId && <DividendSection deps={deps} daoId={daoId} />}
       </div>
-    );
+    )
   } else {
-    return null;
+    return null
   }
-};
+}
 
 const DividendSection = ({ deps, daoId }) => {
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
     async function nestedAsync() {
       if (deps.myAddress) {
-        await deps.updateInvestmentData.call(null, daoId, deps.myAddress);
+        await deps.updateInvestmentData.call(null, daoId, deps.myAddress)
       }
     }
-    nestedAsync();
-  }, [deps.statusMsg, deps.myAddress, daoId, deps.updateInvestmentData]);
+    nestedAsync()
+  }, [deps.statusMsg, deps.myAddress, daoId, deps.updateInvestmentData])
 
   if (deps.myDividend) {
     return (
@@ -127,8 +127,8 @@ const DividendSection = ({ deps, daoId }) => {
             onClick={async () => {
               if (!deps.wasm) {
                 // ignoring this seems reasonable, wasm file should be normally loaded before user can interact
-                console.error("Click before wasm is ready: ignored");
-                return;
+                console.error("Click before wasm is ready: ignored")
+                return
               }
               await retrieveProfits(
                 deps.wasm,
@@ -141,19 +141,19 @@ const DividendSection = ({ deps, daoId }) => {
                 deps.updateFunds,
                 deps.updateMyDividend,
                 deps.wallet
-              );
+              )
             }}
           />
         </div>
       </div>
-    );
+    )
   } else if (daoId) {
     // we're on a dao page: waiting for dividend to be fetched
-    return <Progress />;
+    return <Progress />
   } else {
-    return null;
+    return null
   }
-};
+}
 
 const connectButton = (
   deps,
@@ -166,25 +166,25 @@ const connectButton = (
         className="button-primary w-100"
         onClick={async (event) => {
           if (await needsToAcceptDisclaimer()) {
-            setShowDisclaimerModal(true);
+            setShowDisclaimerModal(true)
           } else {
-            setShowSelectWalletModal(true);
+            setShowSelectWalletModal(true)
           }
         }}
       >
         {"Connect wallet"}
       </button>
-    );
+    )
   } else {
-    return null;
+    return null
   }
-};
+}
 
 const disconnect = async (deps) => {
   try {
-    await deps.wallet.disconnect();
-    deps.setMyAddress("");
+    await deps.wallet.disconnect()
+    deps.setMyAddress("")
   } catch (e) {
-    deps.statusMsg.error(e);
+    deps.statusMsg.error(e)
   }
-};
+}

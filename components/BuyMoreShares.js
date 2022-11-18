@@ -1,32 +1,31 @@
-import React, { useState, useEffect } from "react";
-import { SubmitButton } from "./SubmitButton";
-import { BuyFundsAssetModal } from "../buy_currency/BuyFundsAssetModal";
-import { SharesDistributionChart } from "../shares_distribution_chart/SharesDistributionChart";
-import { LabeledAmountInput } from "./labeled_inputs";
-import { pieChartColors, PIE_CHART_GRAY } from "../functions/utils";
-import redArrow from "../images/svg/arrow.svg";
-import { invest, updateTotalPriceNumber } from "../controller/invest_embedded";
-import { AckProspectusModal } from "../prospectus/AckProspectusModal";
-import { useDaoId } from "../hooks/useDaoId";
+import React, { useState, useEffect } from "react"
+import { SubmitButton } from "./SubmitButton"
+import { BuyFundsAssetModal } from "../buy_currency/BuyFundsAssetModal"
+import { SharesDistributionChart } from "../shares_distribution_chart/SharesDistributionChart"
+import { LabeledAmountInput } from "./labeled_inputs"
+import { pieChartColors, PIE_CHART_GRAY } from "../functions/utils"
+import redArrow from "../images/svg/arrow.svg"
+import { invest, updateTotalPriceNumber } from "../controller/invest_embedded"
+import { AckProspectusModal } from "../prospectus/AckProspectusModal"
+import { useDaoId } from "../hooks/useDaoId"
 
 export const BuyMoreShares = ({ deps, dao }) => {
-  let daoId = useDaoId();
+  let daoId = useDaoId()
 
-  const [buySharesCount, setBuySharesCount] = useState(null);
+  const [buySharesCount, setBuySharesCount] = useState(null)
 
-  const [buySharesAmountError, setBuySharesAmountError] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
+  const [buySharesAmountError, setBuySharesAmountError] = useState(null)
+  const [submitting, setSubmitting] = useState(false)
 
-  const [totalCostNumber, setTotalCostNumber] = useState(null);
+  const [totalCostNumber, setTotalCostNumber] = useState(null)
 
-  const [showProspectusModal, setShowProspectusModal] = useState(false);
+  const [showProspectusModal, setShowProspectusModal] = useState(false)
 
-  const [showBuyCurrencyInfoModal, setShowBuyCurrencyInfoModal] =
-    useState(null);
+  const [showBuyCurrencyInfoModal, setShowBuyCurrencyInfoModal] = useState(null)
 
   useEffect(() => {
-    deps.updateAvailableShares.call(null, daoId);
-  }, [deps.updateAvailableShares, deps.statusMsg, daoId]);
+    deps.updateAvailableShares.call(null, daoId)
+  }, [deps.updateAvailableShares, deps.statusMsg, daoId])
 
   useEffect(() => {
     async function nestedAsync() {
@@ -36,10 +35,10 @@ export const BuyMoreShares = ({ deps, dao }) => {
           buySharesCount,
           dao,
           setTotalCostNumber
-        );
+        )
       }
     }
-    nestedAsync();
+    nestedAsync()
   }, [
     deps.statusMsg,
     deps.availableShares,
@@ -47,7 +46,7 @@ export const BuyMoreShares = ({ deps, dao }) => {
     daoId,
     buySharesCount,
     dao,
-  ]);
+  ])
 
   const onSubmitBuy = async () => {
     await invest(
@@ -71,8 +70,8 @@ export const BuyMoreShares = ({ deps, dao }) => {
       setBuySharesAmountError,
       setShowBuyCurrencyInfoModal,
       totalCostNumber
-    );
-  };
+    )
+  }
 
   const view = () => {
     return (
@@ -175,9 +174,9 @@ export const BuyMoreShares = ({ deps, dao }) => {
               disabled={deps.availableShares === "0"}
               onClick={async () => {
                 if (deps.features.prospectus) {
-                  setShowProspectusModal(true);
+                  setShowProspectusModal(true)
                 } else {
-                  await onSubmitBuy();
+                  await onSubmitBuy()
                 }
               }}
             />
@@ -215,18 +214,18 @@ export const BuyMoreShares = ({ deps, dao }) => {
             prospectusHash={deps.dao.prospectus.hash}
             closeModal={() => setShowProspectusModal(false)}
             onAccept={async () => {
-              setShowProspectusModal(false);
-              onSubmitBuy();
+              setShowProspectusModal(false)
+              onSubmitBuy()
             }}
           />
         )}
       </div>
-    );
-  };
+    )
+  }
 
-  return <div>{dao && deps.investmentData && view()}</div>;
-};
+  return <div>{dao && deps.investmentData && view()}</div>
+}
 
 const to_pie_chart_slice = (percentage) => {
-  return { percentage_number: percentage };
-};
+  return { percentage_number: percentage }
+}

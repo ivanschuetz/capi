@@ -1,5 +1,5 @@
-import Link from "next/link";
-import plus from "../images/svg/plus.svg";
+import Link from "next/link"
+import plus from "../images/svg/plus.svg"
 
 export const MyDaoCreateItem = () => {
   return (
@@ -15,5 +15,5 @@ export const MyDaoCreateItem = () => {
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}

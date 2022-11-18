@@ -1,4 +1,4 @@
-import { toErrorMsg } from "../functions/validation";
+import { toErrorMsg } from "../functions/validation"
 
 // Note: no locking for the embedded view because there's no design yet
 
@@ -18,15 +18,15 @@ export const updateTotalPriceNumber = async (
       shareCount,
       dao,
       lockedShares
-    );
+    )
 
-    setBuySharesTotalPriceNumber(res.total_price_number);
+    setBuySharesTotalPriceNumber(res.total_price_number)
   } catch (e) {
     // for now disabled - we don't want to show validation messages while typing, to be consistent with other inputs
     // deps.statusMsg.error(e);
-    console.error("updatePercentage error (ignored): %o", e);
+    console.error("updatePercentage error (ignored): %o", e)
   }
-};
+}
 
 export const updateTotalPriceAndPercentage = async (
   wasm,
@@ -46,17 +46,17 @@ export const updateTotalPriceAndPercentage = async (
       shareCount,
       dao,
       lockedShares
-    );
+    )
 
-    setBuySharesTotalPrice(res.total_price);
-    setBuySharesTotalPriceNumber(res.total_price_number);
-    setProfitPercentage(res.profit_percentage);
+    setBuySharesTotalPrice(res.total_price)
+    setBuySharesTotalPriceNumber(res.total_price_number)
+    setProfitPercentage(res.profit_percentage)
   } catch (e) {
     // for now disabled - we don't want to show validation messages while typing, to be consistent with other inputs
     // deps.statusMsg.error(e);
-    console.error("updateTotalPriceAndPercentage error (ignored): %o", e);
+    console.error("updateTotalPriceAndPercentage error (ignored): %o", e)
   }
-};
+}
 
 const calculateSharesPrice = async (
   wasm,
@@ -74,17 +74,17 @@ const calculateSharesPrice = async (
       investors_share: dao.investors_share,
       share_price: dao.share_price_number_algo,
       locked_shares: lockedShares,
-    });
+    })
 
-    console.log("res: %o", res);
+    console.log("res: %o", res)
 
-    return res;
+    return res
   } catch (e) {
     // for now disabled - we don't want to show validation messages while typing, to be consistent with other inputs
     // deps.statusMsg.error(e);
-    console.error("calculateSharesPrice error (ignored): %o", e);
+    console.error("calculateSharesPrice error (ignored): %o", e)
   }
-};
+}
 
 export const invest = async (
   wasm,
@@ -110,29 +110,29 @@ export const invest = async (
   totalCostNumber
 ) => {
   try {
-    statusMsg.clear();
-    setShareAmountError(null);
+    statusMsg.clear()
+    setShareAmountError(null)
 
     ///////////////////////////////////
     // TODO refactor invest/lock
     // 1. sign tx for app opt-in
-    showProgress(true);
+    showProgress(true)
     let optInToAppsRes = await wasm.bridge_opt_in_to_apps_if_needed({
       app_id: "" + dao.app_id,
       investor_address: myAddress,
-    });
-    console.log("optInToAppsRes: " + JSON.stringify(optInToAppsRes));
-    var optInToAppsSignedOptional = null;
+    })
+    console.log("optInToAppsRes: " + JSON.stringify(optInToAppsRes))
+    var optInToAppsSignedOptional = null
     if (optInToAppsRes.to_sign != null) {
-      showProgress(false);
-      optInToAppsSignedOptional = await wallet.signTxs(optInToAppsRes.to_sign);
+      showProgress(false)
+      optInToAppsSignedOptional = await wallet.signTxs(optInToAppsRes.to_sign)
     }
     console.log(
       "optInToAppsSignedOptional: " + JSON.stringify(optInToAppsSignedOptional)
-    );
+    )
     ///////////////////////////////////
 
-    showProgress(true);
+    showProgress(true)
     // 2. buy the shares (requires app opt-in for local state)
     // TODO write which local state
     let buyRes = await wasm.bridge_buy_shares({
@@ -142,46 +142,46 @@ export const invest = async (
       investor_address: myAddress,
       app_opt_ins: optInToAppsSignedOptional,
       signed_prospectus: dao.prospectus,
-    });
-    console.log("buyRes: " + JSON.stringify(buyRes));
-    showProgress(false);
+    })
+    console.log("buyRes: " + JSON.stringify(buyRes))
+    showProgress(false)
 
-    let buySharesSigned = await wallet.signTxs(buyRes.to_sign);
-    console.log("buySharesSigned: " + JSON.stringify(buySharesSigned));
+    let buySharesSigned = await wallet.signTxs(buyRes.to_sign)
+    console.log("buySharesSigned: " + JSON.stringify(buySharesSigned))
 
-    showProgress(true);
+    showProgress(true)
     let submitBuySharesRes = await wasm.bridge_submit_buy_shares({
       investor_address: myAddress,
       buy_total_cost: totalCostNumber,
       txs: buySharesSigned,
       pt: buyRes.pt,
-    });
-    console.log("submitBuySharesRes: " + JSON.stringify(submitBuySharesRes));
-    showProgress(false);
+    })
+    console.log("submitBuySharesRes: " + JSON.stringify(submitBuySharesRes))
+    showProgress(false)
 
-    await updateMyBalance(myAddress);
+    await updateMyBalance(myAddress)
 
     statusMsg.success(
       "Congratulations! you bought " + buySharesCount + " shares."
-    );
+    )
 
-    await updateMyShares(daoId, myAddress);
-    await updateFunds(daoId);
-    await updateInvestmentData(daoId, myAddress);
-    await updateAvailableShares(daoId);
-    await updateRaisedFunds(daoId);
-    await updateCompactFundsActivity(daoId);
-    await updateSharesDistr(dao);
+    await updateMyShares(daoId, myAddress)
+    await updateFunds(daoId)
+    await updateInvestmentData(daoId, myAddress)
+    await updateAvailableShares(daoId)
+    await updateRaisedFunds(daoId)
+    await updateCompactFundsActivity(daoId)
+    await updateSharesDistr(dao)
   } catch (e) {
     if (e.type_identifier === "input_errors") {
-      setShareAmountError(toErrorMsg(e.amount));
+      setShareAmountError(toErrorMsg(e.amount))
       // show a general message additionally, just in case
-      statusMsg.error("Please fix the errors");
+      statusMsg.error("Please fix the errors")
     } else if (e.id === "not_enough_funds_asset") {
-      setShowBuyCurrencyInfoModal({ amount: e.details });
+      setShowBuyCurrencyInfoModal({ amount: e.details })
     } else {
-      statusMsg.error(e);
+      statusMsg.error(e)
     }
-    showProgress(false);
+    showProgress(false)
   }
-};
+}

@@ -1,11 +1,8 @@
-import React from "react";
-import arrowUp from "../images/svg/arrow-up.svg";
-import arrowDown from "../images/svg/arrow-down.svg";
-import funds from "../images/funds.svg";
-import {
-  fundsActivityEntryLabel,
-  nestedAmountView,
-} from "./FundsActivityEntry";
+import React from "react"
+import arrowUp from "../images/svg/arrow-up.svg"
+import arrowDown from "../images/svg/arrow-down.svg"
+import funds from "../images/funds.svg"
+import { fundsActivityEntryLabel, nestedAmountView } from "./FundsActivityEntry"
 
 export const CompactFundsActivityEntry = ({ entry }) => {
   return (
@@ -23,8 +20,8 @@ export const CompactFundsActivityEntry = ({ entry }) => {
         </a>
       </div>
     </div>
-  );
-};
+  )
+}
 
 const AmountView = ({ entry }) => {
   return (
@@ -56,5 +53,5 @@ const AmountView = ({ entry }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

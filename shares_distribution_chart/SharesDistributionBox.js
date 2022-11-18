@@ -1,65 +1,65 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react";
-import { SharesDistributionChart } from "../shares_distribution_chart/SharesDistributionChart";
-import { LabeledBox } from "../common_comps/LabeledBox";
-import { HolderEntry } from "./HolderEntry";
-import Progress from "../common_comps/Progress";
-import { pieChartColors } from "../common_functions/common";
-import { changeArrow } from "../shared_functions";
+import React, { useEffect, useState, useCallback, useMemo } from "react"
+import { SharesDistributionChart } from "../shares_distribution_chart/SharesDistributionChart"
+import { LabeledBox } from "../common_comps/LabeledBox"
+import { HolderEntry } from "./HolderEntry"
+import Progress from "../common_comps/Progress"
+import { pieChartColors } from "../common_functions/common"
+import { changeArrow } from "../shared_functions"
 
 // Currently contains only a labeled chart but later could contain also e.g. list of holders / top holders
 export const SharesDistributionBox = ({ deps }) => {
-  const [showMoreSelected, setShowMoreSelected] = useState(false);
+  const [showMoreSelected, setShowMoreSelected] = useState(false)
   // used to highlight the address on the right side
-  const [selectedAddress, setSelectedAddress] = useState(null);
+  const [selectedAddress, setSelectedAddress] = useState(null)
 
   /// Distribution that's not "not owned", i.e. owned by someone
   /// needed for the views where "not owned" is not used
   const ownedSharesDistr = useMemo(() => {
     if (deps.sharesDistr) {
-      return deps.sharesDistr.filter((entry) => entry.type_ !== "not_owned");
+      return deps.sharesDistr.filter((entry) => entry.type_ !== "not_owned")
     }
-  }, [deps.sharesDistr]);
+  }, [deps.sharesDistr])
 
-  const [entries, setEntries] = useState(ownedSharesDistr);
+  const [entries, setEntries] = useState(ownedSharesDistr)
 
-  const entries_small_count = 3;
+  const entries_small_count = 3
 
   useEffect(() => {
     async function nestedAsync() {
       if (deps.dao) {
-        deps.updateSharesDistr.call(null, deps.dao);
+        deps.updateSharesDistr.call(null, deps.dao)
       }
     }
-    nestedAsync();
-  }, [deps.updateSharesDistr, deps.statusMsg, deps.dao]);
+    nestedAsync()
+  }, [deps.updateSharesDistr, deps.statusMsg, deps.dao])
 
   useEffect(() => {
     const showAll = () => {
       return (
         showMoreSelected ||
         (ownedSharesDistr && ownedSharesDistr.length <= entries_small_count)
-      );
-    };
+      )
+    }
 
     const filterHolders = (startIndex) => {
-      if (!ownedSharesDistr) return null;
+      if (!ownedSharesDistr) return null
 
-      let min = Math.min(ownedSharesDistr.length, entries_small_count);
-      const holders = ownedSharesDistr.slice(startIndex, startIndex + min);
-      return holders;
-    };
+      let min = Math.min(ownedSharesDistr.length, entries_small_count)
+      const holders = ownedSharesDistr.slice(startIndex, startIndex + min)
+      return holders
+    }
 
     if (showAll()) {
-      setEntries(ownedSharesDistr);
+      setEntries(ownedSharesDistr)
     } else {
       // collapsed
-      var startIndex = 0;
+      var startIndex = 0
       if (selectedAddress) {
         startIndex = ownedSharesDistr.findIndex(
           (d) => d.address === selectedAddress
-        );
+        )
       }
-      setEntries(filterHolders(startIndex));
+      setEntries(filterHolders(startIndex))
     }
   }, [
     deps.statusMsg,
@@ -67,45 +67,45 @@ export const SharesDistributionBox = ({ deps }) => {
     ownedSharesDistr,
     showMoreSelected,
     selectedAddress,
-  ]);
+  ])
 
   const col = useMemo(() => {
-    return pieChartColors();
-  }, []);
+    return pieChartColors()
+  }, [])
 
   const color = (index) => {
-    return col[Math.round(index % col.length)];
-  };
+    return col[Math.round(index % col.length)]
+  }
 
   const onAddressSelected = useCallback(
     (address) => {
       const addressIndex = ownedSharesDistr.findIndex(
         (d) => d.address === address
-      );
+      )
       // toggle selected state
-      let newSelected = !ownedSharesDistr[addressIndex].isSelected;
+      let newSelected = !ownedSharesDistr[addressIndex].isSelected
 
       // clear selection
-      ownedSharesDistr.forEach((share) => (share.isSelected = false));
-      ownedSharesDistr[addressIndex].isSelected = newSelected;
+      ownedSharesDistr.forEach((share) => (share.isSelected = false))
+      ownedSharesDistr[addressIndex].isSelected = newSelected
 
       // set selected address (for address list) - if it was deselected, it's cleared
-      const selection = newSelected ? address : null;
-      setSelectedAddress(selection);
+      const selection = newSelected ? address : null
+      setSelectedAddress(selection)
 
-      return newSelected;
+      return newSelected
     },
     [ownedSharesDistr, setSelectedAddress]
-  );
+  )
 
   const showMoreOrLessFooter = () => {
     // not enough entries for collapsing: no footer needed
     if (ownedSharesDistr && ownedSharesDistr.length <= entries_small_count) {
-      return null;
+      return null
     }
 
     // since we discarded not enough entries case, showMore: true -> "show more", showMore: false -> "show less"
-    let showMore = !showMoreSelected;
+    let showMore = !showMoreSelected
     return (
       <button
         className="link_button ml-50"
@@ -113,8 +113,8 @@ export const SharesDistributionBox = ({ deps }) => {
       >
         {showMore ? "See all" : "Show less"}
       </button>
-    );
-  };
+    )
+  }
 
   const holdersListItems = () => {
     if (ownedSharesDistr && entries) {
@@ -129,7 +129,7 @@ export const SharesDistributionBox = ({ deps }) => {
             // not owned is shown on the left side, so we remove the entry from the list here
             // note that we keep it in the original list, because it's also used for the chart, where we show not owned
             if (entry.type_ === "not_owned") {
-              return null;
+              return null
             } else {
               return (
                 <HolderEntry
@@ -139,20 +139,20 @@ export const SharesDistributionBox = ({ deps }) => {
                   // use original index (not filtered holders) to get chart segment color
                   col={color(entry.originalIndex)}
                 />
-              );
+              )
             }
           })}
           {showMoreOrLessFooter()}
         </div>
-      );
+      )
     } else {
-      return null;
+      return null
     }
-  };
+  }
 
   const content = () => {
     if (entries === null) {
-      return <Progress vCenter={false} />;
+      return <Progress vCenter={false} />
     } else {
       return (
         <LabeledBox label={"Investor distribution"}>
@@ -183,13 +183,13 @@ export const SharesDistributionBox = ({ deps }) => {
             <div className="d-tablet-none">{holdersListItems()}</div>
           </div>
         </LabeledBox>
-      );
+      )
     }
-  };
+  }
 
   return (
     <div className="mt-80" id="investors-distribution">
       {content()}
     </div>
-  );
-};
+  )
+}

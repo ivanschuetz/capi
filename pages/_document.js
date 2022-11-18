@@ -1,10 +1,10 @@
-import Document, { Html, Head, Main, NextScript } from "next/document";
+import Document, { Html, Head, Main, NextScript } from "next/document"
 
 // we use this to be able to add a modal to root
 class MainDocument extends Document {
   static async getInitialProps(ctx) {
-    const initialProps = await Document.getInitialProps(ctx);
-    return { ...initialProps };
+    const initialProps = await Document.getInitialProps(ctx)
+    return { ...initialProps }
   }
 
   render() {
@@ -17,8 +17,8 @@ class MainDocument extends Document {
           <div id="modal_root"></div>
         </body>
       </Html>
-    );
+    )
   }
 }
 
-export default MainDocument;
+export default MainDocument

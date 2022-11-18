@@ -1,23 +1,23 @@
-import React, { useEffect, useRef } from "react";
-import Progress from "./Progress";
-import renderFundsProgressChart from "../charts/renderFundsBarChart";
-import { useDaoId } from "../hooks/useDaoId";
+import React, { useEffect, useRef } from "react"
+import Progress from "./Progress"
+import renderFundsProgressChart from "../charts/renderFundsBarChart"
+import { useDaoId } from "../hooks/useDaoId"
 
 export const RaisedFunds = ({ deps, dao }) => {
-  const daoId = useDaoId();
+  const daoId = useDaoId()
 
-  const chart = useRef(null);
+  const chart = useRef(null)
 
-  console.log("deps: " + JSON.stringify(deps));
+  console.log("deps: " + JSON.stringify(deps))
 
   useEffect(() => {
     async function nestedAsync() {
       if (daoId) {
-        deps.updateRaisedFunds.call(null, daoId);
+        deps.updateRaisedFunds.call(null, daoId)
       }
     }
-    nestedAsync();
-  }, [daoId, dao, deps.statusMsg, deps.updateRaisedFunds]);
+    nestedAsync()
+  }, [daoId, dao, deps.statusMsg, deps.updateRaisedFunds])
 
   useEffect(() => {
     if (dao && deps.raisedFunds) {
@@ -27,9 +27,9 @@ export const RaisedFunds = ({ deps, dao }) => {
         deps.raisedFunds,
         deps.raisedFundsNumber,
         deps.raiseState?.success ?? true // no state (still raising) has same colors as successful
-      );
+      )
     }
-  }, [dao, deps.raisedFunds, deps.raisedFundsNumber, deps.raiseState]);
+  }, [dao, deps.raisedFunds, deps.raisedFundsNumber, deps.raiseState])
 
   const view = () => {
     // if (deps.dao && raisedFunds && raisedFundsNumber) {
@@ -59,11 +59,11 @@ export const RaisedFunds = ({ deps, dao }) => {
             <svg ref={chart} />
           </div>
         </div>
-      );
+      )
     } else {
-      return <Progress />;
+      return <Progress />
     }
-  };
+  }
 
-  return <div>{view()}</div>;
-};
+  return <div>{view()}</div>
+}

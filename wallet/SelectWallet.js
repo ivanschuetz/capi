@@ -1,6 +1,6 @@
-import { SubmitButton } from "../components/SubmitButton";
-import { createMyAlgoWallet } from "./myAlgoWallet";
-import { createWcWallet } from "./walletConnectWallet";
+import { SubmitButton } from "../components/SubmitButton"
+import { createMyAlgoWallet } from "./myAlgoWallet"
+import { createWcWallet } from "./walletConnectWallet"
 
 export const SelectWallet = ({ deps, closeModal }) => {
   return (
@@ -32,12 +32,12 @@ export const SelectWallet = ({ deps, closeModal }) => {
         }
       />
     </div>
-  );
-};
+  )
+}
 
 const selectWallet = async (deps, wallet, closeModal) => {
-  deps.setWallet(wallet);
+  deps.setWallet(wallet)
 
-  await wallet.connect();
-  closeModal();
-};
+  await wallet.connect()
+  closeModal()
+}

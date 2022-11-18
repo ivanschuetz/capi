@@ -1,6 +1,6 @@
-import * as ReactDOM from "react-dom";
-import React from "react";
-import walletIcon from "../images/walletIcon.svg";
+import * as ReactDOM from "react-dom"
+import React from "react"
+import walletIcon from "../images/walletIcon.svg"
 
 const OpenWalletModal = ({ setShowModal }) => {
   return ReactDOM.createPortal(
@@ -33,7 +33,7 @@ const OpenWalletModal = ({ setShowModal }) => {
       </div>
     </div>,
     document.getElementById("modal-root")
-  );
-};
+  )
+}
 
-export default OpenWalletModal;
+export default OpenWalletModal

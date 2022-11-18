@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from "next/link"
 
 export const MyDaoItem = ({ dao }) => {
   return (
@@ -15,8 +15,8 @@ export const MyDaoItem = ({ dao }) => {
       {/* for now not don't involvement role - there's no design and not sure it's really needed */}
       {/* {involvementIcons(dao)} */}
     </div>
-  );
-};
+  )
+}
 
 // const involvementIcons = (dao) => {
 //   let icons = [];

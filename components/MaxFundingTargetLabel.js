@@ -1,6 +1,6 @@
-import funds from "../images/funds.svg";
-import ReactTooltip from "react-tooltip";
-import info from "../images/svg/info.svg";
+import funds from "../images/funds.svg"
+import ReactTooltip from "react-tooltip"
+import info from "../images/svg/info.svg"
 
 export const MaxFundingTargetLabel = ({ text }) => {
   return (
@@ -24,5 +24,5 @@ export const MaxFundingTargetLabel = ({ text }) => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}

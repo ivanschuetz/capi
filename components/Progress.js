@@ -13,7 +13,7 @@ const Progress = () => {
         ></circle>
       </svg>
     </div>
-  );
-};
+  )
+}
 
-export default Progress;
+export default Progress

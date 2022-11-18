@@ -1,18 +1,18 @@
-import React, { useContext, useEffect } from "react";
-import { useDaoId } from "../../hooks/useDaoId";
-import { SharesDistributionBox } from "../../components/SharesDistributionBox";
-import { IncomeSpendingBox } from "../../components/IncomeSpendingBox";
-import { AppContext } from "../../context/App";
-import { DaoContainer } from "../../components/DaoContainer";
+import React, { useContext, useEffect } from "react"
+import { useDaoId } from "../../hooks/useDaoId"
+import { SharesDistributionBox } from "../../components/SharesDistributionBox"
+import { IncomeSpendingBox } from "../../components/IncomeSpendingBox"
+import { AppContext } from "../../context/App"
+import { DaoContainer } from "../../components/DaoContainer"
 
 const StatsPage = () => {
-  const { deps } = useContext(AppContext);
+  const { deps } = useContext(AppContext)
 
-  const daoId = useDaoId();
+  const daoId = useDaoId()
 
   useEffect(() => {
-    deps.updateDao.call(null, daoId);
-  }, [deps.updateDao, daoId]);
+    deps.updateDao.call(null, daoId)
+  }, [deps.updateDao, daoId])
 
   return (
     <DaoContainer
@@ -24,7 +24,7 @@ const StatsPage = () => {
         </div>
       }
     ></DaoContainer>
-  );
-};
+  )
+}
 
-export default StatsPage;
+export default StatsPage

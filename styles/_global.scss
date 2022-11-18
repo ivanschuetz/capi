@@ -1,576 +1,577 @@
 @import "global_vars";
 
-*, *:before, *:after {
-    box-sizing: border-box;
-  }
+*,
+*:before,
+*:after {
+  box-sizing: border-box;
+}
 
 body {
-    // font-family: system-ui;
-    font-style: normal;
-    font-size: 16px;
-    min-height: 100vh;
-    margin: 0;
-    padding: 0;
-    font-family: "Gilroy";
-    color: $grey-190;
+  // font-family: system-ui;
+  font-style: normal;
+  font-size: 16px;
+  min-height: 100vh;
+  margin: 0;
+  padding: 0;
+  font-family: "Gilroy";
+  color: $grey-190;
 }
 
 a {
-    text-decoration: none;
+  text-decoration: none;
 }
 
 p {
-    margin: 0;
+  margin: 0;
 }
 
 .desc {
-    font-size: 18px;
-    font-weight: 600;
+  font-size: 18px;
+  font-weight: 600;
 }
 
 .subtitle {
-    font-size: 24px;
-    font-weight: 700;
+  font-size: 24px;
+  font-weight: 700;
 }
 
 #nav_and_main {
-    display: inline-flex;
-    width: 100%;
-    max-width: 1920px;
-    margin: auto;
-    margin-top: 60px;
-    padding: 0 60px;
-    min-width: 1032px;
-    position: relative;
+  display: inline-flex;
+  width: 100%;
+  max-width: 1920px;
+  margin: auto;
+  margin-top: 60px;
+  padding: 0 60px;
+  min-width: 1032px;
+  position: relative;
 }
 
 @media only screen and (max-width: $desktop-max-width) {
-    #nav_and_main {
-        padding: 0 40px;
+  #nav_and_main {
+    padding: 0 40px;
 
-        #content {
-            padding: 0 24px 0 40px;
-        }
+    #content {
+      padding: 0 24px 0 40px;
     }
+  }
 }
 
 .box-container {
-    background-color: $blue-10;
-    border-radius: $global-border-radius-m;
-    padding: 40px;
+  background-color: $blue-10;
+  border-radius: $global-border-radius-m;
+  padding: 40px;
 
-    .title {
-        color: $cyan-20;
-        font-size: 32px;
-        font-weight: 700;
-        margin-bottom: 40px;
-    }
+  .title {
+    color: $cyan-20;
+    font-size: 32px;
+    font-weight: 700;
+    margin-bottom: 40px;
+  }
 }
 
 #content {
+  width: 100%;
+  display: inline-block;
+  position: relative;
+  background-color: $white;
+  padding: 0 40px 0 80px;
+  z-index: 2;
+  justify-content: center;
+
+  .title-container {
     width: 100%;
-    display: inline-block;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 32px;
+
+    .title {
+      font-size: $global-title;
+      font-weight: 700;
+      color: $black;
+    }
+  }
+
+  .content-img-container {
+    width: 100%;
+    height: 360px;
+    margin-bottom: 40px;
     position: relative;
-    background-color: $white;
-    padding: 0 40px 0 80px;
-    z-index: 2;
-    justify-content: center;
+    border-radius: $global-border-radius;
+    overflow: hidden;
 
-    .title-container {
-        width: 100%;
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 32px;
-
-        .title {
-            font-size: $global-title;
-            font-weight: 700;
-            color: $black;
-        }
+    .content-img {
+      width: 100%;
+      border-radius: $global-border-radius;
+      object-fit: cover;
     }
+  }
 
-    .content-img-container {
-        width: 100%;
-        height: 360px;
-        margin-bottom: 40px;
-        position: relative;
-        border-radius: $global-border-radius;
-        overflow: hidden;
+  &__title {
+    font-weight: 700;
+    font-size: $global-title;
+    color: $black;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
 
-        .content-img {
-            width: 100%;
-            border-radius: $global-border-radius;
-            object-fit: cover;
-        }
+    a {
+      font-weight: 700;
+      font-size: 2rem;
+      color: $grey-190;
     }
-
-    &__title {
-        font-weight: 700;
-        font-size: $global-title;
-        color: $black;
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-
-        a {
-            font-weight: 700;
-            font-size: 2rem;
-            color: $grey-190;
-        }
-    }
+  }
 }
 
 select {
-    outline: none;
-    height: 35px;
-    border-radius: $global-border-radius-m;
-    border: 1px solid $grey-130;
-    padding: 0px 15px;
-    font-size: 16px;
+  outline: none;
+  height: 35px;
+  border-radius: $global-border-radius-m;
+  border: 1px solid $grey-130;
+  padding: 0px 15px;
+  font-size: 16px;
 }
 
 #container {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .labeled_box {
-    margin-bottom: 70px;
-    width: 100%;
+  margin-bottom: 70px;
+  width: 100%;
 }
 
 .labeled_box_label {
-    font-weight: 700;
-    font-size: $global-title;
-    margin-bottom: 40px;
-    color: $grey-190;
+  font-weight: 700;
+  font-size: $global-title;
+  margin-bottom: 40px;
+  color: $grey-190;
 }
 
 .labeled_box_children {
-    border: 1px solid $grey-120;
-    border-radius: $global-border-radius;
-    padding: 40px;
+  border: 1px solid $grey-120;
+  border-radius: $global-border-radius;
+  padding: 40px;
 
-    .investors-container {
-        display: flex;
-        justify-content: space-between;
-        max-width: 900px;
+  .investors-container {
+    display: flex;
+    justify-content: space-between;
+    max-width: 900px;
 
-        img {
-            margin-left: 10px;
-        }
-
-        .flexBlock {
-            display: flex;
-            align-items: center;
-            margin-bottom: 32px;
-        }
+    img {
+      margin-left: 10px;
     }
+
+    .flexBlock {
+      display: flex;
+      align-items: center;
+      margin-bottom: 32px;
+    }
+  }
 }
 
 @media only screen and (min-width: $tablet-min-width) {
-    .pie_chart__container {
-        height: 370px;
-        display: flex;
-        align-items: center;
-    }
+  .pie_chart__container {
+    height: 370px;
+    display: flex;
+    align-items: center;
+  }
 }
 
 .first_dao_widget {
-    margin-top: 40px;
-    border: 1px solid $grey-120;
-    border-radius: $global-border-radius-m;
-    padding: 40px;
+  margin-top: 40px;
+  border: 1px solid $grey-120;
+  border-radius: $global-border-radius-m;
+  padding: 40px;
 
-    .project-wallet {
-        display: flex;
-        align-items: center;
-        gap: 24px;
-        width: 100%;
-        margin-top: 5px;
+  .project-wallet {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    width: 100%;
+    margin-top: 5px;
+  }
+
+  .labeled_box {
+    margin-bottom: 32px;
+  }
+
+  .labeled_box_label {
+    font-size: 16px;
+    margin-bottom: 12px;
+  }
+
+  .labeled_box_children {
+    display: flex;
+    flex-direction: row;
+    gap: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    flex-wrap: wrap;
+    border: none;
+    padding: 0;
+  }
+
+  .funds_act_entry {
+    padding: 0;
+    margin-bottom: 32px;
+    border: none;
+    border-radius: 0;
+    position: relative;
+
+    &__body {
+      display: flex;
+      align-items: flex-end;
+      gap: 0;
     }
 
-    .labeled_box {
-        margin-bottom: 32px;
+    &__date {
+      color: $grey-150;
+      font-size: 13px;
+      line-height: 25.6px;
     }
 
-    .labeled_box_label {
-        font-size: 16px;
-        margin-bottom: 12px;
+    .details {
+      color: $cyan-20;
+      text-decoration: underline;
+      width: auto;
+      font-weight: 600;
     }
-
-    .labeled_box_children {
-        display: flex;
-        flex-direction: row;
-        gap: 8px;
-        font-size: 18px;
-        font-weight: bold;
-        flex-wrap: wrap;
-        border: none;
-        padding: 0;
-    }
-
-    .funds_act_entry {
-        padding: 0;
-        margin-bottom: 32px;
-        border: none;
-        border-radius: 0;
-        position: relative;
-
-        &__body {
-            display: flex;
-            align-items: flex-end;
-            gap: 0;
-        }
-
-        &__date {
-            color: $grey-150;
-            font-size: 13px;
-            line-height: 25.6px;
-        }
-
-        .details {
-            color: $cyan-20;
-            text-decoration: underline;
-            width: auto;
-            font-weight: 600;
-        }
-    }
+  }
 }
 
 .section_container {
-    margin: 80px 0 20px 0;
+  margin: 80px 0 20px 0;
 }
 
 @media only screen and (min-width: $tablet-min-width) and (max-width: $tablet-max-width) {
-    .section_container {
-        margin-top: 40px;
-    }
+  .section_container {
+    margin-top: 40px;
+  }
 }
 
 .section_large_bottom {
-    color: $grey-160;
-    font-weight: 600;
-    font-size: 18px;
-    margin: 24px 0 40px 0;
+  color: $grey-160;
+  font-weight: 600;
+  font-size: 18px;
+  margin: 24px 0 40px 0;
 }
 
 .selected {
-    border: 1px solid $red-10;
-    border-radius: $global-border-radius;
+  border: 1px solid $red-10;
+  border-radius: $global-border-radius;
 }
 
 .circle {
-    background-color: $grey-110;
-    width: 16px;
-    height: 16px;
-    border-radius: 50%;
+  background-color: $grey-110;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
 }
 
 @media only screen and (max-width: $tablet-max-width) {
-    #content {
-        margin-top: 60px;
-        padding: 0 40px;
-        max-width: 800px;
+  #content {
+    margin-top: 60px;
+    padding: 0 40px;
+    max-width: 800px;
 
-        .content-img {
-            height: 240px;
-        }
-
-        .title-container {
-            flex-direction: column;
-            gap: 40px;
-            align-items: flex-start;
-            margin-bottom: 40px;
-        }
-
-        .first_dao_widget {
-            display: flex;
-            width: 100%;
-            border: none;
-            margin-bottom: 76px;
-            flex-direction: column;
-            justify-content: center;
-            padding: 0;
-        }
+    .content-img {
+      height: 240px;
     }
+
+    .title-container {
+      flex-direction: column;
+      gap: 40px;
+      align-items: flex-start;
+      margin-bottom: 40px;
+    }
+
+    .first_dao_widget {
+      display: flex;
+      width: 100%;
+      border: none;
+      margin-bottom: 76px;
+      flex-direction: column;
+      justify-content: center;
+      padding: 0;
+    }
+  }
 }
 
 @media only screen and (max-width: $mobile-max-width) {
-    #content {
-        padding: 0 20px;
-        margin-top: 68px;
+  #content {
+    padding: 0 20px;
+    margin-top: 68px;
 
-        .shares-box {
-            height: 750px;
+    .shares-box {
+      height: 750px;
 
-            .shares-amount {
-                .available-shares {
-                    .mb-16 {
-                        margin-bottom: 24px;
-                    }
-                }
-
-                .labeled_input {
-                    margin-bottom: 24px;
-                }
-            }
-        }
-
-        .box-container {
-            padding: 40px 20px;
-        }
-
-        .content-img {
-            height: 266px;
+      .shares-amount {
+        .available-shares {
+          .mb-16 {
             margin-bottom: 24px;
+          }
         }
 
-        .title-container {
-            gap: 24px;
-            margin-bottom: 24px;
+        .labeled_input {
+          margin-bottom: 24px;
         }
+      }
     }
 
-    #investors-distribution {
-        .labeled_box_children {
-            .investors-container {
-                flex-direction: column;
-                justify-content: space-between;
-                gap: 40px;
-            }
-        }
+    .box-container {
+      padding: 40px 20px;
     }
-    .first_dao_widget {
-        .project-wallet {
-            display: none;
-        }
+
+    .content-img {
+      height: 266px;
+      margin-bottom: 24px;
     }
+
+    .title-container {
+      gap: 24px;
+      margin-bottom: 24px;
+    }
+  }
+
+  #investors-distribution {
+    .labeled_box_children {
+      .investors-container {
+        flex-direction: column;
+        justify-content: space-between;
+        gap: 40px;
+      }
+    }
+  }
+  .first_dao_widget {
+    .project-wallet {
+      display: none;
+    }
+  }
 }
-
 
 @media only screen and (min-width: $desktop-min-width) {
-    .holder_list_container {
-        min-width: 203px;
-    }
+  .holder_list_container {
+    min-width: 203px;
+  }
 }
 
 @media only screen and (max-width: $mobile-max-width) {
-    .available-shares {
-        height: 100%;
-        flex-direction: column;
+  .available-shares {
+    height: 100%;
+    flex-direction: column;
 
-        .title {
-            margin-bottom: 80px;
-        }
-
-        .shares-chart {
-            display: flex;
-            align-self: center;
-            width: 200px;
-        }
-
-        .subtitle {
-            font-size: 18px;
-            font-weight: 600;
-        }
+    .title {
+      margin-bottom: 80px;
     }
+
+    .shares-chart {
+      display: flex;
+      align-self: center;
+      width: 200px;
+    }
+
+    .subtitle {
+      font-size: 18px;
+      font-weight: 600;
+    }
+  }
 }
 
 @media only screen and (max-width: $desktop-max-width) {
-    .shares-box {
-        .shares-amount {
-            width: 100%;
+  .shares-box {
+    .shares-amount {
+      width: 100%;
 
-            .available-shares {
-                width: 100%;
-                justify-content: space-between;
+      .available-shares {
+        width: 100%;
+        justify-content: space-between;
 
-                .shares-chart {
-                    max-width: 250px;
-                }
-            }
+        .shares-chart {
+          max-width: 250px;
         }
+      }
     }
+  }
 
-    .shares-box .shares-amount .buy-shares-input .labeled_input {
-        margin-top: 0;
-    }
+  .shares-box .shares-amount .buy-shares-input .labeled_input {
+    margin-top: 0;
+  }
 
-    .box-container .shares-amount .buy-shares-input .labeled_input {
-        margin-top: 0;
-    }
+  .box-container .shares-amount .buy-shares-input .labeled_input {
+    margin-top: 0;
+  }
 }
 
 @media only screen and (min-width: $desktop-lg-min-width) {
-    .shares-box {
-        .shares-amount {
-            width: 100%;
-            max-width: 550px;
-        }
+  .shares-box {
+    .shares-amount {
+      width: 100%;
+      max-width: 550px;
     }
+  }
 
-    .shares-chart {
-        min-width: 350px;
-    }
+  .shares-chart {
+    min-width: 350px;
+  }
 }
 
 @media only screen and (min-width: 1701px) {
-    .buy-shares-left-col {
-        width: 100%;
-        max-width: 535px;
-    }
+  .buy-shares-left-col {
+    width: 100%;
+    max-width: 535px;
+  }
 }
 
 .shares-box {
-    height: 545px;
+  height: 545px;
+  display: flex;
+  justify-content: space-between;
+  box-sizing: border-box;
+
+  .shares-amount {
     display: flex;
+    flex-direction: column;
     justify-content: space-between;
-    box-sizing: border-box;
+  }
 
-    .shares-amount {
-        display: flex;
-        flex-direction: column;
-        justify-content: space-between;
-    }
-
-    .shares-chart {
-        max-width: 350px;
-    }
+  .shares-chart {
+    max-width: 350px;
+  }
 }
 
 .shares-amount .available-shares {
-    display: flex;
-    width: 100%;
+  display: flex;
+  width: 100%;
 }
 
 .retrievable-profits {
+  display: flex;
+  gap: 300px;
+
+  .retrievable-tab {
     display: flex;
-    gap: 300px;
+    flex-direction: column;
+    gap: 32px;
+  }
 
-    .retrievable-tab {
-        display: flex;
-        flex-direction: column;
-        gap: 32px;
+  .retrieved-tab {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    color: $grey-160;
+
+    .flex-block {
+      .fund-asset {
+        opacity: 0.5;
+      }
     }
-
-    .retrieved-tab {
-        display: flex;
-        flex-direction: column;
-        gap: 12px;
-        color: $grey-160;
-
-        .flex-block {
-            .fund-asset {
-                opacity: 0.5;
-            }
-        }
-    }
+  }
 }
 
 @media only screen and (max-width: $desktop-max-width) {
-    .retrievable-profits {
-        gap: 190;
-    }
+  .retrievable-profits {
+    gap: 190;
+  }
 }
 
 @media only screen and (max-width: $tablet-max-width) {
-    .retrievable-profits {
-        gap: 0;
-        flex-direction: column;
+  .retrievable-profits {
+    gap: 0;
+    flex-direction: column;
 
-        .retrieved-tab {
-            margin-top: 40px;
-        }
+    .retrieved-tab {
+      margin-top: 40px;
     }
+  }
 }
 
 @media only screen and (max-width: $mobile-max-width) {
-    .retrievable-profits {
-        gap: 0;
-        flex-direction: column;
+  .retrievable-profits {
+    gap: 0;
+    flex-direction: column;
 
-        .retrievable-tab {
-            gap: 40px;
+    .retrievable-tab {
+      gap: 40px;
 
-            .flex-block {
-                .fund-asset {
-                    width: 16px;
-                }
-            }
-
-            .subtitle {
-                font-size: 18px;
-            }
+      .flex-block {
+        .fund-asset {
+          width: 16px;
         }
+      }
 
-        .retrieved-tab {
-            flex-direction: row;
-            margin-top: 60px;
-            color: $black;
-
-            .desc {
-                font-weight: 400;
-            }
-
-            .flex-block {
-                .fund-asset {
-                    width: 16px;
-                    opacity: 1;
-                }
-            }
-
-            .subtitle {
-                font-size: 16px;
-            }
-        }
+      .subtitle {
+        font-size: 18px;
+      }
     }
+
+    .retrieved-tab {
+      flex-direction: row;
+      margin-top: 60px;
+      color: $black;
+
+      .desc {
+        font-weight: 400;
+      }
+
+      .flex-block {
+        .fund-asset {
+          width: 16px;
+          opacity: 1;
+        }
+      }
+
+      .subtitle {
+        font-size: 16px;
+      }
+    }
+  }
 }
 
 .http-error-label {
-    font-size: 230px;
-    font-weight: 700;
-    color: $red-10;
+  font-size: 230px;
+  font-weight: 700;
+  color: $red-10;
 }
 
 .http-error-message {
-    font-size: 40px;
-    font-weight: 700;
-    margin-bottom: 32px;
-    color: $black;
+  font-size: 40px;
+  font-weight: 700;
+  margin-bottom: 32px;
+  color: $black;
 }
 
 .http-error-descr {
-    font-size: 16;
-    margin-bottom: 5px;
-    color: $grey-160;
+  font-size: 16;
+  margin-bottom: 5px;
+  color: $grey-160;
 }
 
 .http-submit-button {
-    // @extend .button-primary;
-    width: 340px;
-    margin-top: 40px;
-    background-color: $cyan-20;
+  // @extend .button-primary;
+  width: 340px;
+  margin-top: 40px;
+  background-color: $cyan-20;
 }
 
 @media only screen and (max-width: $tablet-max-width) {
-    .error404-container {
-        padding: 0 40px;
-    }
+  .error404-container {
+    padding: 0 40px;
+  }
 }
 
 @media only screen and (max-width: $mobile-max-width) {
-    .error404-container {
-        padding: 0 20px;
+  .error404-container {
+    padding: 0 20px;
 
-        .http-error-label {
-            font-size: 130px;
-        }
-
-        .http-submit-button {
-            width: 180px;
-            margin-top: 80px;
-        }
+    .http-error-label {
+      font-size: 130px;
     }
+
+    .http-submit-button {
+      width: 180px;
+      margin-top: 80px;
+    }
+  }
 }

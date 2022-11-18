@@ -1,14 +1,14 @@
-import React, { useState } from "react";
-import { SubmitButton } from "./SubmitButton";
-import { ContentTitle } from "./ContentTitle";
-import { updateApp } from "../controller/update_app";
-import { UpdateDaoData } from "./UpdateDaoData";
-import { useDaoId } from "../hooks/useDaoId";
+import React, { useState } from "react"
+import { SubmitButton } from "./SubmitButton"
+import { ContentTitle } from "./ContentTitle"
+import { updateApp } from "../controller/update_app"
+import { UpdateDaoData } from "./UpdateDaoData"
+import { useDaoId } from "../hooks/useDaoId"
 
 export const Settings = ({ deps }) => {
-  const daoId = useDaoId();
+  const daoId = useDaoId()
 
-  const [submitting, setSubmitting] = useState(false);
+  const [submitting, setSubmitting] = useState(false)
 
   const appVersionView = () => {
     return (
@@ -25,8 +25,8 @@ export const Settings = ({ deps }) => {
           {updateAppView(deps.daoVersion.update_data)}
         </div>
       )
-    );
-  };
+    )
+  }
 
   const updateAppView = (updateData) => {
     if (updateData) {
@@ -54,16 +54,16 @@ export const Settings = ({ deps }) => {
                   deps.daoVersion.update_data.new_approval_version,
                   deps.daoVersion.update_data.new_clear_version,
                   deps.updateDaoVersion
-                );
+                )
               }}
             />
           </div>
         </div>
-      );
+      )
     } else {
-      return <div>{"Your're up to date"}</div>;
+      return <div>{"Your're up to date"}</div>
     }
-  };
+  }
 
   const body = () => {
     return (
@@ -73,8 +73,8 @@ export const Settings = ({ deps }) => {
           <UpdateDaoData deps={deps} />
         </div>
       )
-    );
-  };
+    )
+  }
 
   return (
     <div>
@@ -83,11 +83,11 @@ export const Settings = ({ deps }) => {
         {body()}
       </div>
     </div>
-  );
-};
+  )
+}
 
 const appVersionStr = (approvalVersion, clearVersion) => {
   // For visual purposes, the "app version" contains both the approval and clear version
   // not important (for now?) that the user doesn't know what this means.
-  return approvalVersion + "-" + clearVersion;
-};
+  return approvalVersion + "-" + clearVersion
+}

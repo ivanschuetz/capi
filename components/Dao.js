@@ -1,47 +1,42 @@
-import React, { useState, useEffect } from "react";
-import { IncomeSpendingBox } from "./IncomeSpendingBox";
-import { SharesDistributionBox } from "./SharesDistributionBox";
-import { InvestEmbedded } from "./InvestEmbedded";
-import Progress from "./Progress";
-import { loadDescription } from "../controller/dao";
-import { FundsActivityEmbedded } from "./FundsActivityEmbedded";
-import { RaisedFunds } from "./RaisedFunds";
-import { useDaoId } from "../hooks/useDaoId";
+import React, { useState, useEffect } from "react"
+import { IncomeSpendingBox } from "./IncomeSpendingBox"
+import { SharesDistributionBox } from "./SharesDistributionBox"
+import { InvestEmbedded } from "./InvestEmbedded"
+import Progress from "./Progress"
+import { loadDescription } from "../controller/dao"
+import { FundsActivityEmbedded } from "./FundsActivityEmbedded"
+import { RaisedFunds } from "./RaisedFunds"
+import { useDaoId } from "../hooks/useDaoId"
 
 export const Dao = ({ deps }) => {
-  const daoId = useDaoId();
+  const daoId = useDaoId()
 
-  const [description, setDescription] = useState(null);
+  const [description, setDescription] = useState(null)
 
   useEffect(() => {
     async function asyncInit() {
-      await deps.updateDao.call(null, daoId);
+      await deps.updateDao.call(null, daoId)
     }
     if (daoId) {
-      asyncInit();
+      asyncInit()
     }
-  }, [daoId, deps.statusMsg, deps.updateDao]);
+  }, [daoId, deps.statusMsg, deps.updateDao])
 
   useEffect(() => {
     async function fetch() {
-      await loadDescription(
-        deps.wasm,
-        deps.statusMsg,
-        deps.dao,
-        setDescription
-      );
+      await loadDescription(deps.wasm, deps.statusMsg, deps.dao, setDescription)
     }
     if (deps.wasm) {
-      fetch();
+      fetch()
     }
-  }, [deps.wasm, deps.statusMsg, deps.dao, setDescription]);
+  }, [deps.wasm, deps.statusMsg, deps.dao, setDescription])
 
   const maybeInvestView = (dao) => {
     if (!deps.features.prospectus) {
-      return null;
+      return null
     } else {
       if (dao.prospectus) {
-        return <InvestEmbedded deps={deps} dao={dao} />;
+        return <InvestEmbedded deps={deps} dao={dao} />
       } else {
         return (
           <div>
@@ -49,10 +44,10 @@ export const Dao = ({ deps }) => {
               "Investing currently is not possible, because the project hasn't added a prospectus."
             }
           </div>
-        );
+        )
       }
     }
-  };
+  }
 
   const daoView = () => {
     if (deps.dao) {
@@ -83,11 +78,11 @@ export const Dao = ({ deps }) => {
             )}
           </div>
         </div>
-      );
+      )
     } else {
-      return <Progress />;
+      return <Progress />
     }
-  };
+  }
 
-  return <div>{daoView()}</div>;
-};
+  return <div>{daoView()}</div>
+}

@@ -1,4 +1,4 @@
-import { PdfView } from "../pdf/PdfView";
+import { PdfView } from "../pdf/PdfView"
 
 export const ProspectusView = ({ deps, url, hash }) => {
   return (
@@ -9,5 +9,5 @@ export const ProspectusView = ({ deps, url, hash }) => {
         <span>{hash}</span>
       </div>
     </div>
-  );
-};
+  )
+}

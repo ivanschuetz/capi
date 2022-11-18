@@ -1,10 +1,10 @@
-import facebook from "../images/svg/facebook.svg";
-import linkedin from "../images/svg/linkedin.svg";
-import twitter from "../images/svg/twitter-white.svg";
-import telegram from "../images/svg/telegram.svg";
+import facebook from "../images/svg/facebook.svg"
+import linkedin from "../images/svg/linkedin.svg"
+import twitter from "../images/svg/twitter-white.svg"
+import telegram from "../images/svg/telegram.svg"
 
 const ShareView = ({ projectUrl }) => {
-  const shareText = "Invest in my project!";
+  const shareText = "Invest in my project!"
 
   return (
     <div className="modal-container">
@@ -34,10 +34,10 @@ const ShareView = ({ projectUrl }) => {
         </a>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default ShareView;
+export default ShareView
 
 const twitterLink = (url, title) => {
   return (
@@ -46,8 +46,8 @@ const twitterLink = (url, title) => {
       url,
       text: title,
     })
-  );
-};
+  )
+}
 
 const facebookLink = (url, title) => {
   return (
@@ -56,8 +56,8 @@ const facebookLink = (url, title) => {
       u: url,
       quote: title,
     })
-  );
-};
+  )
+}
 
 const linkedInLink = (url, title) => {
   return (
@@ -67,8 +67,8 @@ const linkedInLink = (url, title) => {
       mini: "true",
       title,
     })
-  );
-};
+  )
+}
 
 const telegramLink = (url, title) => {
   return (
@@ -77,14 +77,14 @@ const telegramLink = (url, title) => {
       url,
       text: title,
     })
-  );
-};
+  )
+}
 
 function objectToGetParams(object) {
   const params = Object.entries(object).map(
     ([key, value]) =>
       `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`
-  );
+  )
 
-  return params.length > 0 ? `?${params.join("&")}` : "";
+  return params.length > 0 ? `?${params.join("&")}` : ""
 }

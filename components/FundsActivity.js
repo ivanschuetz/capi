@@ -1,16 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { ContentTitle } from "./ContentTitle";
-import { loadFundsActivity } from "../controller/funds_activity";
-import { FundsActivityEntry } from "./FundsActivityEntry";
-import Progress from "./Progress";
-import { SubmitButton } from "./SubmitButton";
-import Link from "next/link";
-import { useDaoId } from "../hooks/useDaoId";
+import React, { useEffect, useState } from "react"
+import { ContentTitle } from "./ContentTitle"
+import { loadFundsActivity } from "../controller/funds_activity"
+import { FundsActivityEntry } from "./FundsActivityEntry"
+import Progress from "./Progress"
+import { SubmitButton } from "./SubmitButton"
+import Link from "next/link"
+import { useDaoId } from "../hooks/useDaoId"
 
 export const FundsActivity = ({ deps }) => {
-  const daoId = useDaoId();
+  const daoId = useDaoId()
 
-  const [activityEntries, setActivityEntries] = useState(null);
+  const [activityEntries, setActivityEntries] = useState(null)
 
   useEffect(() => {
     if (deps.wasm) {
@@ -20,9 +20,9 @@ export const FundsActivity = ({ deps }) => {
         daoId,
         setActivityEntries,
         null
-      );
+      )
     }
-  }, [deps.wasm, daoId, deps.statusMsg]);
+  }, [deps.wasm, daoId, deps.statusMsg])
 
   const fundsActivity = () => {
     if (activityEntries) {
@@ -39,14 +39,14 @@ export const FundsActivity = ({ deps }) => {
                 />
               ))}
           </div>
-        );
+        )
       } else {
-        return <NoActivityView daoId={daoId} />;
+        return <NoActivityView daoId={daoId} />
       }
     } else {
-      return <Progress />;
+      return <Progress />
     }
-  };
+  }
 
   const view = () => {
     return (
@@ -54,11 +54,11 @@ export const FundsActivity = ({ deps }) => {
         <ContentTitle title={"Funds activity"} />
         <div className="mt-40">{fundsActivity()}</div>
       </div>
-    );
-  };
+    )
+  }
 
-  return <div>{view()}</div>;
-};
+  return <div>{view()}</div>
+}
 
 const NoActivityView = ({ daoId }) => {
   return (
@@ -77,5 +77,5 @@ const NoActivityView = ({ daoId }) => {
         </Link>
       </div>
     </div>
-  );
-};
+  )
+}

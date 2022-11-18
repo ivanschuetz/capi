@@ -1,29 +1,29 @@
-import React, { useEffect, useState } from "react";
-import Progress from "./Progress";
-import { SubmitButton } from "./SubmitButton";
-import { LabeledCurrencyInput, LabeledTextArea } from "./labeled_inputs";
-import { Funds } from "./Funds";
-import { init, withdraw } from "../controller/withdraw";
-import pencil from "../images/svg/pencil.svg";
-import funds from "../images/funds.svg";
-import { useDaoId } from "../hooks/useDaoId";
+import React, { useEffect, useState } from "react"
+import Progress from "./Progress"
+import { SubmitButton } from "./SubmitButton"
+import { LabeledCurrencyInput, LabeledTextArea } from "./labeled_inputs"
+import { Funds } from "./Funds"
+import { init, withdraw } from "../controller/withdraw"
+import pencil from "../images/svg/pencil.svg"
+import funds from "../images/funds.svg"
+import { useDaoId } from "../hooks/useDaoId"
 
 export const Withdraw = ({ deps }) => {
-  let daoId = useDaoId();
+  let daoId = useDaoId()
 
-  const [withdrawalAmount, setWithdrawalAmount] = useState("10");
-  const [withdrawalDescr, setWithdrawalDescr] = useState("Type the reason");
-  const [dao, setDao] = useState(null);
-  const [submitting, setSubmitting] = useState(false);
+  const [withdrawalAmount, setWithdrawalAmount] = useState("10")
+  const [withdrawalDescr, setWithdrawalDescr] = useState("Type the reason")
+  const [dao, setDao] = useState(null)
+  const [submitting, setSubmitting] = useState(false)
 
   useEffect(() => {
     async function asyncInit() {
-      await init(deps.wasm, deps.statusMsg, daoId, null, setDao);
+      await init(deps.wasm, deps.statusMsg, daoId, null, setDao)
     }
     if (deps.wasm) {
-      asyncInit();
+      asyncInit()
     }
-  }, [deps.wasm, daoId, setDao, deps.statusMsg]);
+  }, [deps.wasm, daoId, setDao, deps.statusMsg])
 
   const view = () => {
     if (dao) {
@@ -61,8 +61,8 @@ export const Withdraw = ({ deps }) => {
             onClick={async () => {
               if (!deps.wasm) {
                 // should be unlikely, as wasm should initialize quickly
-                console.error("Click while wasm isn't ready. Ignoring.");
-                return;
+                console.error("Click while wasm isn't ready. Ignoring.")
+                return
               }
 
               await withdraw(
@@ -77,15 +77,15 @@ export const Withdraw = ({ deps }) => {
                 daoId,
                 withdrawalAmount,
                 withdrawalDescr
-              );
+              )
             }}
           />
         </div>
-      );
+      )
     } else {
-      return <Progress />;
+      return <Progress />
     }
-  };
+  }
 
-  return <div>{view()}</div>;
-};
+  return <div>{view()}</div>
+}
