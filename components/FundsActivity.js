@@ -12,17 +12,7 @@ export const FundsActivity = ({ deps }) => {
 
   const [activityEntries, setActivityEntries] = useState(null)
 
-  useEffect(() => {
-    if (deps.wasm) {
-      loadFundsActivity(
-        deps.wasm,
-        deps.statusMsg,
-        daoId,
-        setActivityEntries,
-        null
-      )
-    }
-  }, [deps.wasm, daoId, deps.statusMsg])
+  updateActivityEntries(deps, daoId, setActivityEntries)
 
   const fundsActivity = () => {
     if (activityEntries) {
@@ -78,4 +68,18 @@ const NoActivityView = ({ daoId }) => {
       </div>
     </div>
   )
+}
+
+const updateActivityEntries = (deps, daoId, setActivityEntries) => {
+  useEffect(() => {
+    if (deps.wasm) {
+      loadFundsActivity(
+        deps.wasm,
+        deps.statusMsg,
+        daoId,
+        setActivityEntries,
+        null
+      )
+    }
+  }, [deps.wasm, daoId, deps.statusMsg])
 }

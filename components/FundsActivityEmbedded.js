@@ -10,16 +10,8 @@ import Progress from "../components/Progress"
 export const FundsActivityEmbedded = ({ deps, daoId }) => {
   const [dao, setDao] = useState(null)
 
-  useEffect(() => {
-    if (deps.wasm) {
-      // TODO use dao in deps? - might need to call update
-      loadDao(deps.wasm, deps.statusMsg, daoId, setDao)
-    }
-  }, [deps.wasm, daoId, deps.statusMsg])
-
-  useEffect(() => {
-    deps.updateCompactFundsActivity.call(null, daoId)
-  }, [deps.updateCompactFundsActivity, daoId])
+  updateDao(deps, daoId, setDao)
+  updateFundsActivity(deps, daoId)
 
   const hasEntries = () => {
     return deps.compactFundsActivity && deps.compactFundsActivity.length > 0
@@ -98,4 +90,19 @@ export const FundsActivityEmbedded = ({ deps, daoId }) => {
   }
 
   return <div>{view()}</div>
+}
+
+const updateDao = (deps, daoId, setDao) => {
+  useEffect(() => {
+    if (deps.wasm) {
+      // TODO use dao in deps? - might need to call update
+      loadDao(deps.wasm, deps.statusMsg, daoId, setDao)
+    }
+  }, [deps.wasm, daoId, deps.statusMsg])
+}
+
+const updateFundsActivity = (deps, daoId) => {
+  useEffect(() => {
+    deps.updateCompactFundsActivity.call(null, daoId)
+  }, [deps.updateCompactFundsActivity, daoId])
 }

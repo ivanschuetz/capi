@@ -7,11 +7,7 @@ import { MyDaoCreateItem } from "./MyDaoCreateItem"
 export const MyDaos = ({ deps }) => {
   const [myDaos, setMyDaos] = useState([])
 
-  useEffect(() => {
-    if (deps.wasm && deps.myAddress) {
-      loadMyDaos(deps.wasm, deps.statusMsg, deps.myAddress, setMyDaos)
-    }
-  }, [deps.wasm, deps.statusMsg, deps.myAddress])
+  updateMyDaos(deps, setMyDaos)
 
   const myDaosView = () => {
     var elements = myDaos ? myDaos.map((dao) => <MyDaoItem dao={dao} />) : []
@@ -29,4 +25,12 @@ export const MyDaos = ({ deps }) => {
   }
 
   return <div>{view()}</div>
+}
+
+const updateMyDaos = (deps, setMyDaos) => {
+  useEffect(() => {
+    if (deps.wasm && deps.myAddress) {
+      loadMyDaos(deps.wasm, deps.statusMsg, deps.myAddress, setMyDaos)
+    }
+  }, [deps.wasm, deps.statusMsg, deps.myAddress])
 }

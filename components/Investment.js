@@ -12,39 +12,11 @@ export const Investment = ({ deps }) => {
   let daoId = useDaoId()
 
   const [dao, setDao] = useState(null)
-
   const [showBuyMoreTab, setShowBuyMoreTab] = useState(true)
   const [showUnlockTab, setShowUnlockTab] = useState(false)
   const [showLockTab, setShowLockTab] = useState(false)
 
-  useEffect(() => {
-    async function doInit() {
-      await init(
-        deps.wasm,
-        deps.statusMsg,
-        deps.myAddress,
-        deps.updateInvestmentData,
-        deps.updateMyShares,
-
-        daoId,
-        setDao
-      )
-
-      if (deps.myAddress) {
-        await deps.updateInvestmentData.call(null, daoId, deps.myAddress)
-      }
-    }
-    if (deps.wasm) {
-      doInit()
-    }
-  }, [
-    deps.wasm,
-    daoId,
-    deps.myAddress,
-    deps.statusMsg,
-    deps.updateInvestmentData,
-    deps.updateMyShares,
-  ])
+  initAndUpdateInvestmentData(deps, daoId, setDao)
 
   const userView = () => {
     if (deps.myAddress && dao && deps.investmentData) {
@@ -145,4 +117,35 @@ const actions_tabs_classes = (tabIsShowing) => {
     clazz += " dao_action_tab_item__sel"
   }
   return clazz
+}
+
+const initAndUpdateInvestmentData = (deps, daoId, setDao) => {
+  useEffect(() => {
+    const doInit = async () => {
+      await init(
+        deps.wasm,
+        deps.statusMsg,
+        deps.myAddress,
+        deps.updateInvestmentData,
+        deps.updateMyShares,
+
+        daoId,
+        setDao
+      )
+
+      if (deps.myAddress) {
+        await deps.updateInvestmentData.call(null, daoId, deps.myAddress)
+      }
+    }
+    if (deps.wasm) {
+      doInit()
+    }
+  }, [
+    deps.wasm,
+    daoId,
+    deps.myAddress,
+    deps.statusMsg,
+    deps.updateInvestmentData,
+    deps.updateMyShares,
+  ])
 }

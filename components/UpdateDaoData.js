@@ -50,26 +50,18 @@ export const UpdateDaoData = ({ deps }) => {
   const [showConfirmRekeyModal, setShowConfirmRekeyModal] = useState(false)
   const [showProspectusModal, setShowProspectusModal] = useState(false)
 
-  useEffect(() => {
-    async function prefill() {
-      if (daoId) {
-        await prefillInputs(
-          deps.statusMsg,
-
-          daoId,
-          setDaoName,
-          setDaoDescr,
-          setSharePrice,
-          setImageBytes,
-          setSocialMediaUrl,
-          setMinInvestShares,
-          setMaxInvestShares,
-          setPrefillProspectus
-        )
-      }
-    }
-    prefill()
-  }, [daoId, deps.statusMsg])
+  prefill(
+    deps,
+    daoId,
+    setDaoName,
+    setDaoDescr,
+    setSharePrice,
+    setImageBytes,
+    setSocialMediaUrl,
+    setMinInvestShares,
+    setMaxInvestShares,
+    setPrefillProspectus
+  )
 
   const body = () => {
     return (
@@ -258,4 +250,38 @@ export const UpdateDaoData = ({ deps }) => {
       )}
     </div>
   )
+}
+
+const prefill = (
+  deps,
+  daoId,
+  setDaoName,
+  setDaoDescr,
+  setSharePrice,
+  setImageBytes,
+  setSocialMediaUrl,
+  setMinInvestShares,
+  setMaxInvestShares,
+  setPrefillProspectus
+) => {
+  useEffect(() => {
+    async function prefill() {
+      if (daoId) {
+        await prefillInputs(
+          deps.statusMsg,
+
+          daoId,
+          setDaoName,
+          setDaoDescr,
+          setSharePrice,
+          setImageBytes,
+          setSocialMediaUrl,
+          setMinInvestShares,
+          setMaxInvestShares,
+          setPrefillProspectus
+        )
+      }
+    }
+    prefill()
+  }, [daoId, deps.statusMsg])
 }

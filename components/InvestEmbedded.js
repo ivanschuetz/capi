@@ -31,6 +31,28 @@ export const InvestEmbedded = ({ deps, dao }) => {
   // show modal carries an object here, to pass details
   const [showBuyCurrencyInfoModal, setShowBuyCurrencyInfoModal] = useState(null)
 
+  updateAvailableShares(deps, daoId)
+  updatePriceAndPercentage(
+    deps,
+    daoId,
+    buySharesCount,
+    dao,
+    setTotalCost,
+    setTotalCostNumber,
+    setProfitPercentage
+  )
+  registerInvest(
+    deps,
+    daoId,
+    dao,
+    buyIntent,
+    setBuyIntent,
+    buySharesCount,
+    setShareAmountError,
+    setShowBuyCurrencyInfoModal,
+    totalCostNumber
+  )
+
   const onSubmitBuy = () => {
     setBuyIntent(true)
     var myAddress = deps.myAddress
@@ -38,102 +60,6 @@ export const InvestEmbedded = ({ deps, dao }) => {
       setShowSelectWalletModal(true)
     }
   }
-
-  useEffect(() => {
-    if (daoId) {
-      deps.updateAvailableShares.call(null, daoId)
-    }
-  }, [deps.updateAvailableShares, deps.statusMsg, daoId])
-
-  useEffect(() => {
-    async function nestedAsync() {
-      if (deps.wasm && daoId && deps.availableSharesNumber != null) {
-        if (buySharesCount) {
-          updateTotalPriceAndPercentage(
-            deps.wasm,
-            deps.availableSharesNumber,
-
-            buySharesCount,
-            dao,
-            setTotalCost,
-            setTotalCostNumber,
-            setProfitPercentage,
-            deps.investmentData?.investor_locked_shares
-          )
-        } else {
-          // no input: clear fields
-          setTotalCost(null)
-          setTotalCostNumber(null)
-          setProfitPercentage(null)
-        }
-      }
-    }
-    nestedAsync()
-  }, [
-    deps.wasm,
-    deps.statusMsg,
-    deps.availableSharesNumber,
-    deps.investmentData?.investor_locked_shares,
-    daoId,
-    buySharesCount,
-    dao,
-  ])
-
-  useEffect(() => {
-    async function nestedAsync() {
-      if (deps.wasm && daoId && deps.wallet && buyIntent && deps.myAddress) {
-        setBuyIntent(false)
-
-        await invest(
-          deps.wasm,
-          deps.statusMsg,
-          deps.myAddress,
-          deps.wallet,
-          deps.updateMyBalance,
-          deps.updateMyShares,
-          deps.updateFunds,
-          deps.updateInvestmentData,
-          deps.updateAvailableShares,
-          deps.updateRaisedFunds,
-          deps.updateCompactFundsActivity,
-          deps.updateSharesDistr,
-
-          setSubmitting,
-          daoId,
-          dao,
-          deps.availableSharesNumber,
-          buySharesCount,
-          setShareAmountError,
-          setShowBuyCurrencyInfoModal,
-          totalCostNumber
-        )
-      }
-    }
-    nestedAsync()
-    // TODO warning about missing deps here - we *don't* want to trigger this effect when inputs change,
-    // we want to send whatever is in the form when user submits - so we care only about the conditions that trigger submit
-    // suppress lint? are we approaching this incorrectly?
-  }, [
-    deps.wasm,
-    deps.statusMsg,
-    deps.myAddress,
-    deps.wallet,
-    deps.updateMyBalance,
-    deps.updateMyShares,
-    deps.updateFunds,
-    deps.updateInvestmentData,
-    deps.updateAvailableShares,
-    deps.updateRaisedFunds,
-    deps.updateCompactFundsActivity,
-    deps.updateSharesDistr,
-    deps.availableSharesNumber,
-
-    buyIntent,
-    buySharesCount,
-    dao,
-    daoId,
-    totalCostNumber,
-  ])
 
   const view = () => {
     return (
@@ -281,4 +207,124 @@ const RightView = ({ funds, totalCost, totalPercentage }) => {
       </div>
     </div>
   )
+}
+
+const updateAvailableShares = (deps, daoId) => {
+  useEffect(() => {
+    if (daoId) {
+      deps.updateAvailableShares.call(null, daoId)
+    }
+  }, [deps.updateAvailableShares, deps.statusMsg, daoId])
+}
+
+const updatePriceAndPercentage = (
+  deps,
+  daoId,
+  buySharesCount,
+  dao,
+  setTotalCost,
+  setTotalCostNumber,
+  setProfitPercentage
+) => {
+  useEffect(() => {
+    async function nestedAsync() {
+      if (deps.wasm && daoId && deps.availableSharesNumber != null) {
+        if (buySharesCount) {
+          updateTotalPriceAndPercentage(
+            deps.wasm,
+            deps.availableSharesNumber,
+
+            buySharesCount,
+            dao,
+            setTotalCost,
+            setTotalCostNumber,
+            setProfitPercentage,
+            deps.investmentData?.investor_locked_shares
+          )
+        } else {
+          // no input: clear fields
+          setTotalCost(null)
+          setTotalCostNumber(null)
+          setProfitPercentage(null)
+        }
+      }
+    }
+    nestedAsync()
+  }, [
+    deps.wasm,
+    deps.statusMsg,
+    deps.availableSharesNumber,
+    deps.investmentData?.investor_locked_shares,
+    daoId,
+    buySharesCount,
+    dao,
+  ])
+}
+
+const registerInvest = (
+  deps,
+  daoId,
+  dao,
+  buyIntent,
+  setBuyIntent,
+  buySharesCount,
+  setShareAmountError,
+  setShowBuyCurrencyInfoModal,
+  totalCostNumber
+) => {
+  useEffect(() => {
+    async function nestedAsync() {
+      if (deps.wasm && daoId && deps.wallet && buyIntent && deps.myAddress) {
+        setBuyIntent(false)
+
+        await invest(
+          deps.wasm,
+          deps.statusMsg,
+          deps.myAddress,
+          deps.wallet,
+          deps.updateMyBalance,
+          deps.updateMyShares,
+          deps.updateFunds,
+          deps.updateInvestmentData,
+          deps.updateAvailableShares,
+          deps.updateRaisedFunds,
+          deps.updateCompactFundsActivity,
+          deps.updateSharesDistr,
+
+          setSubmitting,
+          daoId,
+          dao,
+          deps.availableSharesNumber,
+          buySharesCount,
+          setShareAmountError,
+          setShowBuyCurrencyInfoModal,
+          totalCostNumber
+        )
+      }
+    }
+    nestedAsync()
+    // TODO warning about missing deps here - we *don't* want to trigger this effect when inputs change,
+    // we want to send whatever is in the form when user submits - so we care only about the conditions that trigger submit
+    // suppress lint? are we approaching this incorrectly?
+  }, [
+    deps.wasm,
+    deps.statusMsg,
+    deps.myAddress,
+    deps.wallet,
+    deps.updateMyBalance,
+    deps.updateMyShares,
+    deps.updateFunds,
+    deps.updateInvestmentData,
+    deps.updateAvailableShares,
+    deps.updateRaisedFunds,
+    deps.updateCompactFundsActivity,
+    deps.updateSharesDistr,
+    deps.availableSharesNumber,
+
+    buyIntent,
+    buySharesCount,
+    dao,
+    daoId,
+    totalCostNumber,
+  ])
 }

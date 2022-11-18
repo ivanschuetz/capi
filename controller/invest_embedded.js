@@ -88,6 +88,7 @@ const calculateSharesPrice = async (
 
 export const invest = async (
   wasm,
+  
   statusMsg,
   myAddress,
   wallet,

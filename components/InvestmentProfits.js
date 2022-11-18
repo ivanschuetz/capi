@@ -13,31 +13,7 @@ export const InvestmentProfits = ({ deps }) => {
   const [dao, setDao] = useState(null)
   const [submitting, setSubmitting] = useState(false)
 
-  useEffect(() => {
-    async function doInit() {
-      await init(
-        deps.wasm,
-        deps.statusMsg,
-        deps.myAddress,
-        deps.updateInvestmentData,
-        deps.updateMyShares,
-
-        daoId,
-        setDao
-      )
-    }
-    if (deps.wasm) {
-      doInit()
-    }
-    doInit()
-  }, [
-    deps.wasm,
-    daoId,
-    deps.myAddress,
-    deps.statusMsg,
-    deps.updateInvestmentData,
-    deps.updateMyShares,
-  ])
+  init(deps, daoId, setDao)
 
   const view = () => {
     if (dao && deps.investmentData) {
@@ -100,4 +76,32 @@ export const InvestmentProfits = ({ deps }) => {
       <div className="mt-40">{view()}</div>
     </div>
   )
+}
+
+const init = (deps, daoId, setDao) => {
+  useEffect(() => {
+    const doInit = async () => {
+      await init(
+        deps.wasm,
+        deps.statusMsg,
+        deps.myAddress,
+        deps.updateInvestmentData,
+        deps.updateMyShares,
+
+        daoId,
+        setDao
+      )
+    }
+    if (deps.wasm) {
+      doInit()
+    }
+    doInit()
+  }, [
+    deps.wasm,
+    daoId,
+    deps.myAddress,
+    deps.statusMsg,
+    deps.updateInvestmentData,
+    deps.updateMyShares,
+  ])
 }

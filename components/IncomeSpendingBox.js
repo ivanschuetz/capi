@@ -28,30 +28,15 @@ export const IncomeSpendingBox = ({ statusMsg, daoId }) => {
     return ["#DE5C62", "#6BB9BC"]
   }, [])
 
-  useEffect(() => {
-    async function fetchData() {
-      const chartData = await fetchIncomeSpendingChartData(
-        deps.wasm,
-        statusMsg,
-        daoId,
-        selectedBarsInterval.value
-      )
-      setChartData(chartData)
-
-      if (chartData && chart.current) {
-        renderBarChart(
-          chart.current,
-          chartData.points,
-          colors,
-          selectedBarsInterval.value
-        )
-      }
-    }
-
-    if (deps.wasm) {
-      fetchData()
-    }
-  }, [deps.wasm, statusMsg, daoId, selectedBarsInterval.value, colors])
+  updateChartData(
+    deps,
+    statusMsg,
+    daoId,
+    selectedBarsInterval,
+    colors,
+    chart,
+    setChartData
+  )
 
   const content = () => {
     if (chartData) {
@@ -83,4 +68,39 @@ export const IncomeSpendingBox = ({ statusMsg, daoId }) => {
   }
 
   return <div className="charts-container mt-80">{content()}</div>
+}
+
+const updateChartData = (
+  deps,
+  statusMsg,
+  daoId,
+  selectedBarsInterval,
+  colors,
+  chart,
+  setChartData
+) => {
+  useEffect(() => {
+    async function fetchData() {
+      const chartData = await fetchIncomeSpendingChartData(
+        deps.wasm,
+        statusMsg,
+        daoId,
+        selectedBarsInterval.value
+      )
+      setChartData(chartData)
+
+      if (chartData && chart.current) {
+        renderBarChart(
+          chart.current,
+          chartData.points,
+          colors,
+          selectedBarsInterval.value
+        )
+      }
+    }
+
+    if (deps.wasm) {
+      fetchData()
+    }
+  }, [deps.wasm, statusMsg, daoId, selectedBarsInterval.value, colors])
 }

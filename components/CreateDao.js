@@ -277,7 +277,6 @@ export const CreateDao = ({ deps }) => {
 
   return (
     <div>
-      {" "}
       <ContentTitle title="Create project" />
       {formView()}
       {showBuyCurrencyInfoModal && (

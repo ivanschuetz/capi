@@ -7,6 +7,7 @@ import Progress from "./Progress"
 
 export const DaoTop = ({ dao }) => {
   const [showShareModal, setShowShareModal] = useState(false)
+
   return (
     <div>
       <div>{LogoView(dao)}</div>

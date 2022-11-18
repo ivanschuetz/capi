@@ -10,26 +10,10 @@ import { useDaoId } from "../hooks/useDaoId"
 
 export const Dao = ({ deps }) => {
   const daoId = useDaoId()
-
   const [description, setDescription] = useState(null)
 
-  useEffect(() => {
-    async function asyncInit() {
-      await deps.updateDao.call(null, daoId)
-    }
-    if (daoId) {
-      asyncInit()
-    }
-  }, [daoId, deps.statusMsg, deps.updateDao])
-
-  useEffect(() => {
-    async function fetch() {
-      await loadDescription(deps.wasm, deps.statusMsg, deps.dao, setDescription)
-    }
-    if (deps.wasm) {
-      fetch()
-    }
-  }, [deps.wasm, deps.statusMsg, deps.dao, setDescription])
+  updateDao(deps, daoId)
+  updateDescription(deps, setDescription)
 
   const maybeInvestView = (dao) => {
     if (!deps.features.prospectus) {
@@ -85,4 +69,26 @@ export const Dao = ({ deps }) => {
   }
 
   return <div>{daoView()}</div>
+}
+
+const updateDao = (deps, daoId) => {
+  useEffect(() => {
+    const nested = async () => {
+      if (daoId) {
+        await deps.updateDao.call(null, daoId)
+      }
+    }
+    nested()
+  }, [daoId, deps.statusMsg, deps.updateDao])
+}
+
+const updateDescription = (deps, setDescription) => {
+  useEffect(() => {
+    const nested = async () => {
+      await loadDescription(deps.wasm, deps.statusMsg, deps.dao, setDescription)
+    }
+    if (deps.wasm) {
+      nested()
+    }
+  }, [deps.wasm, deps.statusMsg, deps.dao, setDescription])
 }

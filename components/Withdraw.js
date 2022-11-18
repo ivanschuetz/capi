@@ -16,14 +16,7 @@ export const Withdraw = ({ deps }) => {
   const [dao, setDao] = useState(null)
   const [submitting, setSubmitting] = useState(false)
 
-  useEffect(() => {
-    async function asyncInit() {
-      await init(deps.wasm, deps.statusMsg, daoId, null, setDao)
-    }
-    if (deps.wasm) {
-      asyncInit()
-    }
-  }, [deps.wasm, daoId, setDao, deps.statusMsg])
+  updateDao(deps, daoId, setDao)
 
   const view = () => {
     if (dao) {
@@ -88,4 +81,15 @@ export const Withdraw = ({ deps }) => {
   }
 
   return <div>{view()}</div>
+}
+
+const updateDao = (deps, daoId, setDao) => {
+  useEffect(() => {
+    async function asyncInit() {
+      await init(deps.wasm, deps.statusMsg, daoId, null, setDao)
+    }
+    if (deps.wasm) {
+      asyncInit()
+    }
+  }, [deps.wasm, daoId, setDao, deps.statusMsg])
 }

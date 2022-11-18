@@ -6,6 +6,8 @@ import Progress from "./Progress"
 import { pieChartColors } from "../functions/utils"
 import { changeArrow } from "../functions/utils"
 
+const entries_small_count = 3
+
 // Currently contains only a labeled chart but later could contain also e.g. list of holders / top holders
 export const SharesDistributionBox = ({ deps }) => {
   const [showMoreSelected, setShowMoreSelected] = useState(false)
@@ -22,52 +24,14 @@ export const SharesDistributionBox = ({ deps }) => {
 
   const [entries, setEntries] = useState(ownedSharesDistr)
 
-  const entries_small_count = 3
-
-  useEffect(() => {
-    async function nestedAsync() {
-      if (deps.dao) {
-        deps.updateSharesDistr.call(null, deps.dao)
-      }
-    }
-    nestedAsync()
-  }, [deps.updateSharesDistr, deps.statusMsg, deps.dao])
-
-  useEffect(() => {
-    const showAll = () => {
-      return (
-        showMoreSelected ||
-        (ownedSharesDistr && ownedSharesDistr.length <= entries_small_count)
-      )
-    }
-
-    const filterHolders = (startIndex) => {
-      if (!ownedSharesDistr) return null
-
-      let min = Math.min(ownedSharesDistr.length, entries_small_count)
-      const holders = ownedSharesDistr.slice(startIndex, startIndex + min)
-      return holders
-    }
-
-    if (showAll()) {
-      setEntries(ownedSharesDistr)
-    } else {
-      // collapsed
-      var startIndex = 0
-      if (selectedAddress) {
-        startIndex = ownedSharesDistr.findIndex(
-          (d) => d.address === selectedAddress
-        )
-      }
-      setEntries(filterHolders(startIndex))
-    }
-  }, [
-    deps.statusMsg,
-    deps.dao.shares_asset_id,
+  updateSharesDistr(deps)
+  updateEntries(
+    deps,
     ownedSharesDistr,
     showMoreSelected,
     selectedAddress,
-  ])
+    setEntries
+  )
 
   const col = useMemo(() => {
     return pieChartColors()
@@ -192,4 +156,59 @@ export const SharesDistributionBox = ({ deps }) => {
       {content()}
     </div>
   )
+}
+
+const updateSharesDistr = (deps) => {
+  useEffect(() => {
+    async function nestedAsync() {
+      if (deps.dao) {
+        deps.updateSharesDistr.call(null, deps.dao)
+      }
+    }
+    nestedAsync()
+  }, [deps.updateSharesDistr, deps.statusMsg, deps.dao])
+}
+
+const updateEntries = (
+  deps,
+  ownedSharesDistr,
+  showMoreSelected,
+  selectedAddress,
+  setEntries
+) => {
+  useEffect(() => {
+    const showAll = () => {
+      return (
+        showMoreSelected ||
+        (ownedSharesDistr && ownedSharesDistr.length <= entries_small_count)
+      )
+    }
+
+    const filterHolders = (startIndex) => {
+      if (!ownedSharesDistr) return null
+
+      let min = Math.min(ownedSharesDistr.length, entries_small_count)
+      const holders = ownedSharesDistr.slice(startIndex, startIndex + min)
+      return holders
+    }
+
+    if (showAll()) {
+      setEntries(ownedSharesDistr)
+    } else {
+      // collapsed
+      var startIndex = 0
+      if (selectedAddress) {
+        startIndex = ownedSharesDistr.findIndex(
+          (d) => d.address === selectedAddress
+        )
+      }
+      setEntries(filterHolders(startIndex))
+    }
+  }, [
+    deps.statusMsg,
+    deps.dao.shares_asset_id,
+    ownedSharesDistr,
+    showMoreSelected,
+    selectedAddress,
+  ])
 }

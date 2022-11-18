@@ -9,14 +9,7 @@ export const Team = ({ deps }) => {
   const [team, setTeam] = useState([])
   const [isAdding, setIsAdding] = useState(false)
 
-  useEffect(() => {
-    async function asyncInit() {
-      if (deps.wasm && deps.dao?.team_url) {
-        await getTeam(deps.wasm, deps.statusMsg, deps.dao.team_url, setTeam)
-      }
-    }
-    asyncInit()
-  }, [deps.wasm, deps.dao?.team_url, deps.statusMsg])
+  updateTeam(deps, setTeam)
 
   return (
     <div className="mt-80">
@@ -94,4 +87,15 @@ const SocialMediaImage = ({ url }) => {
 
 const EmptyTeamView = () => {
   return <div>{"No team yet"}</div>
+}
+
+const updateTeam = (deps, setTeam) => {
+  useEffect(() => {
+    async function asyncInit() {
+      if (deps.wasm && deps.dao?.team_url) {
+        await getTeam(deps.wasm, deps.statusMsg, deps.dao.team_url, setTeam)
+      }
+    }
+    asyncInit()
+  }, [deps.wasm, deps.dao?.team_url, deps.statusMsg])
 }

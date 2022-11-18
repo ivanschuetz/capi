@@ -13,59 +13,22 @@ export const BuyMoreShares = ({ deps, dao }) => {
   let daoId = useDaoId()
 
   const [buySharesCount, setBuySharesCount] = useState(null)
-
   const [buySharesAmountError, setBuySharesAmountError] = useState(null)
   const [submitting, setSubmitting] = useState(false)
-
   const [totalCostNumber, setTotalCostNumber] = useState(null)
-
   const [showProspectusModal, setShowProspectusModal] = useState(false)
-
   const [showBuyCurrencyInfoModal, setShowBuyCurrencyInfoModal] = useState(null)
 
-  useEffect(() => {
-    deps.updateAvailableShares.call(null, daoId)
-  }, [deps.updateAvailableShares, deps.statusMsg, daoId])
-
-  useEffect(() => {
-    async function nestedAsync() {
-      if (deps.availableShares && buySharesCount) {
-        updateTotalPriceNumber(
-          deps.availableSharesNumber,
-          buySharesCount,
-          dao,
-          setTotalCostNumber
-        )
-      }
-    }
-    nestedAsync()
-  }, [
-    deps.statusMsg,
-    deps.availableShares,
-    deps.availableSharesNumber,
-    daoId,
-    buySharesCount,
-    dao,
-  ])
+  updateAvailableShares(deps, daoId)
+  updateTotalPrice(deps, daoId, buySharesCount, dao, setTotalCostNumber)
 
   const onSubmitBuy = async () => {
-    await invest(
-      deps.statusMsg,
-      deps.myAddress,
-      deps.wallet,
-      deps.updateMyBalance,
-      deps.updateMyShares,
-      deps.updateFunds,
-      deps.updateInvestmentData,
-      deps.updateAvailableShares,
-      deps.updateRaisedFunds,
-      deps.updateCompactFundsActivity,
-      deps.updateSharesDistr,
-
+    submitBuy(
+      wasm,
+      deps,
       setSubmitting,
       daoId,
       dao,
-      deps.availableSharesNumber,
       buySharesCount,
       setBuySharesAmountError,
       setShowBuyCurrencyInfoModal,
@@ -228,4 +191,75 @@ export const BuyMoreShares = ({ deps, dao }) => {
 
 const to_pie_chart_slice = (percentage) => {
   return { percentage_number: percentage }
+}
+
+const updateAvailableShares = (deps, daoId) => {
+  useEffect(() => {
+    deps.updateAvailableShares.call(null, daoId)
+  }, [deps.updateAvailableShares, deps.statusMsg, daoId])
+}
+
+const updateTotalPrice = (
+  deps,
+  daoId,
+  buySharesCount,
+  dao,
+  setTotalCostNumber
+) => {
+  useEffect(() => {
+    async function nestedAsync() {
+      if (deps.availableShares && buySharesCount) {
+        updateTotalPriceNumber(
+          deps.availableSharesNumber,
+          buySharesCount,
+          dao,
+          setTotalCostNumber
+        )
+      }
+    }
+    nestedAsync()
+  }, [
+    deps.statusMsg,
+    deps.availableShares,
+    deps.availableSharesNumber,
+    daoId,
+    buySharesCount,
+    dao,
+  ])
+}
+
+const submitBuy = async (
+  wasm,
+  deps,
+  setSubmitting,
+  daoId,
+  dao,
+  buySharesCount,
+  setBuySharesAmountError,
+  setShowBuyCurrencyInfoModal,
+  totalCostNumber
+) => {
+  await invest(
+    wasm,
+    deps.statusMsg,
+    deps.myAddress,
+    deps.wallet,
+    deps.updateMyBalance,
+    deps.updateMyShares,
+    deps.updateFunds,
+    deps.updateInvestmentData,
+    deps.updateAvailableShares,
+    deps.updateRaisedFunds,
+    deps.updateCompactFundsActivity,
+    deps.updateSharesDistr,
+
+    setSubmitting,
+    daoId,
+    dao,
+    deps.availableSharesNumber,
+    buySharesCount,
+    setBuySharesAmountError,
+    setShowBuyCurrencyInfoModal,
+    totalCostNumber
+  )
 }

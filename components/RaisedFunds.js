@@ -10,26 +10,8 @@ export const RaisedFunds = ({ deps, dao }) => {
 
   console.log("deps: " + JSON.stringify(deps))
 
-  useEffect(() => {
-    async function nestedAsync() {
-      if (daoId) {
-        deps.updateRaisedFunds.call(null, daoId)
-      }
-    }
-    nestedAsync()
-  }, [daoId, dao, deps.statusMsg, deps.updateRaisedFunds])
-
-  useEffect(() => {
-    if (dao && deps.raisedFunds) {
-      renderFundsProgressChart(
-        chart.current,
-        dao,
-        deps.raisedFunds,
-        deps.raisedFundsNumber,
-        deps.raiseState?.success ?? true // no state (still raising) has same colors as successful
-      )
-    }
-  }, [dao, deps.raisedFunds, deps.raisedFundsNumber, deps.raiseState])
+  updateRaisedFunds(deps, daoId, dao)
+  updateChart(deps, dao, chart)
 
   const view = () => {
     // if (deps.dao && raisedFunds && raisedFundsNumber) {
@@ -66,4 +48,29 @@ export const RaisedFunds = ({ deps, dao }) => {
   }
 
   return <div>{view()}</div>
+}
+
+const updateRaisedFunds = (deps, daoId, dao) => {
+  useEffect(() => {
+    async function nestedAsync() {
+      if (daoId) {
+        deps.updateRaisedFunds.call(null, daoId)
+      }
+    }
+    nestedAsync()
+  }, [daoId, dao, deps.statusMsg, deps.updateRaisedFunds])
+}
+
+const updateChart = (deps, dao, chart) => {
+  useEffect(() => {
+    if (dao && deps.raisedFunds) {
+      renderFundsProgressChart(
+        chart.current,
+        dao,
+        deps.raisedFunds,
+        deps.raisedFundsNumber,
+        deps.raiseState?.success ?? true // no state (still raising) has same colors as successful
+      )
+    }
+  }, [dao, deps.raisedFunds, deps.raisedFundsNumber, deps.raiseState])
 }

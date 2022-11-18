@@ -9,18 +9,8 @@ export const ImageUpload = ({ initImageBytes, setImageBytes }) => {
   const [inputImg, setInputImg] = useState(null)
   const [fileReader, setFileReader] = useState(null)
 
-  useEffect(() => {
-    setFileReader(new FileReader())
-  }, [])
-
-  useEffect(() => {
-    // Quick fix: "object" check: prevents a circular update, where on initialization
-    // image is set and initImageBytes sets it again (to invalid type)
-    // TODO proper fix
-    if (initImageBytes != null && typeof initImageBytes !== "object") {
-      setInputImg(initImageBytes + "")
-    }
-  }, [initImageBytes])
+  initFileReader(setFileReader)
+  initInputImg(initImageBytes, setInputImg)
 
   // sets image: called when uploading image with button or dropping it in target zone
   const onDrop = useDrop((file) => {
@@ -108,4 +98,21 @@ const setImageFromFile = (fileReader, file, setImg) => {
   if (file) {
     fileReader.readAsDataURL(file)
   }
+}
+
+const initFileReader = (setFileReader) => {
+  useEffect(() => {
+    setFileReader(new FileReader())
+  }, [])
+}
+
+const initInputImg = (initImageBytes, setInputImg) => {
+  useEffect(() => {
+    // Quick fix: "object" check: prevents a circular update, where on initialization
+    // image is set and initImageBytes sets it again (to invalid type)
+    // TODO proper fix
+    if (initImageBytes != null && typeof initImageBytes !== "object") {
+      setInputImg(initImageBytes + "")
+    }
+  }, [initImageBytes])
 }
