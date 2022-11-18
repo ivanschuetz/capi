@@ -1,3 +1,6 @@
+import arrowUp from "../images/svg/green-arrow.svg";
+import arrowDown from "../images/svg/arrow.svg";
+
 export const toBytesForRust = (bytes) => {
   if (bytes && bytes.byteLength > 0) {
     const typedArray = new Uint8Array(bytes);
