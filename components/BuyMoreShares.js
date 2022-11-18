@@ -8,6 +8,9 @@ import redArrow from "../images/svg/arrow.svg"
 import { invest, updateTotalPriceNumber } from "../controller/invest_embedded"
 import { AckProspectusModal } from "../prospectus/AckProspectusModal"
 import { useDaoId } from "../hooks/useDaoId"
+import grey_circle from "../images/grey_circle.svg"
+import dark_cyan_circle from "../images/dark_cyan_circle.svg"
+import light_cyan_circle from "../images/light_cyan_circle.svg"
 
 export const BuyMoreShares = ({ deps, dao }) => {
   let daoId = useDaoId()
@@ -55,15 +58,7 @@ export const BuyMoreShares = ({ deps, dao }) => {
                   <div className="numbers desc">{deps.availableShares}</div>
                 )}
                 <div className="h-16px">
-                  <svg
-                    width="16"
-                    height="17"
-                    viewBox="0 0 16 17"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle cx="8" cy="8.5" r="8" fill="#DEE2E2" />
-                  </svg>
+                  <img src={grey_circle.src} alt="" />
                 </div>
                 <div>{"Available"}</div>
               </div>
@@ -72,15 +67,7 @@ export const BuyMoreShares = ({ deps, dao }) => {
                   {deps.investmentData.investor_locked_shares}
                 </div>
                 <div className="h-16px">
-                  <svg
-                    width="16"
-                    height="17"
-                    viewBox="0 0 16 17"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle cx="8" cy="8.5" r="8" fill="#8ECACD" />
-                  </svg>
+                  <img src={light_cyan_circle.src} alt="" />
                 </div>
                 <div>{"Your locked shares"}</div>
               </div>
@@ -89,15 +76,7 @@ export const BuyMoreShares = ({ deps, dao }) => {
                   {deps.investmentData.investor_unlocked_shares}
                 </div>
                 <div className="h-16px">
-                  <svg
-                    width="16"
-                    height="17"
-                    viewBox="0 0 16 17"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle cx="8" cy="8.5" r="8" fill="#6BB9BD" />
-                  </svg>
+                  <img src={dark_cyan_circle.src} alt="" />
                 </div>
                 <div>{"Your unlocked shares"}</div>
               </div>

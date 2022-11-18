@@ -8,26 +8,24 @@ export const Funds = ({
   daoId,
   containerClassNameOpt,
 }) => {
-  const withdrawButton = () => {
-    return (
-      showWithdrawLink && (
-        <span>
-          <Link to={"/" + daoId + "/withdraw"}>
-            <BsArrowUpCircle id="withdraw_icon" />
-          </Link>
-        </span>
-      )
-    )
-  }
-
   return (
     <div id="dao_funds__cont" className={containerClassNameOpt}>
       <div>{"Available funds"}</div>
       <div id="dao_funds__val">
         <FundsAssetImg />
         <div className="funds">{funds}</div>
-        {withdrawButton()}
+        {showWithdrawLink && <WithdrawButton daoId={daoId} />}
       </div>
     </div>
+  )
+}
+
+const WithdrawButton = ({ daoId }) => {
+  return (
+    <span>
+      <Link to={"/" + daoId + "/withdraw"}>
+        <BsArrowUpCircle id="withdraw_icon" />
+      </Link>
+    </span>
   )
 }

@@ -4,6 +4,8 @@ import { SharesDistributionChart } from "../shares_distribution_chart/SharesDist
 import { LabeledAmountInput, wrapWithInfoView } from "./labeled_inputs"
 import { pieChartColors } from "../functions/utils"
 import redArrow from "../images/svg/arrow.svg"
+import dark_cyan_circle from "../images/dark_cyan_circle.svg"
+import light_cyan_circle from "../images/light_cyan_circle.svg"
 
 export const LockOrUnlockShares = ({
   dao,
@@ -70,15 +72,7 @@ export const LockOrUnlockShares = ({
                   {investmentData.investor_locked_shares}
                 </div>
                 <div className="h-16px">
-                  <svg
-                    width="16"
-                    height="17"
-                    viewBox="0 0 16 17"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle cx="8" cy="8.5" r="8" fill="#6BB9BD" />
-                  </svg>
+                  <img src={dark_cyan_circle.src} alt="" />
                 </div>
                 <div>{"Your locked shares"}</div>
               </div>
@@ -87,15 +81,7 @@ export const LockOrUnlockShares = ({
                   {investmentData.investor_unlocked_shares}
                 </div>
                 <div className="h-16px">
-                  <svg
-                    width="16"
-                    height="17"
-                    viewBox="0 0 16 17"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <circle cx="8" cy="8.5" r="8" fill="#8ECACD" />
-                  </svg>
+                  <img src={light_cyan_circle.src} alt="" />
                 </div>
                 <div>{"Your unlocked shares"}</div>
               </div>

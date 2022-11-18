@@ -6,13 +6,13 @@ import ReactTooltip from "react-tooltip"
 
 export const FundsActivityEntry = ({ deps, entry }) => {
   if (deps.size.s4) {
-    return mobileEntryView(entry)
+    return <MobileEntryView entry={entry} />
   } else {
-    return desktopEntryView(entry)
+    return <DesktopEntryView entry={entry} />
   }
 }
 
-const desktopEntryView = (entry) => {
+const DesktopEntryView = (entry) => {
   return (
     <div className="funds_act_entry">
       <AmountView entry={entry} />
@@ -21,17 +21,17 @@ const desktopEntryView = (entry) => {
           <div className="desc black">{entry.address}</div>
           <div className="ellipse"></div>
           <div className="grey-190 ft-size-14">
-            {fundsActivityEntryLabel(entry)}
+            <FundsActivityEntryLabel entry={entry} />
           </div>
         </div>
         <div className="description">{entry.description}</div>
       </div>
-      {detailsLink(entry)}
+      <DetailsLink entry={entry} />
     </div>
   )
 }
 
-const mobileEntryView = (entry) => {
+const MobileEntryView = (entry) => {
   return (
     <div className="funds_act_entry-tab">
       <img
@@ -46,19 +46,21 @@ const mobileEntryView = (entry) => {
         </div>
         <div className="d-flex align-center order-1">
           <AmountView entry={entry} />
-          <div className="status">{fundsActivityEntryLabel(entry)}</div>
+          <div className="status">
+            <FundsActivityEntryLabel entry={entry} />
+          </div>
         </div>
         <div className="description order-3">{entry.description}</div>
       </div>
-      {detailsLink(entry)}
+      <DetailsLink entry={entry} />
     </div>
   )
 }
 
-const detailsLink = (entry) => {
+const DetailsLink = ({ entry }) => {
   return (
     <div className="funds_act_entry__details">
-      <div className="funds_act_entry__date">{entry.date}</div>
+      k<div className="funds_act_entry__date">{entry.date}</div>
       <a href={entry.tx_link} target="_blank" rel="noreferrer">
         {"Details"}
       </a>
@@ -66,7 +68,7 @@ const detailsLink = (entry) => {
   )
 }
 
-export const fundsActivityEntryLabel = (entry) => {
+export const FundsActivityEntryLabel = ({ entry }) => {
   if (entry.is_income === "true") {
     return "Income"
   } else {
@@ -92,12 +94,14 @@ const AmountView = ({ entry }) => {
       />
       <img className="funds-dollar-icon" src={funds.src} alt="funds" />
 
-      <div className={className}>{nestedAmountView(entry)}</div>
+      <div className={className}>
+        <NestedAmountView entry={entry} />
+      </div>
     </div>
   )
 }
 
-export const nestedAmountView = (entry) => {
+export const NestedAmountView = ({ entry }) => {
   if (entry.amount_without_fee !== entry.short_amount_without_fee) {
     return (
       <Fragment>

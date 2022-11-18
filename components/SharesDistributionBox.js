@@ -62,58 +62,6 @@ export const SharesDistributionBox = ({ deps }) => {
     [ownedSharesDistr, setSelectedAddress]
   )
 
-  const showMoreOrLessFooter = () => {
-    // not enough entries for collapsing: no footer needed
-    if (ownedSharesDistr && ownedSharesDistr.length <= entries_small_count) {
-      return null
-    }
-
-    // since we discarded not enough entries case, showMore: true -> "show more", showMore: false -> "show less"
-    let showMore = !showMoreSelected
-    return (
-      <button
-        className="link_button ml-50"
-        onClick={() => setShowMoreSelected(showMore)}
-      >
-        {showMore ? "See all" : "Show less"}
-      </button>
-    )
-  }
-
-  const holdersListItems = () => {
-    if (ownedSharesDistr && entries) {
-      return (
-        <div className="holder_list_container">
-          <div className="flexBlock">
-            <span className="desc mr-12">{"Investors"}</span>
-            <span className="subtitle">{ownedSharesDistr.length}</span>
-            <div>{changeArrow(deps.holdersChange)}</div>
-          </div>
-          {entries.map((entry) => {
-            // not owned is shown on the left side, so we remove the entry from the list here
-            // note that we keep it in the original list, because it's also used for the chart, where we show not owned
-            if (entry.type_ === "not_owned") {
-              return null
-            } else {
-              return (
-                <HolderEntry
-                  key={entry.label}
-                  entry={entry}
-                  isSelected={entry.address === selectedAddress}
-                  // use original index (not filtered holders) to get chart segment color
-                  col={color(entry.originalIndex)}
-                />
-              )
-            }
-          })}
-          {showMoreOrLessFooter()}
-        </div>
-      )
-    } else {
-      return null
-    }
-  }
-
   const content = () => {
     if (entries === null) {
       return <Progress vCenter={false} />
@@ -134,7 +82,16 @@ export const SharesDistributionBox = ({ deps }) => {
                   <div className="grey-190">{"Available for sale"}</div>
                 </div>
               </div>
-              <div className="d-none d-tablet-block">{holdersListItems()}</div>
+              <div className="d-none d-tablet-block">
+                <HoldersListItems
+                  deps={deps}
+                  ownedSharesDistr={ownedSharesDistr}
+                  entries={entries}
+                  selectedAddress={selectedAddress}
+                  showMoreSelected={showMoreSelected}
+                  setShowMoreSelected={setShowMoreSelected}
+                />
+              </div>
             </div>
             <div className="pie_chart__container">
               <SharesDistributionChart
@@ -155,6 +112,73 @@ export const SharesDistributionBox = ({ deps }) => {
     <div className="mt-80" id="investors-distribution">
       {content()}
     </div>
+  )
+}
+
+const HoldersListItems = ({
+  deps,
+  ownedSharesDistr,
+  entries,
+  selectedAddress,
+  showMoreSelected,
+  setShowMoreSelected,
+}) => {
+  if (ownedSharesDistr && entries) {
+    return (
+      <div className="holder_list_container">
+        <div className="flexBlock">
+          <span className="desc mr-12">{"Investors"}</span>
+          <span className="subtitle">{ownedSharesDistr.length}</span>
+          <div>{changeArrow(deps.holdersChange)}</div>
+        </div>
+        {entries.map((entry) => {
+          // not owned is shown on the left side, so we remove the entry from the list here
+          // note that we keep it in the original list, because it's also used for the chart, where we show not owned
+          if (entry.type_ === "not_owned") {
+            return null
+          } else {
+            return (
+              <HolderEntry
+                key={entry.label}
+                entry={entry}
+                isSelected={entry.address === selectedAddress}
+                // use original index (not filtered holders) to get chart segment color
+                col={color(entry.originalIndex)}
+              />
+            )
+          }
+        })}
+        <ShowMoreOrLessFooter
+          ownedSharesDistr={ownedSharesDistr}
+          showMoreSelected={showMoreSelected}
+          setShowMoreSelected={setShowMoreSelected}
+        />
+      </div>
+    )
+  } else {
+    return null
+  }
+}
+
+const ShowMoreOrLessFooter = ({
+  ownedSharesDistr,
+  showMoreSelected,
+  setShowMoreSelected,
+}) => {
+  // not enough entries for collapsing: no footer needed
+  if (ownedSharesDistr && ownedSharesDistr.length <= entries_small_count) {
+    return null
+  }
+
+  // since we discarded not enough entries case, showMore: true -> "show more", showMore: false -> "show less"
+  let showMore = !showMoreSelected
+  return (
+    <button
+      className="link_button ml-50"
+      onClick={() => setShowMoreSelected(showMore)}
+    >
+      {showMore ? "See all" : "Show less"}
+    </button>
   )
 }
 

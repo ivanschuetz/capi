@@ -9,22 +9,20 @@ export const MyDaos = ({ deps }) => {
 
   updateMyDaos(deps, setMyDaos)
 
-  const myDaosView = () => {
-    var elements = myDaos ? myDaos.map((dao) => <MyDaoItem dao={dao} />) : []
-    elements.push(<MyDaoCreateItem />)
-    return myDaos && <div className="my-daos-container mt-40">{elements}</div>
-  }
-
-  const view = () => {
-    return (
+  return (
+    <div>
       <div>
         <ContentTitle title="My projects" />
-        {myDaosView()}
+        <MyDaosEntries myDaos={myDaos} />
       </div>
-    )
-  }
+    </div>
+  )
+}
 
-  return <div>{view()}</div>
+const MyDaosEntries = ({ myDaos }) => {
+  var elements = myDaos ? myDaos.map((dao) => <MyDaoItem dao={dao} />) : []
+  elements.push(<MyDaoCreateItem />)
+  return myDaos && <div className="my-daos-container mt-40">{elements}</div>
 }
 
 const updateMyDaos = (deps, setMyDaos) => {

@@ -15,52 +15,11 @@ export const Dao = ({ deps }) => {
   updateDao(deps, daoId)
   updateDescription(deps, setDescription)
 
-  const maybeInvestView = (dao) => {
-    if (!deps.features.prospectus) {
-      return null
-    } else {
-      if (dao.prospectus) {
-        return <InvestEmbedded deps={deps} dao={dao} />
-      } else {
-        return (
-          <div>
-            {
-              "Investing currently is not possible, because the project hasn't added a prospectus."
-            }
-          </div>
-        )
-      }
-    }
-  }
-
-  const daoView = () => {
+  const view = () => {
     if (deps.dao) {
       return (
         <div>
-          <div>
-            {description && <div id="dao_description">{description}</div>}
-
-            <RaisedFunds deps={deps} dao={deps.dao} />
-
-            {deps.size.s4 && (
-              <FundsActivityEmbedded deps={deps} daoId={daoId} />
-            )}
-
-            {maybeInvestView(deps.dao)}
-
-            {/* <Link
-              disabled={deps.myAddress === "" || funds === 0}
-              hidden={viewDao.dao.owner_address !== deps.myAddress}
-              to={"/withdraw/" + daoId}
-            >
-              <button>{"Withdraw"}</button>
-            </Link> */}
-            {deps.dao && <SharesDistributionBox deps={deps} />}
-
-            {deps.dao && deps.dao.funds_raised === "true" && (
-              <IncomeSpendingBox statusMsg={deps.statusMsg} daoId={daoId} />
-            )}
-          </div>
+          <DaoView deps={deps} description={description} daoId={daoId} />
         </div>
       )
     } else {
@@ -68,7 +27,47 @@ export const Dao = ({ deps }) => {
     }
   }
 
-  return <div>{daoView()}</div>
+  return <div>{view()}</div>
+}
+
+const DaoView = ({ deps, description, daoId }) => {
+  return (
+    <div>
+      {description && <div id="dao_description">{description}</div>}
+      <RaisedFunds deps={deps} dao={deps.dao} />
+      {deps.size.s4 && <FundsActivityEmbedded deps={deps} daoId={daoId} />}
+      <MaybeInvestView deps={deps} />
+      {/* <Link
+              disabled={deps.myAddress === "" || funds === 0}
+              hidden={viewDao.dao.owner_address !== deps.myAddress}
+              to={"/withdraw/" + daoId}
+            >
+              <button>{"Withdraw"}</button>
+            </Link> */}
+      {deps.dao && <SharesDistributionBox deps={deps} />}
+      {deps.dao && deps.dao.funds_raised === "true" && (
+        <IncomeSpendingBox statusMsg={deps.statusMsg} daoId={daoId} />
+      )}
+    </div>
+  )
+}
+
+const MaybeInvestView = ({ deps }) => {
+  if (!deps.features.prospectus) {
+    return null
+  } else {
+    if (deps.dao.prospectus) {
+      return <InvestEmbedded deps={deps} dao={deps.dao} />
+    } else {
+      return (
+        <div>
+          {
+            "Investing currently is not possible, because the project hasn't added a prospectus."
+          }
+        </div>
+      )
+    }
+  }
 }
 
 const updateDao = (deps, daoId) => {

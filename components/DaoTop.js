@@ -11,32 +11,44 @@ export const DaoTop = ({ dao }) => {
   return (
     <div>
       <div>{LogoView(dao)}</div>
-      <div className="title-container">
-        <div className="title">{dao.name}</div>
-        <div className="social-media-buttons">
-          {dao.social_media_url && (
-            <a href={dao.social_media_url} target="_blank" rel="noreferrer">
-              <div className="button__follow share-icon">
-                <img src={twitter.src} alt="logo-twitter" />
-              </div>
-            </a>
-          )}
-          <div
-            className="button-share share-icon"
-            onClick={() => setShowShareModal((visible) => !visible)}
-          >
-            <img src={share.src} alt="share-icon" />
-          </div>
+      <Social dao={dao} setShowModal={setShowShareModal} />
+      {showShareModal && dao && (
+        <ShareModal dao={dao} setShowModal={setShowShareModal} />
+      )}
+    </div>
+  )
+}
+
+const ShareModal = ({ dao, setShowShareModal }) => {
+  return (
+    <Modal
+      title={"Share at social media"}
+      onClose={() => setShowShareModal(false)}
+    >
+      <ShareView projectUrl={projectUrl(dao.app_id)} />
+    </Modal>
+  )
+}
+
+const Social = ({ dao, setShowModal }) => {
+  return (
+    <div className="title-container">
+      <div className="title">{dao.name}</div>
+      <div className="social-media-buttons">
+        {dao.social_media_url && (
+          <a href={dao.social_media_url} target="_blank" rel="noreferrer">
+            <div className="button__follow share-icon">
+              <img src={twitter.src} alt="logo-twitter" />
+            </div>
+          </a>
+        )}
+        <div
+          className="button-share share-icon"
+          onClick={() => setShowModal((visible) => !visible)}
+        >
+          <img src={share.src} alt="share-icon" />
         </div>
       </div>
-      {showShareModal && dao && (
-        <Modal
-          title={"Share at social media"}
-          onClose={() => setShowShareModal(false)}
-        >
-          <ShareView projectUrl={projectUrl(dao.app_id)} />
-        </Modal>
-      )}
     </div>
   )
 }

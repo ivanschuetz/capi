@@ -24,8 +24,12 @@ export const MyAccount = ({ deps, daoId }) => {
         <div className="text">Wallet</div>
       </div>
       <div className="my-address">
-        {myAddressView(deps, daoId)}
-        {connectButton(deps, setShowSelectWalletModal, setShowDisclaimerModal)}
+        <MyAddressSection deps={deps} daoId={daoId} />
+        {maybeConnectButton(
+          deps,
+          setShowSelectWalletModal,
+          setShowDisclaimerModal
+        )}
       </div>
       {showSelectWalletModal && (
         <Modal
@@ -53,40 +57,15 @@ export const MyAccount = ({ deps, daoId }) => {
   )
 }
 
-const myAddressView = (deps, daoId) => {
+const MyAddressSection = ({ deps, daoId }) => {
   if (deps.myAddress !== "") {
     return (
       <div id="user_data">
         <div className="my_address">
           <div>
-            <CopyPasteHtml
-              element={
-                <a
-                  href={
-                    "https://testnet.algoexplorer.io/address/" + deps.myAddress
-                  }
-                  target="_blank"
-                  rel="noreferrer"
-                  className="grey-190"
-                >
-                  {deps.myAddressDisplay}
-                </a>
-              }
-              copyText={deps.myAddress}
-              statusMsg={deps.statusMsg}
-              copyMsg={"Address copied to clipboard"}
-            />
+            <MyAddress deps={deps} />
           </div>
-          <div id="my_account_my_balance__balance">
-            <img className="mr-10 s-16" src={funds.src} alt="funds" />
-            <div>{deps.myBalance.balance_funds_asset}</div>
-            <img
-              className="arrow"
-              src={arrow.src}
-              alt="arrow"
-              onClick={async () => await disconnect(deps)}
-            />
-          </div>
+          <MyBalanceAndDisconnect deps={deps} />
         </div>
         {daoId && <DividendSection deps={deps} daoId={daoId} />}
       </div>
@@ -96,54 +75,50 @@ const myAddressView = (deps, daoId) => {
   }
 }
 
-const DividendSection = ({ deps, daoId }) => {
-  const [submitting, setSubmitting] = useState(false)
+const MyBalanceAndDisconnect = ({ deps }) => {
+  return (
+    <div id="my_account_my_balance__balance">
+      <img className="mr-10 s-16" src={funds.src} alt="funds" />
+      <div>{deps.myBalance.balance_funds_asset}</div>
+      <img
+        className="arrow"
+        src={arrow.src}
+        alt="arrow"
+        onClick={async () => await disconnect(deps)}
+      />
+    </div>
+  )
+}
 
-  useEffect(() => {
-    async function nestedAsync() {
-      if (deps.myAddress) {
-        await deps.updateInvestmentData.call(null, daoId, deps.myAddress)
+const MyAddress = ({ deps }) => {
+  return (
+    <CopyPasteHtml
+      element={
+        <a
+          href={"https://testnet.algoexplorer.io/address/" + deps.myAddress}
+          target="_blank"
+          rel="noreferrer"
+          className="grey-190"
+        >
+          {deps.myAddressDisplay}
+        </a>
       }
-    }
-    nestedAsync()
-  }, [deps.statusMsg, deps.myAddress, daoId, deps.updateInvestmentData])
+      copyText={deps.myAddress}
+      statusMsg={deps.statusMsg}
+      copyMsg={"Address copied to clipboard"}
+    />
+  )
+}
+
+const DividendSection = ({ deps, daoId }) => {
+  updateInvestmentData(deps, daoId)
 
   if (deps.myDividend) {
     return (
       <div className="d-flex flex-column">
-        <div className="mb-32 desc d-flex align-center justify-between">
-          {"Claimable dividend: "}
-          <div className="d-flex align-center gap-10 mr-26">
-            <img className="s-16" src={funds.src} alt="funds" />
-            {deps.myDividend}
-          </div>
-        </div>
+        <ClaimableDividend dividend={deps.myDividend} />
         <div className="d-flex justify-center w-100">
-          <SubmitButton
-            label={"Claim"}
-            className="button-primary w-100"
-            isLoading={submitting}
-            disabled={deps.investmentData?.investor_claimable_dividend === "0"}
-            onClick={async () => {
-              if (!deps.wasm) {
-                // ignoring this seems reasonable, wasm file should be normally loaded before user can interact
-                console.error("Click before wasm is ready: ignored")
-                return
-              }
-              await retrieveProfits(
-                deps.wasm,
-                deps.myAddress,
-                setSubmitting,
-                deps.statusMsg,
-                deps.updateMyBalance,
-                daoId,
-                deps.updateInvestmentData,
-                deps.updateFunds,
-                deps.updateMyDividend,
-                deps.wallet
-              )
-            }}
-          />
+          <SubmitClaimButton deps={deps} daoId={daoId} />
         </div>
       </div>
     )
@@ -155,29 +130,85 @@ const DividendSection = ({ deps, daoId }) => {
   }
 }
 
-const connectButton = (
+const ClaimableDividend = ({ dividend }) => {
+  return (
+    <div className="mb-32 desc d-flex align-center justify-between">
+      {"Claimable dividend: "}
+      <div className="d-flex align-center gap-10 mr-26">
+        <img className="s-16" src={funds.src} alt="funds" />
+        {dividend}
+      </div>
+    </div>
+  )
+}
+
+const SubmitClaimButton = ({ deps, daoId }) => {
+  const [submitting, setSubmitting] = useState(false)
+
+  return (
+    <SubmitButton
+      label={"Claim"}
+      className="button-primary w-100"
+      isLoading={submitting}
+      disabled={deps.investmentData?.investor_claimable_dividend === "0"}
+      onClick={async () => {
+        if (!deps.wasm) {
+          // ignoring this seems reasonable, wasm file should be normally loaded before user can interact
+          console.error("Click before wasm is ready: ignored")
+          return
+        }
+        await retrieveProfits(
+          deps.wasm,
+          deps.myAddress,
+          setSubmitting,
+          deps.statusMsg,
+          deps.updateMyBalance,
+          daoId,
+          deps.updateInvestmentData,
+          deps.updateFunds,
+          deps.updateMyDividend,
+          deps.wallet
+        )
+      }}
+    />
+  )
+}
+
+const maybeConnectButton = (
   deps,
   setShowSelectWalletModal,
   setShowDisclaimerModal
 ) => {
   if (deps.myAddress === "") {
     return (
-      <button
-        className="button-primary w-100"
-        onClick={async (event) => {
-          if (await needsToAcceptDisclaimer()) {
-            setShowDisclaimerModal(true)
-          } else {
-            setShowSelectWalletModal(true)
-          }
-        }}
-      >
-        {"Connect wallet"}
-      </button>
+      <ConnectButton
+        setShowSelectWalletModal={setShowSelectWalletModal}
+        setShowDisclaimerModal={setShowDisclaimerModal}
+      />
     )
   } else {
     return null
   }
+}
+
+const ConnectButton = ({
+  setShowSelectWalletModal,
+  setShowDisclaimerModal,
+}) => {
+  return (
+    <button
+      className="button-primary w-100"
+      onClick={async (event) => {
+        if (await needsToAcceptDisclaimer()) {
+          setShowDisclaimerModal(true)
+        } else {
+          setShowSelectWalletModal(true)
+        }
+      }}
+    >
+      {"Connect wallet"}
+    </button>
+  )
 }
 
 const disconnect = async (deps) => {
@@ -187,4 +218,15 @@ const disconnect = async (deps) => {
   } catch (e) {
     deps.statusMsg.error(e)
   }
+}
+
+const updateInvestmentData = (deps, daoId) => {
+  useEffect(() => {
+    async function nestedAsync() {
+      if (deps.myAddress) {
+        await deps.updateInvestmentData.call(null, daoId, deps.myAddress)
+      }
+    }
+    nestedAsync()
+  }, [deps.statusMsg, deps.myAddress, daoId, deps.updateInvestmentData])
 }

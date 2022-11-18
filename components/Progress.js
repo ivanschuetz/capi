@@ -10,7 +10,7 @@ const Progress = () => {
           fill="none"
           strokeWidth="5"
           strokeMiterlimit="10"
-        ></circle>
+        />
       </svg>
     </div>
   )

@@ -14,40 +14,45 @@ export const FundsActivity = ({ deps }) => {
 
   updateActivityEntries(deps, daoId, setActivityEntries)
 
-  const fundsActivity = () => {
-    if (activityEntries) {
-      if (activityEntries.length > 0) {
-        return (
-          <div>
-            {activityEntries &&
-              activityEntries.map((entry) => (
-                <FundsActivityEntry
-                  deps={deps}
-                  entry={entry}
-                  showDescr={true}
-                  key={entry.tx_id}
-                />
-              ))}
-          </div>
-        )
-      } else {
-        return <NoActivityView daoId={daoId} />
-      }
-    } else {
-      return <Progress />
-    }
-  }
-
-  const view = () => {
-    return (
+  return (
+    <div>
+      {" "}
       <div className="mt-80 mb-80">
         <ContentTitle title={"Funds activity"} />
-        <div className="mt-40">{fundsActivity()}</div>
+        <div className="mt-40">
+          <Activity
+            deps={deps}
+            daoId={daoId}
+            activityEntries={activityEntries}
+          />
+        </div>
       </div>
-    )
-  }
+    </div>
+  )
+}
 
-  return <div>{view()}</div>
+const Activity = ({ deps, daoId, activityEntries }) => {
+  if (activityEntries) {
+    if (activityEntries.length > 0) {
+      return (
+        <div>
+          {activityEntries &&
+            activityEntries.map((entry) => (
+              <FundsActivityEntry
+                deps={deps}
+                entry={entry}
+                showDescr={true}
+                key={entry.tx_id}
+              />
+            ))}
+        </div>
+      )
+    } else {
+      return <NoActivityView daoId={daoId} />
+    }
+  } else {
+    return <Progress />
+  }
 }
 
 const NoActivityView = ({ daoId }) => {

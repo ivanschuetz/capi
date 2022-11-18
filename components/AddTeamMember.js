@@ -27,7 +27,7 @@ export const AddTeamMember = ({
   const [pictureError, setPictureError] = useState("")
   const [socialError, setSocialError] = useState("")
 
-  const contentView = () => {
+  const ContentView = () => {
     return (
       <div>
         <LabeledInput
@@ -112,7 +112,7 @@ export const AddTeamMember = ({
   }
 
   if (deps.myAddress) {
-    return contentView()
+    return <ContentView />
   } else {
     return null
   }

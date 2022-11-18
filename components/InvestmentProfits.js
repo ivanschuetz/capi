@@ -13,7 +13,7 @@ export const InvestmentProfits = ({ deps }) => {
   const [dao, setDao] = useState(null)
   const [submitting, setSubmitting] = useState(false)
 
-  init(deps, daoId, setDao)
+  update(deps, daoId, setDao)
 
   const view = () => {
     if (dao && deps.investmentData) {
@@ -78,7 +78,7 @@ export const InvestmentProfits = ({ deps }) => {
   )
 }
 
-const init = (deps, daoId, setDao) => {
+const update = (deps, daoId, setDao) => {
   useEffect(() => {
     const doInit = async () => {
       await init(

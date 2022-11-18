@@ -18,7 +18,7 @@ export const Investment = ({ deps }) => {
 
   initAndUpdateInvestmentData(deps, daoId, setDao)
 
-  const userView = () => {
+  const view = () => {
     if (deps.myAddress && dao && deps.investmentData) {
       return (
         <div>
@@ -43,39 +43,14 @@ export const Investment = ({ deps }) => {
               )}
 
             <InvestmentProfits deps={deps} />
-
-            <div id="dao_actions_top_bar">
-              <p
-                className={actions_tabs_classes(showBuyMoreTab)}
-                onClick={() => {
-                  setShowUnlockTab(false)
-                  setShowLockTab(false)
-                  setShowBuyMoreTab((current) => !current)
-                }}
-              >
-                {"Buy more"}
-              </p>
-              <p
-                className={actions_tabs_classes(showUnlockTab)}
-                onClick={() => {
-                  setShowBuyMoreTab(false)
-                  setShowLockTab(false)
-                  setShowUnlockTab((current) => !current)
-                }}
-              >
-                {"Unlock"}
-              </p>
-              <p
-                className={actions_tabs_classes(showLockTab)}
-                onClick={() => {
-                  setShowBuyMoreTab(false)
-                  setShowUnlockTab(false)
-                  setShowLockTab((current) => !current)
-                }}
-              >
-                {"Lock"}
-              </p>
-            </div>
+            <Tabs
+              showBuyMoreTab={showBuyMoreTab}
+              showUnlockTab={showUnlockTab}
+              showLockTab={showLockTab}
+              setShowBuyMoreTab={setShowBuyMoreTab}
+              setShowUnlockTab={setShowUnlockTab}
+              setShowLockTab={setShowLockTab}
+            />
             {showBuyMoreTab && <BuyMoreShares deps={deps} dao={dao} />}
             {showUnlockTab && (
               <UnlockShares deps={deps} dao={dao} daoId={daoId} />
@@ -96,17 +71,53 @@ export const Investment = ({ deps }) => {
     }
   }
 
-  const bodyView = () => {
-    if (dao) {
-      return <div>{userView()}</div>
-    } else {
-      return <Progress />
-    }
-  }
-
   return (
     <div>
-      <div>{bodyView()}</div>
+      <div>{view()}</div>
+    </div>
+  )
+}
+
+const Tabs = ({
+  showBuyMoreTab,
+  showUnlockTab,
+  showLockTab,
+  setShowBuyMoreTab,
+  setShowUnlockTab,
+  setShowLockTab,
+}) => {
+  return (
+    <div id="dao_actions_top_bar">
+      <p
+        className={actions_tabs_classes(showBuyMoreTab)}
+        onClick={() => {
+          setShowLockTab(false)
+          setShowUnlockTab(false)
+          setShowBuyMoreTab((current) => !current)
+        }}
+      >
+        {"Buy more"}
+      </p>
+      <p
+        className={actions_tabs_classes(showUnlockTab)}
+        onClick={() => {
+          setShowBuyMoreTab(false)
+          setShowLockTab(false)
+          setShowUnlockTab((current) => !current)
+        }}
+      >
+        {"Unlock"}
+      </p>
+      <p
+        className={actions_tabs_classes(showLockTab)}
+        onClick={() => {
+          setShowBuyMoreTab(false)
+          setShowUnlockTab(false)
+          setShowLockTab((current) => !current)
+        }}
+      >
+        {"Lock"}
+      </p>
     </div>
   )
 }

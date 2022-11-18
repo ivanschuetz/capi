@@ -15,9 +15,7 @@ export const Team = ({ deps }) => {
     <div className="mt-80">
       <ContentTitle title={"Team"} />
       {!deps.dao?.team_url && <EmptyTeamView deps={deps} />}
-      {team.map((member) => (
-        <TeamMember key={member.uuid} data={member} />
-      ))}
+      <TeamMembers team={team} />
       {deps.myAddress && (
         <SubmitButton
           label={"Add a member"}
@@ -47,6 +45,10 @@ const dummyPrefillData = () => {
     picture: "https://placekitten.com/200/300",
     social: "https://twitter.com",
   }
+}
+
+const TeamMembers = ({ team }) => {
+  return team.map((member) => <TeamMember key={member.uuid} data={member} />)
 }
 
 const TeamMember = ({ data }) => {

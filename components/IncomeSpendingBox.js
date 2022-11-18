@@ -41,26 +41,13 @@ export const IncomeSpendingBox = ({ statusMsg, daoId }) => {
   const content = () => {
     if (chartData) {
       return (
-        <LabeledBox label={"Income and spending"}>
-          <div className="d-flex flex-column gap-24">
-            <div className="select-legend-container">
-              <div className="spacer"></div>
-              <ChartLegends
-                legends={[
-                  { color: colors[1], text: "Income" },
-                  { color: colors[0], text: "Spending" },
-                ]}
-              />
-              <Select
-                className="charts-select"
-                value={selectedBarsInterval}
-                onChange={setSelectedBarsInterval}
-                options={barsOptions}
-              />
-            </div>
-            <svg className="mb--40" ref={chart} />
-          </div>
-        </LabeledBox>
+        <ChartBox
+          colors={colors}
+          selectedBarsInterval={selectedBarsInterval}
+          setSelectedBarsInterval={setSelectedBarsInterval}
+          barsOptions={barsOptions}
+          chart={chart}
+        />
       )
     } else {
       return <Progress />
@@ -68,6 +55,37 @@ export const IncomeSpendingBox = ({ statusMsg, daoId }) => {
   }
 
   return <div className="charts-container mt-80">{content()}</div>
+}
+
+const ChartBox = ({
+  colors,
+  selectedBarsInterval,
+  setSelectedBarsInterval,
+  barsOptions,
+  chart,
+}) => {
+  return (
+    <LabeledBox label={"Income and spending"}>
+      <div className="d-flex flex-column gap-24">
+        <div className="select-legend-container">
+          <div className="spacer"></div>
+          <ChartLegends
+            legends={[
+              { color: colors[1], text: "Income" },
+              { color: colors[0], text: "Spending" },
+            ]}
+          />
+          <Select
+            className="charts-select"
+            value={selectedBarsInterval}
+            onChange={setSelectedBarsInterval}
+            options={barsOptions}
+          />
+        </div>
+        <svg className="mb--40" ref={chart} />
+      </div>
+    </LabeledBox>
+  )
 }
 
 const updateChartData = (
