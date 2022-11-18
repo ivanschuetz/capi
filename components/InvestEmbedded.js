@@ -259,7 +259,7 @@ const RightView = ({ funds, totalCost, totalPercentage }) => {
       <div id="shares_const_container">
         <div className="desc">{"Total price"}</div>
         <div className="d-flex gap-10">
-          <img src={funds} alt="funds" />
+          <img src={funds.src} alt="funds" />
           <div className="subtitle black">{totalCost}</div>
         </div>
       </div>
