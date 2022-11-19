@@ -6,6 +6,7 @@ import { retrieveProfits } from "../functions/shared"
 import { SubmitButton } from "./SubmitButton"
 import Progress from "./Progress"
 import { useDaoId } from "../hooks/useDaoId"
+import { safe } from "../functions/utils"
 
 export const InvestmentProfits = ({ deps }) => {
   let daoId = useDaoId()
@@ -38,7 +39,14 @@ export const InvestmentProfits = ({ deps }) => {
                     deps.investmentData.investor_claimable_dividend === "0"
                   }
                   onClick={async () => {
+                    if (!deps.wasm) {
+                      // should be unlikely, as wasm should initialize quickly
+                      console.error("Click while wasm isn't ready. Ignoring.")
+                      return
+                    }
+
                     await retrieveProfits(
+                      deps.wasm,
                       deps.myAddress,
                       setSubmitting,
                       deps.statusMsg,
@@ -81,16 +89,17 @@ export const InvestmentProfits = ({ deps }) => {
 const update = (deps, daoId, setDao) => {
   useEffect(() => {
     const doInit = async () => {
-      await init(
-        deps.wasm,
-        deps.statusMsg,
-        deps.myAddress,
-        deps.updateInvestmentData,
-        deps.updateMyShares,
+      safe(deps.statusMsg, async () => {
+        let dao = await deps.wasm.bridge_load_dao(daoId)
+        console.log("dao: " + JSON.stringify(dao))
+        setDao(dao)
 
-        daoId,
-        setDao
-      )
+        if (deps.myAddress) {
+          // TODO check for daoId? or do we know it's always set?
+          await deps.updateInvestmentData()
+          await deps.updateMyShares(daoId, deps.myAddress)
+        }
+      })
     }
     if (deps.wasm) {
       doInit()

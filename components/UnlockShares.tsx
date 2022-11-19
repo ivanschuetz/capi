@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { unlock } from "../controller/investment"
+import { Deps } from "../context/AppContext"
 import { LockOrUnlockShares } from "./LockOrUnlockShares"
 
 export const UnlockShares = ({ deps, dao, daoId }) => {
@@ -21,18 +21,43 @@ export const UnlockShares = ({ deps, dao, daoId }) => {
           return
         }
 
-        await unlock(
-          deps.wasm,
-          deps.statusMsg,
-          deps.myAddress,
-          deps.wallet,
-          deps.updateInvestmentData,
-          deps.updateMyBalance,
-          deps.updateMyShares,
-          setSubmitting,
-          daoId
-        )
+        await unlock(deps, setSubmitting, daoId)
       }}
     />
   )
+}
+
+const unlock = async (deps: Deps, showProgress, daoId) => {
+  try {
+    deps.statusMsg.clear()
+
+    showProgress(true)
+    let unlockRes = await deps.wasm.bridge_unlock({
+      dao_id: daoId,
+      investor_address: deps.myAddress,
+    })
+    console.log("unlockRes: " + JSON.stringify(unlockRes))
+    showProgress(false)
+
+    let unlockResSigned = await deps.wallet.signTxs(unlockRes.to_sign)
+    console.log("unlockResSigned: " + JSON.stringify(unlockResSigned))
+
+    showProgress(true)
+    let submitUnlockRes = await deps.wasm.bridge_submit_unlock({
+      txs: unlockResSigned,
+      pt: unlockRes.pt,
+    })
+    console.log("submitUnlockRes: " + JSON.stringify(submitUnlockRes))
+
+    deps.statusMsg.success("Shares unlocked")
+    await deps.updateInvestmentData(daoId, deps.myAddress)
+    showProgress(false)
+
+    await deps.updateMyBalance(deps.myAddress)
+    await deps.updateMyShares(daoId, deps.myAddress)
+    // await updateMyDividend(daoId, deps.myAddress);
+  } catch (e) {
+    deps.statusMsg.error(e)
+    showProgress(false)
+  }
 }

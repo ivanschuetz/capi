@@ -1,7 +1,6 @@
 import React, { useState } from "react"
 import { SubmitButton } from "./SubmitButton"
 import { ContentTitle } from "./ContentTitle"
-import { updateApp } from "../controller/update_app"
 import { UpdateDaoData } from "./UpdateDaoData"
 import { useDaoId } from "../hooks/useDaoId"
 
@@ -86,4 +85,46 @@ const appVersionStr = (approvalVersion, clearVersion) => {
   // For visual purposes, the "app version" contains both the approval and clear version
   // not important (for now?) that the user doesn't know what this means.
   return approvalVersion + "-" + clearVersion
+}
+
+export const updateApp = async (
+  wasm,
+  statusMsg,
+  myAddress,
+  wallet,
+
+  showProgress,
+  daoId,
+  approvalVersion,
+  clearVersion,
+  updateVersion
+) => {
+  try {
+    showProgress(true)
+    let updateAppRes = await wasm.bridge_update_app_txs({
+      dao_id: daoId,
+      owner: myAddress,
+      approval_version: approvalVersion,
+      clear_version: clearVersion,
+    })
+    console.log("Update app res: %o", updateAppRes)
+    showProgress(false)
+
+    let updateAppResSigned = await wallet.signTxs(updateAppRes.to_sign)
+    console.log("updateAppResSigned: " + JSON.stringify(updateAppResSigned))
+
+    showProgress(true)
+    let submitUpdateAppRes = await wasm.bridge_submit_update_app({
+      txs: updateAppResSigned,
+    })
+    console.log("submitUpdateAppRes: " + JSON.stringify(submitUpdateAppRes))
+
+    // re-fetch version data to update things that depend on "there's a new version" (e.g. settings badge)
+    updateVersion(daoId)
+
+    showProgress(false)
+    statusMsg.success("App updated!")
+  } catch (e) {
+    statusMsg.error(e)
+  }
 }

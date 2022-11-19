@@ -4,6 +4,7 @@ import twitter from "../images/svg/twitter.svg"
 import { getTeam } from "../controller/team"
 import { ContentTitle } from "./ContentTitle"
 import { AddTeamMember } from "./AddTeamMember"
+import { safe } from "../functions/utils"
 
 export const Team = ({ deps }) => {
   const [team, setTeam] = useState([])
@@ -95,7 +96,13 @@ const updateTeam = (deps, setTeam) => {
   useEffect(() => {
     async function asyncInit() {
       if (deps.wasm && deps.dao?.team_url) {
-        await getTeam(deps.wasm, deps.statusMsg, deps.dao.team_url, setTeam)
+        safe(deps.statusMsg, async () => {
+          const team = await deps.wasm.bridge_get_team({
+            url: deps.dao?.team_url,
+          })
+          console.log({ team })
+          setTeam(team.team)
+        })
       }
     }
     asyncInit()

@@ -6,6 +6,7 @@ import Progress from "./Progress"
 import { SubmitButton } from "./SubmitButton"
 import Link from "next/link"
 import { useDaoId } from "../hooks/useDaoId"
+import { safe } from "../functions/utils"
 
 export const FundsActivity = ({ deps }) => {
   const daoId = useDaoId()
@@ -78,13 +79,14 @@ const NoActivityView = ({ daoId }) => {
 const updateActivityEntries = (deps, daoId, setActivityEntries) => {
   useEffect(() => {
     if (deps.wasm) {
-      loadFundsActivity(
-        deps.wasm,
-        deps.statusMsg,
-        daoId,
-        setActivityEntries,
-        null
-      )
+      safe(deps.statusMsg, async () => {
+        const res = await deps.wasm.bridge_load_funds_activity({
+          dao_id: daoId,
+          max_results: null,
+        })
+        console.log("funds activity res: " + JSON.stringify(res))
+        setActivityEntries(res.entries)
+      })
     }
   }, [deps.wasm, daoId, deps.statusMsg])
 }

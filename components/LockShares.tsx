@@ -1,6 +1,7 @@
 import React, { useState } from "react"
-import { lock } from "../controller/lock_shares"
 import { LockOrUnlockShares } from "./LockOrUnlockShares"
+import { toErrorMsg } from "../functions/validation"
+import { Deps } from "../context/AppContext"
 
 export const LockShares = ({ deps, dao, daoId, onLockOpt }) => {
   const [submitting, setSubmitting] = useState(false)
@@ -22,14 +23,7 @@ export const LockShares = ({ deps, dao, daoId, onLockOpt }) => {
         }
 
         await lock(
-          deps.wasm,
-          deps.statusMsg,
-          deps.myAddress,
-          deps.wallet,
-          deps.updateInvestmentData,
-          deps.updateMyBalance,
-          deps.updateMyShares,
-
+          deps,
           setSubmitting,
           daoId,
           dao,
@@ -40,4 +34,82 @@ export const LockShares = ({ deps, dao, daoId, onLockOpt }) => {
       }}
     />
   )
+}
+
+export const lock = async (
+  deps: Deps,
+  showProgress,
+  daoId,
+  dao,
+  lockSharesCount,
+  onLockOpt,
+  setInputError
+) => {
+  try {
+    deps.statusMsg.clear()
+    ///////////////////////////////////
+    // TODO refactor invest/lock
+    // 1. sign tx for app opt-in
+    showProgress(true)
+    let optInToAppsRes = await deps.wasm.bridge_opt_in_to_apps_if_needed({
+      app_id: "" + dao.app_id,
+      investor_address: deps.myAddress,
+    })
+    console.log("optInToAppsRes: " + JSON.stringify(optInToAppsRes))
+    var optInToAppsSignedOptional = null
+    if (optInToAppsRes.to_sign != null) {
+      showProgress(false)
+      optInToAppsSignedOptional = await deps.wallet.signTxs(
+        optInToAppsRes.to_sign
+      )
+    }
+    console.log(
+      "optInToAppsSignedOptional: " + JSON.stringify(optInToAppsSignedOptional)
+    )
+    ///////////////////////////////////
+
+    showProgress(true)
+    // 2. buy the shares (requires app opt-in for local state)
+    // TODO write which local state
+
+    let lockRes = await deps.wasm.bridge_lock({
+      dao_id: daoId,
+      investor_address: deps.myAddress,
+      share_count: lockSharesCount,
+    })
+    console.log("lockRes: " + JSON.stringify(lockRes))
+    showProgress(false)
+
+    let lockResSigned = await deps.wallet.signTxs(lockRes.to_sign)
+    console.log("lockResSigned: " + JSON.stringify(lockResSigned))
+
+    showProgress(true)
+
+    let submitLockRes = await deps.wasm.bridge_submit_lock({
+      app_opt_ins: optInToAppsSignedOptional,
+      txs: lockResSigned,
+    })
+    console.log("submitLockRes: " + JSON.stringify(submitLockRes))
+    showProgress(false)
+
+    deps.statusMsg.success(
+      "Congratulations! you locked " + lockSharesCount + " shares."
+    )
+
+    await deps.updateInvestmentData(daoId, deps.myAddress)
+    await deps.updateMyBalance(deps.myAddress)
+    await deps.updateMyShares(daoId, deps.myAddress)
+
+    if (onLockOpt) {
+      onLockOpt()
+    }
+  } catch (e) {
+    if (e.id === "validation") {
+      console.error("%o", e)
+      setInputError(toErrorMsg(e.details))
+    } else {
+      deps.statusMsg.error(e)
+    }
+    showProgress(false)
+  }
 }

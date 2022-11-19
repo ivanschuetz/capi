@@ -1,11 +1,11 @@
 import React, { useEffect, useState, useMemo, useRef, useContext } from "react"
 import { LabeledBox } from "./LabeledBox"
-import { fetchIncomeSpendingChartData } from "../controller/income_spending"
 import Select from "react-select"
 import Progress from "./Progress"
 import { ChartLegends } from "../charts/ChartLegends"
 import renderBarChart from "../charts/renderBarChart"
 import { AppContext } from "../context/AppContext"
+import { safe } from "../functions/utils"
 
 const barsOptions = [
   { value: "days7", label: "Last 7 days" },
@@ -99,22 +99,23 @@ const updateChartData = (
 ) => {
   useEffect(() => {
     async function fetchData() {
-      const chartData = await fetchIncomeSpendingChartData(
-        deps.wasm,
-        statusMsg,
-        daoId,
-        selectedBarsInterval.value
-      )
-      setChartData(chartData)
+      safe(statusMsg, async () => {
+        let res = await deps.wasm.bridge_income_vs_spending({
+          dao_id: daoId,
+          interval: selectedBarsInterval.value,
+        })
+        console.log("Income and spending chart: %o", res)
+        setChartData(res)
 
-      if (chartData && chart.current) {
-        renderBarChart(
-          chart.current,
-          chartData.points,
-          colors,
-          selectedBarsInterval.value
-        )
-      }
+        if (res && chart.current) {
+          renderBarChart(
+            chart.current,
+            res.points,
+            colors,
+            selectedBarsInterval.value
+          )
+        }
+      })
     }
 
     if (deps.wasm) {

@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from "react"
 import Link from "next/link"
-import { loadDao } from "../controller/funds_activity"
 import funds from "../images/funds.svg"
-import { changeArrow, shortedAddress } from "../functions/utils"
+import { changeArrow, safe, shortedAddress } from "../functions/utils"
 import CopyPasteText from "./CopyPastText"
 import { CompactFundsActivityEntry } from "./CompactFundsActivityEntry"
 import Progress from "./Progress"
@@ -104,8 +103,12 @@ const Activity = ({ deps }) => {
 const updateDao = (deps, daoId, setDao) => {
   useEffect(() => {
     if (deps.wasm) {
-      // TODO use dao in deps? - might need to call update
-      loadDao(deps.wasm, deps.statusMsg, daoId, setDao)
+      safe(deps.statusMsg, async () => {
+        // TODO use dao in deps? - might need to call update
+        let dao = await deps.wasm.bridge_load_dao(daoId)
+        console.log("dao: " + JSON.stringify(dao))
+        setDao(dao)
+      })
     }
   }, [deps.wasm, daoId, deps.statusMsg])
 }

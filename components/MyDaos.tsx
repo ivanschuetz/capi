@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react"
-import { loadMyDaos } from "../controller/my_daos"
 import { MyDaoItem } from "./MyDaoItem"
 import { ContentTitle } from "./ContentTitle"
 import { MyDaoCreateItem } from "./MyDaoCreateItem"
+import { Deps } from "../context/AppContext"
+import { safe } from "../functions/utils"
 
 export const MyDaos = ({ deps }) => {
   const [myDaos, setMyDaos] = useState([])
@@ -25,10 +26,18 @@ const MyDaosEntries = ({ myDaos }) => {
   return myDaos && <div className="my-daos-container mt-40">{elements}</div>
 }
 
-const updateMyDaos = (deps, setMyDaos) => {
+const updateMyDaos = (deps: Deps, setMyDaos) => {
   useEffect(() => {
-    if (deps.wasm && deps.myAddress) {
-      loadMyDaos(deps.wasm, deps.statusMsg, deps.myAddress, setMyDaos)
-    }
+    ;(async () => {
+      if (deps.wasm && deps.myAddress) {
+        safe(deps.statusMsg, async () => {
+          const myDaosRes = await deps.wasm.bridge_my_daos({
+            address: deps.myAddress,
+          })
+          console.log("myDaosRes: " + JSON.stringify(myDaosRes))
+          setMyDaos(myDaosRes.daos)
+        })
+      }
+    })()
   }, [deps.wasm, deps.statusMsg, deps.myAddress])
 }

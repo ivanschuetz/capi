@@ -3,6 +3,7 @@ import { toast } from "react-toastify"
 
 export type StatusMsgUpdaterType = {
   success(msg: string): void
+  // TODO this should be just a string. if other types needed, use union type
   error(msg: { message: string }): void
   clear(): void
 }

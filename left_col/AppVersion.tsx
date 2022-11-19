@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
-import { getWasmVersion } from "../controller/app"
 import getConfig from "next/config"
+import { safe } from "../functions/utils"
 
 const { publicRuntimeConfig } = getConfig()
 
@@ -10,7 +10,9 @@ export const AppVersion = ({ deps }) => {
   useEffect(() => {
     async function asyncInit() {
       if (deps.wasm) {
-        getWasmVersion(deps.wasm, deps.statusMsg, setWasmVersion)
+        safe(deps.statusMsg, async () => {
+          setWasmVersion(await deps.wasm.bridge_wasm_version())
+        })
       }
     }
     asyncInit()

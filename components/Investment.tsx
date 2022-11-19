@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react"
 import { BuyMoreShares } from "./BuyMoreShares"
-import { init } from "../controller/investment"
 import { InvestmentProfits } from "./InvestmentProfits"
 import { UnlockShares } from "./UnlockShares"
 import { LockShares } from "./LockShares"
 import Progress from "./Progress"
 import { ContentTitle } from "./ContentTitle"
 import { useDaoId } from "../hooks/useDaoId"
+import { safe } from "../functions/utils"
 
 export const Investment = ({ deps }) => {
   let daoId = useDaoId()
@@ -133,16 +133,17 @@ const actions_tabs_classes = (tabIsShowing) => {
 const initAndUpdateInvestmentData = (deps, daoId, setDao) => {
   useEffect(() => {
     const doInit = async () => {
-      await init(
-        deps.wasm,
-        deps.statusMsg,
-        deps.myAddress,
-        deps.updateInvestmentData,
-        deps.updateMyShares,
+      safe(deps.statusMsg, async () => {
+        let dao = await deps.wasm.bridge_load_dao(daoId)
+        console.log("dao: " + JSON.stringify(dao))
+        setDao(dao)
 
-        daoId,
-        setDao
-      )
+        if (deps.myAddress) {
+          // TODO check for daoId? or do we know it's always set?
+          await deps.updateInvestmentData()
+          await deps.updateMyShares(daoId, deps.myAddress)
+        }
+      })
 
       if (deps.myAddress) {
         await deps.updateInvestmentData.call(null, daoId, deps.myAddress)

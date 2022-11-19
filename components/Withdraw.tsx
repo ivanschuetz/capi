@@ -3,10 +3,11 @@ import Progress from "./Progress"
 import { SubmitButton } from "./SubmitButton"
 import { LabeledCurrencyInput, LabeledTextArea } from "./labeled_inputs"
 import { Funds } from "./Funds"
-import { init, withdraw } from "../controller/withdraw"
 import pencil from "../images/svg/pencil.svg"
 import funds from "../images/funds.svg"
 import { useDaoId } from "../hooks/useDaoId"
+import { safe } from "../functions/utils"
+import { Deps } from "../context/AppContext"
 
 export const Withdraw = ({ deps }) => {
   let daoId = useDaoId()
@@ -59,13 +60,7 @@ export const Withdraw = ({ deps }) => {
               }
 
               await withdraw(
-                deps.wasm,
-                deps.statusMsg,
-                deps.myAddress,
-                deps.wallet,
-                deps.updateMyBalance,
-                deps.updateFunds,
-
+                deps,
                 setSubmitting,
                 daoId,
                 withdrawalAmount,
@@ -83,13 +78,58 @@ export const Withdraw = ({ deps }) => {
   return <div>{view()}</div>
 }
 
-const updateDao = (deps, daoId, setDao) => {
+const updateDao = (deps: Deps, daoId, setDao) => {
   useEffect(() => {
     async function asyncInit() {
-      await init(deps.wasm, deps.statusMsg, daoId, null, setDao)
+      safe(deps.statusMsg, async () => {
+        setDao(await deps.wasm.bridge_load_dao(daoId))
+      })
     }
     if (deps.wasm) {
       asyncInit()
     }
   }, [deps.wasm, daoId, setDao, deps.statusMsg])
+}
+
+const withdraw = async (
+  deps: Deps,
+  showProgress,
+  daoId,
+  withdrawalAmount,
+  withdrawalDescr
+) => {
+  try {
+    deps.statusMsg.clear()
+
+    showProgress(true)
+    let withdrawRes = await deps.wasm.bridge_withdraw({
+      dao_id: daoId,
+      sender: deps.myAddress,
+      withdrawal_amount: withdrawalAmount,
+      description: withdrawalDescr,
+    })
+    // TODO update list with returned withdrawals list
+    console.log("withdrawRes: " + JSON.stringify(withdrawRes))
+    showProgress(false)
+
+    let withdrawResSigned = await deps.wallet.signTxs(withdrawRes.to_sign)
+    console.log("withdrawResSigned: " + withdrawResSigned)
+
+    showProgress(true)
+    let submitWithdrawRes = await deps.wasm.bridge_submit_withdraw({
+      txs: withdrawResSigned,
+      pt: withdrawRes.pt,
+    })
+
+    console.log("submitWithdrawRes: " + JSON.stringify(submitWithdrawRes))
+
+    deps.statusMsg.success("Withdrawal request submitted")
+    showProgress(false)
+
+    await deps.updateMyBalance(deps.myAddress)
+    await deps.updateFunds(daoId)
+  } catch (e) {
+    deps.statusMsg.error(e)
+    showProgress(false)
+  }
 }

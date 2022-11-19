@@ -3,10 +3,10 @@ import { IncomeSpendingBox } from "./IncomeSpendingBox"
 import { SharesDistributionBox } from "./SharesDistributionBox"
 import { InvestEmbedded } from "./InvestEmbedded"
 import Progress from "./Progress"
-import { loadDescription } from "../controller/dao"
 import { FundsActivityEmbedded } from "./FundsActivityEmbedded"
 import { RaisedFunds } from "./RaisedFunds"
 import { useDaoId } from "../hooks/useDaoId"
+import { safe } from "../functions/utils"
 
 export const Dao = ({ deps }) => {
   const daoId = useDaoId()
@@ -84,7 +84,16 @@ const updateDao = (deps, daoId) => {
 const updateDescription = (deps, setDescription) => {
   useEffect(() => {
     const nested = async () => {
-      await loadDescription(deps.wasm, deps.statusMsg, deps.dao, setDescription)
+      safe(deps.statusMsg, async () => {
+        if (deps.dao && deps.dao.descr_url) {
+          let description = await deps.wasm.bridge_description(
+            deps.dao.descr_url
+          )
+          setDescription(description)
+        } else {
+          setDescription("")
+        }
+      })
     }
     if (deps.wasm) {
       nested()

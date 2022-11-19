@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react"
 import { BuyFundsAssetModal } from "../buy_currency/BuyFundsAssetModal"
-import {
-  invest,
-  updateTotalPriceAndPercentage,
-} from "../controller/invest_embedded"
+import { calculateSharesPrice, invest } from "../functions/invest_embedded"
 import { useDaoId } from "../hooks/useDaoId"
 import funds from "../images/funds.svg"
 import error from "../images/svg/error.svg"
@@ -230,17 +227,26 @@ const updatePriceAndPercentage = (
     async function nestedAsync() {
       if (deps.wasm && daoId && deps.availableSharesNumber != null) {
         if (buySharesCount) {
-          updateTotalPriceAndPercentage(
-            deps.wasm,
-            deps.availableSharesNumber,
+          try {
+            let res = await calculateSharesPrice(
+              deps.wasm,
+              deps.availableSharesNumber,
+              buySharesCount,
+              dao,
+              deps.investmentData?.investor_locked_shares
+            )
 
-            buySharesCount,
-            dao,
-            setTotalCost,
-            setTotalCostNumber,
-            setProfitPercentage,
-            deps.investmentData?.investor_locked_shares
-          )
+            setTotalCost(res.total_price)
+            setTotalCostNumber(res.total_price_number)
+            setProfitPercentage(res.profit_percentage)
+          } catch (e) {
+            // for now disabled - we don't want to show validation messages while typing, to be consistent with other inputs
+            // deps.statusMsg.error(e);
+            console.error(
+              "updateTotalPriceAndPercentage error (ignored): %o",
+              e
+            )
+          }
         } else {
           // no input: clear fields
           setTotalCost(null)

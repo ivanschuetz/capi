@@ -1,64 +1,6 @@
-import { toErrorMsg } from "../functions/validation"
+import { toErrorMsg } from "./validation"
 
-// Note: no locking for the embedded view because there's no design yet
-
-export const updateTotalPriceNumber = async (
-  wasm,
-  availableSharesNumber,
-
-  shareCount,
-  dao,
-  setBuySharesTotalPriceNumber,
-  lockedShares
-) => {
-  try {
-    let res = await calculateSharesPrice(
-      wasm,
-      availableSharesNumber,
-      shareCount,
-      dao,
-      lockedShares
-    )
-
-    setBuySharesTotalPriceNumber(res.total_price_number)
-  } catch (e) {
-    // for now disabled - we don't want to show validation messages while typing, to be consistent with other inputs
-    // deps.statusMsg.error(e);
-    console.error("updatePercentage error (ignored): %o", e)
-  }
-}
-
-export const updateTotalPriceAndPercentage = async (
-  wasm,
-  availableSharesNumber,
-
-  shareCount,
-  dao,
-  setBuySharesTotalPrice,
-  setBuySharesTotalPriceNumber,
-  setProfitPercentage,
-  lockedShares
-) => {
-  try {
-    let res = await calculateSharesPrice(
-      wasm,
-      availableSharesNumber,
-      shareCount,
-      dao,
-      lockedShares
-    )
-
-    setBuySharesTotalPrice(res.total_price)
-    setBuySharesTotalPriceNumber(res.total_price_number)
-    setProfitPercentage(res.profit_percentage)
-  } catch (e) {
-    // for now disabled - we don't want to show validation messages while typing, to be consistent with other inputs
-    // deps.statusMsg.error(e);
-    console.error("updateTotalPriceAndPercentage error (ignored): %o", e)
-  }
-}
-
-const calculateSharesPrice = async (
+export const calculateSharesPrice = async (
   wasm,
   availableSharesNumber,
   shareCount,
@@ -88,7 +30,7 @@ const calculateSharesPrice = async (
 
 export const invest = async (
   wasm,
-  
+
   statusMsg,
   myAddress,
   wallet,

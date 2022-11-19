@@ -5,7 +5,11 @@ import { SharesDistributionChart } from "../shares_distribution_chart/SharesDist
 import { LabeledAmountInput } from "./labeled_inputs"
 import { pieChartColors, PIE_CHART_GRAY } from "../functions/utils"
 import redArrow from "../images/svg/arrow.svg"
-import { invest, updateTotalPriceNumber } from "../controller/invest_embedded"
+import {
+  calculateSharesPrice,
+  invest,
+  updateTotalPriceNumber,
+} from "../functions/invest_embedded"
 import { AckProspectusModal } from "../prospectus/AckProspectusModal"
 import { useDaoId } from "../hooks/useDaoId"
 import grey_circle from "../images/grey_circle.svg"
@@ -188,12 +192,21 @@ const updateTotalPrice = (
   useEffect(() => {
     async function nestedAsync() {
       if (deps.availableShares && buySharesCount) {
-        updateTotalPriceNumber(
-          deps.availableSharesNumber,
-          buySharesCount,
-          dao,
-          setTotalCostNumber
-        )
+        try {
+          let res = await calculateSharesPrice(
+            deps.wasm,
+            deps.availableSharesNumber,
+            buySharesCount,
+            dao,
+            null
+          )
+
+          setTotalCostNumber(res.total_price_number)
+        } catch (e) {
+          // for now disabled - we don't want to show validation messages while typing, to be consistent with other inputs
+          // deps.statusMsg.error(e);
+          console.error("updatePercentage error (ignored): %o", e)
+        }
       }
     }
     nestedAsync()

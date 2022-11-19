@@ -11,21 +11,7 @@ import {
   StatusMsgUpdater,
   StatusMsgUpdaterType,
 } from "../components/StatusMsgUpdater"
-import {
-  fetchAvailableShares,
-  initLog,
-  loadRaisedFunds,
-  updateDao_,
-  updateMyBalance_,
-  updateMyDividend_,
-  updateMyShares,
-} from "../controller/app"
-import { loadFundsActivity } from "../controller/funds_activity"
-import {
-  fetchHoldersChange,
-  fetchSharesDistribution,
-} from "../controller/shares_distribution"
-import { checkForUpdates } from "../functions/utils"
+import { checkForUpdates, safe } from "../functions/utils"
 import { updateFunds_, updateInvestmentData_ } from "../functions/shared"
 import { shortedAddress } from "../functions/utils"
 import { useWindowSize } from "../hooks/useWindowSize"
@@ -90,7 +76,11 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   const updateMyBalance = useCallback(
     async (myAddress) => {
       if (wasm && myAddress) {
-        await updateMyBalance_(wasm, statusMsgUpdater, myAddress, setMyBalance)
+        safe(statusMsgUpdater, async () => {
+          const balance = await wasm.bridge_balance({ address: myAddress })
+          console.log("Balance update res: %o", balance)
+          await updateMyBalance(balance)
+        })
       }
     },
     [wasm, statusMsgUpdater]
@@ -99,7 +89,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   useEffect(() => {
     async function asyncInit() {
       if (wasm) {
-        await initLog(wasm, statusMsgUpdater)
+        safe(statusMsgUpdater, async () => await wasm.init_log())
       }
     }
     asyncInit()
@@ -127,13 +117,13 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   const updateAvailableShares = useCallback(
     async (daoId) => {
       if (wasm) {
-        await fetchAvailableShares(
-          wasm,
-          statusMsgUpdater,
-          daoId,
-          setAvailableShares,
-          setAvailableSharesNumber
-        )
+        safe(statusMsgUpdater, async () => {
+          let res = await wasm.bridge_load_available_shares({
+            dao_id: daoId,
+          })
+          setAvailableShares(res.available_shares)
+          setAvailableSharesNumber(res.available_shares_number)
+        })
       }
     },
     [wasm, statusMsgUpdater]
@@ -142,7 +132,13 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   const updateDao = useCallback(
     async (daoId) => {
       if (wasm && daoId) {
-        await updateDao_(wasm, daoId, setDao, statusMsgUpdater)
+        safe(statusMsgUpdater, async () => {
+          let dao = await wasm.bridge_load_dao(daoId)
+          setDao(dao)
+          // // these are overwritten when draining, so we keep them separate
+          // // TODO drain here? is this comment up to date?
+          // setFunds(viewDao.available_funds);
+        })
       }
     },
     [wasm, statusMsgUpdater]
@@ -151,13 +147,14 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   const updateShares = useCallback(
     async (daoId, myAddress) => {
       if (wasm && myAddress) {
-        await updateMyShares(
-          wasm,
-          statusMsgUpdater,
-          daoId,
-          myAddress,
-          setMyShares
-        )
+        safe(statusMsgUpdater, async () => {
+          let mySharesRes = await wasm.bridge_my_shares({
+            dao_id: daoId,
+            my_address: myAddress,
+          })
+          console.log("mySharesRes: %o", mySharesRes)
+          setMyShares(mySharesRes)
+        })
       }
     },
     [wasm, statusMsgUpdater]
@@ -181,13 +178,14 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   const updateMyDividend = useCallback(
     async (daoId, myAddress) => {
       if (wasm && myAddress) {
-        await updateMyDividend_(
-          wasm,
-          statusMsgUpdater,
-          daoId,
-          myAddress,
-          setMyDividend
-        )
+        safe(statusMsgUpdater, async () => {
+          let myDividendRes = await wasm.bridge_my_dividend({
+            dao_id: daoId,
+            investor_address: myAddress,
+          })
+          console.log("myDividendRes: %o", myDividendRes)
+          setMyDividend(myDividendRes)
+        })
       }
     },
     [wasm, statusMsgUpdater]
@@ -220,14 +218,12 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   const updateRaisedFunds = useCallback(
     async (daoId) => {
       if (wasm) {
-        await loadRaisedFunds(
-          wasm,
-          statusMsgUpdater,
-          daoId,
-          setRaisedFunds,
-          setRaisedFundsNumber,
-          setRaiseState
-        )
+        safe(statusMsgUpdater, async () => {
+          let funds = await wasm.bridge_raised_funds({ dao_id: daoId })
+          setRaisedFunds(funds.raised)
+          setRaisedFundsNumber(funds.raised_number)
+          setRaiseState(stateObj(funds.state, funds.goal_exceeded_percentage))
+        })
       }
     },
     [wasm, statusMsgUpdater]
@@ -236,13 +232,14 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   const updateCompactFundsActivity = useCallback(
     async (daoId) => {
       if (wasm) {
-        await loadFundsActivity(
-          wasm,
-          statusMsgUpdater,
-          daoId,
-          setCompactFundsActivity,
-          "3"
-        )
+        safe(deps.statusMsg, async () => {
+          const res = await deps.wasm.bridge_load_funds_activity({
+            dao_id: daoId,
+            max_results: "3",
+          })
+          console.log("compact funds activity res: " + JSON.stringify(res))
+          setCompactFundsActivity(res.entries)
+        })
       }
     },
     [statusMsgUpdater, wasm]
@@ -251,23 +248,33 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   const updateSharesDistr = useCallback(
     async (dao) => {
       if (wasm && dao) {
-        await fetchSharesDistribution(
-          wasm,
-          statusMsgUpdater,
-          dao.shares_asset_id,
-          dao.share_supply_number,
-          dao.app_id,
-          setSharesDistr,
-          setNotOwnedShares
-        )
+        safe(statusMsgUpdater, async () => {
+          let distrRes = await wasm.bridge_shares_distribution({
+            asset_id: dao.shares_asset_id,
+            share_supply: dao.share_supply_number,
+            app_id: dao.app_id,
+          })
+          console.log("Shares distribution res: " + JSON.stringify(distrRes))
 
-        await fetchHoldersChange(
-          wasm,
-          statusMsgUpdater,
-          dao.shares_asset_id,
-          dao.app_id,
-          setHoldersChange
-        )
+          // remember original index to get chart segment color
+          // we need this, because the displayed entries are filtered ("show less" state)
+          // so their indices don't correspond to the chart (which displays all the holders)
+          const holdersWithIndex = distrRes.holders.map((holder, index) => {
+            holder.originalIndex = index
+            return holder
+          })
+
+          setSharesDistr(holdersWithIndex)
+          setNotOwnedShares(distrRes.not_owned_shares)
+
+          let holdersRes = await wasm.bridge_holders_change({
+            asset_id: dao.shares_asset_id,
+            app_id: dao.app_id,
+          })
+          console.log("Holders change res: " + JSON.stringify(holdersRes))
+
+          setHoldersChange(holdersRes.change)
+        })
       }
     },
     [wasm, statusMsgUpdater]
@@ -455,4 +462,29 @@ const windowSizeClasses = (windowSize) => {
     s3: isPhone,
     s4: isTablet || isPhone, // convenience size, so caller doesn't have to keep writing this
   }
+}
+
+const stateObj = (state, exceeded) => {
+  var text
+  var success
+
+  if (state === "Raising") {
+    return null // no message displayed when funds are still raising
+  } else if (state === "GoalReached") {
+    text = "The minimum target was reached"
+    success = true
+    // "6BB9BD";
+  } else if (state === "GoalNotReached") {
+    text = "The minimum target was not reached"
+    success = false
+    // success = "DE5C62";
+  } else if (state === "GoalExceeded") {
+    text = "The minumum target was exceeded by " + exceeded
+    success = true
+    // success = "6BB9BD";
+  } else {
+    throw Error("Invalid funds raise state: " + state)
+  }
+
+  return { text: text, success: success }
 }
