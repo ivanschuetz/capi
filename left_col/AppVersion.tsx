@@ -8,14 +8,11 @@ export const AppVersion = ({ deps }) => {
   const [wasmVersion, setWasmVersion] = useState(null)
 
   useEffect(() => {
-    async function asyncInit() {
-      if (deps.wasm) {
-        safe(deps.notification, async () => {
-          setWasmVersion(await deps.wasm.bridge_wasm_version())
-        })
-      }
+    if (deps.wasm) {
+      safe(deps.notification, async () => {
+        setWasmVersion(await deps.wasm.bridge_wasm_version())
+      })
     }
-    asyncInit()
   }, [deps.wasm, deps.notification])
 
   return (

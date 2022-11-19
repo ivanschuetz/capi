@@ -7,16 +7,16 @@ export const startBuyCurrencyFlow = async (
   dstAmount,
   closeModal
 ) => {
-  safe(deps.notification, async () => {
-    const reserveWyreRes = await deps.wasm.bridge_reserve_wyre({
+  const reserveWyreRes = await deps.wasm
+    .bridge_reserve_wyre({
       address: deps.myAddress,
       dst_currency: dstCurrency,
       dst_amount: dstAmount,
     })
+    .catch(deps.notification.error)
 
-    // TODO return only reservation in rust - we don't use url
-    openWyreCheckoutDialog(deps, reserveWyreRes.reservation, closeModal)
-  })
+  // TODO return only reservation in rust - we don't use url
+  openWyreCheckoutDialog(deps, reserveWyreRes.reservation, closeModal)
 }
 
 // see https://docs.sendwyre.com/docs/checkout-hosted-dialog

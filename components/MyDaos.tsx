@@ -28,16 +28,14 @@ const MyDaosEntries = ({ myDaos }) => {
 
 const updateMyDaos = (deps: Deps, setMyDaos) => {
   useEffect(() => {
-    ;(async () => {
-      if (deps.wasm && deps.myAddress) {
-        safe(deps.notification, async () => {
-          const myDaosRes = await deps.wasm.bridge_my_daos({
-            address: deps.myAddress,
-          })
-          console.log("myDaosRes: " + JSON.stringify(myDaosRes))
-          setMyDaos(myDaosRes.daos)
+    if (deps.wasm && deps.myAddress) {
+      safe(deps.notification, async () => {
+        const myDaosRes = await deps.wasm.bridge_my_daos({
+          address: deps.myAddress,
         })
-      }
-    })()
+        console.log("myDaosRes: " + JSON.stringify(myDaosRes))
+        setMyDaos(myDaosRes.daos)
+      })
+    }
   }, [deps.wasm, deps.notification, deps.myAddress])
 }
