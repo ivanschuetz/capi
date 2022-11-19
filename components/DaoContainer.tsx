@@ -1,6 +1,6 @@
 import { useContext } from "react"
 import "react-toastify/dist/ReactToastify.css"
-import { AppContainer } from "../components/AppContainer"
+import { AppContainer } from "./AppContainer"
 import { AppContext } from "../context/AppContext"
 import { WireframeWrapper } from "../wireframes/WireframeWrapper"
 

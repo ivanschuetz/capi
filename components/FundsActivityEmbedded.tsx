@@ -3,9 +3,9 @@ import Link from "next/link"
 import { loadDao } from "../controller/funds_activity"
 import funds from "../images/funds.svg"
 import { changeArrow, shortedAddress } from "../functions/utils"
-import CopyPasteText from "../components/CopyPastText"
+import CopyPasteText from "./CopyPastText"
 import { CompactFundsActivityEntry } from "./CompactFundsActivityEntry"
-import Progress from "../components/Progress"
+import Progress from "./Progress"
 
 export const FundsActivityEmbedded = ({ deps, daoId }) => {
   const [dao, setDao] = useState(null)
