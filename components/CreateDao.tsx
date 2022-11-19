@@ -18,7 +18,7 @@ import moment from "moment"
 
 import { MaxFundingTargetLabel } from "./MaxFundingTargetLabel"
 import { FileUploader } from "./FileUploader"
-import { Notification } from "./notificationUpdater"
+import { Notification } from "./Notification"
 import { toErrorMsg } from "../functions/validation"
 import { toMaybeIpfsUrl } from "../ipfs/store"
 import { toBytes, toBytesForRust } from "../functions/utils"
@@ -348,7 +348,7 @@ const createDao = async (
   const prospectusBytesForRust = toBytesForRust(prospectusBytesResolved)
 
   try {
-    let createDaoAssetsRes = await deps.wasm.bridge_create_dao_assets_txs({
+    let createDaoAssetsRes = await wasm.bridge_create_dao_assets_txs({
       inputs: {
         creator: myAddress,
         dao_name: daoName,

@@ -1,5 +1,4 @@
-import arrowUp from "../images/svg/green-arrow.svg"
-import arrowDown from "../images/svg/arrow.svg"
+import { Notification } from "../components/Notification"
 
 export const updateInvestmentData_ = async (
   wasm,
@@ -75,7 +74,7 @@ export const updateFunds_ = async (
   daoId,
   setFunds,
   setFundsChange,
-  notification
+  notification: Notification
 ) => {
   /// We don't have a function in WASM yet to fetch only the funds so we re-fetch the dao.
   /// TODO: optimize: fetch only the funds (probably pass dao as input), so request is quicker.
