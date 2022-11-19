@@ -276,7 +276,7 @@ const prefill = (
       }
     }
     prefill()
-  }, [daoId, deps.statusMsg])
+  }, [daoId, deps.notification])
 }
 
 const prefillInputs = async (
@@ -308,7 +308,7 @@ const prefillInputs = async (
     setMaxInvestShares(updatableData.max_invest_amount)
     setProspectus(updatableData.prospectus)
   } catch (e) {
-    deps.statusMsg.error(e)
+    deps.notification.error(e)
   }
 }
 
@@ -387,7 +387,7 @@ const updateDaoData = async (
 
     await deps.updateDao(daoId)
 
-    deps.statusMsg.success("Dao data updated!")
+    deps.notification.success("Dao data updated!")
 
     showProgress(false)
   } catch (e) {
@@ -409,9 +409,9 @@ const updateDaoData = async (
       setMinInvestSharesError(toErrorMsg(details.min_invest_shares))
       setMaxInvestSharesError(toErrorMsg(details.max_invest_shares))
 
-      deps.statusMsg.error("Please fix the errors")
+      deps.notification.error("Please fix the errors")
     } else {
-      deps.statusMsg.error(e)
+      deps.notification.error(e)
     }
     showProgress(false)
   }
@@ -469,7 +469,7 @@ const rekeyOwner = async (
     })
     console.log("submitRekeyRes: " + JSON.stringify(submitRekeyRes))
 
-    deps.statusMsg.success(
+    deps.notification.success(
       "Owner rekeyed to: " +
         authAddress +
         ". Please login with this account to be able to sign transactions."
@@ -480,7 +480,7 @@ const rekeyOwner = async (
       console.error("%o", e)
       setInputError(toErrorMsg(e.details))
     } else {
-      deps.statusMsg.error(e)
+      deps.notification.error(e)
     }
     showProgress(false)
   }

@@ -7,7 +7,7 @@ export const startBuyCurrencyFlow = async (
   dstAmount,
   closeModal
 ) => {
-  safe(deps.statusMsg, async () => {
+  safe(deps.notification, async () => {
     const reserveWyreRes = await deps.wasm.bridge_reserve_wyre({
       address: deps.myAddress,
       dst_currency: dstCurrency,
@@ -37,7 +37,7 @@ const openWyreCheckoutDialog = (deps: Deps, reservation, closeModal) => {
 
   widget.on("paymentSuccess", function (e) {
     console.log("paymentSuccess", e)
-    deps.statusMsg.success("Account funded")
+    deps.notification.success("Account funded")
     // note that we don't refresh the view as it doesn't show algos
     // will do when we buy stables
   })

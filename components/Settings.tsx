@@ -61,7 +61,7 @@ const UpdateAppView = ({ deps, daoId }) => {
             isLoading={submitting}
             onClick={async () => {
               await updateApp(
-                deps.statusMsg,
+                deps.notification,
                 deps.myAddress,
                 deps.wallet,
 
@@ -89,7 +89,7 @@ const appVersionStr = (approvalVersion, clearVersion) => {
 
 export const updateApp = async (
   wasm,
-  statusMsg,
+  notification,
   myAddress,
   wallet,
 
@@ -123,8 +123,8 @@ export const updateApp = async (
     updateVersion(daoId)
 
     showProgress(false)
-    statusMsg.success("App updated!")
+    notification.success("App updated!")
   } catch (e) {
-    statusMsg.error(e)
+    notification.error(e)
   }
 }

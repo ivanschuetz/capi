@@ -180,7 +180,7 @@ const to_pie_chart_slice = (percentage) => {
 const updateAvailableShares = (deps: Deps, daoId) => {
   useEffect(() => {
     deps.updateAvailableShares.call(null, daoId)
-  }, [deps.updateAvailableShares, deps.statusMsg, daoId])
+  }, [deps.updateAvailableShares, deps.notification, daoId])
 }
 
 const updateTotalPrice = (
@@ -205,13 +205,13 @@ const updateTotalPrice = (
           setTotalCostNumber(res.total_price_number)
         } catch (e) {
           // for now disabled - we don't want to show validation messages while typing, to be consistent with other inputs
-          // deps.statusMsg.error(e);
+          // deps.notification.error(e);
           console.error("updatePercentage error (ignored): %o", e)
         }
       }
     })()
   }, [
-    deps.statusMsg,
+    deps.notification,
     deps.availableShares,
     deps.availableSharesNumber,
     daoId,
@@ -232,7 +232,7 @@ const submitBuy = async (
 ) => {
   await invest(
     deps.wasm,
-    deps.statusMsg,
+    deps.notification,
     deps.myAddress,
     deps.wallet,
     deps.updateMyBalance,

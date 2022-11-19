@@ -1,6 +1,6 @@
 import arrowUp from "../images/svg/green-arrow.svg"
 import arrowDown from "../images/svg/arrow.svg"
-import { StatusMsgUpdaterType } from "../components/StatusMsgUpdater"
+import { Notification } from "../components/notificationUpdater"
 
 export const toBytesForRust = (bytes) => {
   if (bytes && bytes.byteLength > 0) {
@@ -21,7 +21,7 @@ export const toBytes = (str) => {
 
 export const checkForUpdates = async (
   wasm,
-  statusMsg,
+  notification,
   daoId,
   setVersionData
 ) => {
@@ -32,7 +32,7 @@ export const checkForUpdates = async (
       setVersionData(versionData)
     }
   } catch (e) {
-    statusMsg.error(e)
+    notification.error(e)
   }
 }
 
@@ -52,9 +52,9 @@ export const pieChartColors = () => {
 
 export const PIE_CHART_GRAY = "#EBECF1"
 
-export const logUnexpected = (statusMsg, consoleMsg) => {
+export const logUnexpected = (notification, consoleMsg) => {
   console.error(consoleMsg)
-  statusMsg.error("Unexpected error. Please contact support.")
+  notification.error("Unexpected error. Please contact support.")
 }
 
 export const changeArrow = (change) => {
@@ -84,10 +84,10 @@ export const shortedAddress = (address) => {
   return leading + "..." + trailing
 }
 
-export const safe = (statusMsg: StatusMsgUpdaterType, f: () => void) => {
+export const safe = (notification: Notification, f: () => void) => {
   try {
     f()
   } catch (e) {
-    statusMsg.error(e)
+    notification.error(e)
   }
 }

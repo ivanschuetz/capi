@@ -1,6 +1,6 @@
 export const fetchSharesDistribution = async (
   wasm,
-  statusMsg,
+  notification,
   assetId,
   assetSupply,
   appId,
@@ -26,13 +26,13 @@ export const fetchSharesDistribution = async (
     setSharesDistr(holdersWithIndex)
     setNotOwnedShares(res.not_owned_shares)
   } catch (e) {
-    statusMsg.error(e)
+    notification.error(e)
   }
 }
 
 export const fetchHoldersChange = async (
   wasm,
-  statusMsg,
+  notification,
   assetId,
   appId,
   setHoldersChange
@@ -46,6 +46,6 @@ export const fetchHoldersChange = async (
 
     setHoldersChange(res.change)
   } catch (e) {
-    statusMsg.error(e)
+    notification.error(e)
   }
 }

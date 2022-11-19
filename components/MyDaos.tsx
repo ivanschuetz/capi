@@ -30,7 +30,7 @@ const updateMyDaos = (deps: Deps, setMyDaos) => {
   useEffect(() => {
     ;(async () => {
       if (deps.wasm && deps.myAddress) {
-        safe(deps.statusMsg, async () => {
+        safe(deps.notification, async () => {
           const myDaosRes = await deps.wasm.bridge_my_daos({
             address: deps.myAddress,
           })
@@ -39,5 +39,5 @@ const updateMyDaos = (deps: Deps, setMyDaos) => {
         })
       }
     })()
-  }, [deps.wasm, deps.statusMsg, deps.myAddress])
+  }, [deps.wasm, deps.notification, deps.myAddress])
 }

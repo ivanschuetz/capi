@@ -18,7 +18,7 @@ import moment from "moment"
 
 import { MaxFundingTargetLabel } from "./MaxFundingTargetLabel"
 import { FileUploader } from "./FileUploader"
-import { StatusMsgUpdaterType } from "./StatusMsgUpdater"
+import { Notification } from "./notificationUpdater"
 import { toErrorMsg } from "../functions/validation"
 import { toMaybeIpfsUrl } from "../ipfs/store"
 import { toBytes, toBytesForRust } from "../functions/utils"
@@ -84,7 +84,7 @@ export const CreateDao = ({ deps }) => {
 
         await createDao(
           deps.wasm,
-          deps.statusMsg,
+          deps.notification,
           deps.myAddress,
           deps.wallet,
           deps.updateMyBalance,
@@ -300,7 +300,7 @@ export const CreateDao = ({ deps }) => {
 
 const createDao = async (
   wasm,
-  statusMsg: StatusMsgUpdaterType,
+  notification: Notification,
   myAddress,
   wallet,
   updateMyBalance,
@@ -338,7 +338,7 @@ const createDao = async (
   setMaxInvestSharesError,
   setShowBuyCurrencyInfoModal
 ) => {
-  statusMsg.clear()
+  notification.clear()
 
   showProgress(true)
 
@@ -397,7 +397,7 @@ const createDao = async (
     router.push(submitDaoRes.dao.dao_link)
 
     showProgress(false)
-    statusMsg.success("Project created!")
+    notification.success("Project created!")
 
     await updateMyBalance(myAddress)
   } catch (e) {
@@ -431,29 +431,26 @@ const createDao = async (
       }
 
       // workaround: the inline errors for these are not functional yet, so show as notification
-      showErrorNotificationIfError(statusMsg, e.image_url)
-      showErrorNotificationIfError(statusMsg, e.prospectus_url)
-      showErrorNotificationIfError(statusMsg, e.prospectus_bytes)
+      showErrorNotificationIfError(notification, e.image_url)
+      showErrorNotificationIfError(notification, e.prospectus_url)
+      showErrorNotificationIfError(notification, e.prospectus_bytes)
 
       // show a general message additionally, just in case
-      statusMsg.error({ message: "Please fix the errors" })
+      notification.error({ message: "Please fix the errors" })
     } else if (e.id === "not_enough_algos") {
       setShowBuyCurrencyInfoModal(true)
     } else {
-      statusMsg.error(e)
+      notification.error(e)
     }
 
     showProgress(false)
   }
 }
 
-const showErrorNotificationIfError = (
-  statusMsg: StatusMsgUpdaterType,
-  payload
-) => {
+const showErrorNotificationIfError = (notification: Notification, payload) => {
   const errorMsg = toErrorMsg(payload)
   if (errorMsg) {
-    statusMsg.error({ message: errorMsg })
+    notification.error({ message: errorMsg })
   }
 }
 

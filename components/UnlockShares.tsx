@@ -29,7 +29,7 @@ export const UnlockShares = ({ deps, dao, daoId }) => {
 
 const unlock = async (deps: Deps, showProgress, daoId) => {
   try {
-    deps.statusMsg.clear()
+    deps.notification.clear()
 
     showProgress(true)
     let unlockRes = await deps.wasm.bridge_unlock({
@@ -49,7 +49,7 @@ const unlock = async (deps: Deps, showProgress, daoId) => {
     })
     console.log("submitUnlockRes: " + JSON.stringify(submitUnlockRes))
 
-    deps.statusMsg.success("Shares unlocked")
+    deps.notification.success("Shares unlocked")
     await deps.updateInvestmentData(daoId, deps.myAddress)
     showProgress(false)
 
@@ -57,7 +57,7 @@ const unlock = async (deps: Deps, showProgress, daoId) => {
     await deps.updateMyShares(daoId, deps.myAddress)
     // await updateMyDividend(daoId, deps.myAddress);
   } catch (e) {
-    deps.statusMsg.error(e)
+    deps.notification.error(e)
     showProgress(false)
   }
 }

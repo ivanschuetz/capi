@@ -32,7 +32,7 @@ export const SideBarDao = ({ deps, containerClass }) => {
     if (daoId) {
       asyncInit()
     }
-  }, [daoId, deps.statusMsg, deps.updateDao])
+  }, [daoId, deps.notification, deps.updateDao])
 
   const iHaveShares = deps.myShares && deps.myShares.total > 0
   const iAmDaoOwner = iAmDaoOwner_(deps.dao, deps.myAddress)

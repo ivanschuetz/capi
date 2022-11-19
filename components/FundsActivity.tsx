@@ -80,7 +80,7 @@ const NoActivityView = ({ daoId }) => {
 const updateActivityEntries = (deps: Deps, daoId, setActivityEntries) => {
   useEffect(() => {
     if (deps.wasm) {
-      safe(deps.statusMsg, async () => {
+      safe(deps.notification, async () => {
         const res = await deps.wasm.bridge_load_funds_activity({
           dao_id: daoId,
           max_results: null,
@@ -89,5 +89,5 @@ const updateActivityEntries = (deps: Deps, daoId, setActivityEntries) => {
         setActivityEntries(res.entries)
       })
     }
-  }, [deps.wasm, daoId, deps.statusMsg])
+  }, [deps.wasm, daoId, deps.notification])
 }

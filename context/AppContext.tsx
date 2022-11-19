@@ -7,10 +7,7 @@ import React, {
   useState,
 } from "react"
 import "react-toastify/dist/ReactToastify.css"
-import {
-  StatusMsgUpdater,
-  StatusMsgUpdaterType,
-} from "../components/StatusMsgUpdater"
+import { NotificationCreator, Notification } from "../components/Notification"
 import { checkForUpdates, safe } from "../functions/utils"
 import { updateFunds_, updateInvestmentData_ } from "../functions/shared"
 import { shortedAddress } from "../functions/utils"
@@ -42,7 +39,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 
   const [dao, setDao] = useState(null)
 
-  const [statusMsgUpdater] = useState(StatusMsgUpdater())
+  const [notification] = useState(NotificationCreator())
   const [wallet, setWallet] = useState(null)
 
   const windowSize = useWindowSize()
@@ -66,43 +63,43 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 
   useEffect(() => {
     initWcWalletIfAvailable(
-      statusMsgUpdater,
+      notification,
       setMyAddress,
       setWallet,
       setWcShowOpenWalletModal
     )
-  }, [statusMsgUpdater])
+  }, [notification])
 
   const updateMyBalance = useCallback(
     async (myAddress) => {
       if (wasm && myAddress) {
-        safe(statusMsgUpdater, async () => {
+        safe(notification, async () => {
           const balance = await wasm.bridge_balance({ address: myAddress })
           console.log("Balance update res: %o", balance)
           await updateMyBalance(balance)
         })
       }
     },
-    [wasm, statusMsgUpdater]
+    [wasm, notification]
   )
 
   useEffect(() => {
     async function asyncInit() {
       if (wasm) {
-        safe(statusMsgUpdater, async () => await wasm.init_log())
+        safe(notification, async () => await wasm.init_log())
       }
     }
     asyncInit()
-  }, [wasm, statusMsgUpdater])
+  }, [wasm, notification])
 
   useEffect(() => {
     initWcWalletIfAvailable(
-      statusMsgUpdater,
+      notification,
       setMyAddress,
       setWallet,
       setWcShowOpenWalletModal
     )
-  }, [statusMsgUpdater])
+  }, [notification])
 
   useEffect(() => {
     async function nestedAsync() {
@@ -117,7 +114,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   const updateAvailableShares = useCallback(
     async (daoId) => {
       if (wasm) {
-        safe(statusMsgUpdater, async () => {
+        safe(notification, async () => {
           let res = await wasm.bridge_load_available_shares({
             dao_id: daoId,
           })
@@ -126,13 +123,13 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
         })
       }
     },
-    [wasm, statusMsgUpdater]
+    [wasm, notification]
   )
 
   const updateDao = useCallback(
     async (daoId) => {
       if (wasm && daoId) {
-        safe(statusMsgUpdater, async () => {
+        safe(notification, async () => {
           let dao = await wasm.bridge_load_dao(daoId)
           setDao(dao)
           // // these are overwritten when draining, so we keep them separate
@@ -141,13 +138,13 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
         })
       }
     },
-    [wasm, statusMsgUpdater]
+    [wasm, notification]
   )
 
   const updateShares = useCallback(
     async (daoId, myAddress) => {
       if (wasm && myAddress) {
-        safe(statusMsgUpdater, async () => {
+        safe(notification, async () => {
           let mySharesRes = await wasm.bridge_my_shares({
             dao_id: daoId,
             my_address: myAddress,
@@ -157,7 +154,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
         })
       }
     },
-    [wasm, statusMsgUpdater]
+    [wasm, notification]
   )
 
   const updateInvestmentData = useCallback(
@@ -165,20 +162,20 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
       if (wasm && myAddress) {
         await updateInvestmentData_(
           wasm,
-          statusMsgUpdater,
+          notification,
           myAddress,
           daoId,
           setInvestmentData
         )
       }
     },
-    [wasm, statusMsgUpdater]
+    [wasm, notification]
   )
 
   const updateMyDividend = useCallback(
     async (daoId, myAddress) => {
       if (wasm && myAddress) {
-        safe(statusMsgUpdater, async () => {
+        safe(notification, async () => {
           let myDividendRes = await wasm.bridge_my_dividend({
             dao_id: daoId,
             investor_address: myAddress,
@@ -188,37 +185,31 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
         })
       }
     },
-    [wasm, statusMsgUpdater]
+    [wasm, notification]
   )
 
   const updateFunds = useCallback(
     async (daoId) => {
       if (wasm) {
-        await updateFunds_(
-          wasm,
-          daoId,
-          setFunds,
-          setFundsChange,
-          statusMsgUpdater
-        )
+        await updateFunds_(wasm, daoId, setFunds, setFundsChange, notification)
       }
     },
-    [wasm, statusMsgUpdater]
+    [wasm, notification]
   )
 
   const updateDaoVersion = useCallback(
     async (daoId) => {
       if (wasm) {
-        await checkForUpdates(wasm, statusMsgUpdater, daoId, setDaoVersion)
+        await checkForUpdates(wasm, notification, daoId, setDaoVersion)
       }
     },
-    [wasm, statusMsgUpdater]
+    [wasm, notification]
   )
 
   const updateRaisedFunds = useCallback(
     async (daoId) => {
       if (wasm) {
-        safe(statusMsgUpdater, async () => {
+        safe(notification, async () => {
           let funds = await wasm.bridge_raised_funds({ dao_id: daoId })
           setRaisedFunds(funds.raised)
           setRaisedFundsNumber(funds.raised_number)
@@ -226,13 +217,13 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
         })
       }
     },
-    [wasm, statusMsgUpdater]
+    [wasm, notification]
   )
 
   const updateCompactFundsActivity = useCallback(
     async (daoId) => {
       if (wasm) {
-        safe(deps.statusMsg, async () => {
+        safe(deps.notification, async () => {
           const res = await deps.wasm.bridge_load_funds_activity({
             dao_id: daoId,
             max_results: "3",
@@ -242,13 +233,13 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
         })
       }
     },
-    [statusMsgUpdater, wasm]
+    [notification, wasm]
   )
 
   const updateSharesDistr = useCallback(
     async (dao) => {
       if (wasm && dao) {
-        safe(statusMsgUpdater, async () => {
+        safe(notification, async () => {
           let distrRes = await wasm.bridge_shares_distribution({
             asset_id: dao.shares_asset_id,
             share_supply: dao.share_supply_number,
@@ -277,7 +268,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
         })
       }
     },
-    [wasm, statusMsgUpdater]
+    [wasm, notification]
   )
 
   const deps = {
@@ -300,7 +291,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     modal: modal,
     setModal: setModal,
 
-    statusMsg: statusMsgUpdater,
+    notification: notification,
 
     myBalance: myBalance,
     updateMyBalance: updateMyBalance,
@@ -376,7 +367,7 @@ export interface Deps {
   modal: any
   setModal: any
 
-  statusMsg: StatusMsgUpdaterType
+  notification: Notification
 
   myBalance: any
   updateMyBalance: any

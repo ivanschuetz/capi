@@ -5,13 +5,13 @@ import buffer from "buffer"
 const { Buffer } = buffer
 
 export function initWcWalletIfAvailable(
-  statusMsg,
+  notification,
   setMyAddress,
   setWallet,
   setWcShowOpenWalletModal
 ) {
   const wallet = createWcWallet(
-    statusMsg,
+    notification,
     setMyAddress,
     setWcShowOpenWalletModal
   )
@@ -23,7 +23,7 @@ export function initWcWalletIfAvailable(
 
 // Note: the wallet connect and my algo wallets share the same "interface"
 export function createWcWallet(
-  statusMsg,
+  notification,
   setMyAddress,
   setShowOpenWalletModal
 ) {
@@ -46,7 +46,7 @@ export function createWcWallet(
       }
       return initSession()
     } catch (e) {
-      statusMsg.error(e)
+      notification.error(e)
     }
   }
 
@@ -56,7 +56,7 @@ export function createWcWallet(
       await connector.killSession()
       onDisconnect()
     } catch (e) {
-      statusMsg.error(e)
+      notification.error(e)
     }
   }
 
@@ -67,7 +67,7 @@ export function createWcWallet(
         initSession()
       }
     } catch (e) {
-      statusMsg.error(e)
+      notification.error(e)
     }
   }
 
@@ -76,7 +76,7 @@ export function createWcWallet(
     try {
       onConnectorConnected(connector, onAddressUpdate, onDisconnect)
     } catch (e) {
-      statusMsg.error(e)
+      notification.error(e)
     }
   }
 

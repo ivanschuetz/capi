@@ -1,14 +1,14 @@
 import { toFriendlyError } from "../functions/friendlyErrors"
 import { toast } from "react-toastify"
 
-export type StatusMsgUpdaterType = {
+export type Notification = {
   success(msg: string): void
   // TODO this should be just a string. if other types needed, use union type
   error(msg: { message: string }): void
   clear(): void
 }
 
-export const StatusMsgUpdater: () => StatusMsgUpdaterType = () => ({
+export const NotificationCreator: () => Notification = () => ({
   // Display text as a success notification
   success(msg) {
     msg = msg + ""

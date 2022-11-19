@@ -3,7 +3,7 @@ import buffer from "buffer"
 const { Buffer } = buffer
 
 // Note: the wallet connect and my algo wallets share the same "interface"
-export function createMyAlgoWallet(statusMsg, setMyAddress) {
+export function createMyAlgoWallet(notification, setMyAddress) {
   const wallet = new MyAlgo()
 
   // returns address, if needed for immediate use
@@ -26,7 +26,7 @@ export function createMyAlgoWallet(statusMsg, setMyAddress) {
 
       return selectedAddress
     } catch (e) {
-      statusMsg.error(e)
+      notification.error(e)
     }
   }
 

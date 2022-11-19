@@ -133,7 +133,7 @@ const actions_tabs_classes = (tabIsShowing) => {
 
 const initAndUpdateInvestmentData = (deps: Deps, daoId, setDao) => {
   useEffect(() => {
-    safe(deps.statusMsg, async () => {
+    safe(deps.notification, async () => {
       if (deps.wasm) {
         let dao = await deps.wasm.bridge_load_dao(daoId)
         console.log("dao: " + JSON.stringify(dao))
@@ -151,7 +151,7 @@ const initAndUpdateInvestmentData = (deps: Deps, daoId, setDao) => {
     deps.wasm,
     daoId,
     deps.myAddress,
-    deps.statusMsg,
+    deps.notification,
     deps.updateInvestmentData,
     deps.updateMyShares,
   ])

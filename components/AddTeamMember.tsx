@@ -140,7 +140,7 @@ export const addTeamMember = async (
   setSocialError
 ) => {
   try {
-    deps.statusMsg.clear()
+    deps.notification.clear()
 
     showProgress(true)
     // update json + possible validations in wasm
@@ -178,7 +178,7 @@ export const addTeamMember = async (
 
     console.log("submitTeamRes: " + JSON.stringify(submitTeamRes))
 
-    deps.statusMsg.success("Update team submitted")
+    deps.notification.success("Update team submitted")
 
     // we wait for the complete process to succeed before showing the updated team
     setTeam(addMemberRes.team)
@@ -193,9 +193,9 @@ export const addTeamMember = async (
       setSocialError(toErrorMsg(e.investors_share))
 
       // show a general message additionally, just in case
-      deps.statusMsg.error("Please fix the errors")
+      deps.notification.error("Please fix the errors")
     } else {
-      deps.statusMsg.error(e)
+      deps.notification.error(e)
     }
 
     showProgress(false)

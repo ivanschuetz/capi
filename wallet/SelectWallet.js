@@ -12,7 +12,7 @@ export const SelectWallet = ({ deps, closeModal }) => {
           selectWallet(
             deps,
             createWcWallet(
-              deps.statusMsg,
+              deps.notification,
               deps.setMyAddress,
               deps.setWcShowOpenWalletModal
             ),
@@ -26,7 +26,7 @@ export const SelectWallet = ({ deps, closeModal }) => {
         onClick={async () =>
           selectWallet(
             deps,
-            createMyAlgoWallet(deps.statusMsg, deps.setMyAddress),
+            createMyAlgoWallet(deps.notification, deps.setMyAddress),
             closeModal
           )
         }

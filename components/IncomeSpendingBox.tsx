@@ -13,7 +13,7 @@ const barsOptions = [
   { value: "year", label: "Last year" },
 ]
 
-export const IncomeSpendingBox = ({ statusMsg, daoId }) => {
+export const IncomeSpendingBox = ({ notification, daoId }) => {
   const { deps } = useContext(AppContext)
 
   const [chartData, setChartData] = useState(null)
@@ -30,7 +30,7 @@ export const IncomeSpendingBox = ({ statusMsg, daoId }) => {
 
   updateChartData(
     deps,
-    statusMsg,
+    notification,
     daoId,
     selectedBarsInterval,
     colors,
@@ -90,7 +90,7 @@ const ChartBox = ({
 
 const updateChartData = (
   deps: Deps,
-  statusMsg,
+  notification,
   daoId,
   selectedBarsInterval,
   colors,
@@ -99,7 +99,7 @@ const updateChartData = (
 ) => {
   useEffect(() => {
     if (deps.wasm) {
-      safe(statusMsg, async () => {
+      safe(notification, async () => {
         let res = await deps.wasm.bridge_income_vs_spending({
           dao_id: daoId,
           interval: selectedBarsInterval.value,
@@ -117,5 +117,5 @@ const updateChartData = (
         }
       })
     }
-  }, [deps.wasm, statusMsg, daoId, selectedBarsInterval.value, colors])
+  }, [deps.wasm, notification, daoId, selectedBarsInterval.value, colors])
 }

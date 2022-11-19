@@ -31,7 +31,7 @@ export const SharesDistributionBox = ({ deps }) => {
       }
     }
     nestedAsync()
-  }, [deps.updateSharesDistr, deps.statusMsg, deps.dao])
+  }, [deps.updateSharesDistr, deps.notification, deps.dao])
 
   useEffect(() => {
     const showAll = () => {
@@ -62,7 +62,7 @@ export const SharesDistributionBox = ({ deps }) => {
       setEntries(filterHolders(startIndex))
     }
   }, [
-    deps.statusMsg,
+    deps.notification,
     deps.dao.shares_asset_id,
     ownedSharesDistr,
     showMoreSelected,

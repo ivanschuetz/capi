@@ -23,7 +23,7 @@ export const calculateSharesPrice = async (
     return res
   } catch (e) {
     // for now disabled - we don't want to show validation messages while typing, to be consistent with other inputs
-    // deps.statusMsg.error(e);
+    // deps.notification.error(e);
     console.error("calculateSharesPrice error (ignored): %o", e)
   }
 }
@@ -31,7 +31,7 @@ export const calculateSharesPrice = async (
 export const invest = async (
   wasm,
 
-  statusMsg,
+  notification,
   myAddress,
   wallet,
   updateMyBalance,
@@ -53,7 +53,7 @@ export const invest = async (
   totalCostNumber
 ) => {
   try {
-    statusMsg.clear()
+    notification.clear()
     setShareAmountError(null)
 
     ///////////////////////////////////
@@ -104,7 +104,7 @@ export const invest = async (
 
     await updateMyBalance(myAddress)
 
-    statusMsg.success(
+    notification.success(
       "Congratulations! you bought " + buySharesCount + " shares."
     )
 
@@ -119,11 +119,11 @@ export const invest = async (
     if (e.type_identifier === "input_errors") {
       setShareAmountError(toErrorMsg(e.amount))
       // show a general message additionally, just in case
-      statusMsg.error("Please fix the errors")
+      notification.error("Please fix the errors")
     } else if (e.id === "not_enough_funds_asset") {
       setShowBuyCurrencyInfoModal({ amount: e.details })
     } else {
-      statusMsg.error(e)
+      notification.error(e)
     }
     showProgress(false)
   }

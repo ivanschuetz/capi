@@ -95,7 +95,7 @@ const EmptyTeamView = () => {
 const updateTeam = (deps: Deps, setTeam) => {
   useEffect(() => {
     if (deps.wasm && deps.dao?.team_url) {
-      safe(deps.statusMsg, async () => {
+      safe(deps.notification, async () => {
         const team = await deps.wasm.bridge_get_team({
           url: deps.dao?.team_url,
         })
@@ -103,5 +103,5 @@ const updateTeam = (deps: Deps, setTeam) => {
         setTeam(team.team)
       })
     }
-  }, [deps.wasm, deps.dao?.team_url, deps.statusMsg])
+  }, [deps.wasm, deps.dao?.team_url, deps.notification])
 }

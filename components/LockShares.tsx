@@ -46,7 +46,7 @@ export const lock = async (
   setInputError
 ) => {
   try {
-    deps.statusMsg.clear()
+    deps.notification.clear()
     ///////////////////////////////////
     // TODO refactor invest/lock
     // 1. sign tx for app opt-in
@@ -92,7 +92,7 @@ export const lock = async (
     console.log("submitLockRes: " + JSON.stringify(submitLockRes))
     showProgress(false)
 
-    deps.statusMsg.success(
+    deps.notification.success(
       "Congratulations! you locked " + lockSharesCount + " shares."
     )
 
@@ -108,7 +108,7 @@ export const lock = async (
       console.error("%o", e)
       setInputError(toErrorMsg(e.details))
     } else {
-      deps.statusMsg.error(e)
+      deps.notification.error(e)
     }
     showProgress(false)
   }

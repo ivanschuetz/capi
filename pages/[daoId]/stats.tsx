@@ -20,7 +20,7 @@ const StatsPage = () => {
         <div>
           {deps.dao && <SharesDistributionBox deps={deps} />}
 
-          <IncomeSpendingBox statusMsg={deps.statusMsg} daoId={daoId} />
+          <IncomeSpendingBox notification={deps.notification} daoId={daoId} />
         </div>
       }
     ></DaoContainer>

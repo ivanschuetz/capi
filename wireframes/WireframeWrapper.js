@@ -16,14 +16,14 @@ export const WireframeWrapper = ({ isGlobal, deps, nested }) => {
       }
     }
     asyncInit()
-  }, [daoId, deps.statusMsg, deps.updateDaoVersion, deps.updateDao])
+  }, [daoId, deps.notification, deps.updateDaoVersion, deps.updateDao])
 
   // clear possible notification
   useEffect(() => {
-    deps.statusMsg.clear()
+    deps.notification.clear()
     // TODO nextjs - do we actually still need this effect? the notifications disappear with time
-    // }, [deps.statusMsg, location]);
-  }, [deps.statusMsg])
+    // }, [deps.notification, location]);
+  }, [deps.notification])
 
   return deps.size.s4 ? (
     <WireframeMobile isGlobal={isGlobal} deps={deps} nested={nested} />

@@ -105,7 +105,7 @@ const MyAddress = ({ deps }) => {
         </a>
       }
       copyText={deps.myAddress}
-      statusMsg={deps.statusMsg}
+      notification={deps.notification}
       copyMsg={"Address copied to clipboard"}
     />
   )
@@ -162,7 +162,7 @@ const SubmitClaimButton = ({ deps, daoId }) => {
           deps.wasm,
           deps.myAddress,
           setSubmitting,
-          deps.statusMsg,
+          deps.notification,
           deps.updateMyBalance,
           daoId,
           deps.updateInvestmentData,
@@ -217,7 +217,7 @@ const disconnect = async (deps: Deps) => {
     await deps.wallet.disconnect()
     deps.setMyAddress("")
   } catch (e) {
-    deps.statusMsg.error(e)
+    deps.notification.error(e)
   }
 }
 
@@ -228,5 +228,5 @@ const updateInvestmentData = (deps: Deps, daoId) => {
         await deps.updateInvestmentData.call(null, daoId, deps.myAddress)
       }
     })()
-  }, [deps.statusMsg, deps.myAddress, daoId, deps.updateInvestmentData])
+  }, [deps.notification, deps.myAddress, daoId, deps.updateInvestmentData])
 }

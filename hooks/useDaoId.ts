@@ -17,5 +17,5 @@ export const useEffectWithDaoId = (daoId, deps, f) => {
     if (daoId) {
       f()
     }
-  }, [daoId, deps.statusMsg, deps.updateDao])
+  }, [daoId, deps.notification, deps.updateDao])
 }

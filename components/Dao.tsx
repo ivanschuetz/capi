@@ -46,7 +46,7 @@ const DaoView = ({ deps, description, daoId }) => {
             </Link> */}
       {deps.dao && <SharesDistributionBox deps={deps} />}
       {deps.dao && deps.dao.funds_raised === "true" && (
-        <IncomeSpendingBox statusMsg={deps.statusMsg} daoId={daoId} />
+        <IncomeSpendingBox notification={deps.notification} daoId={daoId} />
       )}
     </div>
   )
@@ -77,13 +77,13 @@ const updateDao = (deps, daoId) => {
         await deps.updateDao.call(null, daoId)
       }
     }
-  }, [daoId, deps.statusMsg, deps.updateDao])
+  }, [daoId, deps.notification, deps.updateDao])
 }
 
 const updateDescription = (deps, setDescription) => {
   useEffect(() => {
     if (deps.wasm) {
-      safe(deps.statusMsg, async () => {
+      safe(deps.notification, async () => {
         if (deps.dao && deps.dao.descr_url) {
           let description = await deps.wasm.bridge_description(
             deps.dao.descr_url
@@ -94,5 +94,5 @@ const updateDescription = (deps, setDescription) => {
         }
       })
     }
-  }, [deps.wasm, deps.statusMsg, deps.dao, setDescription])
+  }, [deps.wasm, deps.notification, deps.dao, setDescription])
 }

@@ -62,7 +62,7 @@ const updateRaisedFunds = (deps: Deps, daoId, dao) => {
         await deps.updateRaisedFunds.call(null, daoId)
       }
     })()
-  }, [daoId, dao, deps.statusMsg, deps.updateRaisedFunds])
+  }, [daoId, dao, deps.notification, deps.updateRaisedFunds])
 }
 
 const updateChart = (deps: Deps, dao, chart) => {

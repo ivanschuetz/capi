@@ -3,7 +3,7 @@ import arrowDown from "../images/svg/arrow.svg"
 
 export const updateInvestmentData_ = async (
   wasm,
-  statusMsg,
+  notification,
   myAddress,
   daoId,
   setInvestmentData
@@ -18,7 +18,7 @@ export const updateInvestmentData_ = async (
       setInvestmentData(data)
     }
   } catch (e) {
-    statusMsg.error(e)
+    notification.error(e)
   }
 }
 
@@ -26,7 +26,7 @@ export const retrieveProfits = async (
   wasm,
   myAddress,
   showProgress,
-  statusMsg,
+  notification,
   updateMyBalance,
   daoId,
   updateInvestmentData,
@@ -35,7 +35,7 @@ export const retrieveProfits = async (
   wallet
 ) => {
   try {
-    statusMsg.clear()
+    notification.clear()
 
     showProgress(true)
     let claimRes = await wasm.bridge_claim({
@@ -62,12 +62,12 @@ export const retrieveProfits = async (
     await updateFunds(daoId)
     await updateMyDividend(daoId, myAddress)
 
-    statusMsg.success("Dividend claimed")
+    notification.success("Dividend claimed")
     showProgress(false)
 
     await updateMyBalance(myAddress)
   } catch (e) {
-    statusMsg.error(e)
+    notification.error(e)
     showProgress(false)
   }
 }
@@ -77,7 +77,7 @@ export const updateFunds_ = async (
   daoId,
   setFunds,
   setFundsChange,
-  statusMsg
+  notification
 ) => {
   /// We don't have a function in WASM yet to fetch only the funds so we re-fetch the dao.
   /// TODO: optimize: fetch only the funds (probably pass dao as input), so request is quicker.
@@ -96,6 +96,6 @@ export const updateFunds_ = async (
     })
     setFundsChange(balance_change_res.change)
   } catch (e) {
-    statusMsg.error(e)
+    notification.error(e)
   }
 }

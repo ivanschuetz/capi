@@ -212,7 +212,7 @@ const updateAvailableShares = (deps, daoId) => {
     if (daoId) {
       deps.updateAvailableShares.call(null, daoId)
     }
-  }, [deps.updateAvailableShares, deps.statusMsg, daoId])
+  }, [deps.updateAvailableShares, deps.notification, daoId])
 }
 
 const updatePriceAndPercentage = (
@@ -242,7 +242,7 @@ const updatePriceAndPercentage = (
             setProfitPercentage(res.profit_percentage)
           } catch (e) {
             // for now disabled - we don't want to show validation messages while typing, to be consistent with other inputs
-            // deps.statusMsg.error(e);
+            // deps.notification.error(e);
             console.error(
               "updateTotalPriceAndPercentage error (ignored): %o",
               e
@@ -259,7 +259,7 @@ const updatePriceAndPercentage = (
     nestedAsync()
   }, [
     deps.wasm,
-    deps.statusMsg,
+    deps.notification,
     deps.availableSharesNumber,
     deps.investmentData?.investor_locked_shares,
     daoId,
@@ -286,7 +286,7 @@ const registerInvest = (
 
         await invest(
           deps.wasm,
-          deps.statusMsg,
+          deps.notification,
           deps.myAddress,
           deps.wallet,
           deps.updateMyBalance,
@@ -315,7 +315,7 @@ const registerInvest = (
     // suppress lint? are we approaching this incorrectly?
   }, [
     deps.wasm,
-    deps.statusMsg,
+    deps.notification,
     deps.myAddress,
     deps.wallet,
     deps.updateMyBalance,

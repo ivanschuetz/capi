@@ -58,7 +58,7 @@ const Wallet = ({ deps, dao }) => {
       <CopyPasteText
         text={shortedAddress(dao.app_address)}
         copyText={dao.app_address}
-        statusMsg={deps.statusMsg}
+        notification={deps.notification}
         copyMsg={"Address copied to clipboard"}
       />
     </div>
@@ -104,14 +104,14 @@ const Activity = ({ deps }) => {
 const updateDao = (deps: Deps, daoId, setDao) => {
   useEffect(() => {
     if (deps.wasm) {
-      safe(deps.statusMsg, async () => {
+      safe(deps.notification, async () => {
         // TODO use dao in deps? - might need to call update
         let dao = await deps.wasm.bridge_load_dao(daoId)
         console.log("dao: " + JSON.stringify(dao))
         setDao(dao)
       })
     }
-  }, [deps.wasm, daoId, deps.statusMsg])
+  }, [deps.wasm, daoId, deps.notification])
 }
 
 const updateFundsActivity = (deps: Deps, daoId) => {

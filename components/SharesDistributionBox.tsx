@@ -202,7 +202,7 @@ const updateSharesDistr = (deps: Deps) => {
         deps.updateSharesDistr.call(null, deps.dao)
       }
     })()
-  }, [deps.updateSharesDistr, deps.statusMsg, deps.dao])
+  }, [deps.updateSharesDistr, deps.notification, deps.dao])
 }
 
 const updateEntries = (
@@ -241,7 +241,7 @@ const updateEntries = (
       setEntries(filterHolders(startIndex))
     }
   }, [
-    deps.statusMsg,
+    deps.notification,
     deps.dao.shares_asset_id,
     ownedSharesDistr,
     showMoreSelected,
