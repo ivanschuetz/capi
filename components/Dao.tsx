@@ -72,18 +72,17 @@ const MaybeInvestView = ({ deps }) => {
 
 const updateDao = (deps, daoId) => {
   useEffect(() => {
-    const nested = async () => {
+    ;async () => {
       if (daoId) {
         await deps.updateDao.call(null, daoId)
       }
     }
-    nested()
   }, [daoId, deps.statusMsg, deps.updateDao])
 }
 
 const updateDescription = (deps, setDescription) => {
   useEffect(() => {
-    const nested = async () => {
+    if (deps.wasm) {
       safe(deps.statusMsg, async () => {
         if (deps.dao && deps.dao.descr_url) {
           let description = await deps.wasm.bridge_description(
@@ -94,9 +93,6 @@ const updateDescription = (deps, setDescription) => {
           setDescription("")
         }
       })
-    }
-    if (deps.wasm) {
-      nested()
     }
   }, [deps.wasm, deps.statusMsg, deps.dao, setDescription])
 }

@@ -191,7 +191,7 @@ const updateTotalPrice = (
   setTotalCostNumber
 ) => {
   useEffect(() => {
-    async function nestedAsync() {
+    ;(async () => {
       if (deps.availableShares && buySharesCount) {
         try {
           let res = await calculateSharesPrice(
@@ -209,8 +209,7 @@ const updateTotalPrice = (
           console.error("updatePercentage error (ignored): %o", e)
         }
       }
-    }
-    nestedAsync()
+    })()
   }, [
     deps.statusMsg,
     deps.availableShares,

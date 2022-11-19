@@ -197,12 +197,11 @@ const ShowMoreOrLessFooter = ({
 
 const updateSharesDistr = (deps: Deps) => {
   useEffect(() => {
-    async function nestedAsync() {
+    ;(async () => {
       if (deps.dao) {
         deps.updateSharesDistr.call(null, deps.dao)
       }
-    }
-    nestedAsync()
+    })()
   }, [deps.updateSharesDistr, deps.statusMsg, deps.dao])
 }
 

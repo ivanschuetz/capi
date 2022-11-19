@@ -89,7 +89,7 @@ export const InvestmentProfits = ({ deps }) => {
 
 const update = (deps: Deps, daoId, setDao) => {
   useEffect(() => {
-    const doInit = async () => {
+    if (deps.wasm) {
       safe(deps.statusMsg, async () => {
         let dao = await deps.wasm.bridge_load_dao(daoId)
         console.log("dao: " + JSON.stringify(dao))
@@ -102,10 +102,6 @@ const update = (deps: Deps, daoId, setDao) => {
         }
       })
     }
-    if (deps.wasm) {
-      doInit()
-    }
-    doInit()
   }, [
     deps.wasm,
     daoId,

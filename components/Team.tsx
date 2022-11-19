@@ -94,17 +94,14 @@ const EmptyTeamView = () => {
 
 const updateTeam = (deps: Deps, setTeam) => {
   useEffect(() => {
-    async function asyncInit() {
-      if (deps.wasm && deps.dao?.team_url) {
-        safe(deps.statusMsg, async () => {
-          const team = await deps.wasm.bridge_get_team({
-            url: deps.dao?.team_url,
-          })
-          console.log({ team })
-          setTeam(team.team)
+    if (deps.wasm && deps.dao?.team_url) {
+      safe(deps.statusMsg, async () => {
+        const team = await deps.wasm.bridge_get_team({
+          url: deps.dao?.team_url,
         })
-      }
+        console.log({ team })
+        setTeam(team.team)
+      })
     }
-    asyncInit()
   }, [deps.wasm, deps.dao?.team_url, deps.statusMsg])
 }

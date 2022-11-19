@@ -223,11 +223,10 @@ const disconnect = async (deps: Deps) => {
 
 const updateInvestmentData = (deps: Deps, daoId) => {
   useEffect(() => {
-    async function nestedAsync() {
+    ;(async () => {
       if (deps.myAddress) {
         await deps.updateInvestmentData.call(null, daoId, deps.myAddress)
       }
-    }
-    nestedAsync()
+    })()
   }, [deps.statusMsg, deps.myAddress, daoId, deps.updateInvestmentData])
 }

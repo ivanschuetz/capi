@@ -98,7 +98,7 @@ const updateChartData = (
   setChartData
 ) => {
   useEffect(() => {
-    async function fetchData() {
+    if (deps.wasm) {
       safe(statusMsg, async () => {
         let res = await deps.wasm.bridge_income_vs_spending({
           dao_id: daoId,
@@ -116,10 +116,6 @@ const updateChartData = (
           )
         }
       })
-    }
-
-    if (deps.wasm) {
-      fetchData()
     }
   }, [deps.wasm, statusMsg, daoId, selectedBarsInterval.value, colors])
 }

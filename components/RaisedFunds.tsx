@@ -57,12 +57,11 @@ const RaisedFundsView = ({ deps, chart }) => {
 
 const updateRaisedFunds = (deps: Deps, daoId, dao) => {
   useEffect(() => {
-    async function nestedAsync() {
+    ;(async () => {
       if (daoId) {
-        deps.updateRaisedFunds.call(null, daoId)
+        await deps.updateRaisedFunds.call(null, daoId)
       }
-    }
-    nestedAsync()
+    })()
   }, [daoId, dao, deps.statusMsg, deps.updateRaisedFunds])
 }
 

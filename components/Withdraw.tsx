@@ -80,14 +80,9 @@ export const Withdraw = ({ deps }) => {
 
 const updateDao = (deps: Deps, daoId, setDao) => {
   useEffect(() => {
-    async function asyncInit() {
-      safe(deps.statusMsg, async () => {
-        setDao(await deps.wasm.bridge_load_dao(daoId))
-      })
-    }
-    if (deps.wasm) {
-      asyncInit()
-    }
+    safe(deps.statusMsg, async () => {
+      setDao(await deps.wasm.bridge_load_dao(daoId))
+    })
   }, [deps.wasm, daoId, setDao, deps.statusMsg])
 }
 

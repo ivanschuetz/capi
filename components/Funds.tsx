@@ -23,7 +23,7 @@ export const Funds = ({
 const WithdrawButton = ({ daoId }) => {
   return (
     <span>
-      <Link to={"/" + daoId + "/withdraw"}>
+      <Link href={"/" + daoId + "/withdraw"}>
         <BsArrowUpCircle id="withdraw_icon" />
       </Link>
     </span>

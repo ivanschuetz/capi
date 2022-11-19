@@ -133,26 +133,20 @@ const actions_tabs_classes = (tabIsShowing) => {
 
 const initAndUpdateInvestmentData = (deps: Deps, daoId, setDao) => {
   useEffect(() => {
-    const doInit = async () => {
-      safe(deps.statusMsg, async () => {
+    safe(deps.statusMsg, async () => {
+      if (deps.wasm) {
         let dao = await deps.wasm.bridge_load_dao(daoId)
         console.log("dao: " + JSON.stringify(dao))
         setDao(dao)
-
-        if (deps.myAddress) {
-          // TODO check for daoId? or do we know it's always set?
-          await deps.updateInvestmentData()
-          await deps.updateMyShares(daoId, deps.myAddress)
-        }
-      })
+      }
 
       if (deps.myAddress) {
+        // TODO check for daoId? or do we know it's always set?
+        await deps.updateInvestmentData()
+        await deps.updateMyShares(daoId, deps.myAddress)
         await deps.updateInvestmentData.call(null, daoId, deps.myAddress)
       }
-    }
-    if (deps.wasm) {
-      doInit()
-    }
+    })
   }, [
     deps.wasm,
     daoId,
