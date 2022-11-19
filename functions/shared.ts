@@ -35,8 +35,6 @@ export const retrieveProfits = async (
   wallet
 ) => {
   try {
-    notification.clear()
-
     showProgress(true)
     let claimRes = await wasm.bridge_claim({
       dao_id: daoId,

@@ -46,7 +46,6 @@ export const lock = async (
   setInputError
 ) => {
   try {
-    deps.notification.clear()
     ///////////////////////////////////
     // TODO refactor invest/lock
     // 1. sign tx for app opt-in

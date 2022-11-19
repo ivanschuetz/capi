@@ -53,7 +53,6 @@ export const invest = async (
   totalCostNumber
 ) => {
   try {
-    notification.clear()
     setShareAmountError(null)
 
     ///////////////////////////////////

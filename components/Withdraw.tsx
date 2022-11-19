@@ -94,8 +94,6 @@ const withdraw = async (
   withdrawalDescr
 ) => {
   try {
-    deps.notification.clear()
-
     showProgress(true)
     let withdrawRes = await deps.wasm.bridge_withdraw({
       dao_id: daoId,

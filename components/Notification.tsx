@@ -5,7 +5,6 @@ export type Notification = {
   success(msg: string): void
   // TODO this should be just a string. if other types needed, use union type
   error(msg: { message: string }): void
-  clear(): void
 }
 
 export const NotificationCreator: () => Notification = () => ({
@@ -56,11 +55,5 @@ export const NotificationCreator: () => Notification = () => ({
       closeOnClick: false,
       position: toast.POSITION.TOP_CENTER,
     })
-  },
-
-  clear() {
-    // quick fix for "project created" toast disappearing quickly
-    // TODO probably delete clear() - with timed notifications seems not neded anymore
-    // toast.dismiss();
   },
 })

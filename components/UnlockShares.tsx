@@ -29,8 +29,6 @@ export const UnlockShares = ({ deps, dao, daoId }) => {
 
 const unlock = async (deps: Deps, showProgress, daoId) => {
   try {
-    deps.notification.clear()
-
     showProgress(true)
     let unlockRes = await deps.wasm.bridge_unlock({
       dao_id: daoId,

@@ -140,8 +140,6 @@ export const addTeamMember = async (
   setSocialError
 ) => {
   try {
-    deps.notification.clear()
-
     showProgress(true)
     // update json + possible validations in wasm
     let addMemberRes = await deps.wasm.bridge_add_team_member({

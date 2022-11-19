@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react"
 import { ContentTitle } from "./ContentTitle"
-import { loadFundsActivity } from "../controller/funds_activity"
 import { FundsActivityEntry } from "./FundsActivityEntry"
 import Progress from "./Progress"
 import { SubmitButton } from "./SubmitButton"

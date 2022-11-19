@@ -338,8 +338,6 @@ const createDao = async (
   setMaxInvestSharesError,
   setShowBuyCurrencyInfoModal
 ) => {
-  notification.clear()
-
   showProgress(true)
 
   const imageUrl = await toMaybeIpfsUrl(await imageBytes)
