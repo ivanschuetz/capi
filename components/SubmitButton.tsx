@@ -4,7 +4,7 @@ export const SubmitButton = ({
   isLoading,
   className,
   onClick,
-}) => {
+}: SubmitButtonPars) => {
   return (
     <button
       className={`position-relative ${className}`}
@@ -30,4 +30,12 @@ export const SubmitButton = ({
       )}
     </button>
   )
+}
+
+type SubmitButtonPars = {
+  label: string
+  disabled?: boolean
+  isLoading?: boolean
+  className: string
+  onClick: () => void
 }

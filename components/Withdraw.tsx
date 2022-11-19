@@ -24,7 +24,6 @@ export const Withdraw = ({ deps }) => {
       return (
         <div className="box-container mt-80">
           <div className="title">{"Withdraw Funds from project"}</div>
-          {/* <DaoName dao={dao} /> */}
           <Funds
             funds={deps.funds}
             showWithdrawLink={false}

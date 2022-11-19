@@ -1,21 +1,25 @@
 import { useRouter } from "next/router"
-import { useEffect } from "react"
 
-export const useDaoId = () => {
+export const useDaoId = (): string | undefined => {
   const {
     query: { daoId },
   } = useRouter()
-  return daoId
-}
 
-// NOTE: experimental - not used currently, just think about for possible refactoring
-// TODO examine whether deps is needed
-// f is often callbacks in the app context, which declare the dependencies too
-// we probably should remove the deps from one of these, probably from the callbacks, but then we have to pass them from here? hmm
-export const useEffectWithDaoId = (daoId, deps, f) => {
-  useEffect(() => {
-    if (daoId) {
-      f()
-    }
-  }, [daoId, deps.notification, deps.updateDao])
+  if (!daoId) {
+    // when the page loads, the query is initially undefined, so we also return undefined
+    // note that we don't check explicitly for undefined - leniently including null
+    return undefined
+  } else if (typeof daoId === "string") {
+    return daoId
+  } else {
+    const router = useRouter()
+    throw new Error(
+      "Invalid daoId: " +
+        daoId +
+        ", type: " +
+        typeof daoId +
+        ", path: " +
+        router.pathname
+    )
+  }
 }

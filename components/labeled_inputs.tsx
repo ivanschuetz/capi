@@ -17,7 +17,7 @@ export const LabeledInput = ({
   img,
   info,
   disabled,
-}) => {
+}: LabeledInputPars) => {
   const [inputLength, setInputLength] = useState(0)
   const [showLength, setShowLength] = useState(false)
 
@@ -60,7 +60,7 @@ export const LabeledInput = ({
       <div className="labeled_input__label d-flex align-center w-94 justify-between">
         <div className="d-flex align-center gap-10">
           <div>{label}</div>
-          {info && <InfoView info={info} />}
+          {info && <InfoView text={info} />}
         </div>
         <div>
           {showLength && maxLength && (
@@ -72,20 +72,21 @@ export const LabeledInput = ({
         </div>
       </div>
       <div className={container_class}>
-        {input(
-          inputValue,
-          "text",
-          (input) => {
+        <Input
+          value={inputValue}
+          type={"text"}
+          onChange={(input) => {
             setInputLength(input.length)
             onChange(input)
-          },
-          placeholder,
-          (focus) => {
+          }}
+          onFocusToggle={(focus) => {
             setShowLength(focus)
-          },
-          disabled,
-          inputTextLengthClass()
-        )}
+          }}
+          placeholder={placeholder}
+          disabled={disabled}
+          textLengthClass={inputTextLengthClass()}
+        />
+
         {img && <img src={img.src} alt="img" />}
       </div>
       <ValidationMsg errorMsg={errorMsg} />
@@ -93,22 +94,22 @@ export const LabeledInput = ({
   )
 }
 
-export const InfoView = ({ info: infoText }) => {
-  return wrapWithInfoView(infoText, <img src={info.src} alt="info" />)
+export const InfoView = ({ text }: { text: string }) => {
+  return wrapWithInfoView(text, <img src={info.src} alt="info" />)
 }
 
-export const wrapWithInfoView = (infoText, element) => {
+export const wrapWithInfoView = (text: string, element: JSX.Element) => {
   return (
     <Fragment>
-      <div className="d-flex align-center" data-tip={infoText}>
+      <div className="d-flex align-center" data-tip={text}>
         {element}
       </div>
-      <ReactTooltip uuid={"infoview" + infoText} />
+      <ReactTooltip uuid={"infoview" + text} />
     </Fragment>
   )
 }
 
-const InputLength = ({ remainingChars, className }) => {
+const InputLength = ({ remainingChars, className }: InputLengthPars) => {
   return <div className={className}>{remainingChars}</div>
 }
 
@@ -120,15 +121,20 @@ export const LabeledCurrencyInput = ({
   errorMsg,
   img,
   info,
-}) => {
+}: LabeledCurrencyInputPars) => {
   return (
     <div className="labeled_input">
       <div className="labeled_input__label">
         {label}
-        {info && <InfoView info={info} />}
+        {info && <InfoView text={info} />}
       </div>
       <div className="input_with_image__container">
-        {input(inputValue, "number", onChange, placeholder)}
+        <Input
+          value={inputValue}
+          type={"number"}
+          onChange={onChange}
+          placeholder={placeholder}
+        />
         <img src={funds.src} alt="img" />
       </div>
       <ValidationMsg errorMsg={errorMsg} />
@@ -148,9 +154,14 @@ export const LabeledAmountInput = ({
     <div className="labeled_input">
       <div className="labeled_input__label">
         {label}
-        {info && <InfoView info={info} />}
+        {info && <InfoView text={info} />}
       </div>
-      {input(inputValue, "number", onChange, placeholder)}
+      <Input
+        value={inputValue}
+        type={"number"}
+        onChange={onChange}
+        placeholder={placeholder}
+      />
       <ValidationMsg errorMsg={errorMsg} />
     </div>
   )
@@ -166,15 +177,15 @@ export const ValidationMsg = ({ errorMsg }) => {
 }
 
 // onFocusToggle: optional: pass to be called when the input gains or loses focus
-const input = (
-  inputValue,
+const Input = ({
+  value,
   type,
   onChange,
-  placeholder,
   onFocusToggle,
+  placeholder,
   disabled,
-  textLengthClass
-) => {
+  textLengthClass,
+}: InputPars) => {
   var className = "label-input-style"
   if (textLengthClass) {
     className += ` ${textLengthClass}`
@@ -184,10 +195,10 @@ const input = (
     <input
       className={className}
       placeholder={placeholder}
-      size="30"
+      size={30}
       type={type}
       min="0" // only active if type is number
-      value={inputValue}
+      value={value}
       disabled={disabled}
       onChange={(event) => {
         onChange(event.target.value)
@@ -217,7 +228,7 @@ export const LabeledTextArea = ({
   img,
   className,
   rows = 10,
-}) => {
+}: LabeledTextAreaPars) => {
   const [inputLength, setInputLength] = useState(0)
   const [showLength, setShowLength] = useState(false)
 
@@ -314,17 +325,10 @@ export const LabeledDateInput = ({
     <div className="labeled_input">
       <div className="labeled_input__label">
         {label}
-        {info && <InfoView info={info} />}
+        {info && <InfoView text={info} />}
       </div>
       <div className="date-input__container">
-        {input(
-          formattedMinRaiseTargetEndDate,
-          "text",
-          () => {},
-          placeholder,
-          () => {},
-          disabled
-        )}
+        {input(formattedMinRaiseTargetEndDate, "text", placeholder, disabled)}
         <img
           src={calendar.src}
           alt="img"
@@ -341,4 +345,53 @@ export const LabeledDateInput = ({
       )}
     </div>
   )
+}
+
+type LabeledInputPars = {
+  label: string
+  inputValue?: string
+  onChange: (text: string) => void
+  placeholder?: string
+  errorMsg?: string
+  maxLength?: number
+  img?: any
+  info?: string
+  disabled?: boolean
+}
+
+type InputLengthPars = {
+  remainingChars: number
+  className: string
+}
+
+type LabeledCurrencyInputPars = {
+  label: string
+  inputValue: string
+  onChange: (input: string) => void
+  placeholder?: string
+  errorMsg?: string
+  img?: any
+  info?: string
+}
+
+type InputPars = {
+  value: string
+  type: string
+  onChange?: (input: string) => void
+  onFocusToggle?: (focus: boolean) => void
+  placeholder?: string
+  disabled?: boolean
+  textLengthClass?: string
+}
+
+type LabeledTextAreaPars = {
+  label: string
+  inputValue?: string
+  onChange?: (input: string) => void
+  placeholder?: string
+  errorMsg?: string
+  maxLength?: number
+  img?: any
+  className?: string
+  rows?: number
 }

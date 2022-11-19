@@ -1,4 +1,4 @@
-export const FundsAssetImg = ({ className }) => {
+export const FundsAssetImg = ({ className }: { className?: string }) => {
   return (
     <svg
       className={className}

@@ -32,7 +32,7 @@ export const FileUploader = ({ setBytes }) => {
         <div className="grey-190">Upload your business prospectus</div>
         <div>{filename}</div>
         <InfoView
-          info={
+          text={
             "Your business prospectus, if you have one already. If you don't, you can upload it later."
           }
         />

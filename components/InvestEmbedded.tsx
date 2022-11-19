@@ -192,7 +192,7 @@ const RightView = ({ funds, totalCost, totalPercentage }) => {
             {"Expected dividend"}
             {
               <InfoView
-                info={
+                text={
                   "Total expected dividend if you buy these shares (includes already locked shares)"
                 }
               />

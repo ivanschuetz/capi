@@ -4,7 +4,7 @@ import { AppContext } from "../context/AppContext"
 import { ToastContainer } from "react-toastify"
 import OpenWalletModal from "../wallet/OpenWalletModal"
 
-export const AppContainer = ({ children }) => {
+export const AppContainer = ({ children }: { children: JSX.Element }) => {
   const { deps } = useContext(AppContext)
 
   return (

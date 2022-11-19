@@ -5,6 +5,7 @@ import { ContentTitle } from "./ContentTitle"
 import { AddTeamMember } from "./AddTeamMember"
 import { safe } from "../functions/utils"
 import { Deps } from "../context/AppContext"
+import { SetAnyArr } from "../type_alias"
 
 export const Team = ({ deps }) => {
   const [team, setTeam] = useState([])
@@ -15,7 +16,7 @@ export const Team = ({ deps }) => {
   return (
     <div className="mt-80">
       <ContentTitle title={"Team"} />
-      {!deps.dao?.team_url && <EmptyTeamView deps={deps} />}
+      {!deps.dao?.team_url && <EmptyTeamView />}
       <TeamMembers team={team} />
       {deps.myAddress && (
         <SubmitButton
@@ -48,8 +49,14 @@ const dummyPrefillData = () => {
   }
 }
 
-const TeamMembers = ({ team }) => {
-  return team.map((member) => <TeamMember key={member.uuid} data={member} />)
+const TeamMembers = ({ team }: { team: any[] }) => {
+  return (
+    <>
+      {team.map((member) => (
+        <TeamMember key={member.uuid} data={member} />
+      ))}
+    </>
+  )
 }
 
 const TeamMember = ({ data }) => {
@@ -68,7 +75,7 @@ const TeamMember = ({ data }) => {
   )
 }
 
-const SocialLink = ({ url }) => {
+const SocialLink = ({ url }: { url: string }) => {
   return (
     <a href={url}>
       <SocialMediaImage url={url} />
@@ -76,7 +83,7 @@ const SocialLink = ({ url }) => {
   )
 }
 
-const SocialMediaImage = ({ url }) => {
+const SocialMediaImage = ({ url }: { url: string }) => {
   var src
   if (url.includes("twitter")) {
     src = twitter.src
@@ -92,7 +99,7 @@ const EmptyTeamView = () => {
   return <div>{"No team yet"}</div>
 }
 
-const updateTeam = (deps: Deps, setTeam) => {
+const updateTeam = (deps: Deps, setTeam: SetAnyArr) => {
   useEffect(() => {
     if (deps.wasm && deps.dao?.team_url) {
       safe(deps.notification, async () => {

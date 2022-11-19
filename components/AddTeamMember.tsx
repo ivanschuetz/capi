@@ -5,6 +5,8 @@ import { useDaoId } from "../hooks/useDaoId"
 import { toMaybeIpfsUrl } from "../ipfs/store"
 import { toBytes } from "../functions/utils"
 import { toErrorMsg } from "../functions/validation"
+import { Deps } from "../context/AppContext"
+import { SetAnyArr, SetBool, SetString } from "../type_alias"
 
 export const AddTeamMember = ({
   deps,
@@ -12,7 +14,7 @@ export const AddTeamMember = ({
   team,
   setTeam,
   onAdded,
-}) => {
+}: AddTeamMemberPars) => {
   let daoId = useDaoId()
 
   const [name, setName] = useState(prefillData.name)
@@ -118,26 +120,26 @@ export const AddTeamMember = ({
 }
 
 export const addTeamMember = async (
-  deps,
+  deps: Deps,
 
-  showProgress,
+  showProgress: SetBool,
 
-  daoId,
-  myAddress,
+  daoId: string,
+  myAddress: string,
 
-  name,
-  role,
-  descr,
-  picture,
-  social_link,
-  team,
-  setTeam,
+  name: string,
+  role: string,
+  descr: string,
+  picture: string,
+  social_link: string,
+  team: any[],
+  setTeam: SetAnyArr,
 
-  setNameError,
-  setRoleError,
-  setDescrError,
-  setPictureError,
-  setSocialError
+  setNameError: SetString,
+  setRoleError: SetString,
+  setDescrError: SetString,
+  setPictureError: SetString,
+  setSocialError: SetString
 ) => {
   try {
     showProgress(true)
@@ -163,6 +165,7 @@ export const addTeamMember = async (
       owner_address: myAddress,
       url: teamUrl,
     })
+
     console.log("setTeamRes: " + JSON.stringify(setTeamRes))
     showProgress(false)
 
@@ -198,4 +201,12 @@ export const addTeamMember = async (
 
     showProgress(false)
   }
+}
+
+type AddTeamMemberPars = {
+  deps: Deps
+  prefillData: any
+  team: any[]
+  setTeam: SetAnyArr
+  onAdded: () => void
 }
