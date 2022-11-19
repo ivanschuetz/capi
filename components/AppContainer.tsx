@@ -2,6 +2,7 @@ import Modal from "../modal/Modal"
 import React, { useContext } from "react"
 import { AppContext } from "../context/AppContext"
 import { ToastContainer } from "react-toastify"
+import OpenWalletModal from "../wallet/OpenWalletModal"
 
 export const AppContainer = ({ children }) => {
   const { deps } = useContext(AppContext)
@@ -11,10 +12,7 @@ export const AppContainer = ({ children }) => {
       <div id="container">
         {children}
         {deps.modal && (
-          <Modal
-            title={deps.modal.title}
-            onClose={() => ctx.deps.setModal(null)}
-          >
+          <Modal title={deps.modal.title} onClose={() => deps.setModal(null)}>
             {deps.modal.body}
           </Modal>
         )}
