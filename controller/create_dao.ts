@@ -1,10 +1,11 @@
-import { toBytes, toBytesForRust } from "../functions/utils"
+import { StatusMsgUpdaterType } from "../components/StatusMsgUpdater"
+import { safe, toBytes, toBytesForRust } from "../functions/utils"
 import { toErrorMsg } from "../functions/validation"
 import { toMaybeIpfsUrl } from "../ipfs/store"
 
 export const createDao = async (
   wasm,
-  statusMsg,
+  statusMsg: StatusMsgUpdaterType,
   myAddress,
   wallet,
   updateMyBalance,
@@ -151,10 +152,13 @@ export const createDao = async (
   }
 }
 
-const showErrorNotificationIfError = (statusMsg, payload) => {
+const showErrorNotificationIfError = (
+  statusMsg: StatusMsgUpdaterType,
+  payload
+) => {
   const errorMsg = toErrorMsg(payload)
   if (errorMsg) {
-    statusMsg.error(errorMsg)
+    statusMsg.error({ message: errorMsg })
   }
 }
 

@@ -7,7 +7,10 @@ import React, {
   useState,
 } from "react"
 import "react-toastify/dist/ReactToastify.css"
-import { StatusMsgUpdater } from "../components/StatusMsgUpdater"
+import {
+  StatusMsgUpdater,
+  StatusMsgUpdaterType,
+} from "../components/StatusMsgUpdater"
 import {
   fetchAvailableShares,
   initLog,
@@ -354,7 +357,7 @@ interface IAppContext {
   deps?: Deps
 }
 
-interface Deps {
+export interface Deps {
   features: Features
 
   myAddress: any
@@ -366,7 +369,7 @@ interface Deps {
   modal: any
   setModal: any
 
-  statusMsg: any
+  statusMsg: StatusMsgUpdaterType
 
   myBalance: any
   updateMyBalance: any

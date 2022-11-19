@@ -1,11 +1,14 @@
+import { StatusMsgUpdaterType } from "../components/StatusMsgUpdater"
+import { safe } from "../functions/utils"
+
 export const loadFundsActivity = async (
   wasm,
-  statusMsg,
+  statusMsg: StatusMsgUpdaterType,
   daoId,
   setActivityEntries,
   maxResults // null if it shouldn't be limited
 ) => {
-  try {
+  safe(statusMsg, async () => {
     const fundsActivityRes = await wasm.bridge_load_funds_activity({
       dao_id: daoId,
       max_results: maxResults,
@@ -13,17 +16,18 @@ export const loadFundsActivity = async (
     console.log("fundsActivityRes: " + JSON.stringify(fundsActivityRes))
 
     setActivityEntries(fundsActivityRes.entries)
-  } catch (e) {
-    statusMsg.error(e)
-  }
+  })
 }
 
-export const loadDao = async (wasm, statusMsg, daoId, setDao) => {
-  try {
+export const loadDao = async (
+  wasm,
+  statusMsg: StatusMsgUpdaterType,
+  daoId,
+  setDao
+) => {
+  safe(statusMsg, async () => {
     let dao = await wasm.bridge_load_dao(daoId)
     console.log("dao: " + JSON.stringify(dao))
     setDao(dao)
-  } catch (e) {
-    statusMsg.error(e)
-  }
+  })
 }

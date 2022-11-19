@@ -1,9 +1,15 @@
 import { toFriendlyError } from "../functions/friendlyErrors"
 import { toast } from "react-toastify"
 
-export const StatusMsgUpdater = () => ({
+export type StatusMsgUpdaterType = {
+  success(msg: string): void
+  error(msg: { message: string }): void
+  clear(): void
+}
+
+export const StatusMsgUpdater: () => StatusMsgUpdaterType = () => ({
   // Display text as a success notification
-  success(msg, hideClose) {
+  success(msg) {
     msg = msg + ""
     console.log(msg)
     toast(msg, {
@@ -19,26 +25,28 @@ export const StatusMsgUpdater = () => ({
   // allows copy paste
   // if friendly error, the copy paste text corresponds to the original (not friendly) text
   // if not friendly error, the copy paste text is equal to the displayed text
-  error(msg, hideClose) {
+  error(msg) {
+    var message = ""
+
     // special handling for error instances - they're objects, but JSON.stringify and JSON.parse don't work
     if (msg.message) {
-      msg = msg.message
+      message = msg.message
     }
     if (typeof msg === "object") {
-      msg = JSON.stringify(msg)
+      message = JSON.stringify(msg)
     }
 
-    var displayMsg = msg
+    var displayMsg = message
     try {
-      const friendlyMsg = toFriendlyError(msg)
+      const friendlyMsg = toFriendlyError(message)
       if (friendlyMsg) {
-        msg = friendlyMsg + "\nOriginal error: " + msg
+        message = friendlyMsg + "\nOriginal error: " + message
         displayMsg = friendlyMsg
       }
     } catch (e) {
-      msg += "\n+Error mapping to friendly error: " + (e + "")
+      message += "\n+Error mapping to friendly error: " + (e + "")
     }
-    console.error("Error notification: %o", msg)
+    console.error("Error notification: %o", message)
     // NOTE that for now msg (which contains the full original error message) isn't included in the notification
     // if user wants to send a report, they've to copy paste from the console
     toast(displayMsg, {

@@ -1,5 +1,6 @@
 import arrowUp from "../images/svg/green-arrow.svg"
 import arrowDown from "../images/svg/arrow.svg"
+import { StatusMsgUpdaterType } from "../components/StatusMsgUpdater"
 
 export const toBytesForRust = (bytes) => {
   if (bytes && bytes.byteLength > 0) {
@@ -81,4 +82,12 @@ export const shortedAddress = (address) => {
   const leading = address.substring(0, short_chars)
   const trailing = address.substring(address.length - short_chars)
   return leading + "..." + trailing
+}
+
+export const safe = (statusMsg: StatusMsgUpdaterType, f: () => void) => {
+  try {
+    f()
+  } catch (e) {
+    statusMsg.error(e)
+  }
 }
