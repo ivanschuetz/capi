@@ -8,8 +8,6 @@ import logo from "../images/logo.svg"
 import { MobileWalletView } from "../right_col/MobileWalletView"
 import wallet from "../images/svg/account.svg"
 
-// TODO nextjs
-// export const WireframeMobile = ({ isGlobal, deps }) => {
 export const WireframeMobile = ({ isGlobal, deps, nested }) => {
   const [showSidebar, setShowSidebar] = useState(false)
   const [showWallet, setShowWallet] = useState(false)
@@ -67,8 +65,6 @@ export const WireframeMobile = ({ isGlobal, deps, nested }) => {
       <div id="content">
         {daoTop()}
         {nested}
-        {/* TODO nextjs */}
-        {/* <Outlet /> */}
       </div>
     </>
   )

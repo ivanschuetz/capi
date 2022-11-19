@@ -3,8 +3,6 @@ import { Wireframe } from "./Wireframe"
 import { WireframeMobile } from "./WireframeMobile"
 import { useDaoId } from "../hooks/useDaoId"
 
-// TODO nextjs
-// export const WireframeWrapper = ({ isGlobal, deps }) => {
 export const WireframeWrapper = ({ isGlobal, deps, nested }) => {
   const daoId = useDaoId()
 

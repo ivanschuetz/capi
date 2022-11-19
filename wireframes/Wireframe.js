@@ -4,8 +4,6 @@ import { DaoTop } from "../components/DaoTop"
 import { SideBar } from "../left_col/SideBar"
 import { SideBarDao } from "../left_col/SideBarDao"
 
-// TODO nextjs
-// export const Wireframe = ({ isGlobal, deps }) => {
 export const Wireframe = ({ isGlobal, deps, nested }) => {
   const sideBar = () => {
     if (isGlobal) {
