@@ -80,7 +80,7 @@ const updateActivityEntries = (deps: Deps, daoId, setActivityEntries) => {
   useEffect(() => {
     if (deps.wasm) {
       safe(deps.notification, async () => {
-        const res = await deps.wasm.bridge_load_funds_activity({
+        const res = await deps.wasm.loadFundsActivity({
           dao_id: daoId,
           max_results: null,
         })

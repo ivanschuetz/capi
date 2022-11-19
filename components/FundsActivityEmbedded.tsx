@@ -106,7 +106,7 @@ const updateDao = (deps: Deps, daoId, setDao) => {
     if (deps.wasm) {
       safe(deps.notification, async () => {
         // TODO use dao in deps? - might need to call update
-        let dao = await deps.wasm.bridge_load_dao(daoId)
+        let dao = await deps.wasm.loadDao(daoId)
         console.log("dao: " + JSON.stringify(dao))
         setDao(dao)
       })

@@ -8,7 +8,7 @@ export const startBuyCurrencyFlow = async (
   closeModal
 ) => {
   const reserveWyreRes = await deps.wasm
-    .bridge_reserve_wyre({
+    .reserveWyre({
       address: deps.myAddress,
       dst_currency: dstCurrency,
       dst_amount: dstAmount,

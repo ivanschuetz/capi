@@ -348,7 +348,7 @@ const createDao = async (
   const prospectusBytesForRust = toBytesForRust(prospectusBytesResolved)
 
   try {
-    let createDaoAssetsRes = await wasm.bridge_create_dao_assets_txs({
+    let createDaoAssetsRes = await wasm.createDaoAssetsTxs({
       inputs: {
         creator: myAddress,
         dao_name: daoName,
@@ -375,7 +375,7 @@ const createDao = async (
     console.log("createAssetSigned: " + JSON.stringify(createAssetSigned))
 
     showProgress(true)
-    let createDaoRes = await wasm.bridge_create_dao({
+    let createDaoRes = await wasm.createDao({
       create_assets_signed_txs: createAssetSigned,
       pt: createDaoAssetsRes.pt,
     })
@@ -386,7 +386,7 @@ const createDao = async (
     console.log("createDaoSigned: " + JSON.stringify(createDaoSigned))
 
     showProgress(true)
-    let submitDaoRes = await wasm.bridge_submit_create_dao({
+    let submitDaoRes = await wasm.submitCreateDao({
       txs: createDaoSigned,
       pt: createDaoRes.pt, // passthrough
     })
@@ -463,7 +463,7 @@ const calculateTotalPrice = async (
   }
 
   try {
-    let res = await wasm.bridge_calculate_max_funds({
+    let res = await wasm.calculateMaxFunds({
       shares_amount: shareAmount,
       share_price: sharePrice,
     })

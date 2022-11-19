@@ -8,7 +8,7 @@ export const calculateSharesPrice = async (
   lockedShares
 ) => {
   try {
-    let res = await wasm.bridge_calculate_shares_price({
+    let res = await wasm.calculateSharesPrice({
       shares_amount: shareCount,
       available_shares: availableSharesNumber,
 
@@ -59,7 +59,7 @@ export const invest = async (
     // TODO refactor invest/lock
     // 1. sign tx for app opt-in
     showProgress(true)
-    let optInToAppsRes = await wasm.bridge_opt_in_to_apps_if_needed({
+    let optInToAppsRes = await wasm.optInToAppsIfNeeded({
       app_id: "" + dao.app_id,
       investor_address: myAddress,
     })
@@ -77,7 +77,7 @@ export const invest = async (
     showProgress(true)
     // 2. buy the shares (requires app opt-in for local state)
     // TODO write which local state
-    let buyRes = await wasm.bridge_buy_shares({
+    let buyRes = await wasm.buyShares({
       dao_id: daoId,
       share_count: buySharesCount,
       available_shares: availableSharesNumber,
@@ -92,7 +92,7 @@ export const invest = async (
     console.log("buySharesSigned: " + JSON.stringify(buySharesSigned))
 
     showProgress(true)
-    let submitBuySharesRes = await wasm.bridge_submit_buy_shares({
+    let submitBuySharesRes = await wasm.submitBuyShares({
       investor_address: myAddress,
       buy_total_cost: totalCostNumber,
       txs: buySharesSigned,

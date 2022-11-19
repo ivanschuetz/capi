@@ -10,7 +10,7 @@ export const AppVersion = ({ deps }) => {
   useEffect(() => {
     if (deps.wasm) {
       safe(deps.notification, async () => {
-        setWasmVersion(await deps.wasm.bridge_wasm_version())
+        setWasmVersion(await deps.wasm.wasmVersion())
       })
     }
   }, [deps.wasm, deps.notification])

@@ -10,7 +10,7 @@ export const WASMExample = () => {
   useEffect(() => {
     const getVersion = async () => {
       if (ctx.wasm) {
-        const v = await ctx.wasm.bridge_wasm_version()
+        const v = await ctx.wasm.wasmVersion()
         console.log("version: %o", v)
         setVersion(v)
       }

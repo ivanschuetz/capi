@@ -85,9 +85,7 @@ const updateDescription = (deps, setDescription) => {
     if (deps.wasm) {
       safe(deps.notification, async () => {
         if (deps.dao && deps.dao.descr_url) {
-          let description = await deps.wasm.bridge_description(
-            deps.dao.descr_url
-          )
+          let description = await deps.wasm.description(deps.dao.descr_url)
           setDescription(description)
         } else {
           setDescription("")

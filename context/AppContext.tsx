@@ -74,7 +74,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     async (myAddress) => {
       if (wasm && myAddress) {
         safe(notification, async () => {
-          const balance = await wasm.bridge_balance({ address: myAddress })
+          const balance = await wasm.balance({ address: myAddress })
           console.log("Balance update res: %o", balance)
           setMyBalance(balance)
         })
@@ -86,7 +86,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   useEffect(() => {
     async function asyncInit() {
       if (wasm) {
-        safe(notification, async () => await wasm.init_log())
+        safe(notification, async () => await wasm.initLog())
       }
     }
     asyncInit()
@@ -115,7 +115,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     async (daoId) => {
       if (wasm) {
         safe(notification, async () => {
-          let res = await wasm.bridge_load_available_shares({
+          let res = await wasm.loadAvailableShares({
             dao_id: daoId,
           })
           setAvailableShares(res.available_shares)
@@ -130,7 +130,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     async (daoId) => {
       if (wasm && daoId) {
         safe(notification, async () => {
-          let dao = await wasm.bridge_load_dao(daoId)
+          let dao = await wasm.loadDao(daoId)
           setDao(dao)
           // // these are overwritten when draining, so we keep them separate
           // // TODO drain here? is this comment up to date?
@@ -145,7 +145,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     async (daoId, myAddress) => {
       if (wasm && myAddress) {
         safe(notification, async () => {
-          let mySharesRes = await wasm.bridge_my_shares({
+          let mySharesRes = await wasm.myShares({
             dao_id: daoId,
             my_address: myAddress,
           })
@@ -176,7 +176,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     async (daoId, myAddress) => {
       if (wasm && myAddress) {
         safe(notification, async () => {
-          let myDividendRes = await wasm.bridge_my_dividend({
+          let myDividendRes = await wasm.myDividend({
             dao_id: daoId,
             investor_address: myAddress,
           })
@@ -210,7 +210,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     async (daoId) => {
       if (wasm) {
         safe(notification, async () => {
-          let funds = await wasm.bridge_raised_funds({ dao_id: daoId })
+          let funds = await wasm.raisedFunds({ dao_id: daoId })
           setRaisedFunds(funds.raised)
           setRaisedFundsNumber(funds.raised_number)
           setRaiseState(stateObj(funds.state, funds.goal_exceeded_percentage))
@@ -224,7 +224,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     async (daoId) => {
       if (wasm) {
         safe(deps.notification, async () => {
-          const res = await deps.wasm.bridge_load_funds_activity({
+          const res = await deps.wasm.loadFundsActivity({
             dao_id: daoId,
             max_results: "3",
           })
@@ -240,7 +240,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     async (dao) => {
       if (wasm && dao) {
         safe(notification, async () => {
-          let distrRes = await wasm.bridge_shares_distribution({
+          let distrRes = await wasm.sharesDistribution({
             asset_id: dao.shares_asset_id,
             share_supply: dao.share_supply_number,
             app_id: dao.app_id,
@@ -258,7 +258,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
           setSharesDistr(holdersWithIndex)
           setNotOwnedShares(distrRes.not_owned_shares)
 
-          let holdersRes = await wasm.bridge_holders_change({
+          let holdersRes = await wasm.holdersChange({
             asset_id: dao.shares_asset_id,
             app_id: dao.app_id,
           })

@@ -9,7 +9,7 @@ export const updateInvestmentData_ = async (
 ) => {
   try {
     if (myAddress) {
-      let data = await wasm.bridge_load_investment({
+      let data = await wasm.loadInvestment({
         dao_id: daoId,
         investor_address: myAddress,
       })
@@ -35,7 +35,7 @@ export const retrieveProfits = async (
 ) => {
   try {
     showProgress(true)
-    let claimRes = await wasm.bridge_claim({
+    let claimRes = await wasm.claim({
       dao_id: daoId,
       investor_address: myAddress,
     })
@@ -46,7 +46,7 @@ export const retrieveProfits = async (
     console.log("claimResSigned: " + JSON.stringify(claimResSigned))
 
     showProgress(true)
-    let submitClaimRes = await wasm.bridge_submit_claim({
+    let submitClaimRes = await wasm.submitClaim({
       investor_address_for_diagnostics: myAddress,
       dao_id_for_diagnostics: daoId,
 
@@ -79,7 +79,7 @@ export const updateFunds_ = async (
   /// We don't have a function in WASM yet to fetch only the funds so we re-fetch the dao.
   /// TODO: optimize: fetch only the funds (probably pass dao as input), so request is quicker.
   try {
-    let viewDao = await wasm.bridge_view_dao({
+    let viewDao = await wasm.viewDao({
       dao_id: daoId,
     })
     // setViewDao(viewDao);
@@ -88,7 +88,7 @@ export const updateFunds_ = async (
     setFunds(viewDao.available_funds)
 
     // all this (updateFunds_) can be optimized, the implementation of this fetches the dao again (when requesting withdrawals)
-    let balance_change_res = await wasm.get_balance_change({
+    let balance_change_res = await wasm.getBalanceChange({
       dao_id: daoId,
     })
     setFundsChange(balance_change_res.change)

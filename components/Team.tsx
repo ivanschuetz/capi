@@ -96,7 +96,7 @@ const updateTeam = (deps: Deps, setTeam) => {
   useEffect(() => {
     if (deps.wasm && deps.dao?.team_url) {
       safe(deps.notification, async () => {
-        const team = await deps.wasm.bridge_get_team({
+        const team = await deps.wasm.getTeam({
           url: deps.dao?.team_url,
         })
         console.log({ team })

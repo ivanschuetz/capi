@@ -142,7 +142,7 @@ export const addTeamMember = async (
   try {
     showProgress(true)
     // update json + possible validations in wasm
-    let addMemberRes = await deps.wasm.bridge_add_team_member({
+    let addMemberRes = await deps.wasm.addTeamMember({
       inputs: {
         name,
         role,
@@ -158,7 +158,7 @@ export const addTeamMember = async (
     const teamUrl = await toMaybeIpfsUrl(toBytes(await addMemberRes.to_save))
 
     // save the ipfs url in dao state
-    let setTeamRes = await deps.wasm.bridge_set_team({
+    let setTeamRes = await deps.wasm.setTeam({
       dao_id: daoId,
       owner_address: myAddress,
       url: teamUrl,
@@ -170,7 +170,7 @@ export const addTeamMember = async (
     console.log("withdrawResSigned: " + setTeamResSigned)
 
     showProgress(true)
-    let submitTeamRes = await deps.wasm.bridge_submit_set_team({
+    let submitTeamRes = await deps.wasm.submitSetTeam({
       txs: setTeamResSigned,
     })
 

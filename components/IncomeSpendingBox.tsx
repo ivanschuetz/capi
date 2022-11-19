@@ -100,7 +100,7 @@ const updateChartData = (
   useEffect(() => {
     if (deps.wasm) {
       safe(notification, async () => {
-        let res = await deps.wasm.bridge_income_vs_spending({
+        let res = await deps.wasm.incomeVsSpending({
           dao_id: daoId,
           interval: selectedBarsInterval.value,
         })

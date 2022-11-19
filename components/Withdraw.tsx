@@ -81,7 +81,7 @@ export const Withdraw = ({ deps }) => {
 const updateDao = (deps: Deps, daoId, setDao) => {
   useEffect(() => {
     safe(deps.notification, async () => {
-      setDao(await deps.wasm.bridge_load_dao(daoId))
+      setDao(await deps.wasm.loadDao(daoId))
     })
   }, [deps.wasm, daoId, setDao, deps.notification])
 }
@@ -95,7 +95,7 @@ const withdraw = async (
 ) => {
   try {
     showProgress(true)
-    let withdrawRes = await deps.wasm.bridge_withdraw({
+    let withdrawRes = await deps.wasm.withdraw({
       dao_id: daoId,
       sender: deps.myAddress,
       withdrawal_amount: withdrawalAmount,
@@ -109,7 +109,7 @@ const withdraw = async (
     console.log("withdrawResSigned: " + withdrawResSigned)
 
     showProgress(true)
-    let submitWithdrawRes = await deps.wasm.bridge_submit_withdraw({
+    let submitWithdrawRes = await deps.wasm.submitWithdraw({
       txs: withdrawResSigned,
       pt: withdrawRes.pt,
     })

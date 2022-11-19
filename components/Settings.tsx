@@ -101,7 +101,7 @@ export const updateApp = async (
 ) => {
   try {
     showProgress(true)
-    let updateAppRes = await wasm.bridge_update_app_txs({
+    let updateAppRes = await wasm.updateAppTxs({
       dao_id: daoId,
       owner: myAddress,
       approval_version: approvalVersion,
@@ -114,7 +114,7 @@ export const updateApp = async (
     console.log("updateAppResSigned: " + JSON.stringify(updateAppResSigned))
 
     showProgress(true)
-    let submitUpdateAppRes = await wasm.bridge_submit_update_app({
+    let submitUpdateAppRes = await wasm.submitUpdateApp({
       txs: updateAppResSigned,
     })
     console.log("submitUpdateAppRes: " + JSON.stringify(submitUpdateAppRes))

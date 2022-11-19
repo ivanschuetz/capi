@@ -293,7 +293,7 @@ const prefillInputs = async (
 ) => {
   try {
     // prefill dao inputs
-    let updatableData = await deps.wasm.bridge_updatable_data({ dao_id: daoId })
+    let updatableData = await deps.wasm.updatableData({ dao_id: daoId })
     setDaoName(updatableData.project_name)
     setDaoDescr(updatableData.project_desc)
     setSharePrice(updatableData.share_price)
@@ -369,7 +369,7 @@ const updateDaoData = async (
     }
     // console.log("Will send update data to wasm: %o", data);
 
-    let updateDataRes = await deps.wasm.bridge_update_data(data)
+    let updateDataRes = await deps.wasm.updateData(data)
     console.log("Update DAO data res: %o", updateDataRes)
     showProgress(false)
 
@@ -377,7 +377,7 @@ const updateDaoData = async (
     console.log("updateDataResSigned: " + JSON.stringify(updateDataResSigned))
 
     showProgress(true)
-    let submitUpdateDaoDataRes = await deps.wasm.bridge_submit_update_dao_data({
+    let submitUpdateDaoDataRes = await deps.wasm.submitUpdateDaoData({
       txs: updateDataResSigned,
       pt: updateDataRes.pt, // passthrough
     })
@@ -453,7 +453,7 @@ const rekeyOwner = async (
 ) => {
   try {
     showProgress(true)
-    let rekeyRes = await deps.wasm.bridge_rekey_owner({
+    let rekeyRes = await deps.wasm.rekeyOwner({
       dao_id: daoId,
       auth_address: authAddress,
     })
@@ -464,7 +464,7 @@ const rekeyOwner = async (
     console.log("rekeySigned: " + JSON.stringify(rekeySigned))
 
     showProgress(true)
-    let submitRekeyRes = await deps.wasm.bridge_submit_rekey_owner({
+    let submitRekeyRes = await deps.wasm.submitRekeyOwner({
       txs: rekeySigned,
     })
     console.log("submitRekeyRes: " + JSON.stringify(submitRekeyRes))

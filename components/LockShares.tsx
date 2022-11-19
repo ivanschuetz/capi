@@ -50,7 +50,7 @@ export const lock = async (
     // TODO refactor invest/lock
     // 1. sign tx for app opt-in
     showProgress(true)
-    let optInToAppsRes = await deps.wasm.bridge_opt_in_to_apps_if_needed({
+    let optInToAppsRes = await deps.wasm.optInToAppsIfNeeded({
       app_id: "" + dao.app_id,
       investor_address: deps.myAddress,
     })
@@ -71,7 +71,7 @@ export const lock = async (
     // 2. buy the shares (requires app opt-in for local state)
     // TODO write which local state
 
-    let lockRes = await deps.wasm.bridge_lock({
+    let lockRes = await deps.wasm.lock({
       dao_id: daoId,
       investor_address: deps.myAddress,
       share_count: lockSharesCount,
@@ -84,7 +84,7 @@ export const lock = async (
 
     showProgress(true)
 
-    let submitLockRes = await deps.wasm.bridge_submit_lock({
+    let submitLockRes = await deps.wasm.submitLock({
       app_opt_ins: optInToAppsSignedOptional,
       txs: lockResSigned,
     })

@@ -135,7 +135,7 @@ const initAndUpdateInvestmentData = (deps: Deps, daoId, setDao) => {
   useEffect(() => {
     safe(deps.notification, async () => {
       if (deps.wasm) {
-        let dao = await deps.wasm.bridge_load_dao(daoId)
+        let dao = await deps.wasm.loadDao(daoId)
         console.log("dao: " + JSON.stringify(dao))
         setDao(dao)
       }

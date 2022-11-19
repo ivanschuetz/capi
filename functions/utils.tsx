@@ -26,7 +26,7 @@ export const checkForUpdates = async (
   setVersionData
 ) => {
   try {
-    let versionData = await wasm.bridge_check_for_updates({ dao_id: daoId })
+    let versionData = await wasm.checkForUpdates({ dao_id: daoId })
 
     if (versionData) {
       setVersionData(versionData)
