@@ -426,8 +426,11 @@ export interface Deps {
 
   size: any
 
-  wasm: any
+  wasm: Wasm
 }
+
+export type Wasm =
+  typeof import("/Users/ivanschuetz/dev/repo/github/capi/frontend/next/wasm/wasm")
 
 interface AppContextProviderProps {
   children: ReactNode
