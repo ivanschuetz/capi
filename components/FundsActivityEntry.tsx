@@ -12,7 +12,7 @@ export const FundsActivityEntry = ({ deps, entry }) => {
   }
 }
 
-const DesktopEntryView = (entry) => {
+const DesktopEntryView = ({ entry }) => {
   return (
     <div className="funds_act_entry">
       <AmountView entry={entry} />
@@ -31,7 +31,7 @@ const DesktopEntryView = (entry) => {
   )
 }
 
-const MobileEntryView = (entry) => {
+const MobileEntryView = ({ entry }) => {
   return (
     <div className="funds_act_entry-tab">
       <img
