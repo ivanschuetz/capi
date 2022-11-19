@@ -76,7 +76,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
         safe(notification, async () => {
           const balance = await wasm.bridge_balance({ address: myAddress })
           console.log("Balance update res: %o", balance)
-          await updateMyBalance(balance)
+          setMyBalance(balance)
         })
       }
     },
