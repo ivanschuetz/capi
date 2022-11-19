@@ -5,6 +5,7 @@ import { changeArrow, safe, shortedAddress } from "../functions/utils"
 import CopyPasteText from "./CopyPastText"
 import { CompactFundsActivityEntry } from "./CompactFundsActivityEntry"
 import Progress from "./Progress"
+import { Deps } from "../context/AppContext"
 
 export const FundsActivityEmbedded = ({ deps, daoId }) => {
   const [dao, setDao] = useState(null)
@@ -100,7 +101,7 @@ const Activity = ({ deps }) => {
   }
 }
 
-const updateDao = (deps, daoId, setDao) => {
+const updateDao = (deps: Deps, daoId, setDao) => {
   useEffect(() => {
     if (deps.wasm) {
       safe(deps.statusMsg, async () => {
@@ -113,7 +114,7 @@ const updateDao = (deps, daoId, setDao) => {
   }, [deps.wasm, daoId, deps.statusMsg])
 }
 
-const updateFundsActivity = (deps, daoId) => {
+const updateFundsActivity = (deps: Deps, daoId) => {
   useEffect(() => {
     deps.updateCompactFundsActivity.call(null, daoId)
   }, [deps.updateCompactFundsActivity, daoId])

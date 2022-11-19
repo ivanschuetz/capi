@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { BuyFundsAssetModal } from "../buy_currency/BuyFundsAssetModal"
+import { Deps } from "../context/AppContext"
 import { calculateSharesPrice, invest } from "../functions/invest_embedded"
 import { useDaoId } from "../hooks/useDaoId"
 import funds from "../images/funds.svg"
@@ -268,7 +269,7 @@ const updatePriceAndPercentage = (
 }
 
 const registerInvest = (
-  deps,
+  deps: Deps,
   daoId,
   dao,
   buyIntent,

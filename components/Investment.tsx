@@ -7,6 +7,7 @@ import Progress from "./Progress"
 import { ContentTitle } from "./ContentTitle"
 import { useDaoId } from "../hooks/useDaoId"
 import { safe } from "../functions/utils"
+import { Deps } from "../context/AppContext"
 
 export const Investment = ({ deps }) => {
   let daoId = useDaoId()
@@ -130,7 +131,7 @@ const actions_tabs_classes = (tabIsShowing) => {
   return clazz
 }
 
-const initAndUpdateInvestmentData = (deps, daoId, setDao) => {
+const initAndUpdateInvestmentData = (deps: Deps, daoId, setDao) => {
   useEffect(() => {
     const doInit = async () => {
       safe(deps.statusMsg, async () => {

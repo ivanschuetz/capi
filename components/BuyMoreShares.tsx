@@ -15,6 +15,7 @@ import { useDaoId } from "../hooks/useDaoId"
 import grey_circle from "../images/grey_circle.svg"
 import dark_cyan_circle from "../images/dark_cyan_circle.svg"
 import light_cyan_circle from "../images/light_cyan_circle.svg"
+import { Deps } from "../context/AppContext"
 
 export const BuyMoreShares = ({ deps, dao }) => {
   let daoId = useDaoId()
@@ -176,14 +177,14 @@ const to_pie_chart_slice = (percentage) => {
   return { percentage_number: percentage }
 }
 
-const updateAvailableShares = (deps, daoId) => {
+const updateAvailableShares = (deps: Deps, daoId) => {
   useEffect(() => {
     deps.updateAvailableShares.call(null, daoId)
   }, [deps.updateAvailableShares, deps.statusMsg, daoId])
 }
 
 const updateTotalPrice = (
-  deps,
+  deps: Deps,
   daoId,
   buySharesCount,
   dao,
@@ -221,8 +222,7 @@ const updateTotalPrice = (
 }
 
 const submitBuy = async (
-  wasm,
-  deps,
+  deps: Deps,
   setSubmitting,
   daoId,
   dao,
@@ -232,7 +232,7 @@ const submitBuy = async (
   totalCostNumber
 ) => {
   await invest(
-    wasm,
+    deps.wasm,
     deps.statusMsg,
     deps.myAddress,
     deps.wallet,

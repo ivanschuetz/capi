@@ -12,6 +12,7 @@ import {
   saveAcceptedDisclaimer,
 } from "../modal/storage"
 import { DisclaimerModal } from "../modal/DisclaimerModal"
+import { Deps } from "../context/AppContext"
 
 export const MyAccount = ({ deps, daoId }) => {
   const [showSelectWalletModal, setShowSelectWalletModal] = useState(false)
@@ -175,7 +176,7 @@ const SubmitClaimButton = ({ deps, daoId }) => {
 }
 
 const maybeConnectButton = (
-  deps,
+  deps: Deps,
   setShowSelectWalletModal,
   setShowDisclaimerModal
 ) => {
@@ -211,7 +212,7 @@ const ConnectButton = ({
   )
 }
 
-const disconnect = async (deps) => {
+const disconnect = async (deps: Deps) => {
   try {
     await deps.wallet.disconnect()
     deps.setMyAddress("")
@@ -220,7 +221,7 @@ const disconnect = async (deps) => {
   }
 }
 
-const updateInvestmentData = (deps, daoId) => {
+const updateInvestmentData = (deps: Deps, daoId) => {
   useEffect(() => {
     async function nestedAsync() {
       if (deps.myAddress) {

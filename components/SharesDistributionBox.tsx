@@ -5,6 +5,7 @@ import { HolderEntry } from "../shares_distribution_chart/HolderEntry"
 import Progress from "./Progress"
 import { pieChartColors } from "../functions/utils"
 import { changeArrow } from "../functions/utils"
+import { Deps } from "../context/AppContext"
 
 const entries_small_count = 3
 
@@ -194,7 +195,7 @@ const ShowMoreOrLessFooter = ({
   )
 }
 
-const updateSharesDistr = (deps) => {
+const updateSharesDistr = (deps: Deps) => {
   useEffect(() => {
     async function nestedAsync() {
       if (deps.dao) {
@@ -206,7 +207,7 @@ const updateSharesDistr = (deps) => {
 }
 
 const updateEntries = (
-  deps,
+  deps: Deps,
   ownedSharesDistr,
   showMoreSelected,
   selectedAddress,

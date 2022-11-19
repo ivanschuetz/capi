@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from "react"
 import Progress from "./Progress"
 import renderFundsProgressChart from "../charts/renderFundsBarChart"
 import { useDaoId } from "../hooks/useDaoId"
+import { Deps } from "../context/AppContext"
 
 export const RaisedFunds = ({ deps, dao }) => {
   const daoId = useDaoId()
@@ -54,7 +55,7 @@ const RaisedFundsView = ({ deps, chart }) => {
   )
 }
 
-const updateRaisedFunds = (deps, daoId, dao) => {
+const updateRaisedFunds = (deps: Deps, daoId, dao) => {
   useEffect(() => {
     async function nestedAsync() {
       if (daoId) {
@@ -65,7 +66,7 @@ const updateRaisedFunds = (deps, daoId, dao) => {
   }, [daoId, dao, deps.statusMsg, deps.updateRaisedFunds])
 }
 
-const updateChart = (deps, dao, chart) => {
+const updateChart = (deps: Deps, dao, chart) => {
   useEffect(() => {
     if (dao && deps.raisedFunds) {
       renderFundsProgressChart(

@@ -7,6 +7,7 @@ import { SubmitButton } from "./SubmitButton"
 import Progress from "./Progress"
 import { useDaoId } from "../hooks/useDaoId"
 import { safe } from "../functions/utils"
+import { Deps } from "../context/AppContext"
 
 export const InvestmentProfits = ({ deps }) => {
   let daoId = useDaoId()
@@ -86,7 +87,7 @@ export const InvestmentProfits = ({ deps }) => {
   )
 }
 
-const update = (deps, daoId, setDao) => {
+const update = (deps: Deps, daoId, setDao) => {
   useEffect(() => {
     const doInit = async () => {
       safe(deps.statusMsg, async () => {

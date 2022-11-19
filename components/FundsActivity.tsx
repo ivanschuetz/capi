@@ -7,6 +7,7 @@ import { SubmitButton } from "./SubmitButton"
 import Link from "next/link"
 import { useDaoId } from "../hooks/useDaoId"
 import { safe } from "../functions/utils"
+import { Deps } from "../context/AppContext"
 
 export const FundsActivity = ({ deps }) => {
   const daoId = useDaoId()
@@ -76,7 +77,7 @@ const NoActivityView = ({ daoId }) => {
   )
 }
 
-const updateActivityEntries = (deps, daoId, setActivityEntries) => {
+const updateActivityEntries = (deps: Deps, daoId, setActivityEntries) => {
   useEffect(() => {
     if (deps.wasm) {
       safe(deps.statusMsg, async () => {

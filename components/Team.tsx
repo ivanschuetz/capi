@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react"
 import { SubmitButton } from "./SubmitButton"
 import twitter from "../images/svg/twitter.svg"
-import { getTeam } from "../controller/team"
 import { ContentTitle } from "./ContentTitle"
 import { AddTeamMember } from "./AddTeamMember"
 import { safe } from "../functions/utils"
+import { Deps } from "../context/AppContext"
 
 export const Team = ({ deps }) => {
   const [team, setTeam] = useState([])
@@ -92,7 +92,7 @@ const EmptyTeamView = () => {
   return <div>{"No team yet"}</div>
 }
 
-const updateTeam = (deps, setTeam) => {
+const updateTeam = (deps: Deps, setTeam) => {
   useEffect(() => {
     async function asyncInit() {
       if (deps.wasm && deps.dao?.team_url) {

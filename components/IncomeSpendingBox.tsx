@@ -4,7 +4,7 @@ import Select from "react-select"
 import Progress from "./Progress"
 import { ChartLegends } from "../charts/ChartLegends"
 import renderBarChart from "../charts/renderBarChart"
-import { AppContext } from "../context/AppContext"
+import { AppContext, Deps } from "../context/AppContext"
 import { safe } from "../functions/utils"
 
 const barsOptions = [
@@ -89,7 +89,7 @@ const ChartBox = ({
 }
 
 const updateChartData = (
-  deps,
+  deps: Deps,
   statusMsg,
   daoId,
   selectedBarsInterval,
