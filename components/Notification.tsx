@@ -3,8 +3,7 @@ import { toast } from "react-toastify"
 
 export type Notification = {
   success(msg: string): void
-  // TODO this should be just a string. if other types needed, use union type
-  error(msg: { message: string }): void
+  error(msg: string): void
 }
 
 export const NotificationCreator: () => Notification = () => ({
@@ -26,17 +25,9 @@ export const NotificationCreator: () => Notification = () => ({
   // if friendly error, the copy paste text corresponds to the original (not friendly) text
   // if not friendly error, the copy paste text is equal to the displayed text
   error(msg) {
-    var message = ""
-
-    // special handling for error instances - they're objects, but JSON.stringify and JSON.parse don't work
-    if (msg.message) {
-      message = msg.message
-    }
-    if (typeof msg === "object") {
-      message = JSON.stringify(msg)
-    }
-
+    var message = msg
     var displayMsg = message
+
     try {
       const friendlyMsg = toFriendlyError(message)
       if (friendlyMsg) {
