@@ -23,8 +23,9 @@ import { toErrorMsg } from "../functions/validation"
 import { toMaybeIpfsUrl } from "../ipfs/store"
 import { toBytes, toBytesForRust } from "../functions/utils"
 import { Wallet } from "../wallet/Wallet"
+import { Deps, Wasm } from "../context/AppContext"
 
-export const CreateDao = ({ deps }) => {
+export const CreateDao = ({ deps }: { deps: Deps }) => {
   const [daoName, setDaoName] = useState("My project")
   const [daoDescr, setDaoDescr] = useState("Lorem ipsum dolor sit amet")
   const [shareCount, setShareCount] = useState("100")
@@ -300,7 +301,7 @@ export const CreateDao = ({ deps }) => {
 }
 
 const createDao = async (
-  wasm,
+  wasm: Wasm,
   notification: Notification,
   myAddress,
   wallet: Wallet,
