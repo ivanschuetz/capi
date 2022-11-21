@@ -1,9 +1,14 @@
 import MyAlgo from "@randlabs/myalgo-connect"
 import buffer from "buffer"
+import { Notification } from "../components/Notification"
+import { SetString } from "../type_alias"
 const { Buffer } = buffer
 
 // Note: the wallet connect and my algo wallets share the same "interface"
-export function createMyAlgoWallet(notification, setMyAddress) {
+export function createMyAlgoWallet(
+  notification: Notification,
+  setMyAddress: SetString
+) {
   const wallet = new MyAlgo()
 
   // returns address, if needed for immediate use

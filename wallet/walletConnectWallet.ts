@@ -2,13 +2,15 @@ import WalletConnect from "@walletconnect/client"
 import QRCodeModal from "algorand-walletconnect-qrcode-modal"
 import { formatJsonRpcRequest } from "@json-rpc-tools/utils"
 import buffer from "buffer"
+import { Notification } from "../components/Notification"
+import { SetBool, SetString } from "../type_alias"
 const { Buffer } = buffer
 
 export function initWcWalletIfAvailable(
-  notification,
-  setMyAddress,
+  notification: Notification,
+  setMyAddress: SetString,
   setWallet,
-  setWcShowOpenWalletModal
+  setWcShowOpenWalletModal: SetBool
 ) {
   const wallet = createWcWallet(
     notification,
