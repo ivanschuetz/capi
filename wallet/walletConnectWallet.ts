@@ -4,7 +4,7 @@ import { formatJsonRpcRequest } from "@json-rpc-tools/utils"
 import buffer from "buffer"
 import { Notification } from "../components/Notification"
 import { SetBool, SetString, SetWallet } from "../type_alias"
-import { TxsToSign, Wallet } from "./Wallet"
+import { TxsToSign, Wallet, WcTx } from "./Wallet"
 const { Buffer } = buffer
 
 type WcWallet = Wallet & {
@@ -31,13 +31,13 @@ export function initWcWalletIfAvailable(
 
 // Note: the wallet connect and my algo wallets share the same "interface"
 export function createWcWallet(
-  notification,
-  setMyAddress,
-  setShowOpenWalletModal
+  notification: Notification,
+  setMyAddress: SetString,
+  setShowOpenWalletModal: SetBool
 ): WcWallet {
   const connector = createConnector()
 
-  const onAddressUpdate = (address) => {
+  const onAddressUpdate = (address: string) => {
     setMyAddress(address)
   }
 
@@ -124,7 +124,11 @@ const createConnector = () => {
   })
 }
 
-const onConnectorConnected = (connector, onAddressUpdate, onDisconnect) => {
+const onConnectorConnected = (
+  connector: WalletConnect,
+  onAddressUpdate: SetString,
+  onDisconnect: () => void
+) => {
   // if accounts is set in connector, use it, also register to events
   // accounts is set when the page is loaded with an active session,
   // when the wallet is connected it's not set, we get the address from the events
@@ -143,7 +147,11 @@ const onConnectorConnected = (connector, onAddressUpdate, onDisconnect) => {
   subscribeToEvents(connector, onAddressUpdate, onDisconnect)
 }
 
-const subscribeToEvents = (connector, onAddressUpdate, onDisconnect) => {
+const subscribeToEvents = (
+  connector: WalletConnect,
+  onAddressUpdate: SetString,
+  onDisconnect: () => void
+) => {
   connector.on("connect", (error, payload) => {
     if (error) {
       throw error
@@ -175,13 +183,13 @@ const subscribeToEvents = (connector, onAddressUpdate, onDisconnect) => {
   })
 }
 
-const sign = async (connector, toSign) => {
+const sign = async (connector: WalletConnect, toSign: WcTx[]) => {
   const requestParams = [toSign]
 
   const request = formatJsonRpcRequest("algo_signTxn", requestParams)
 
   console.log("WalletConnect request: " + JSON.stringify(request))
-  const signedTxs = await connector.sendCustomRequest(request)
+  const signedTxs: any[] = await connector.sendCustomRequest(request)
   console.log("WalletConnect result: " + JSON.stringify(signedTxs))
 
   const decodedSignedTxs = signedTxs.map((tx) => decode(tx))
@@ -192,6 +200,6 @@ const sign = async (connector, toSign) => {
   return decodedSignedTxs
 }
 
-const decode = (wcTx) => {
+const decode = (wcTx: any) => {
   return Array.from(new Uint8Array(Buffer.from(wcTx, "base64")))
 }

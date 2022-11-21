@@ -1,4 +1,4 @@
-import MyAlgo from "@randlabs/myalgo-connect"
+import MyAlgo, { SignedTx } from "@randlabs/myalgo-connect"
 import buffer from "buffer"
 import { Notification } from "../components/Notification"
 import { SetString } from "../type_alias"
@@ -55,7 +55,7 @@ export function createMyAlgoWallet(
   }
 }
 
-const toSignedTxForRust = (myAlgoSignedTx) => {
+const toSignedTxForRust = (myAlgoSignedTx: SignedTx) => {
   return {
     // Uint8Array -> array (can be parsed to Vec<u8> in Rust)
     blob: Array.from(myAlgoSignedTx.blob),

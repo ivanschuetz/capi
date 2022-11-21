@@ -1,8 +1,9 @@
 import * as ReactDOM from "react-dom"
 import React from "react"
 import walletIcon from "../images/walletIcon.svg"
+import { SetBool } from "../type_alias"
 
-const OpenWalletModal = ({ setShowModal }) => {
+const OpenWalletModal = ({ setShowModal }: { setShowModal: SetBool }) => {
   return ReactDOM.createPortal(
     <div className="modal open-wallet-modal">
       <div className="open-wallet-modal-content modal-content-size">
