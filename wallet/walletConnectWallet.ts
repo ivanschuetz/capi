@@ -4,7 +4,7 @@ import { formatJsonRpcRequest } from "@json-rpc-tools/utils"
 import buffer from "buffer"
 import { Notification } from "../components/Notification"
 import { SetBool, SetString, SetWallet } from "../type_alias"
-import { Wallet } from "./Wallet"
+import { TxsToSign, Wallet } from "./Wallet"
 const { Buffer } = buffer
 
 type WcWallet = Wallet & {
@@ -92,7 +92,7 @@ export function createWcWallet(
     return connector.connected
   }
 
-  async function signTxs(toSign) {
+  async function signTxs(toSign: TxsToSign) {
     if (!window.Buffer) window.Buffer = Buffer
     // modal tells the user to look at the wallet (usually phone)
     setShowOpenWalletModal(true)

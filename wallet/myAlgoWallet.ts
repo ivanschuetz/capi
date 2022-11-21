@@ -2,7 +2,7 @@ import MyAlgo from "@randlabs/myalgo-connect"
 import buffer from "buffer"
 import { Notification } from "../components/Notification"
 import { SetString } from "../type_alias"
-import { Wallet } from "./Wallet"
+import { TxsToSign, Wallet } from "./Wallet"
 const { Buffer } = buffer
 
 // Note: the wallet connect and my algo wallets share the same "interface"
@@ -40,7 +40,7 @@ export function createMyAlgoWallet(
 
   function onPageLoad() {}
 
-  async function signTxs(toSign) {
+  async function signTxs(toSign: TxsToSign) {
     if (!window.Buffer) window.Buffer = Buffer
     let signedTxs = await wallet.signTransaction(toSign.my_algo)
     return signedTxs.map((t) => toSignedTxForRust(t))
