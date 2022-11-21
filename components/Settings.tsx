@@ -3,6 +3,7 @@ import { SubmitButton } from "./SubmitButton"
 import { ContentTitle } from "./ContentTitle"
 import { UpdateDaoData } from "./UpdateDaoData"
 import { useDaoId } from "../hooks/useDaoId"
+import { Wallet } from "../wallet/Wallet"
 
 export const Settings = ({ deps }) => {
   const daoId = useDaoId()
@@ -61,6 +62,7 @@ const UpdateAppView = ({ deps, daoId }) => {
             isLoading={submitting}
             onClick={async () => {
               await updateApp(
+                deps.wasm,
                 deps.notification,
                 deps.myAddress,
                 deps.wallet,
@@ -91,7 +93,7 @@ export const updateApp = async (
   wasm,
   notification,
   myAddress,
-  wallet,
+  wallet: Wallet,
 
   showProgress,
   daoId,

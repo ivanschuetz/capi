@@ -22,6 +22,7 @@ import { Notification } from "./Notification"
 import { toErrorMsg } from "../functions/validation"
 import { toMaybeIpfsUrl } from "../ipfs/store"
 import { toBytes, toBytesForRust } from "../functions/utils"
+import { Wallet } from "../wallet/Wallet"
 
 export const CreateDao = ({ deps }) => {
   const [daoName, setDaoName] = useState("My project")
@@ -302,7 +303,7 @@ const createDao = async (
   wasm,
   notification: Notification,
   myAddress,
-  wallet,
+  wallet: Wallet,
   updateMyBalance,
 
   showProgress,

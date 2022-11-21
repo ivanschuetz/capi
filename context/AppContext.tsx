@@ -14,6 +14,8 @@ import { shortedAddress } from "../functions/utils"
 import { useWindowSize } from "../hooks/useWindowSize"
 import { initWcWalletIfAvailable } from "../wallet/walletConnectWallet"
 import { WASMContext } from "./WASMContext"
+import { Wallet } from "../wallet/Wallet"
+import { SetWallet } from "../type_alias"
 
 const initial: IAppContext = {}
 
@@ -40,7 +42,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   const [dao, setDao] = useState(null)
 
   const [notification] = useState(NotificationCreator())
-  const [wallet, setWallet] = useState(null)
+  const [wallet, setWallet] = useState<Wallet>(null)
 
   const windowSize = useWindowSize()
 
@@ -392,8 +394,8 @@ export interface Deps {
   daoVersion: any
   updateDaoVersion: any
 
-  wallet: any
-  setWallet: any
+  wallet: Wallet
+  setWallet: SetWallet
 
   wcShowOpenWalletModal: any
   setWcShowOpenWalletModal: any

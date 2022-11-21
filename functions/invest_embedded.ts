@@ -1,3 +1,4 @@
+import { Wallet } from "../wallet/Wallet"
 import { toErrorMsg } from "./validation"
 
 export const calculateSharesPrice = async (
@@ -33,7 +34,7 @@ export const invest = async (
 
   notification,
   myAddress,
-  wallet,
+  wallet: Wallet,
   updateMyBalance,
   updateMyShares,
   updateFunds,

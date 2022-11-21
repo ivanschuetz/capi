@@ -3,13 +3,19 @@ import QRCodeModal from "algorand-walletconnect-qrcode-modal"
 import { formatJsonRpcRequest } from "@json-rpc-tools/utils"
 import buffer from "buffer"
 import { Notification } from "../components/Notification"
-import { SetBool, SetString } from "../type_alias"
+import { SetBool, SetString, SetWallet } from "../type_alias"
+import { Wallet } from "./Wallet"
 const { Buffer } = buffer
+
+type WcWallet = Wallet & {
+  isConnected: () => boolean
+  initSession: () => void
+}
 
 export function initWcWalletIfAvailable(
   notification: Notification,
   setMyAddress: SetString,
-  setWallet,
+  setWallet: SetWallet,
   setWcShowOpenWalletModal: SetBool
 ) {
   const wallet = createWcWallet(
@@ -28,7 +34,7 @@ export function createWcWallet(
   notification,
   setMyAddress,
   setShowOpenWalletModal
-) {
+): WcWallet {
   const connector = createConnector()
 
   const onAddressUpdate = (address) => {
