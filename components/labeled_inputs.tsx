@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo, Fragment } from "react"
 import ReactTooltip from "react-tooltip"
-import moment from "moment"
+import moment, { Moment } from "moment"
 import { SelectDateModal } from "../modal/SelectDateModal"
 import info from "../images/svg/info.svg"
 import error from "../images/svg/error.svg"
@@ -313,7 +313,7 @@ export const LabeledDateInput = ({
   errorMsg,
   info,
   disabled,
-}) => {
+}: LabeledDatePars) => {
   const [showMinRaiseTargetEndDateModal, setShowMinRaiseTargetEndDateModal] =
     useState(false)
 
@@ -328,7 +328,12 @@ export const LabeledDateInput = ({
         {info && <InfoView text={info} />}
       </div>
       <div className="date-input__container">
-        {input(formattedMinRaiseTargetEndDate, "text", placeholder, disabled)}
+        <Input
+          value={formattedMinRaiseTargetEndDate}
+          type={"text"}
+          placeholder={placeholder}
+          disabled={disabled}
+        />
         <img
           src={calendar.src}
           alt="img"
@@ -394,4 +399,14 @@ type LabeledTextAreaPars = {
   img?: any
   className?: string
   rows?: number
+}
+
+type LabeledDatePars = {
+  label: string
+  inputValue?: Moment
+  onChange: (date: Moment) => void
+  placeholder?: string
+  errorMsg?: string
+  info?: string
+  disabled?: boolean
 }
