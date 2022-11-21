@@ -1,9 +1,9 @@
 export type Wallet = {
   id: string
-  connect: () => void
-  disconnect: () => void
+  connect: () => Promise<void>
+  disconnect: () => Promise<void>
   onPageLoad: () => void
-  signTxs: (txs: TxsToSign) => void
+  signTxs: (txs: TxsToSign) => Promise<void>
 }
 
 export type TxsToSign = {
