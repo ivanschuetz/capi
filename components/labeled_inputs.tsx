@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo, Fragment } from "react"
+import React, { useState, useEffect, useMemo } from "react"
 import ReactTooltip from "react-tooltip"
 import moment, { Moment } from "moment"
 import { SelectDateModal } from "../modal/SelectDateModal"
@@ -100,12 +100,12 @@ export const InfoView = ({ text }: { text: string }) => {
 
 export const wrapWithInfoView = (text: string, element: JSX.Element) => {
   return (
-    <Fragment>
+    <>
       <div className="d-flex align-center" data-tip={text}>
         {element}
       </div>
       <ReactTooltip uuid={"infoview" + text} />
-    </Fragment>
+    </>
   )
 }
 

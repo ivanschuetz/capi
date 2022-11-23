@@ -1,4 +1,4 @@
-import React, { Fragment } from "react"
+import React from "react"
 import arrowUp from "../images/svg/arrow-up.svg"
 import arrowDown from "../images/svg/arrow-down.svg"
 import funds from "../images/funds.svg"
@@ -104,12 +104,12 @@ const AmountView = ({ entry }) => {
 export const NestedAmountView = ({ entry }) => {
   if (entry.amount_without_fee !== entry.short_amount_without_fee) {
     return (
-      <Fragment>
+      <>
         <div data-tip={entry.amount_without_fee}>
           {entry.short_amount_without_fee}
         </div>
         <ReactTooltip uuid={"nestedamount" + entry.amount_without_fee} />
-      </Fragment>
+      </>
     )
   } else {
     return entry.short_amount_without_fee
