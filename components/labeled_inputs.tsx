@@ -105,11 +105,7 @@ export const LabeledCurrencyInput = ({
   info,
 }: LabeledCurrencyInputPars) => {
   return (
-    <div className="labeled_input">
-      <div className="labeled_input__label">
-        {label}
-        {info && <InfoView text={info} />}
-      </div>
+    <WithLabel label={label} info={info} errorMsg={errorMsg}>
       <div className="input_with_image__container">
         <Input
           value={inputValue}
@@ -119,8 +115,7 @@ export const LabeledCurrencyInput = ({
         />
         <img src={funds.src} alt="img" />
       </div>
-      <ValidationMsg errorMsg={errorMsg} />
-    </div>
+    </WithLabel>
   )
 }
 
@@ -133,23 +128,40 @@ export const LabeledAmountInput = ({
   info,
 }) => {
   return (
-    <div className="labeled_input">
-      <div className="labeled_input__label">
-        {label}
-        {info && <InfoView text={info} />}
-      </div>
+    <WithLabel label={label} info={info} errorMsg={errorMsg}>
       <Input
         value={inputValue}
         type={"number"}
         onChange={onChange}
         placeholder={placeholder}
       />
+    </WithLabel>
+  )
+}
+const WithLabel = ({
+  label,
+  info,
+  errorMsg,
+  children,
+}: {
+  label: string
+  info: string
+  errorMsg?: string
+  children: JSX.Element
+}) => {
+  return (
+    <div className="labeled_input">
+      <div className="labeled_input__label">
+        {label}
+        {info && <InfoView text={info} />}
+      </div>
+      {children}
       <ValidationMsg errorMsg={errorMsg} />
     </div>
   )
 }
 
-export const ValidationMsg = ({ errorMsg }) => {
+export const ValidationMsg = ({ errorMsg }: { errorMsg?: string }) => {
   return (
     <div className="labeled_input__error">
       {errorMsg ? <img src={error.src} alt="error" /> : ""}
@@ -278,25 +290,22 @@ export const LabeledDateInput = ({
   }, [inputValue])
 
   return (
-    <div className="labeled_input">
-      <div className="labeled_input__label">
-        {label}
-        {info && <InfoView text={info} />}
-      </div>
-      <div className="date-input__container">
-        <Input
-          value={formattedMinRaiseTargetEndDate}
-          type={"text"}
-          placeholder={placeholder}
-          disabled={disabled}
-        />
-        <img
-          src={calendar.src}
-          alt="img"
-          onClick={() => setShowMinRaiseTargetEndDateModal(true)}
-        />
-      </div>
-      <ValidationMsg errorMsg={errorMsg} />
+    <>
+      <WithLabel label={label} info={info} errorMsg={errorMsg}>
+        <div className="date-input__container">
+          <Input
+            value={formattedMinRaiseTargetEndDate}
+            type={"text"}
+            placeholder={placeholder}
+            disabled={disabled}
+          />
+          <img
+            src={calendar.src}
+            alt="img"
+            onClick={() => setShowMinRaiseTargetEndDateModal(true)}
+          />
+        </div>
+      </WithLabel>
       {showMinRaiseTargetEndDateModal && (
         <SelectDateModal
           closeModal={() => setShowMinRaiseTargetEndDateModal(false)}
@@ -304,7 +313,7 @@ export const LabeledDateInput = ({
           setEndDate={onChange}
         />
       )}
-    </div>
+    </>
   )
 }
 
