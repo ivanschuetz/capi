@@ -32,7 +32,7 @@ export const LabeledInput = ({
   return (
     <WithLabelAndLength
       label={label}
-      info={null}
+      info={info}
       errorMsg={errorMsg}
       showLength={showLength}
       maxLength={maxLength}
