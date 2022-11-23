@@ -30,21 +30,15 @@ export const LabeledInput = ({
   } = useTextCounter(maxLength, inputValue)
 
   return (
-    <div className="labeled_input">
-      <div className="labeled_input__label d-flex align-center w-94 justify-between">
-        <div className="d-flex align-center gap-10">
-          <div>{label}</div>
-          {info && <InfoView text={info} />}
-        </div>
-        <div>
-          {showLength && maxLength && (
-            <InputLength
-              remainingChars={remainingChars}
-              className={lengthClass}
-            />
-          )}
-        </div>
-      </div>
+    <WithLabelAndLength
+      label={label}
+      info={null}
+      errorMsg={errorMsg}
+      showLength={showLength}
+      maxLength={maxLength}
+      remainingChars={remainingChars}
+      lengthClass={lengthClass}
+    >
       <div className={container_class}>
         <Input
           value={inputValue}
@@ -63,8 +57,7 @@ export const LabeledInput = ({
 
         {img && <img src={img.src} alt="img" />}
       </div>
-      <ValidationMsg errorMsg={errorMsg} />
-    </div>
+    </WithLabelAndLength>
   )
 }
 
@@ -138,6 +131,7 @@ export const LabeledAmountInput = ({
     </WithLabel>
   )
 }
+
 const WithLabel = ({
   label,
   info,
@@ -154,6 +148,47 @@ const WithLabel = ({
       <div className="labeled_input__label">
         {label}
         {info && <InfoView text={info} />}
+      </div>
+      {children}
+      <ValidationMsg errorMsg={errorMsg} />
+    </div>
+  )
+}
+
+const WithLabelAndLength = ({
+  label,
+  info,
+  errorMsg,
+  children,
+  showLength,
+  maxLength,
+  remainingChars,
+  lengthClass,
+}: {
+  label: string
+  info?: string
+  errorMsg?: string
+  children: JSX.Element
+  showLength: boolean
+  maxLength: number
+  remainingChars?: number
+  lengthClass?: string
+}) => {
+  return (
+    <div className="labeled_input">
+      <div className="labeled_input__label d-flex align-center w-94 justify-between">
+        <div className="d-flex align-center gap-10">
+          <div>{label}</div>
+          {info && <InfoView text={info} />}
+        </div>
+        <div>
+          {showLength && maxLength && (
+            <InputLength
+              remainingChars={remainingChars}
+              className={lengthClass}
+            />
+          )}
+        </div>
       </div>
       {children}
       <ValidationMsg errorMsg={errorMsg} />
@@ -211,7 +246,6 @@ const Input = ({
   )
 }
 
-// TODO refactor common code with LabeledInput
 export const LabeledTextArea = ({
   label,
   inputValue,
@@ -235,19 +269,15 @@ export const LabeledTextArea = ({
   } = useTextCounter(maxLength, inputValue)
 
   return (
-    <div className={`labeled_input ${className}`}>
-      <div className="labeled_input__label d-flex align-center w-94 justify-between">
-        {label}
-        <div>
-          {showLength && maxLength && (
-            <InputLength
-              remainingChars={remainingChars}
-              className={lengthClass}
-            />
-          )}
-        </div>
-      </div>
-      <div className="labeled_input__error">{errorMsg}</div>
+    <WithLabelAndLength
+      label={label}
+      info={null}
+      errorMsg={errorMsg}
+      showLength={showLength}
+      maxLength={maxLength}
+      remainingChars={remainingChars}
+      lengthClass={lengthClass}
+    >
       <div className={container_class}>
         <textarea
           className={inputClass}
@@ -269,7 +299,7 @@ export const LabeledTextArea = ({
         />
         {img && <img src={img.src} alt="img" />}
       </div>
-    </div>
+    </WithLabelAndLength>
   )
 }
 
