@@ -102,7 +102,6 @@ export const LabeledCurrencyInput = ({
   onChange,
   placeholder,
   errorMsg,
-  img,
   info,
 }: LabeledCurrencyInputPars) => {
   return (

@@ -33,7 +33,6 @@ export const Withdraw = ({ deps }) => {
           <LabeledCurrencyInput
             label={"How much?"}
             inputValue={withdrawalAmount}
-            img={funds}
             onChange={(input) => setWithdrawalAmount(input)}
           />
           <LabeledTextArea
