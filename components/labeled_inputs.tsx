@@ -104,7 +104,7 @@ export const wrapWithInfoView = (text: string, element: JSX.Element) => {
       <div className="d-flex align-center" data-tip={text}>
         {element}
       </div>
-      <ReactTooltip uuid={"infoview" + text} />
+      {/* <ReactTooltip uuid={"infoview" + text} /> */}
     </>
   )
 }
