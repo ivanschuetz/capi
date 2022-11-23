@@ -95,20 +95,29 @@ export const LabeledInput = ({
 }
 
 export const InfoView = ({ text }: { text: string }) => {
-  return wrapWithInfoView(text, <img src={info.src} alt="info" />)
+  return (
+    <WithTooltip text={text}>
+      <img src={info.src} alt="info" />
+    </WithTooltip>
+  )
 }
 
-export const wrapWithInfoView = (text: string, element: JSX.Element) => {
+export const WithTooltip = ({
+  text,
+  children,
+}: {
+  text: string
+  children: JSX.Element
+}) => {
   return (
     <>
       <div className="d-flex align-center" data-tip={text}>
-        {element}
+        {children}
       </div>
       {/* <ReactTooltip uuid={"infoview" + text} /> */}
     </>
   )
 }
-
 const InputLength = ({ remainingChars, className }: InputLengthPars) => {
   return <div className={className}>{remainingChars}</div>
 }

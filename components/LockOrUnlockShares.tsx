@@ -1,7 +1,7 @@
 import React, { useState } from "react"
 import { SubmitButton } from "./SubmitButton"
 import { SharesDistributionChart } from "../shares_distribution_chart/SharesDistributionChart"
-import { LabeledAmountInput, wrapWithInfoView } from "./labeled_inputs"
+import { LabeledAmountInput, WithTooltip } from "./labeled_inputs"
 import { pieChartColors } from "../functions/utils"
 import redArrow from "../images/svg/arrow.svg"
 import dark_cyan_circle from "../images/dark_cyan_circle.svg"
@@ -40,9 +40,14 @@ export const LockOrUnlockShares = ({
     if (dao.funds_raised === "true") {
       return button
     } else if (dao.funds_raised === "false") {
-      return wrapWithInfoView(
-        "You can't unlock or lock shares before the funds raising phase is finished",
-        button
+      return (
+        <WithTooltip
+          text={
+            "You can't unlock or lock shares before the funds raising phase is finished"
+          }
+        >
+          {button}
+        </WithTooltip>
       )
     } else {
       console.error(
