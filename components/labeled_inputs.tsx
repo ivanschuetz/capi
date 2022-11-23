@@ -5,6 +5,7 @@ import info from "../images/svg/info.svg"
 import error from "../images/svg/error.svg"
 import funds from "../images/funds.svg"
 import calendar from "../images/calendar_today.svg"
+import { useTextCounter } from "../hooks/useTextCounter"
 
 export const LabeledInput = ({
   label,
@@ -17,42 +18,16 @@ export const LabeledInput = ({
   info,
   disabled,
 }: LabeledInputPars) => {
-  const [inputLength, setInputLength] = useState(0)
-  const [showLength, setShowLength] = useState(false)
-
   const container_class = img ? "input_with_image__container" : ""
 
-  const remainingChars = useMemo(() => {
-    return maxLength - inputLength
-  }, [maxLength, inputLength])
-
-  const stateForRemainingChars = useMemo(() => {
-    if (remainingChars < 0) {
-      return "over"
-    } else {
-      return "ok"
-    }
-  }, [remainingChars])
-
-  const inputTextLengthClass = () => {
-    if (stateForRemainingChars === "over") {
-      return "input-length-error"
-    } else {
-      return null
-    }
-  }
-
-  const counterClass = () => {
-    if (stateForRemainingChars === "over") {
-      return "red-20"
-    } else {
-      return null
-    }
-  }
-
-  useEffect(() => {
-    setInputLength(inputValue?.length ?? 0)
-  }, [inputValue])
+  const {
+    remainingChars,
+    inputClass,
+    lengthClass,
+    showLength,
+    setShowLength,
+    setInputLength,
+  } = useTextCounter(maxLength, inputValue)
 
   return (
     <div className="labeled_input">
@@ -65,7 +40,7 @@ export const LabeledInput = ({
           {showLength && maxLength && (
             <InputLength
               remainingChars={remainingChars}
-              className={counterClass()}
+              className={lengthClass}
             />
           )}
         </div>
@@ -83,7 +58,7 @@ export const LabeledInput = ({
           }}
           placeholder={placeholder}
           disabled={disabled}
-          textLengthClass={inputTextLengthClass()}
+          textLengthClass={inputClass}
         />
 
         {img && <img src={img.src} alt="img" />}
@@ -237,42 +212,16 @@ export const LabeledTextArea = ({
   className,
   rows = 10,
 }: LabeledTextAreaPars) => {
-  const [inputLength, setInputLength] = useState(0)
-  const [showLength, setShowLength] = useState(false)
-
   const container_class = img ? "textarea_with_image__container" : ""
 
-  const remainingChars = useMemo(() => {
-    return maxLength - inputLength
-  }, [maxLength, inputLength])
-
-  const stateForRemainingChars = useMemo(() => {
-    if (remainingChars < 0) {
-      return "over"
-    } else {
-      return "ok"
-    }
-  }, [remainingChars])
-
-  const inputTextLengthClass = () => {
-    if (stateForRemainingChars === "over") {
-      return "input-length-error"
-    } else {
-      return null
-    }
-  }
-
-  const counterClass = () => {
-    if (stateForRemainingChars === "over") {
-      return "red-20"
-    } else {
-      return null
-    }
-  }
-
-  useEffect(() => {
-    setInputLength(inputValue?.length ?? 0)
-  }, [inputValue])
+  const {
+    remainingChars,
+    inputClass,
+    lengthClass,
+    showLength,
+    setShowLength,
+    setInputLength,
+  } = useTextCounter(maxLength, inputValue)
 
   return (
     <div className={`labeled_input ${className}`}>
@@ -282,7 +231,7 @@ export const LabeledTextArea = ({
           {showLength && maxLength && (
             <InputLength
               remainingChars={remainingChars}
-              className={counterClass()}
+              className={lengthClass}
             />
           )}
         </div>
@@ -290,7 +239,7 @@ export const LabeledTextArea = ({
       <div className="labeled_input__error">{errorMsg}</div>
       <div className={container_class}>
         <textarea
-          className={inputTextLengthClass()}
+          className={inputClass}
           rows={rows}
           cols="50"
           value={inputValue}
