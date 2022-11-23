@@ -436,7 +436,7 @@ const createDao = async (
       showErrorNotificationIfError(notification, e.prospectus_bytes)
 
       // show a general message additionally, just in case
-      notification.error({ message: "Please fix the errors" })
+      notification.error("Please fix the errors")
     } else if (e.id === "not_enough_algos") {
       setShowBuyCurrencyInfoModal(true)
     } else {
@@ -450,7 +450,7 @@ const createDao = async (
 const showErrorNotificationIfError = (notification: Notification, payload) => {
   const errorMsg = toErrorMsg(payload)
   if (errorMsg) {
-    notification.error({ message: errorMsg })
+    notification.error(errorMsg)
   }
 }
 
