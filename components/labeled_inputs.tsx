@@ -1,5 +1,4 @@
 import React, { useState, useEffect, useMemo } from "react"
-import ReactTooltip from "react-tooltip"
 import moment, { Moment } from "moment"
 import { SelectDateModal } from "../modal/SelectDateModal"
 import info from "../images/svg/info.svg"
