@@ -347,7 +347,7 @@ const createDao = async (
   showProgress(true)
 
   const imageUrl = await toMaybeIpfsUrl(imageBytes)
-  const descrUrl = await toMaybeIpfsUrl(toBytes(await daoDescr))
+  const descrUrl = await toMaybeIpfsUrl(toBytes(daoDescr))
 
   const prospectusUrl = await toMaybeIpfsUrl(prospectusBytes)
   const prospectusBytesForRust = toBytesForRust(prospectusBytes)
