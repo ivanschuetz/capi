@@ -5,7 +5,7 @@ import funds from "../images/funds.svg"
 import ReactTooltip from "react-tooltip"
 
 export const FundsActivityEntry = ({ deps, entry }) => {
-  if (deps.size.s4) {
+  if (deps.size?.s4) {
     return <MobileEntryView entry={entry} />
   } else {
     return <DesktopEntryView entry={entry} />

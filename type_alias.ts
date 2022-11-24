@@ -7,4 +7,5 @@ export type Wasm =
 export type SetBool = (value: boolean) => void
 export type SetAnyArr = (value: any[]) => void
 export type SetString = (value: string) => void
+export type SetStringOpt = (value: string | null) => void
 export type SetWallet = (value: Wallet) => void

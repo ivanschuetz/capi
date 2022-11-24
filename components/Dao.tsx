@@ -35,7 +35,7 @@ const DaoView = ({ deps, description, daoId }) => {
     <div>
       {description && <div id="dao_description">{description}</div>}
       <RaisedFunds deps={deps} dao={deps.dao} />
-      {deps.size.s4 && <FundsActivityEmbedded deps={deps} daoId={daoId} />}
+      {deps.size?.s4 && <FundsActivityEmbedded deps={deps} daoId={daoId} />}
       <MaybeInvestView deps={deps} />
       {/* <Link
               disabled={deps.myAddress === "" || funds === 0}

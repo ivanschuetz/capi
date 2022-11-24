@@ -11,11 +11,11 @@ import { NotificationCreator, Notification } from "../components/Notification"
 import { checkForUpdates, safe } from "../functions/utils"
 import { updateFunds_, updateInvestmentData_ } from "../functions/shared"
 import { shortedAddress } from "../functions/utils"
-import { useWindowSize } from "../hooks/useWindowSize"
+import { useWindowSize, WindowSize } from "../hooks/useWindowSize"
 import { initWcWalletIfAvailable } from "../wallet/walletConnectWallet"
 import { WASMContext } from "./WASMContext"
 import { Wallet } from "../wallet/Wallet"
-import { SetWallet } from "../type_alias"
+import { SetString, SetWallet } from "../type_alias"
 
 const initial: IAppContext = {}
 
@@ -114,7 +114,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   }, [myAddress, updateMyBalance])
 
   const updateAvailableShares = useCallback(
-    async (daoId) => {
+    async (daoId: string) => {
       if (wasm) {
         safe(notification, async () => {
           let res = await wasm.loadAvailableShares({
@@ -129,7 +129,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   )
 
   const updateDao = useCallback(
-    async (daoId) => {
+    async (daoId: string) => {
       if (wasm && daoId) {
         safe(notification, async () => {
           let dao = await wasm.loadDao(daoId)
@@ -144,7 +144,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   )
 
   const updateShares = useCallback(
-    async (daoId, myAddress) => {
+    async (daoId: string, myAddress: string) => {
       if (wasm && myAddress) {
         safe(notification, async () => {
           let mySharesRes = await wasm.myShares({
@@ -160,7 +160,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   )
 
   const updateInvestmentData = useCallback(
-    async (daoId, myAddress) => {
+    async (daoId: string, myAddress: string) => {
       if (wasm && myAddress) {
         await updateInvestmentData_(
           wasm,
@@ -175,7 +175,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   )
 
   const updateMyDividend = useCallback(
-    async (daoId, myAddress) => {
+    async (daoId: string, myAddress: string) => {
       if (wasm && myAddress) {
         safe(notification, async () => {
           let myDividendRes = await wasm.myDividend({
@@ -191,7 +191,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   )
 
   const updateFunds = useCallback(
-    async (daoId) => {
+    async (daoId: string) => {
       if (wasm) {
         await updateFunds_(wasm, daoId, setFunds, setFundsChange, notification)
       }
@@ -200,7 +200,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   )
 
   const updateDaoVersion = useCallback(
-    async (daoId) => {
+    async (daoId: string) => {
       if (wasm) {
         await checkForUpdates(wasm, notification, daoId, setDaoVersion)
       }
@@ -209,7 +209,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   )
 
   const updateRaisedFunds = useCallback(
-    async (daoId) => {
+    async (daoId: string) => {
       if (wasm) {
         safe(notification, async () => {
           let funds = await wasm.raisedFunds({ dao_id: daoId })
@@ -223,7 +223,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   )
 
   const updateCompactFundsActivity = useCallback(
-    async (daoId) => {
+    async (daoId: string) => {
       if (wasm) {
         safe(deps.notification, async () => {
           const res = await deps.wasm.loadFundsActivity({
@@ -239,7 +239,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   )
 
   const updateSharesDistr = useCallback(
-    async (dao) => {
+    async (dao: any) => {
       if (wasm && dao) {
         safe(notification, async () => {
           let distrRes = await wasm.sharesDistribution({
@@ -341,7 +341,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
     notOwnedShares: notOwnedShares,
     holdersChange: holdersChange,
 
-    size: windowSizeClasses(windowSize),
+    size: windowSize ? windowSizeClasses(windowSize) : null,
 
     wasm: wasm,
   }
@@ -360,64 +360,64 @@ interface IAppContext {
 export interface Deps {
   features: Features
 
-  myAddress: any
-  setMyAddress: any
+  myAddress?: string
+  setMyAddress: SetString
 
-  myAddressDisplay: any
-  setMyAddressDisplay: any
+  myAddressDisplay?: string
+  setMyAddressDisplay: SetString
 
   modal: any
   setModal: any
 
   notification: Notification
 
-  myBalance: any
-  updateMyBalance: any
+  myBalance?: string
+  updateMyBalance: (myAddress: string) => void
 
-  myShares: any
-  updateMyShares: any
+  myShares?: string
+  updateMyShares: (daoId: string, myAddress: string) => void
 
-  myDividend: any
-  updateMyDividend: any
+  myDividend?: string
+  updateMyDividend: (daoId: string, myAddress: string) => void
 
-  investmentData: any
-  updateInvestmentData: any
+  investmentData?: any
+  updateInvestmentData: (daoId: string, myAddress: string) => void
 
-  funds: any
-  updateFunds: any
+  funds?: string
+  updateFunds: (daoId: string) => void
 
-  fundsChange: any
+  fundsChange: string
 
   dao: any
-  updateDao: any
+  updateDao: (daoId: string) => void
 
   daoVersion: any
-  updateDaoVersion: any
+  updateDaoVersion: (daoId: string) => void
 
   wallet: Wallet
   setWallet: SetWallet
 
-  wcShowOpenWalletModal: any
-  setWcShowOpenWalletModal: any
+  wcShowOpenWalletModal: boolean
+  setWcShowOpenWalletModal: (value: boolean) => void
 
-  availableShares: any
-  availableSharesNumber: any
-  updateAvailableShares: any
+  availableShares?: string
+  availableSharesNumber?: number
+  updateAvailableShares: (daoId: string) => void
 
-  updateRaisedFunds: any
-  raisedFundsNumber: any
-  raisedFunds: any
-  raiseState: any
+  updateRaisedFunds: (daoId: string) => void
+  raisedFundsNumber?: string
+  raisedFunds?: string
+  raiseState?: RaiseState
 
-  updateCompactFundsActivity: any
-  compactFundsActivity: any
+  updateCompactFundsActivity: (daoId: string) => void
+  compactFundsActivity: any[]
 
-  updateSharesDistr: any
-  sharesDistr: any
-  notOwnedShares: any
-  holdersChange: any
+  updateSharesDistr: (dao: any) => void
+  sharesDistr?: any[]
+  notOwnedShares?: string
+  holdersChange?: string
 
-  size: any
+  size?: WindowSizeClasses
 
   wasm: Wasm
 }
@@ -443,7 +443,7 @@ const SIZE_PHONE_THRESHOLD = 600
 
 // returns an object with all size classes, where at least one is expected to be true
 // we use abstract identifiers like "s1", to accomodate possible new cases (phone-landscape, tablet with certain aspect ratio etc.) while keeping naming simple
-const windowSizeClasses = (windowSize) => {
+const windowSizeClasses = (windowSize: WindowSize): WindowSizeClasses => {
   const windowWidth = windowSize.width
   console.log("Window width updated: " + windowWidth)
 
@@ -460,27 +460,34 @@ const windowSizeClasses = (windowSize) => {
   }
 }
 
-const stateObj = (state, exceeded) => {
-  var text
-  var success
+type WindowSizeClasses = {
+  s1: boolean
+  s2: boolean
+  s3: boolean
+  s4: boolean
+}
 
+const stateObj = (state: string, exceeded: string): RaiseState | null => {
   if (state === "Raising") {
     return null // no message displayed when funds are still raising
   } else if (state === "GoalReached") {
-    text = "The minimum target was reached"
-    success = true
+    return { text: "The minimum target was reached", success: true }
     // "6BB9BD";
   } else if (state === "GoalNotReached") {
-    text = "The minimum target was not reached"
-    success = false
+    return { text: "The minimum target was not reached", success: false }
     // success = "DE5C62";
   } else if (state === "GoalExceeded") {
-    text = "The minumum target was exceeded by " + exceeded
-    success = true
+    return {
+      text: "The minumum target was exceeded by " + exceeded,
+      success: true,
+    }
     // success = "6BB9BD";
   } else {
     throw Error("Invalid funds raise state: " + state)
   }
+}
 
-  return { text: text, success: success }
+type RaiseState = {
+  text: String
+  success: boolean
 }

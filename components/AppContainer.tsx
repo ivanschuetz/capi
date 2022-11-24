@@ -11,6 +11,7 @@ export const AppContainer = ({ children }: { children: JSX.Element }) => {
     <div>
       <div id="container">
         {children}
+        {/* TODO is this used - also deps.modal and deps.setModal - maybe delete */}
         {deps.modal && (
           <Modal title={deps.modal.title} onClose={() => deps.setModal(null)}>
             {deps.modal.body}

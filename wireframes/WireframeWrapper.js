@@ -16,7 +16,7 @@ export const WireframeWrapper = ({ isGlobal, deps, nested }) => {
     asyncInit()
   }, [daoId, deps.notification, deps.updateDaoVersion, deps.updateDao])
 
-  return deps.size.s4 ? (
+  return deps.size?.s4 ? (
     <WireframeMobile isGlobal={isGlobal} deps={deps} nested={nested} />
   ) : (
     <Wireframe isGlobal={isGlobal} deps={deps} nested={nested} />

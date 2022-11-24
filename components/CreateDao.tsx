@@ -9,12 +9,12 @@ import {
 } from "./labeled_inputs"
 import { ContentTitle } from "./ContentTitle"
 import { ImageUpload } from "./ImageUpload"
-import { useRouter } from "next/router"
+import { NextRouter, useRouter } from "next/router"
 import { SubmitButton } from "./SubmitButton"
 import { SelectWalletModal } from "../wallet/SelectWalletModal"
 import { BuyAlgosModal } from "../buy_currency/BuyAlgosModal"
 import link from "../images/svg/link.svg"
-import moment from "moment"
+import moment, { Moment } from "moment"
 
 import { MaxFundingTargetLabel } from "./MaxFundingTargetLabel"
 import { FileUploader } from "./FileUploader"
@@ -24,6 +24,7 @@ import { toMaybeIpfsUrl } from "../ipfs/store"
 import { toBytes, toBytesForRust } from "../functions/utils"
 import { Wallet } from "../wallet/Wallet"
 import { Deps, Wasm } from "../context/AppContext"
+import { SetBool, SetString, SetStringOpt } from "../type_alias"
 
 export const CreateDao = ({ deps }: { deps: Deps }) => {
   const [daoName, setDaoName] = useState("My project")
@@ -303,42 +304,43 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
 const createDao = async (
   wasm: Wasm,
   notification: Notification,
-  myAddress,
+  myAddress: string,
   wallet: Wallet,
-  updateMyBalance,
+  updateMyBalance: (myAddress: string) => void,
 
-  showProgress,
+  showProgress: SetBool,
 
-  daoName,
-  daoDescr,
-  shareCount,
-  sharePrice,
-  investorsShare,
-  sharesForInvestors,
+  daoName: string,
+  daoDescr: string,
+  shareCount: string,
+  sharePrice: string,
+  investorsShare: string,
+  sharesForInvestors: string,
   imageBytes,
-  socialMediaUrl,
-  minRaiseTarget,
-  minRaiseTargetEndDate,
+  socialMediaUrl: string,
+  minRaiseTarget: string,
+  minRaiseTargetEndDate: Moment,
   prospectusBytes,
-  minInvestShares,
-  maxInvestShares,
+  minInvestShares: string,
+  maxInvestShares: string,
 
-  router,
+  router: NextRouter,
 
-  setDaoNameError,
-  setDaoDescrError,
-  setShareCountError,
-  setSharePriceError,
-  setInvestorsShareError,
-  setSharesForInvestorsError,
-  setImageError,
-  setProspectusError,
-  setSocialMediaUrlError,
-  setMinRaiseTargetError,
-  setMinRaiseTargetEndDateError,
-  setMinInvestSharesError,
-  setMaxInvestSharesError,
-  setShowBuyCurrencyInfoModal
+  setDaoNameError: SetStringOpt,
+  setDaoDescrError: SetStringOpt,
+  setShareCountError: SetStringOpt,
+  setSharePriceError: SetStringOpt,
+  setInvestorsShareError: SetStringOpt,
+  setSharesForInvestorsError: SetStringOpt,
+  setImageError: SetStringOpt,
+  setProspectusError: SetStringOpt,
+  setSocialMediaUrlError: SetStringOpt,
+  setMinRaiseTargetError: SetStringOpt,
+  setMinRaiseTargetEndDateError: SetStringOpt,
+  setMinInvestSharesError: SetStringOpt,
+  setMaxInvestSharesError: SetStringOpt,
+
+  setShowBuyCurrencyInfoModal: (value: boolean) => void
 ) => {
   showProgress(true)
 
