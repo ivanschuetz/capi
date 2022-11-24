@@ -1,11 +1,12 @@
-import React, { useState, useEffect, useMemo } from "react"
 import moment, { Moment } from "moment"
-import { SelectDateModal } from "../modal/SelectDateModal"
-import info from "../images/svg/info.svg"
-import error from "../images/svg/error.svg"
-import funds from "../images/funds.svg"
-import calendar from "../images/calendar_today.svg"
+import { useMemo, useState } from "react"
+import { FieldValues, RegisterOptions, UseFormRegister } from "react-hook-form"
 import { useTextCounter } from "../hooks/useTextCounter"
+import calendar from "../images/calendar_today.svg"
+import funds from "../images/funds.svg"
+import error from "../images/svg/error.svg"
+import info from "../images/svg/info.svg"
+import { SelectDateModal } from "../modal/SelectDateModal"
 
 export const LabeledInput = ({
   label,
@@ -13,10 +14,14 @@ export const LabeledInput = ({
   onChange,
   placeholder,
   errorMsg,
+  // TODO remove - it's now in validations
   maxLength,
   img,
   info,
   disabled,
+  name,
+  register,
+  validations,
 }: LabeledInputPars) => {
   const container_class = img ? "input_with_image__container" : ""
 
@@ -53,6 +58,9 @@ export const LabeledInput = ({
           placeholder={placeholder}
           disabled={disabled}
           textLengthClass={inputClass}
+          name={name}
+          register={register}
+          validations={validations}
         />
 
         {img && <img src={img.src} alt="img" />}
@@ -96,6 +104,9 @@ export const LabeledCurrencyInput = ({
   placeholder,
   errorMsg,
   info,
+  register,
+  name,
+  validations,
 }: LabeledCurrencyInputPars) => {
   return (
     <WithLabel label={label} info={info} errorMsg={errorMsg}>
@@ -105,6 +116,9 @@ export const LabeledCurrencyInput = ({
           type={"number"}
           onChange={onChange}
           placeholder={placeholder}
+          register={register}
+          name={name}
+          validations={validations}
         />
         <img src={funds.src} alt="img" />
       </div>
@@ -119,7 +133,10 @@ export const LabeledAmountInput = ({
   placeholder,
   errorMsg,
   info,
-}) => {
+  register,
+  name,
+  validations,
+}: LabeledAmountInputPars) => {
   return (
     <WithLabel label={label} info={info} errorMsg={errorMsg}>
       <Input
@@ -127,6 +144,9 @@ export const LabeledAmountInput = ({
         type={"number"}
         onChange={onChange}
         placeholder={placeholder}
+        register={register}
+        name={name}
+        validations={validations}
       />
     </WithLabel>
   )
@@ -214,6 +234,9 @@ const Input = ({
   placeholder,
   disabled,
   textLengthClass,
+  name,
+  register,
+  validations,
 }: InputPars) => {
   var className = "label-input-style"
   if (textLengthClass) {
@@ -229,6 +252,7 @@ const Input = ({
       min="0" // only active if type is number
       value={value}
       disabled={disabled}
+      {...register(name, validations)}
       onChange={(event) => {
         onChange(event.target.value)
       }}
@@ -255,6 +279,9 @@ export const LabeledTextArea = ({
   maxLength,
   img,
   className,
+  register,
+  name,
+  validations,
   rows = 10,
 }: LabeledTextAreaPars) => {
   const container_class = img ? "textarea_with_image__container" : ""
@@ -285,6 +312,7 @@ export const LabeledTextArea = ({
           cols="50"
           value={inputValue}
           placeholder={placeholder}
+          {...register(name, validations)}
           onChange={(event) => {
             const input = event.target.value
             setInputLength(input.length)
@@ -323,10 +351,11 @@ export const LabeledDateInput = ({
     <>
       <WithLabel label={label} info={info} errorMsg={errorMsg}>
         <div className="date-input__container">
-          <Input
-            value={formattedMinRaiseTargetEndDate}
-            type={"text"}
+          <input
             placeholder={placeholder}
+            size={30}
+            type={"text"}
+            value={formattedMinRaiseTargetEndDate}
             disabled={disabled}
           />
           <img
@@ -352,11 +381,15 @@ type LabeledInputPars = {
   inputValue?: string
   onChange: (text: string) => void
   placeholder?: string
-  errorMsg?: string
+  errorMsg?: any
   maxLength?: number
   img?: any
   info?: string
   disabled?: boolean
+  // TODO consider collapsing these 3: UseFormRegisterReturn<TFieldName>?
+  name: string
+  register: UseFormRegister<FieldValues>
+  validations: RegisterOptions<FieldValues>
 }
 
 type InputLengthPars = {
@@ -372,6 +405,22 @@ type LabeledCurrencyInputPars = {
   errorMsg?: string
   img?: any
   info?: string
+  name: string
+  register: UseFormRegister<FieldValues>
+  validations: RegisterOptions<FieldValues>
+}
+
+type LabeledAmountInputPars = {
+  label: string
+  inputValue: string
+  onChange: (input: string) => void
+  placeholder?: string
+  errorMsg?: string
+  img?: any
+  info?: string
+  name: string
+  register: UseFormRegister<FieldValues>
+  validations: RegisterOptions<FieldValues>
 }
 
 type InputPars = {
@@ -382,6 +431,10 @@ type InputPars = {
   placeholder?: string
   disabled?: boolean
   textLengthClass?: string
+  // TODO consider collapsing these 3: UseFormRegisterReturn<TFieldName>?
+  name: string
+  register: UseFormRegister<FieldValues>
+  validations: RegisterOptions<FieldValues>
 }
 
 type LabeledTextAreaPars = {
@@ -394,6 +447,9 @@ type LabeledTextAreaPars = {
   img?: any
   className?: string
   rows?: number
+  name: string
+  register: UseFormRegister<FieldValues>
+  validations: RegisterOptions<FieldValues>
 }
 
 type LabeledDatePars = {

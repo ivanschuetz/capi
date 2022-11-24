@@ -15,7 +15,6 @@ import { SelectWalletModal } from "../wallet/SelectWalletModal"
 import { BuyAlgosModal } from "../buy_currency/BuyAlgosModal"
 import link from "../images/svg/link.svg"
 import moment from "moment"
-
 import { MaxFundingTargetLabel } from "./MaxFundingTargetLabel"
 import { FileUploader } from "./FileUploader"
 import { Notification } from "./Notification"
@@ -24,8 +23,24 @@ import { toMaybeIpfsUrl } from "../ipfs/store"
 import { toBytes, toBytesForRust } from "../functions/utils"
 import { Wallet } from "../wallet/Wallet"
 import { Deps, Wasm } from "../context/AppContext"
+import {
+  FieldValues,
+  useForm,
+  UseFormReset,
+  UseFormSetError,
+} from "react-hook-form"
 
 export const CreateDao = ({ deps }: { deps: Deps }) => {
+  const {
+    register,
+    handleSubmit,
+    // watch,
+    setError,
+    reset,
+    formState: { errors },
+    getValues,
+  } = useForm()
+
   const [daoName, setDaoName] = useState("My project")
   const [daoDescr, setDaoDescr] = useState("Lorem ipsum dolor sit amet")
   const [shareCount, setShareCount] = useState("100")
@@ -84,7 +99,11 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
       if (deps.wallet && pendingSubmitDao && deps.myAddress) {
         setSubmitDaoIntent(false)
 
+        // onSubmit(data, setError, setDidSubscribe, reset, notification)
+        const values = getValues()
+
         await createDao(
+          values,
           deps.wasm,
           deps.notification,
           deps.myAddress,
@@ -93,19 +112,10 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
 
           setSubmitting,
 
-          daoName,
-          daoDescr,
-          shareCount,
-          sharePrice,
-          investorsShare,
-          sharesForInvestors,
-          imageBytes,
-          socialMediaUrl,
-          minRaiseTarget,
+          // TODO once this works, update all the fields, remove hooks, and pass here only values (typed - probably to a new ts type representing form inputs )
           minRaiseTargetEndDate,
+          imageBytes,
           prospectusBytes,
-          minInvestShares,
-          maxInvestShares,
 
           router,
 
@@ -131,6 +141,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
     // we want to send whatever is in the form when user submits - so we care only about the conditions that trigger submit
     // suppress lint? are we approaching this incorrectly?
   }, [pendingSubmitDao, deps.wallet, deps.myAddress])
+  console.log("!!! error: %o", errors.dao_name)
 
   const formView = () => {
     return (
@@ -140,8 +151,14 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           label={"Project name"}
           inputValue={daoName}
           onChange={(input) => setDaoName(input)}
-          errorMsg={daoNameError}
+          errorMsg={errors.dao_name}
           maxLength={40} // NOTE: has to match WASM
+          register={register}
+          name={"dao_name"}
+          validations={{
+            required: "Name is required",
+            maxLength: 20,
+          }}
         />
         <LabeledTextArea
           label={"Description"}
@@ -149,6 +166,12 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           onChange={(input) => setDaoDescr(input)}
           errorMsg={daoDescrError}
           maxLength={2000} // NOTE: has to match WASM
+          register={register}
+          name={"dao_descr"}
+          validations={{
+            required: "Description is required",
+            maxLength: 2000,
+          }}
         />
         <LabeledInput
           label={"Primary social media (optional)"}
@@ -156,6 +179,11 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           img={link}
           onChange={(input) => setSocialMediaUrl(input)}
           errorMsg={socialMediaUrlError}
+          register={register}
+          name={"social_media_url"}
+          validations={{
+            maxLength: 2000,
+          }}
         />
         <div className="dao-title mt-60">Project Cover</div>
         <ImageUpload setImageBytes={setImageBytes} />
@@ -177,6 +205,11 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
             setShareCount(input)
           }}
           errorMsg={shareCountError}
+          register={register}
+          name={"share_count"}
+          validations={{
+            required: "This field is required",
+          }}
         />
 
         <LabeledAmountInput
@@ -186,6 +219,11 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           onChange={(input) => setInvestorsShare(input)}
           errorMsg={investorsShareError}
           placeholder="Investor's part in %"
+          register={register}
+          name={"investors_share"}
+          validations={{
+            required: "This field is required",
+          }}
         />
         <div className="d-flex gap-32">
           <div className="f-basis-50">
@@ -197,6 +235,11 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
               inputValue={sharesForInvestors}
               onChange={(input) => setSharesForInvestors(input)}
               errorMsg={sharesForInvestorsError}
+              register={register}
+              name={"shares_for_investors"}
+              validations={{
+                required: "This field is required",
+              }}
             />
           </div>
           <div className="f-basis-50">
@@ -207,6 +250,11 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
                 setSharePrice(input)
               }}
               errorMsg={sharePriceError}
+              register={register}
+              name={"share_price"}
+              validations={{
+                required: "This field is required",
+              }}
             />
           </div>
         </div>
@@ -219,6 +267,11 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
                 inputValue={minInvestShares}
                 onChange={(input) => setMinInvestShares(input)}
                 errorMsg={minInvestSharesError}
+                register={register}
+                name={"min_invest_amount"}
+                validations={{
+                  required: "This field is required",
+                }}
               />
             </div>
             <div className="f-basis-50">
@@ -228,6 +281,11 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
                 inputValue={maxInvestShares}
                 onChange={(input) => setMaxInvestShares(input)}
                 errorMsg={maxInvestSharesError}
+                register={register}
+                name={"max_invest_amount"}
+                validations={{
+                  required: "This field is required",
+                }}
               />
             </div>
           </div>
@@ -240,6 +298,11 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
               inputValue={minRaiseTarget}
               onChange={(input) => setMinRaiseTarget(input)}
               errorMsg={minRaiseTargetError}
+              register={register}
+              name={"min_raise_target"}
+              validations={{
+                required: "This field is required",
+              }}
             />
           </div>
           <MaxFundingTargetLabel text={totalSharePrice} />
@@ -265,25 +328,39 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
             investorsShare === ""
           }
           onClick={async () => {
-            // signalize that we want to submit the dao
-            // if other dependencies are already present (connected wallet / address), an effect will trigger submit
-            // if they're not, we start the wallet connection flow next (select wallet modal),
-            // which sets these dependencies when finished, which triggers the effect too
-            setSubmitDaoIntent(true)
-            var myAddress = deps.myAddress
-            if (myAddress === "") {
-              setShowSelectWalletModal(true)
-            }
+            // // signalize that we want to submit the dao
+            // // if other dependencies are already present (connected wallet / address), an effect will trigger submit
+            // // if they're not, we start the wallet connection flow next (select wallet modal),
+            // // which sets these dependencies when finished, which triggers the effect too
+            // setSubmitDaoIntent(true)
+            // var myAddress = deps.myAddress
+            // if (myAddress === "") {
+            //   setShowSelectWalletModal(true)
+            // }
           }}
         />
       </div>
     )
   }
 
+  const onSubmitForm = () => {
+    // signalize that we want to submit the dao
+    // if other dependencies are already present (connected wallet / address), an effect will trigger submit
+    // if they're not, we start the wallet connection flow next (select wallet modal),
+    // which sets these dependencies when finished, which triggers the effect too
+    setSubmitDaoIntent(true)
+    var myAddress = deps.myAddress
+    if (myAddress === "") {
+      setShowSelectWalletModal(true)
+    }
+  }
+
   return (
     <div>
       <ContentTitle title="Create project" />
-      {formView()}
+      <form onSubmit={handleSubmit((data: any) => onSubmitForm())} noValidate>
+        {formView()}
+      </form>
       {showBuyCurrencyInfoModal && (
         <BuyAlgosModal
           deps={deps}
@@ -301,6 +378,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
 }
 
 const createDao = async (
+  values: any,
   wasm: Wasm,
   notification: Notification,
   myAddress,
@@ -309,19 +387,9 @@ const createDao = async (
 
   showProgress,
 
-  daoName,
-  daoDescr,
-  shareCount,
-  sharePrice,
-  investorsShare,
-  sharesForInvestors,
-  imageBytes,
-  socialMediaUrl,
-  minRaiseTarget,
   minRaiseTargetEndDate,
+  imageBytes,
   prospectusBytes,
-  minInvestShares,
-  maxInvestShares,
 
   router,
 
@@ -340,10 +408,11 @@ const createDao = async (
   setMaxInvestSharesError,
   setShowBuyCurrencyInfoModal
 ) => {
+  console.log("!!! in submit")
   showProgress(true)
 
   const imageUrl = await toMaybeIpfsUrl(await imageBytes)
-  const descrUrl = await toMaybeIpfsUrl(toBytes(await daoDescr))
+  const descrUrl = await toMaybeIpfsUrl(toBytes(await values.dao_descr_url))
 
   const prospectusBytesResolved = await prospectusBytes
   const prospectusUrl = await toMaybeIpfsUrl(prospectusBytesResolved)
@@ -351,24 +420,25 @@ const createDao = async (
 
   try {
     let createDaoAssetsRes = await wasm.createDaoAssetsTxs({
+      // TODO concat (...) form values (new ts type) with address. no more need for explicit per-field access.
       inputs: {
         creator: myAddress,
-        dao_name: daoName,
+        dao_name: values.dao_name,
         dao_descr_url: descrUrl,
-        share_count: shareCount,
-        share_price: sharePrice,
-        investors_share: investorsShare,
-        shares_for_investors: sharesForInvestors,
-        image_url: imageUrl,
-        social_media_url: socialMediaUrl,
-        min_raise_target: minRaiseTarget,
+        share_count: values.share_count,
+        share_price: values.share_price,
+        investors_share: values.investors_share,
+        shares_for_investors: values.shares_for_investors,
+        image_url: values.image_url,
+        social_media_url: values.social_media_url,
+        min_raise_target: values.min_raise_target,
         min_raise_target_end_date: minRaiseTargetEndDate.unix() + "",
         // min_raise_target_end_date:
         //   Math.ceil(Date.now() / 1000) + 30 /* seconds */ + "", // end date after short delay - for testing
         prospectus_url: prospectusUrl,
         prospectus_bytes: prospectusBytesForRust,
-        min_invest_amount: minInvestShares,
-        max_invest_amount: maxInvestShares,
+        min_invest_amount: values.min_invest_amount,
+        max_invest_amount: values.max_invest_amount,
       },
     })
     showProgress(false)
