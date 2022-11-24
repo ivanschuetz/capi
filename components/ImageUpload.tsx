@@ -4,16 +4,22 @@ import { useDropzone } from "react-dropzone"
 import { useEffect } from "react"
 import { useDrop } from "./FileUploader"
 
-export const ImageUpload = ({ initImageBytes, setImageBytes }) => {
-  // the initial image - not updated when changing the crop area
-  const [inputImg, setInputImg] = useState(null)
+export const ImageUpload = ({
+  initImageBytes,
+  setImageBytes,
+}: {
+  initImageBytes?: string
+  setImageBytes: (bytes?: ArrayBuffer) => void
+}) => {
+  // the initial image in base64 - not updated when changing the crop area
+  const [inputImg, setInputImg] = useState<string | null>(null)
   const [fileReader, setFileReader] = useState(null)
 
   initFileReader(setFileReader)
-  initInputImg(initImageBytes, setInputImg)
+  initInputImg(setInputImg, initImageBytes)
 
   // sets image: called when uploading image with button or dropping it in target zone
-  const onDrop = useDrop((file) => {
+  const onDrop = useDrop((file: File) => {
     if (fileReader) {
       setImageFromFile(fileReader, file, setInputImg)
     } else {
@@ -24,7 +30,7 @@ export const ImageUpload = ({ initImageBytes, setImageBytes }) => {
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
   // called when the crop area is updated (also triggered by setting the image)
-  const updateCrop = async (blob) => {
+  const updateCrop = async (blob: Blob) => {
     if (fileReader) {
       const bytes = await blobToArrayBuffer(fileReader, blob)
       console.log("crop updated - setting image bytes: %o", bytes)
@@ -34,10 +40,10 @@ export const ImageUpload = ({ initImageBytes, setImageBytes }) => {
 
   const clear = () => {
     setInputImg(null) // clear displayed image
-    setImageBytes([]) // clear state
+    setImageBytes(null) // clear state
   }
 
-  const handleSubmitImage = (e) => {
+  const handleSubmitImage = (e: any) => {
     e.preventDefault()
   }
 
@@ -75,23 +81,40 @@ export const ImageUpload = ({ initImageBytes, setImageBytes }) => {
   )
 }
 
-async function blobToArrayBuffer(fileReader, blob) {
+async function blobToArrayBuffer(
+  fileReader: FileReader,
+  blob: Blob
+): Promise<ArrayBuffer> {
   if ("arrayBuffer" in blob) return await blob.arrayBuffer()
 
   return new Promise((resolve, reject) => {
-    reader.onload = () => resolve(fileReader.result)
-    reader.onerror = () => reject
-    reader.readAsArrayBuffer(blob)
+    const result = fileReader.result
+    if (result instanceof ArrayBuffer) {
+      fileReader.onload = () => resolve(result)
+    }
+    fileReader.onerror = () => reject
+    fileReader.readAsArrayBuffer(blob)
   })
 }
 
 // convert image file to base64 string and set
-const setImageFromFile = (fileReader, file, setImg) => {
+const setImageFromFile = (
+  fileReader: FileReader,
+  file: File,
+  setImg: (base64: string) => void
+) => {
   fileReader.addEventListener(
     "load",
     () => {
-      //   console.log("init bytes have to look like this: %o", fileReader.result);
-      setImg(fileReader.result)
+      if (typeof fileReader.result === "string") {
+        setImg(fileReader.result)
+      } else {
+        // TODO handle error properly
+        console.error(
+          "Unexpected: file reader didn't return a string: %o",
+          fileReader.result
+        )
+      }
     },
     false
   )
@@ -100,13 +123,16 @@ const setImageFromFile = (fileReader, file, setImg) => {
   }
 }
 
-const initFileReader = (setFileReader) => {
+const initFileReader = (setFileReader: (reader: FileReader) => void) => {
   useEffect(() => {
     setFileReader(new FileReader())
   }, [])
 }
 
-const initInputImg = (initImageBytes, setInputImg) => {
+const initInputImg = (
+  setInputImg: (img: string) => void,
+  initImageBytes?: string
+) => {
   useEffect(() => {
     // Quick fix: "object" check: prevents a circular update, where on initialization
     // image is set and initImageBytes sets it again (to invalid type)

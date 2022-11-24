@@ -35,7 +35,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
   const [sharesForInvestors, setSharesForInvestors] = useState("100")
   const [minInvestShares, setMinInvestShares] = useState("3")
   const [maxInvestShares, setMaxInvestShares] = useState("10")
-  const [imageBytes, setImageBytes] = useState([])
+  const [imageBytes, setImageBytes] = useState(null)
   const [socialMediaUrl, setSocialMediaUrl] = useState(
     "https://twitter.com/doesnotexist"
   )
@@ -100,7 +100,6 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           sharePrice,
           investorsShare,
           sharesForInvestors,
-          imageBytes,
           socialMediaUrl,
           minRaiseTarget,
           minRaiseTargetEndDate,
@@ -123,7 +122,9 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           setMinRaiseTargetEndDateError,
           setMinInvestSharesError,
           setMaxInvestSharesError,
-          setShowBuyCurrencyInfoModal
+          setShowBuyCurrencyInfoModal,
+
+          imageBytes
         )
       }
     }
@@ -316,7 +317,6 @@ const createDao = async (
   sharePrice: string,
   investorsShare: string,
   sharesForInvestors: string,
-  imageBytes,
   socialMediaUrl: string,
   minRaiseTarget: string,
   minRaiseTargetEndDate: Moment,
@@ -340,11 +340,13 @@ const createDao = async (
   setMinInvestSharesError: SetStringOpt,
   setMaxInvestSharesError: SetStringOpt,
 
-  setShowBuyCurrencyInfoModal: (value: boolean) => void
+  setShowBuyCurrencyInfoModal: (value: boolean) => void,
+
+  imageBytes?: ArrayBuffer
 ) => {
   showProgress(true)
 
-  const imageUrl = await toMaybeIpfsUrl(await imageBytes)
+  const imageUrl = await toMaybeIpfsUrl(imageBytes)
   const descrUrl = await toMaybeIpfsUrl(toBytes(await daoDescr))
 
   const prospectusBytesResolved = await prospectusBytes
