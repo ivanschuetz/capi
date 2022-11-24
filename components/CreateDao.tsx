@@ -450,7 +450,10 @@ const createDao = async (
   }
 }
 
-const showErrorNotificationIfError = (notification: Notification, payload) => {
+const showErrorNotificationIfError = (
+  notification: Notification,
+  payload: any
+) => {
   const errorMsg = toErrorMsg(payload)
   if (errorMsg) {
     notification.error(errorMsg)
@@ -458,10 +461,10 @@ const showErrorNotificationIfError = (notification: Notification, payload) => {
 }
 
 const calculateTotalPrice = async (
-  wasm,
-  shareAmount,
-  sharePrice,
-  setTotalPrice
+  wasm: Wasm,
+  shareAmount: string,
+  sharePrice: string,
+  setTotalPrice: SetString
 ) => {
   if (!shareAmount || !sharePrice) {
     return

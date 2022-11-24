@@ -1,6 +1,7 @@
 import arrowUp from "../images/svg/green-arrow.svg"
 import arrowDown from "../images/svg/arrow.svg"
 import { Notification } from "../components/Notification"
+import { Wasm } from "../context/AppContext"
 
 export const toBytesForRust = (bytes?: ArrayBuffer): number[] | null => {
   if (bytes && bytes.byteLength > 0) {
@@ -20,10 +21,10 @@ export const toBytes = (str: string): Uint8Array => {
 }
 
 export const checkForUpdates = async (
-  wasm,
-  notification,
-  daoId,
-  setVersionData
+  wasm: Wasm,
+  notification: Notification,
+  daoId: string,
+  setVersionData: (data: any) => void
 ) => {
   try {
     let versionData = await wasm.checkForUpdates({ dao_id: daoId })
@@ -35,8 +36,6 @@ export const checkForUpdates = async (
     notification.error(e)
   }
 }
-
-export const hasUpdate = (versionData) => {}
 
 export const pieChartColors = () => {
   return [
@@ -52,12 +51,15 @@ export const pieChartColors = () => {
 
 export const PIE_CHART_GRAY = "#EBECF1"
 
-export const logUnexpected = (notification, consoleMsg) => {
+export const logUnexpected = (
+  notification: Notification,
+  consoleMsg: string
+) => {
   console.error(consoleMsg)
   notification.error("Unexpected error. Please contact support.")
 }
 
-export const changeArrow = (change) => {
+export const changeArrow = (change: string) => {
   if (change === "up") {
     return (
       <div className="arrow-container">
@@ -75,7 +77,7 @@ export const changeArrow = (change) => {
   }
 }
 
-export const shortedAddress = (address) => {
+export const shortedAddress = (address: string) => {
   console.log("shortening address: " + address)
 
   const short_chars = 3
