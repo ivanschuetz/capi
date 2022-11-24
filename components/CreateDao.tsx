@@ -44,7 +44,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
   const [minRaiseTargetEndDate, setMinRaiseTargetEndDate] = useState(
     moment(new Date()).add(1, "M")
   )
-  const [prospectusBytes, setProspectusBytes] = useState([])
+  const [prospectusBytes, setProspectusBytes] = useState(null)
 
   const [daoNameError, setDaoNameError] = useState("")
   const [daoDescrError, setDaoDescrError] = useState("")
@@ -103,7 +103,6 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           socialMediaUrl,
           minRaiseTarget,
           minRaiseTargetEndDate,
-          prospectusBytes,
           minInvestShares,
           maxInvestShares,
 
@@ -124,7 +123,8 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           setMaxInvestSharesError,
           setShowBuyCurrencyInfoModal,
 
-          imageBytes
+          imageBytes,
+          prospectusBytes
         )
       }
     }
@@ -320,7 +320,6 @@ const createDao = async (
   socialMediaUrl: string,
   minRaiseTarget: string,
   minRaiseTargetEndDate: Moment,
-  prospectusBytes,
   minInvestShares: string,
   maxInvestShares: string,
 
@@ -342,16 +341,16 @@ const createDao = async (
 
   setShowBuyCurrencyInfoModal: (value: boolean) => void,
 
-  imageBytes?: ArrayBuffer
+  imageBytes?: ArrayBuffer,
+  prospectusBytes?: ArrayBuffer
 ) => {
   showProgress(true)
 
   const imageUrl = await toMaybeIpfsUrl(imageBytes)
   const descrUrl = await toMaybeIpfsUrl(toBytes(await daoDescr))
 
-  const prospectusBytesResolved = await prospectusBytes
-  const prospectusUrl = await toMaybeIpfsUrl(prospectusBytesResolved)
-  const prospectusBytesForRust = toBytesForRust(prospectusBytesResolved)
+  const prospectusUrl = await toMaybeIpfsUrl(prospectusBytes)
+  const prospectusBytesForRust = toBytesForRust(prospectusBytes)
 
   try {
     let createDaoAssetsRes = await wasm.createDaoAssetsTxs({

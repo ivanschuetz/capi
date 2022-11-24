@@ -109,7 +109,6 @@ const setImageFromFile = (
       if (typeof fileReader.result === "string") {
         setImg(fileReader.result)
       } else {
-        // TODO handle error properly
         console.error(
           "Unexpected: file reader didn't return a string: %o",
           fileReader.result

@@ -1,8 +1,8 @@
 import arrowUp from "../images/svg/green-arrow.svg"
 import arrowDown from "../images/svg/arrow.svg"
-import { Notification } from "../components/notificationUpdater"
+import { Notification } from "../components/Notification"
 
-export const toBytesForRust = (bytes) => {
+export const toBytesForRust = (bytes?: ArrayBuffer): number[] | null => {
   if (bytes && bytes.byteLength > 0) {
     const typedArray = new Uint8Array(bytes)
     return [...typedArray]
@@ -14,7 +14,7 @@ export const toBytesForRust = (bytes) => {
   }
 }
 
-export const toBytes = (str) => {
+export const toBytes = (str: string): Uint8Array => {
   let utf8Encode = new TextEncoder()
   return utf8Encode.encode(str)
 }

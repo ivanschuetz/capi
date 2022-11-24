@@ -2,7 +2,11 @@ import React, { useState, useCallback, useEffect } from "react"
 import { useDropzone } from "react-dropzone"
 import { InfoView } from "./labeled_inputs"
 
-export const FileUploader = ({ setBytes }) => {
+export const FileUploader = ({
+  setBytes,
+}: {
+  setBytes: (bytes: ArrayBuffer) => void
+}) => {
   const [filename, setFilename] = useState("")
   const [fileReader, setFileReader] = useState(null)
 
@@ -10,7 +14,7 @@ export const FileUploader = ({ setBytes }) => {
     setFileReader(new FileReader())
   }, [])
 
-  const onDrop = useDrop((file) => {
+  const onDrop = useDrop((file: File) => {
     if (fileReader) {
       setFilename(file.name)
       setBytesFromFile(fileReader, file, setBytes)
@@ -19,7 +23,7 @@ export const FileUploader = ({ setBytes }) => {
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: any) => {
     e.preventDefault()
   }
 
@@ -53,19 +57,30 @@ export const FileUploader = ({ setBytes }) => {
   )
 }
 
-const setBytesFromFile = (fileReader, file, setBytes) => {
+const setBytesFromFile = (
+  fileReader: FileReader,
+  file: File,
+  setBytes: (bytes: ArrayBuffer) => void
+) => {
   fileReader.onload = () => {
-    const binaryStr = fileReader.result
-    console.log(binaryStr)
-    setBytes(binaryStr)
+    const result = fileReader.result
+    if (result instanceof ArrayBuffer) {
+      console.log(result)
+      setBytes(result)
+    } else {
+      console.error(
+        "Unexpected: file reader didn't return an array buffer: %o",
+        fileReader.result
+      )
+    }
   }
   fileReader.readAsArrayBuffer(file)
 }
 
 // shared callback to be used for regular file and image upload
-export const useDrop = (onFile) => {
+export const useDrop = (onFile: (file: File) => void) => {
   return useCallback(
-    (acceptedFiles) => {
+    (acceptedFiles: File[]) => {
       console.log("drop: accepted files: %o", acceptedFiles)
       if (acceptedFiles && acceptedFiles.length === 1) {
         let file = acceptedFiles[0]
