@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { Deps } from "../context/AppContext"
 import { changeArrow, pieChartColors } from "../functions/utils"
-import { HolderEntry } from "../shares_distribution_chart/HolderEntry"
-import { SharesDistributionChart } from "../shares_distribution_chart/SharesDistributionChart"
+import { HolderEntry } from "./HolderEntry"
+import { SharesDistributionChart } from "./SharesDistributionChart"
 import { LabeledBox } from "./LabeledBox"
 import Progress from "./Progress"
 

@@ -9,7 +9,7 @@ import grey_circle from "../images/grey_circle.svg"
 import light_cyan_circle from "../images/light_cyan_circle.svg"
 import redArrow from "../images/svg/arrow.svg"
 import { AckProspectusModal } from "../prospectus/AckProspectusModal"
-import { SharesDistributionChart } from "../shares_distribution_chart/SharesDistributionChart"
+import { SharesDistributionChart } from "./SharesDistributionChart"
 import { LabeledAmountInput } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
 
