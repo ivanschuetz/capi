@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "react"
-import renderFundsProgressChart from "../charts/renderFundsBarChart"
+import renderFundsProgressChart from "../charts/renderFundsProgressChart"
 import { Deps } from "../context/AppContext"
 import { useDaoId } from "../hooks/useDaoId"
 import Progress from "./Progress"
