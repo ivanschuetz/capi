@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react"
-import { LabeledBox } from "../common_comps/LabeledBox"
-import Progress from "../common_comps/Progress"
-import { pieChartColors } from "../common_functions/common"
-import { changeArrow } from "../shared_functions"
+import { LabeledBox } from "../components/LabeledBox"
+import Progress from "../components/Progress"
+import { pieChartColors } from "../functions/utils"
+import { changeArrow } from "../functions/utils"
 import { SharesDistributionChart } from "./SharesDistributionChart"
 import { HolderEntry } from "./HolderEntry"
 
