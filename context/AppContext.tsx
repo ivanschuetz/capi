@@ -400,7 +400,7 @@ export interface Deps {
   setWcShowOpenWalletModal: (value: boolean) => void
 
   availableShares?: string
-  availableSharesNumber?: number
+  availableSharesNumber?: string
   updateAvailableShares: (daoId: string) => void
 
   updateRaisedFunds: (daoId: string) => void

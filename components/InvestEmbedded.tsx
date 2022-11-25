@@ -1,12 +1,16 @@
 import { useEffect, useState } from "react"
 import { BuyFundsAssetModal } from "../buy_currency/BuyFundsAssetModal"
 import { Deps } from "../context/AppContext"
-import { calculateSharesPrice, invest } from "../functions/invest_embedded"
+import {
+  BuyCurrencyModalInfo,
+  calculateSharesPrice,
+  invest,
+} from "../functions/invest_embedded"
 import { useDaoId } from "../hooks/useDaoId"
 import funds from "../images/funds.svg"
 import error from "../images/svg/error.svg"
 import { AckProspectusModal } from "../prospectus/AckProspectusModal"
-import { SetBool } from "../type_alias"
+import { SetBool, SetString } from "../type_alias"
 import { SelectWalletModal } from "../wallet/SelectWalletModal"
 import { InfoView } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
@@ -33,16 +37,15 @@ export const InvestEmbedded = ({ deps, dao }) => {
   updateAvailableShares(deps, daoId)
   updatePriceAndPercentage(
     deps,
-    daoId,
     buySharesCount,
     dao,
     setTotalCost,
     setTotalCostNumber,
-    setProfitPercentage
+    setProfitPercentage,
+    daoId
   )
   registerInvest(
     deps,
-    daoId,
     dao,
     buyIntent,
     setBuyIntent,
@@ -50,7 +53,8 @@ export const InvestEmbedded = ({ deps, dao }) => {
     setShareAmountError,
     setShowBuyCurrencyInfoModal,
     totalCostNumber,
-    setSubmitting
+    setSubmitting,
+    daoId
   )
 
   const onSubmitBuy = () => {
@@ -209,7 +213,7 @@ const RightView = ({ funds, totalCost, totalPercentage }) => {
   )
 }
 
-const updateAvailableShares = (deps, daoId) => {
+const updateAvailableShares = (deps: Deps, daoId?: string) => {
   useEffect(() => {
     if (daoId) {
       deps.updateAvailableShares.call(null, daoId)
@@ -218,13 +222,13 @@ const updateAvailableShares = (deps, daoId) => {
 }
 
 const updatePriceAndPercentage = (
-  deps,
-  daoId,
-  buySharesCount,
-  dao,
-  setTotalCost,
-  setTotalCostNumber,
-  setProfitPercentage
+  deps: Deps,
+  buySharesCount: string,
+  dao: any,
+  setTotalCost: SetString,
+  setTotalCostNumber: SetString,
+  setProfitPercentage: SetString,
+  daoId?: string
 ) => {
   useEffect(() => {
     async function nestedAsync() {
@@ -272,15 +276,15 @@ const updatePriceAndPercentage = (
 
 const registerInvest = (
   deps: Deps,
-  daoId,
-  dao,
-  buyIntent,
-  setBuyIntent,
-  buySharesCount,
-  setShareAmountError,
-  setShowBuyCurrencyInfoModal,
-  totalCostNumber,
-  setSubmitting: SetBool
+  dao: any,
+  buyIntent: boolean,
+  setBuyIntent: SetBool,
+  buySharesCount: string,
+  setShareAmountError: SetString,
+  setShowBuyCurrencyInfoModal: (info: BuyCurrencyModalInfo) => void,
+  totalCostNumber: string,
+  setSubmitting: SetBool,
+  daoId?: string
 ) => {
   useEffect(() => {
     async function nestedAsync() {

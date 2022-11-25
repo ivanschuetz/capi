@@ -8,6 +8,13 @@ export const OkCancelModal = ({
   onSubmit,
   okLabel,
   cancelLabel,
+}: {
+  title: string
+  closeModal: () => void
+  children: JSX.Element
+  onSubmit: () => void
+  okLabel?: string
+  cancelLabel?: string
 }) => {
   return (
     <Modal title={title} onClose={() => closeModal()}>

@@ -1,3 +1,5 @@
+import { Notification } from "../components/Notification"
+import { SetBool, SetString, Wasm } from "../type_alias"
 import { Wallet } from "../wallet/Wallet"
 import { toErrorMsg } from "./validation"
 
@@ -30,28 +32,28 @@ export const calculateSharesPrice = async (
 }
 
 export const invest = async (
-  wasm,
+  wasm: Wasm,
 
-  notification,
-  myAddress,
+  notification: Notification,
+  myAddress: string,
   wallet: Wallet,
-  updateMyBalance,
-  updateMyShares,
-  updateFunds,
-  updateInvestmentData,
-  updateAvailableShares,
-  updateRaisedFunds,
-  updateCompactFundsActivity,
-  updateSharesDistr,
+  updateMyBalance: (myAddress: string) => void,
+  updateMyShares: (daoId: string, myAddress: string) => void,
+  updateFunds: (daoId: string) => void,
+  updateInvestmentData: (daoId: string, myAddress: string) => void,
+  updateAvailableShares: (daoId: string) => void,
+  updateRaisedFunds: (daoId: string) => void,
+  updateCompactFundsActivity: (daoId: string) => void,
+  updateSharesDistr: (dao: any) => void,
 
-  showProgress,
-  daoId,
-  dao,
-  availableSharesNumber,
-  buySharesCount,
-  setShareAmountError,
-  setShowBuyCurrencyInfoModal,
-  totalCostNumber
+  showProgress: SetBool,
+  daoId: string,
+  dao: any,
+  availableSharesNumber: string,
+  buySharesCount: string,
+  setShareAmountError: SetString,
+  setShowBuyCurrencyInfoModal: (info: BuyCurrencyModalInfo) => void,
+  totalCostNumber: string
 ) => {
   try {
     setShareAmountError(null)
@@ -127,4 +129,8 @@ export const invest = async (
     }
     showProgress(false)
   }
+}
+
+export type BuyCurrencyModalInfo = {
+  amount: string
 }
