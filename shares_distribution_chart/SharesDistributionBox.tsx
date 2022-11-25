@@ -3,7 +3,7 @@ import { LabeledBox } from "../common_comps/LabeledBox"
 import Progress from "../common_comps/Progress"
 import { pieChartColors } from "../common_functions/common"
 import { changeArrow } from "../shared_functions"
-import { SharesDistributionChart } from "../shares_distribution_chart/SharesDistributionChart"
+import { SharesDistributionChart } from "./SharesDistributionChart"
 import { HolderEntry } from "./HolderEntry"
 
 // Currently contains only a labeled chart but later could contain also e.g. list of holders / top holders
