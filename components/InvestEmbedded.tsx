@@ -6,6 +6,7 @@ import { useDaoId } from "../hooks/useDaoId"
 import funds from "../images/funds.svg"
 import error from "../images/svg/error.svg"
 import { AckProspectusModal } from "../prospectus/AckProspectusModal"
+import { SetBool } from "../type_alias"
 import { SelectWalletModal } from "../wallet/SelectWalletModal"
 import { InfoView } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
@@ -48,7 +49,8 @@ export const InvestEmbedded = ({ deps, dao }) => {
     buySharesCount,
     setShareAmountError,
     setShowBuyCurrencyInfoModal,
-    totalCostNumber
+    totalCostNumber,
+    setSubmitting
   )
 
   const onSubmitBuy = () => {
@@ -277,7 +279,8 @@ const registerInvest = (
   buySharesCount,
   setShareAmountError,
   setShowBuyCurrencyInfoModal,
-  totalCostNumber
+  totalCostNumber,
+  setSubmitting: SetBool
 ) => {
   useEffect(() => {
     async function nestedAsync() {
