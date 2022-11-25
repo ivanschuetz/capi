@@ -1,31 +1,31 @@
 @font-face {
-  font-family: "Gilroy";
+  font-family: "Satoshi";
   font-weight: 300;
-  src: local("Gilroy-Light"), url(../fonts/Gilroy-Light.otf) format("truetype");
+  src: local("Satoshi"),
+    url(../public/fonts/Satoshi-Light.otf) format("truetype");
 }
 
 @font-face {
-  font-family: "Gilroy";
+  font-family: "Satoshi";
   font-weight: 400;
-  src: local("Gilroy"), url(../fonts/Gilroy-Regular.woff) format("truetype");
+  src: local("Satoshi"),
+    url(../public/fonts/Satoshi-Regular.otf) format("truetype");
 }
-
 @font-face {
-  font-family: "Gilroy";
+  font-family: "Satoshi";
   font-weight: 500;
-  src: local("Gilroy-Medium"),
-    url(../fonts/Gilroy-Medium.woff2) format("truetype");
+  src: local("Satoshi-Medium"),
+    url(../public/fonts/Satoshi-Medium.otf) format("truetype");
 }
-
 @font-face {
-  font-family: "Gilroy";
+  font-family: "Satoshi";
   font-weight: 600;
-  src: local("Gilroy-Semibold"),
-    url(../fonts/Gilroy-Semibold.woff2) format("truetype");
+  src: local("Satoshi-Bold"),
+    url(../public/fonts/Satoshi-Bold.otf) format("truetype");
 }
-
 @font-face {
-  font-family: "Gilroy";
+  font-family: "Satoshi";
   font-weight: 700;
-  src: local("Gilroy-Bold"), url(../fonts/Gilroy-Bold.woff) format("truetype");
+  src: local("Satoshi"),
+    url(../public/fonts/Satoshi-Black.otf) format("truetype");
 }
