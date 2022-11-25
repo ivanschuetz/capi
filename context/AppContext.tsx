@@ -72,7 +72,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   }, [notification])
 
   const updateMyBalance = useCallback(
-    async (myAddress) => {
+    async (myAddress: string) => {
       if (wasm && myAddress) {
         safe(notification, async () => {
           const balance = await wasm.balance({ address: myAddress })
