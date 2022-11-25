@@ -25,7 +25,7 @@ const renderFundsProgressChart = (
     width = 600 - margin.right
 
   const barHeight = 15
-  const radius = 10
+  const radius = 0
 
   // these could be calculated, but there was some weirdness with text baseline etc, so manually.
   const bottomLabelsOffset = 15

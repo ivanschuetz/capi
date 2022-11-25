@@ -3,7 +3,7 @@
 input,
 textarea {
   width: 100%;
-  border-radius: 32px;
+  border-radius: $input-border-radius;
   border: 1px solid $grey-120;
   padding: 19px 24px;
   line-height: 24px;
