@@ -66,18 +66,8 @@ export const SharesDistributionBox = ({ deps }) => {
         <LabeledBox label={"Investor distribution"}>
           <div className="investors-container">
             <div className="d-flex flex-column">
-              <div className="d-flex flex-column flex-wrap">
-                <div className="flexBlock">
-                  <div className="mr-12 desc nowrap">{"Total shares"}</div>
-                  <div className="subtitle">{deps.dao.share_supply}</div>
-                  <div className="arrow-container"></div>
-                </div>
-                <div className="d-flex align-center justify-between-tablet w-100 gap-10">
-                  <div className="desc">{deps.notOwnedShares}</div>
-                  <div className="circle"></div>
-                  <div className="grey-190">{"Available for sale"}</div>
-                </div>
-              </div>
+              <TotalAndAvailableShares deps={deps} />
+
               <div className="d-none d-tablet-block">
                 <HoldersListItems
                   deps={deps}
@@ -118,6 +108,35 @@ export const SharesDistributionBox = ({ deps }) => {
   return (
     <div className="mt-80" id="investors-distribution">
       {content()}
+    </div>
+  )
+}
+
+const TotalAndAvailableShares = ({ deps }: { deps: Deps }) => {
+  return (
+    <div className="d-flex flex-column flex-wrap">
+      <TotalShares deps={deps} />
+      <NotOwnedShares deps={deps} />
+    </div>
+  )
+}
+
+const TotalShares = ({ deps }: { deps: Deps }) => {
+  return (
+    <div className="flexBlock">
+      <div className="mr-12 desc nowrap">{"Total shares"}</div>
+      <div className="subtitle">{deps.dao.share_supply}</div>
+      <div className="arrow-container"></div>
+    </div>
+  )
+}
+
+const NotOwnedShares = ({ deps }: { deps: Deps }) => {
+  return (
+    <div className="d-flex align-center justify-between-tablet w-100 gap-10">
+      <div className="desc">{deps.notOwnedShares}</div>
+      <div className="circle"></div>
+      <div className="grey-190">{"Available for sale"}</div>
     </div>
   )
 }
