@@ -1,9 +1,24 @@
-<svg width="73" height="32" viewBox="0 0 73 32" fill="none" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-<rect width="72.8" height="32" fill="url(#pattern0)"/>
-<defs>
-<pattern id="pattern0" patternContentUnits="objectBoundingBox" width="1" height="1">
-<use xlink:href="#image0_1101_16560" transform="scale(0.010989 0.025)"/>
-</pattern>
-<image id="image0_1101_16560" width="91" height="40" xlink:href="data:image/png;base64,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"/>
-</defs>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 755.43 160.82">
+  <defs>
+    <style>
+      .cls-1 {
+        fill: #271952;
+      }
+    </style>
+  </defs>
+  <g id="Layer_2" data-name="Layer 2">
+    <g id="Laag_1" data-name="Laag 1">
+      <path class="cls-1"
+        d="M163.88,0A2.19,2.19,0,0,0,162,3.3L204.55,77a3.44,3.44,0,0,1,0,3.4l-44.46,77a2.27,2.27,0,0,0,2,3.41h67.67a6.87,6.87,0,0,0,5.91-3.41l43-74.43a8.57,8.57,0,0,0,0-8.54L237.53,3.3A6.62,6.62,0,0,0,231.81,0Z" />
+      <path class="cls-1"
+        d="M89.34,157.52a2.2,2.2,0,0,0,3.81,0l45.5-78.78a6.85,6.85,0,0,0,0-6.84L99.11,3.42A6.88,6.88,0,0,0,93.18,0h-91A2.2,2.2,0,0,0,.3,3.3Z" />
+      <path class="cls-1"
+        d="M430.81,130.41c-4.4,4.4-10.44,6.52-22.34,6.52H370.32c-11.9,0-18.1-2.12-22.5-6.52-6.69-6.52-12.39-19.08-12.39-50.54s5.7-44,12.39-50.55c4.4-4.4,10.6-6.52,22.5-6.52h38.15c11.9,0,17.94,2.12,22.34,6.52C436.51,35,439.28,45,439.61,68H406.84c-.49-14.19-1.79-16.31-2.77-17.29s-2.61-1.3-7.5-1.3H382.06c-4.89,0-6.52.32-7.5,1.3-1.14,1.14-3.1,4.24-3.1,29.19s2,28,3.1,29.18c1,1,2.61,1.31,7.5,1.31h14.51c4.89,0,6.52-.33,7.5-1.31s2.28-3.1,2.77-17.77h32.77C439.28,114.59,436.68,124.7,430.81,130.41Z" />
+      <path class="cls-1"
+        d="M532.55,112.31H497.49l-7,24.62H455.43L490,33.07c2.94-8.64,4.24-10.76,12.07-10.76h28c7.83,0,9.3,2.29,12.07,10.76l34.56,103.86h-37ZM504.34,87.86H525.7l-9.78-33.59h-1.8Z" />
+      <path class="cls-1"
+        d="M686.79,96.33c-4.08,3.59-10.93,5.06-21.2,5.06H632v35.54H597V22.8h68.64c10.27,0,17.12,1.47,21.2,5.06,5.54,4.89,10.43,12.39,10.43,34.24S692.33,91.44,686.79,96.33Zm-37.5-20.87c6.36,0,8.15-.32,9.13-1.3,1.79-1.63,2.61-3.91,2.61-12.23s-1-10.43-2.61-11.9c-1.14-1-2.77-1.3-9.13-1.3H632V75.46Z" />
+      <path class="cls-1" d="M720.38,136.93V22.8h35V136.93Z" />
+    </g>
+  </g>
 </svg>
