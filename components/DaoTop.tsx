@@ -1,9 +1,9 @@
-import twitter from "../images/svg/twitter.svg"
+import { useState } from "react"
 import share from "../images/svg/share.svg"
+import twitter from "../images/svg/twitter.svg"
 import Modal from "../modal/Modal"
-import ShareView from "./ShareView"
-import React, { useState } from "react"
 import Progress from "./Progress"
+import ShareView from "./ShareView"
 
 export const DaoTop = ({ dao }) => {
   const [showShareModal, setShowShareModal] = useState(false)

@@ -1,7 +1,7 @@
-import React, { useState } from "react"
-import { LockOrUnlockShares } from "./LockOrUnlockShares"
-import { toErrorMsg } from "../functions/validation"
+import { useState } from "react"
 import { Deps } from "../context/AppContext"
+import { toErrorMsg } from "../functions/validation"
+import { LockOrUnlockShares } from "./LockOrUnlockShares"
 
 export const LockShares = ({ deps, dao, daoId, onLockOpt }) => {
   const [submitting, setSubmitting] = useState(false)

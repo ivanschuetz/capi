@@ -1,9 +1,9 @@
-import React, { useState } from "react"
-import { SubmitButton } from "./SubmitButton"
-import { ContentTitle } from "./ContentTitle"
-import { UpdateDaoData } from "./UpdateDaoData"
+import { useState } from "react"
 import { useDaoId } from "../hooks/useDaoId"
 import { Wallet } from "../wallet/Wallet"
+import { ContentTitle } from "./ContentTitle"
+import { SubmitButton } from "./SubmitButton"
+import { UpdateDaoData } from "./UpdateDaoData"
 
 export const Settings = ({ deps }) => {
   const daoId = useDaoId()

@@ -1,5 +1,3 @@
-import React from "react"
-
 export const HolderEntry = ({ entry, isSelected, col }) => {
   if (entry.type_ === "holder") {
     return holderEntry(entry, isSelected, col)

@@ -1,30 +1,30 @@
+import moment, { Moment } from "moment"
+import { NextRouter, useRouter } from "next/router"
 import React, { useEffect, useState } from "react"
+import { BuyAlgosModal } from "../buy_currency/BuyAlgosModal"
+import link from "../images/svg/link.svg"
+import { SelectWalletModal } from "../wallet/SelectWalletModal"
+import { ContentTitle } from "./ContentTitle"
+import { ImageUpload } from "./ImageUpload"
 import {
   LabeledAmountInput,
   LabeledCurrencyInput,
+  LabeledDateInput,
   LabeledInput,
   LabeledTextArea,
-  LabeledDateInput,
   ValidationMsg,
 } from "./labeled_inputs"
-import { ContentTitle } from "./ContentTitle"
-import { ImageUpload } from "./ImageUpload"
-import { NextRouter, useRouter } from "next/router"
 import { SubmitButton } from "./SubmitButton"
-import { SelectWalletModal } from "../wallet/SelectWalletModal"
-import { BuyAlgosModal } from "../buy_currency/BuyAlgosModal"
-import link from "../images/svg/link.svg"
-import moment, { Moment } from "moment"
 
-import { MaxFundingTargetLabel } from "./MaxFundingTargetLabel"
-import { FileUploader } from "./FileUploader"
-import { Notification } from "./Notification"
+import { Deps, Wasm } from "../context/AppContext"
+import { toBytes, toBytesForRust } from "../functions/utils"
 import { toErrorMsg } from "../functions/validation"
 import { toMaybeIpfsUrl } from "../ipfs/store"
-import { toBytes, toBytesForRust } from "../functions/utils"
-import { Wallet } from "../wallet/Wallet"
-import { Deps, Wasm } from "../context/AppContext"
 import { SetBool, SetString, SetStringOpt } from "../type_alias"
+import { Wallet } from "../wallet/Wallet"
+import { FileUploader } from "./FileUploader"
+import { MaxFundingTargetLabel } from "./MaxFundingTargetLabel"
+import { Notification } from "./Notification"
 
 export const CreateDao = ({ deps }: { deps: Deps }) => {
   const [daoName, setDaoName] = useState("My project")

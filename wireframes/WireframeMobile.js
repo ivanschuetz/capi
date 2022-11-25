@@ -1,12 +1,12 @@
-import React, { useMemo, useState } from "react"
 import Link from "next/link"
+import { useMemo, useState } from "react"
 import { DaoTop } from "../components/DaoTop"
+import logo from "../images/logo.svg"
+import wallet from "../images/svg/account.svg"
+import menu from "../images/svg/menu.svg"
 import { SideBar } from "../left_col/SideBar"
 import { SideBarDao } from "../left_col/SideBarDao"
-import menu from "../images/svg/menu.svg"
-import logo from "../images/logo.svg"
 import { MobileWalletView } from "../right_col/MobileWalletView"
-import wallet from "../images/svg/account.svg"
 
 export const WireframeMobile = ({ isGlobal, deps, nested }) => {
   const [showSidebar, setShowSidebar] = useState(false)

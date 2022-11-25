@@ -1,10 +1,10 @@
 import { useState } from "react"
+import { LabeledInput } from "../components/labeled_inputs"
+import { SubmitButton } from "../components/SubmitButton"
 import {
   saveDevSettingCapiAddress,
   saveDevSettingFundsAssetId,
 } from "../modal/storage"
-import { LabeledInput } from "../components/labeled_inputs"
-import { SubmitButton } from "../components/SubmitButton"
 
 export const DevSettings = ({ closeModal }) => {
   const [fundsAssetId, setFundsAssetId] = useState("")

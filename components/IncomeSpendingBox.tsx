@@ -1,11 +1,11 @@
-import React, { useEffect, useState, useMemo, useRef, useContext } from "react"
-import { LabeledBox } from "./LabeledBox"
+import { useContext, useEffect, useMemo, useRef, useState } from "react"
 import Select from "react-select"
-import Progress from "./Progress"
 import { ChartLegends } from "../charts/ChartLegends"
 import renderBarChart from "../charts/renderBarChart"
 import { AppContext, Deps } from "../context/AppContext"
 import { safe } from "../functions/utils"
+import { LabeledBox } from "./LabeledBox"
+import Progress from "./Progress"
 
 const barsOptions = [
   { value: "days7", label: "Last 7 days" },

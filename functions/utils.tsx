@@ -1,7 +1,7 @@
-import arrowUp from "../images/svg/green-arrow.svg"
-import arrowDown from "../images/svg/arrow.svg"
 import { Notification } from "../components/Notification"
 import { Wasm } from "../context/AppContext"
+import arrowDown from "../images/svg/arrow.svg"
+import arrowUp from "../images/svg/green-arrow.svg"
 
 export const toBytesForRust = (bytes?: ArrayBuffer): number[] | null => {
   if (bytes && bytes.byteLength > 0) {

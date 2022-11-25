@@ -1,6 +1,6 @@
+import { formatJsonRpcRequest } from "@json-rpc-tools/utils"
 import WalletConnect from "@walletconnect/client"
 import QRCodeModal from "algorand-walletconnect-qrcode-modal"
-import { formatJsonRpcRequest } from "@json-rpc-tools/utils"
 import buffer from "buffer"
 import { Notification } from "../components/Notification"
 import { SetBool, SetString, SetWallet } from "../type_alias"

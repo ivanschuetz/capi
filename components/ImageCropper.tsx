@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import { useState } from "react"
 import Cropper, { Area } from "react-easy-crop"
 
 const IMAGE_WIDTH = 1032

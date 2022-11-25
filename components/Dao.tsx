@@ -1,12 +1,12 @@
-import React, { useState, useEffect } from "react"
+import { useEffect, useState } from "react"
+import { safe } from "../functions/utils"
+import { useDaoId } from "../hooks/useDaoId"
+import { FundsActivityEmbedded } from "./FundsActivityEmbedded"
 import { IncomeSpendingBox } from "./IncomeSpendingBox"
-import { SharesDistributionBox } from "./SharesDistributionBox"
 import { InvestEmbedded } from "./InvestEmbedded"
 import Progress from "./Progress"
-import { FundsActivityEmbedded } from "./FundsActivityEmbedded"
 import { RaisedFunds } from "./RaisedFunds"
-import { useDaoId } from "../hooks/useDaoId"
-import { safe } from "../functions/utils"
+import { SharesDistributionBox } from "./SharesDistributionBox"
 
 export const Dao = ({ deps }) => {
   const daoId = useDaoId()

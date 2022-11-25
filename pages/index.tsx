@@ -1,9 +1,9 @@
 import { useContext } from "react"
 import "react-toastify/dist/ReactToastify.css"
-import { CreateDao } from "../components/CreateDao"
-import { WireframeWrapper } from "../wireframes/WireframeWrapper"
-import { AppContext } from "../context/AppContext"
 import { AppContainer } from "../components/AppContainer"
+import { CreateDao } from "../components/CreateDao"
+import { AppContext } from "../context/AppContext"
+import { WireframeWrapper } from "../wireframes/WireframeWrapper"
 
 const Home = () => {
   const ctx = useContext(AppContext)

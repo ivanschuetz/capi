@@ -1,7 +1,7 @@
 import facebook from "../images/svg/facebook.svg"
 import linkedin from "../images/svg/linkedin.svg"
-import twitter from "../images/svg/twitter-white.svg"
 import telegram from "../images/svg/telegram.svg"
+import twitter from "../images/svg/twitter-white.svg"
 
 const ShareView = ({ projectUrl }) => {
   const shareText = "Invest in my project!"

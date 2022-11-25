@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react"
-import Progress from "./Progress"
+import { useEffect, useRef } from "react"
 import renderFundsProgressChart from "../charts/renderFundsBarChart"
-import { useDaoId } from "../hooks/useDaoId"
 import { Deps } from "../context/AppContext"
+import { useDaoId } from "../hooks/useDaoId"
+import Progress from "./Progress"
 
 export const RaisedFunds = ({ deps, dao }) => {
   const daoId = useDaoId()

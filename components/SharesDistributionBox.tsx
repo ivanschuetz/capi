@@ -1,11 +1,10 @@
-import React, { useEffect, useState, useCallback, useMemo } from "react"
+import { useCallback, useEffect, useMemo, useState } from "react"
+import { Deps } from "../context/AppContext"
+import { changeArrow, pieChartColors } from "../functions/utils"
+import { HolderEntry } from "../shares_distribution_chart/HolderEntry"
 import { SharesDistributionChart } from "../shares_distribution_chart/SharesDistributionChart"
 import { LabeledBox } from "./LabeledBox"
-import { HolderEntry } from "../shares_distribution_chart/HolderEntry"
 import Progress from "./Progress"
-import { pieChartColors } from "../functions/utils"
-import { changeArrow } from "../functions/utils"
-import { Deps } from "../context/AppContext"
 
 const entries_small_count = 3
 

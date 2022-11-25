@@ -1,7 +1,7 @@
-import React, { useEffect } from "react"
+import { useEffect } from "react"
+import { useDaoId } from "../hooks/useDaoId"
 import { Wireframe } from "./Wireframe"
 import { WireframeMobile } from "./WireframeMobile"
-import { useDaoId } from "../hooks/useDaoId"
 
 export const WireframeWrapper = ({ isGlobal, deps, nested }) => {
   const daoId = useDaoId()

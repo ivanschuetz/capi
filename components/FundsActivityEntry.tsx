@@ -1,8 +1,7 @@
-import React from "react"
-import arrowUp from "../images/svg/arrow-up.svg"
-import arrowDown from "../images/svg/arrow-down.svg"
-import funds from "../images/funds.svg"
 import ReactTooltip from "react-tooltip"
+import funds from "../images/funds.svg"
+import arrowDown from "../images/svg/arrow-down.svg"
+import arrowUp from "../images/svg/arrow-up.svg"
 
 export const FundsActivityEntry = ({ deps, entry }) => {
   if (deps.size?.s4) {

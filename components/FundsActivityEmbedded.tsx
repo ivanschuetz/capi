@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react"
 import Link from "next/link"
-import funds from "../images/funds.svg"
-import { changeArrow, safe, shortedAddress } from "../functions/utils"
-import CopyPasteText from "./CopyPastText"
-import { CompactFundsActivityEntry } from "./CompactFundsActivityEntry"
-import Progress from "./Progress"
+import { useEffect, useState } from "react"
 import { Deps } from "../context/AppContext"
+import { changeArrow, safe, shortedAddress } from "../functions/utils"
+import funds from "../images/funds.svg"
+import { CompactFundsActivityEntry } from "./CompactFundsActivityEntry"
+import CopyPasteText from "./CopyPastText"
+import Progress from "./Progress"
 
 export const FundsActivityEmbedded = ({ deps, daoId }) => {
   const [dao, setDao] = useState(null)

@@ -1,18 +1,18 @@
-import React, { useEffect, useState } from "react"
-import arrow from "../images/svg/arrow-right.svg"
+import { useEffect, useState } from "react"
+import { Deps } from "../context/AppContext"
 import { retrieveProfits } from "../functions/shared"
-import { CopyPasteHtml } from "./CopyPastText"
-import Progress from "./Progress"
-import { SubmitButton } from "./SubmitButton"
-import { SelectWallet } from "../wallet/SelectWallet"
-import Modal from "../modal/Modal"
 import funds from "../images/funds.svg"
+import arrow from "../images/svg/arrow-right.svg"
+import { DisclaimerModal } from "../modal/DisclaimerModal"
+import Modal from "../modal/Modal"
 import {
   needsToAcceptDisclaimer,
   saveAcceptedDisclaimer,
 } from "../modal/storage"
-import { DisclaimerModal } from "../modal/DisclaimerModal"
-import { Deps } from "../context/AppContext"
+import { SelectWallet } from "../wallet/SelectWallet"
+import { CopyPasteHtml } from "./CopyPastText"
+import Progress from "./Progress"
+import { SubmitButton } from "./SubmitButton"
 
 export const MyAccount = ({ deps, daoId }) => {
   const [showSelectWalletModal, setShowSelectWalletModal] = useState(false)

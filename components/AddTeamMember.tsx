@@ -1,12 +1,12 @@
 import { useState } from "react"
-import { LabeledInput, LabeledTextArea } from "./labeled_inputs"
-import { SubmitButton } from "./SubmitButton"
-import { useDaoId } from "../hooks/useDaoId"
-import { toMaybeIpfsUrl } from "../ipfs/store"
+import { Deps } from "../context/AppContext"
 import { toBytes } from "../functions/utils"
 import { toErrorMsg } from "../functions/validation"
-import { Deps } from "../context/AppContext"
+import { useDaoId } from "../hooks/useDaoId"
+import { toMaybeIpfsUrl } from "../ipfs/store"
 import { SetAnyArr, SetBool, SetString } from "../type_alias"
+import { LabeledInput, LabeledTextArea } from "./labeled_inputs"
+import { SubmitButton } from "./SubmitButton"
 
 export const AddTeamMember = ({
   deps,

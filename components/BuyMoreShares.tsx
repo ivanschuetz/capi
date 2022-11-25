@@ -1,21 +1,17 @@
-import React, { useState, useEffect } from "react"
-import { SubmitButton } from "./SubmitButton"
+import { useEffect, useState } from "react"
 import { BuyFundsAssetModal } from "../buy_currency/BuyFundsAssetModal"
+import { Deps } from "../context/AppContext"
+import { calculateSharesPrice, invest } from "../functions/invest_embedded"
+import { pieChartColors, PIE_CHART_GRAY } from "../functions/utils"
+import { useDaoId } from "../hooks/useDaoId"
+import dark_cyan_circle from "../images/dark_cyan_circle.svg"
+import grey_circle from "../images/grey_circle.svg"
+import light_cyan_circle from "../images/light_cyan_circle.svg"
+import redArrow from "../images/svg/arrow.svg"
+import { AckProspectusModal } from "../prospectus/AckProspectusModal"
 import { SharesDistributionChart } from "../shares_distribution_chart/SharesDistributionChart"
 import { LabeledAmountInput } from "./labeled_inputs"
-import { pieChartColors, PIE_CHART_GRAY } from "../functions/utils"
-import redArrow from "../images/svg/arrow.svg"
-import {
-  calculateSharesPrice,
-  invest,
-  updateTotalPriceNumber,
-} from "../functions/invest_embedded"
-import { AckProspectusModal } from "../prospectus/AckProspectusModal"
-import { useDaoId } from "../hooks/useDaoId"
-import grey_circle from "../images/grey_circle.svg"
-import dark_cyan_circle from "../images/dark_cyan_circle.svg"
-import light_cyan_circle from "../images/light_cyan_circle.svg"
-import { Deps } from "../context/AppContext"
+import { SubmitButton } from "./SubmitButton"
 
 export const BuyMoreShares = ({ deps, dao }) => {
   let daoId = useDaoId()

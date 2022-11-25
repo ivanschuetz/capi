@@ -1,4 +1,4 @@
-import React, { useEffect } from "react"
+import { useEffect } from "react"
 import { FundsActivityEmbedded } from "../components/FundsActivityEmbedded"
 import { MyAccount } from "../components/MyAccount"
 import { useDaoId } from "../hooks/useDaoId"

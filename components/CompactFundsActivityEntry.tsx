@@ -1,7 +1,6 @@
-import React from "react"
-import arrowUp from "../images/svg/arrow-up.svg"
-import arrowDown from "../images/svg/arrow-down.svg"
 import funds from "../images/funds.svg"
+import arrowDown from "../images/svg/arrow-down.svg"
+import arrowUp from "../images/svg/arrow-up.svg"
 import { FundsActivityEntryLabel, NestedAmountView } from "./FundsActivityEntry"
 
 export const CompactFundsActivityEntry = ({ entry }) => {

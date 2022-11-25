@@ -7,15 +7,14 @@ import React, {
   useState,
 } from "react"
 import "react-toastify/dist/ReactToastify.css"
-import { NotificationCreator, Notification } from "../components/Notification"
-import { checkForUpdates, safe } from "../functions/utils"
+import { Notification, NotificationCreator } from "../components/Notification"
 import { updateFunds_, updateInvestmentData_ } from "../functions/shared"
-import { shortedAddress } from "../functions/utils"
+import { checkForUpdates, safe, shortedAddress } from "../functions/utils"
 import { useWindowSize, WindowSize } from "../hooks/useWindowSize"
+import { SetString, SetWallet } from "../type_alias"
+import { Wallet } from "../wallet/Wallet"
 import { initWcWalletIfAvailable } from "../wallet/walletConnectWallet"
 import { WASMContext } from "./WASMContext"
-import { Wallet } from "../wallet/Wallet"
-import { SetString, SetWallet } from "../type_alias"
 
 const initial: IAppContext = {}
 

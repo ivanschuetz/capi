@@ -1,8 +1,8 @@
-import { RightCol } from "../right_col/RightCol"
-import { RightDaoCol } from "../right_col/RightDaoCol"
 import { DaoTop } from "../components/DaoTop"
 import { SideBar } from "../left_col/SideBar"
 import { SideBarDao } from "../left_col/SideBarDao"
+import { RightCol } from "../right_col/RightCol"
+import { RightDaoCol } from "../right_col/RightDaoCol"
 
 export const Wireframe = ({ isGlobal, deps, nested }) => {
   const sideBar = () => {

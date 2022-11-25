@@ -1,8 +1,8 @@
-import Modal from "./Modal"
-import Calendar from "react-calendar"
 import moment from "moment"
-import { SubmitButton } from "../components/SubmitButton"
 import { useState } from "react"
+import Calendar from "react-calendar"
+import { SubmitButton } from "../components/SubmitButton"
+import Modal from "./Modal"
 
 // endDate, setEndDate: moment.js date (converted internally to/from regular date for calendar)
 export const SelectDateModal = ({ closeModal, endDate, setEndDate }) => {

@@ -1,5 +1,5 @@
-import { toFriendlyError } from "../functions/friendlyErrors"
 import { toast } from "react-toastify"
+import { toFriendlyError } from "../functions/friendlyErrors"
 
 export type Notification = {
   success(msg: string): void

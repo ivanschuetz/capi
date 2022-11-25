@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
+import { Deps } from "../context/AppContext"
+import { safe } from "../functions/utils"
+import { useDaoId } from "../hooks/useDaoId"
 import { BuyMoreShares } from "./BuyMoreShares"
+import { ContentTitle } from "./ContentTitle"
 import { InvestmentProfits } from "./InvestmentProfits"
-import { UnlockShares } from "./UnlockShares"
 import { LockShares } from "./LockShares"
 import Progress from "./Progress"
-import { ContentTitle } from "./ContentTitle"
-import { useDaoId } from "../hooks/useDaoId"
-import { safe } from "../functions/utils"
-import { Deps } from "../context/AppContext"
+import { UnlockShares } from "./UnlockShares"
 
 export const Investment = ({ deps }) => {
   let daoId = useDaoId()

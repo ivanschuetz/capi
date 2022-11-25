@@ -1,7 +1,7 @@
-import React, { useContext } from "react"
+import { useContext } from "react"
+import { DaoContainer } from "../../components/DaoContainer"
 import { Investment } from "../../components/Investment"
 import { AppContext } from "../../context/AppContext"
-import { DaoContainer } from "../../components/DaoContainer"
 
 const InvestmentPage = () => {
   const { deps } = useContext(AppContext)

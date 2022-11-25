@@ -1,11 +1,11 @@
-import React, { useEffect, useState } from "react"
-import { SubmitButton } from "./SubmitButton"
-import twitter from "../images/svg/twitter.svg"
-import { ContentTitle } from "./ContentTitle"
-import { AddTeamMember } from "./AddTeamMember"
-import { safe } from "../functions/utils"
+import { useEffect, useState } from "react"
 import { Deps } from "../context/AppContext"
+import { safe } from "../functions/utils"
+import twitter from "../images/svg/twitter.svg"
 import { SetAnyArr } from "../type_alias"
+import { AddTeamMember } from "./AddTeamMember"
+import { ContentTitle } from "./ContentTitle"
+import { SubmitButton } from "./SubmitButton"
 
 export const Team = ({ deps }) => {
   const [team, setTeam] = useState([])

@@ -1,5 +1,5 @@
-import funds from "../images/funds.svg"
 import ReactTooltip from "react-tooltip"
+import funds from "../images/funds.svg"
 import info from "../images/svg/info.svg"
 
 export const MaxFundingTargetLabel = ({ text }) => {

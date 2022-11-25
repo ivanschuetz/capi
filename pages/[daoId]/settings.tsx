@@ -1,7 +1,7 @@
-import React, { useContext } from "react"
+import { useContext } from "react"
+import { DaoContainer } from "../../components/DaoContainer"
 import { Settings } from "../../components/Settings"
 import { AppContext } from "../../context/AppContext"
-import { DaoContainer } from "../../components/DaoContainer"
 
 const SettingsPage = () => {
   const { deps } = useContext(AppContext)

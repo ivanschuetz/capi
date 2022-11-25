@@ -1,20 +1,20 @@
 import React, { useEffect, useState } from "react"
-import { SubmitButton } from "./SubmitButton"
+import { Deps } from "../context/AppContext"
+import { toBytes, toBytesForRust } from "../functions/utils"
+import { toErrorMsg } from "../functions/validation"
+import { useDaoId } from "../hooks/useDaoId"
+import { storeIpfs, toMaybeIpfsUrl } from "../ipfs/store"
+import { OkCancelModal } from "../modal/OkCancelModal"
+import { ProspectusModal } from "../prospectus/ProspectusModal"
+import { FileUploader } from "./FileUploader"
+import { ImageUpload } from "./ImageUpload"
 import {
   LabeledAmountInput,
   LabeledInput,
   LabeledTextArea,
   ValidationMsg,
 } from "./labeled_inputs"
-import { ImageUpload } from "./ImageUpload"
-import { OkCancelModal } from "../modal/OkCancelModal"
-import { FileUploader } from "./FileUploader"
-import { ProspectusModal } from "../prospectus/ProspectusModal"
-import { useDaoId } from "../hooks/useDaoId"
-import { storeIpfs, toMaybeIpfsUrl } from "../ipfs/store"
-import { toBytes, toBytesForRust } from "../functions/utils"
-import { toErrorMsg } from "../functions/validation"
-import { Deps } from "../context/AppContext"
+import { SubmitButton } from "./SubmitButton"
 
 export const UpdateDaoData = ({ deps }) => {
   const daoId = useDaoId()

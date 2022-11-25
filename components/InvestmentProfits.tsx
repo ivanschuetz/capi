@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
 import { FundsAssetImg } from "../images/FundsAssetImg"
 // import {updateChainInvestmentData_ as updateInvestmentData_} from "./controller";
-import { init } from "../controller/investment"
-import { retrieveProfits } from "../functions/shared"
-import { SubmitButton } from "./SubmitButton"
-import Progress from "./Progress"
-import { useDaoId } from "../hooks/useDaoId"
-import { safe } from "../functions/utils"
 import { Deps } from "../context/AppContext"
+import { retrieveProfits } from "../functions/shared"
+import { safe } from "../functions/utils"
+import { useDaoId } from "../hooks/useDaoId"
+import Progress from "./Progress"
+import { SubmitButton } from "./SubmitButton"
 
 export const InvestmentProfits = ({ deps }) => {
   let daoId = useDaoId()

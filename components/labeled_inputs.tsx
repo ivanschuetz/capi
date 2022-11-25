@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useMemo } from "react"
 import moment, { Moment } from "moment"
-import { SelectDateModal } from "../modal/SelectDateModal"
-import info from "../images/svg/info.svg"
-import error from "../images/svg/error.svg"
-import funds from "../images/funds.svg"
-import calendar from "../images/calendar_today.svg"
+import { useMemo, useState } from "react"
 import { useTextCounter } from "../hooks/useTextCounter"
+import calendar from "../images/calendar_today.svg"
+import funds from "../images/funds.svg"
+import error from "../images/svg/error.svg"
+import info from "../images/svg/info.svg"
+import { SelectDateModal } from "../modal/SelectDateModal"
 
 export const LabeledInput = ({
   label,

@@ -1,9 +1,9 @@
-import React, { useContext, useEffect } from "react"
-import { useDaoId } from "../../hooks/useDaoId"
-import { SharesDistributionBox } from "../../components/SharesDistributionBox"
-import { IncomeSpendingBox } from "../../components/IncomeSpendingBox"
-import { AppContext } from "../../context/AppContext"
+import { useContext, useEffect } from "react"
 import { DaoContainer } from "../../components/DaoContainer"
+import { IncomeSpendingBox } from "../../components/IncomeSpendingBox"
+import { SharesDistributionBox } from "../../components/SharesDistributionBox"
+import { AppContext } from "../../context/AppContext"
+import { useDaoId } from "../../hooks/useDaoId"
 
 const StatsPage = () => {
   const { deps } = useContext(AppContext)

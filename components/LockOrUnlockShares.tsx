@@ -1,11 +1,11 @@
-import React, { useState } from "react"
-import { SubmitButton } from "./SubmitButton"
-import { SharesDistributionChart } from "../shares_distribution_chart/SharesDistributionChart"
-import { LabeledAmountInput, WithTooltip } from "./labeled_inputs"
+import { useState } from "react"
 import { pieChartColors } from "../functions/utils"
-import redArrow from "../images/svg/arrow.svg"
 import dark_cyan_circle from "../images/dark_cyan_circle.svg"
 import light_cyan_circle from "../images/light_cyan_circle.svg"
+import redArrow from "../images/svg/arrow.svg"
+import { SharesDistributionChart } from "../shares_distribution_chart/SharesDistributionChart"
+import { LabeledAmountInput, WithTooltip } from "./labeled_inputs"
+import { SubmitButton } from "./SubmitButton"
 
 export const LockOrUnlockShares = ({
   dao,

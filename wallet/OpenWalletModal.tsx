@@ -1,5 +1,4 @@
 import * as ReactDOM from "react-dom"
-import React from "react"
 import walletIcon from "../images/walletIcon.svg"
 import { SetBool } from "../type_alias"
 

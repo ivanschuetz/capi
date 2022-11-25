@@ -1,4 +1,4 @@
-import Document, { Html, Head, Main, NextScript } from "next/document"
+import Document, { Head, Html, Main, NextScript } from "next/document"
 
 // we use this to be able to add a modal to root
 class MainDocument extends Document {

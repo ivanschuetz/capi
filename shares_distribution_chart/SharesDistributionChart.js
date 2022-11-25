@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react"
+import { useEffect, useRef } from "react"
 import renderPieChart from "../charts/renderPieChart"
 
 // onAddressSelected has to return selected status, to highlight the segment

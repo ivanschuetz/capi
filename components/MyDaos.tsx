@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from "react"
-import { MyDaoItem } from "./MyDaoItem"
-import { ContentTitle } from "./ContentTitle"
-import { MyDaoCreateItem } from "./MyDaoCreateItem"
+import { useEffect, useState } from "react"
 import { Deps } from "../context/AppContext"
 import { safe } from "../functions/utils"
+import { ContentTitle } from "./ContentTitle"
+import { MyDaoCreateItem } from "./MyDaoCreateItem"
+import { MyDaoItem } from "./MyDaoItem"
 
 export const MyDaos = ({ deps }) => {
   const [myDaos, setMyDaos] = useState([])

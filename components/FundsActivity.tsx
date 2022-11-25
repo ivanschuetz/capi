@@ -1,12 +1,12 @@
-import React, { useEffect, useState } from "react"
+import Link from "next/link"
+import { useEffect, useState } from "react"
+import { Deps } from "../context/AppContext"
+import { safe } from "../functions/utils"
+import { useDaoId } from "../hooks/useDaoId"
 import { ContentTitle } from "./ContentTitle"
 import { FundsActivityEntry } from "./FundsActivityEntry"
 import Progress from "./Progress"
 import { SubmitButton } from "./SubmitButton"
-import Link from "next/link"
-import { useDaoId } from "../hooks/useDaoId"
-import { safe } from "../functions/utils"
-import { Deps } from "../context/AppContext"
 
 export const FundsActivity = ({ deps }) => {
   const daoId = useDaoId()

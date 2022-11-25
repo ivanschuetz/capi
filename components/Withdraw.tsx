@@ -1,13 +1,12 @@
-import React, { useEffect, useState } from "react"
+import { useEffect, useState } from "react"
+import { Deps } from "../context/AppContext"
+import { safe } from "../functions/utils"
+import { useDaoId } from "../hooks/useDaoId"
+import pencil from "../images/svg/pencil.svg"
+import { Funds } from "./Funds"
+import { LabeledCurrencyInput, LabeledTextArea } from "./labeled_inputs"
 import Progress from "./Progress"
 import { SubmitButton } from "./SubmitButton"
-import { LabeledCurrencyInput, LabeledTextArea } from "./labeled_inputs"
-import { Funds } from "./Funds"
-import pencil from "../images/svg/pencil.svg"
-import funds from "../images/funds.svg"
-import { useDaoId } from "../hooks/useDaoId"
-import { safe } from "../functions/utils"
-import { Deps } from "../context/AppContext"
 
 export const Withdraw = ({ deps }) => {
   let daoId = useDaoId()
