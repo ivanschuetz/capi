@@ -1,4 +1,4 @@
-import { OkCancelModal } from "../modal/OkCancelModal"
+import { OkCancelModal } from "./OkCancelModal"
 
 export const DisclaimerModal = ({ closeModal, onAccept }) => {
   return (
