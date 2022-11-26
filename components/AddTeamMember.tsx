@@ -1,7 +1,7 @@
 import { useState } from "react"
 import { Deps } from "../context/AppContext"
 import { toBytes } from "../functions/utils"
-import { toErrorMsg } from "../functions/validation"
+import { toValidationErrorMsg } from "../functions/validation"
 import { useDaoId } from "../hooks/useDaoId"
 import { toMaybeIpfsUrl } from "../ipfs/store"
 import { SetAnyArr, SetBool, SetString } from "../type_alias"
@@ -187,11 +187,11 @@ export const addTeamMember = async (
     showProgress(false)
   } catch (e) {
     if (e.type_identifier === "input_errors") {
-      setNameError(toErrorMsg(e.name))
-      setDescrError(toErrorMsg(e.description))
-      setRoleError(toErrorMsg(e.share_supply))
-      setPictureError(toErrorMsg(e.share_price))
-      setSocialError(toErrorMsg(e.investors_share))
+      setNameError(toValidationErrorMsg(e.name))
+      setDescrError(toValidationErrorMsg(e.description))
+      setRoleError(toValidationErrorMsg(e.share_supply))
+      setPictureError(toValidationErrorMsg(e.share_price))
+      setSocialError(toValidationErrorMsg(e.investors_share))
 
       // show a general message additionally, just in case
       deps.notification.error("Please fix the errors")

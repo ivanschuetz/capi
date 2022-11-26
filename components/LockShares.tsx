@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Deps } from "../context/AppContext"
-import { toErrorMsg } from "../functions/validation"
+import { toValidationErrorMsg } from "../functions/validation"
 import { LockOrUnlockShares } from "./LockOrUnlockShares"
 
 export const LockShares = ({ deps, dao, daoId, onLockOpt }) => {
@@ -105,7 +105,7 @@ export const lock = async (
   } catch (e) {
     if (e.id === "validation") {
       console.error("%o", e)
-      setInputError(toErrorMsg(e.details))
+      setInputError(toValidationErrorMsg(e.details))
     } else {
       deps.notification.error(e)
     }

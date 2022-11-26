@@ -18,7 +18,7 @@ import { SubmitButton } from "./SubmitButton"
 
 import { Deps, Wasm } from "../context/AppContext"
 import { toBytes, toBytesForRust } from "../functions/utils"
-import { toErrorMsg } from "../functions/validation"
+import { toValidationErrorMsg } from "../functions/validation"
 import { toMaybeIpfsUrl } from "../ipfs/store"
 import { SetBool, SetString, SetStringOpt } from "../type_alias"
 import { Wallet } from "../wallet/Wallet"
@@ -405,18 +405,20 @@ const createDao = async (
     await updateMyBalance(myAddress)
   } catch (e) {
     if (e.type_identifier === "input_errors") {
-      setDaoNameError(toErrorMsg(e.name))
-      setDaoDescrError(toErrorMsg(e.description))
-      setShareCountError(toErrorMsg(e.share_supply))
-      setSharePriceError(toErrorMsg(e.share_price))
-      setInvestorsShareError(toErrorMsg(e.investors_share))
-      setImageError(toErrorMsg(e.logo_url))
-      setSocialMediaUrlError(toErrorMsg(e.social_media_url))
-      setMinRaiseTargetError(toErrorMsg(e.min_raise_target))
-      setMinRaiseTargetEndDateError(toErrorMsg(e.min_raise_target_end_date))
-      setMinInvestSharesError(toErrorMsg(e.min_invest_shares))
-      setMaxInvestSharesError(toErrorMsg(e.max_invest_shares))
-      setSharesForInvestorsError(toErrorMsg(e.shares_for_investors))
+      setDaoNameError(toValidationErrorMsg(e.name))
+      setDaoDescrError(toValidationErrorMsg(e.description))
+      setShareCountError(toValidationErrorMsg(e.share_supply))
+      setSharePriceError(toValidationErrorMsg(e.share_price))
+      setInvestorsShareError(toValidationErrorMsg(e.investors_share))
+      setImageError(toValidationErrorMsg(e.logo_url))
+      setSocialMediaUrlError(toValidationErrorMsg(e.social_media_url))
+      setMinRaiseTargetError(toValidationErrorMsg(e.min_raise_target))
+      setMinRaiseTargetEndDateError(
+        toValidationErrorMsg(e.min_raise_target_end_date)
+      )
+      setMinInvestSharesError(toValidationErrorMsg(e.min_invest_shares))
+      setMaxInvestSharesError(toValidationErrorMsg(e.max_invest_shares))
+      setSharesForInvestorsError(toValidationErrorMsg(e.shares_for_investors))
 
       // note that here, the later will override the former if both are set
       // this is ok - we don't expect any of these to happen, normally,
@@ -424,13 +426,13 @@ const createDao = async (
       // in which case it can be done incrementally
       // the console in any case logs all the errors simultaneously
 
-      setImageError(toErrorMsg(e.image_url))
+      setImageError(toValidationErrorMsg(e.image_url))
       // Note that this will make appear the prospectus errors incrementally, if both happen at once (normally not expected)
       // i.e. user has to fix one first and submit, then the other would appear
       if (e.prospectus_url) {
-        setProspectusError(toErrorMsg(e.prospectus_url))
+        setProspectusError(toValidationErrorMsg(e.prospectus_url))
       } else if (e.prospectus_bytes) {
-        setProspectusError(toErrorMsg(e.prospectus_bytes))
+        setProspectusError(toValidationErrorMsg(e.prospectus_bytes))
       }
 
       // workaround: the inline errors for these are not functional yet, so show as notification
@@ -454,7 +456,7 @@ const showErrorNotificationIfError = (
   notification: Notification,
   payload: any
 ) => {
-  const errorMsg = toErrorMsg(payload)
+  const errorMsg = toValidationErrorMsg(payload)
   if (errorMsg) {
     notification.error(errorMsg)
   }

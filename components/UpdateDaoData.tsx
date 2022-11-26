@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
 import { Deps } from "../context/AppContext"
 import { toBytes, toBytesForRust } from "../functions/utils"
-import { toErrorMsg } from "../functions/validation"
+import { toValidationErrorMsg } from "../functions/validation"
 import { useDaoId } from "../hooks/useDaoId"
 import { storeIpfs, toMaybeIpfsUrl } from "../ipfs/store"
 import { OkCancelModal } from "../modal/OkCancelModal"
@@ -393,21 +393,21 @@ const updateDaoData = async (
   } catch (e) {
     if (e.id === "validations") {
       let details = e.details
-      setDaoNameError(toErrorMsg(details.name))
-      setDaoDescrError(toErrorMsg(details.description))
-      setImageError(toErrorMsg(details.image))
+      setDaoNameError(toValidationErrorMsg(details.name))
+      setDaoDescrError(toValidationErrorMsg(details.description))
+      setImageError(toValidationErrorMsg(details.image))
 
       // Note that this will make appear the prospectus errors incrementally, if both happen at once (normally not expected)
       // i.e. user has to fix one first and submit, then the other would appear
       if (details.prospectus_url) {
-        setProspectusError(toErrorMsg(details.prospectus_url))
+        setProspectusError(toValidationErrorMsg(details.prospectus_url))
       } else if (details.prospectus_bytes) {
-        setProspectusError(toErrorMsg(details.prospectus_bytes))
+        setProspectusError(toValidationErrorMsg(details.prospectus_bytes))
       }
 
-      setSocialMediaUrlError(toErrorMsg(details.social_media_url))
-      setMinInvestSharesError(toErrorMsg(details.min_invest_shares))
-      setMaxInvestSharesError(toErrorMsg(details.max_invest_shares))
+      setSocialMediaUrlError(toValidationErrorMsg(details.social_media_url))
+      setMinInvestSharesError(toValidationErrorMsg(details.min_invest_shares))
+      setMaxInvestSharesError(toValidationErrorMsg(details.max_invest_shares))
 
       deps.notification.error("Please fix the errors")
     } else {
@@ -478,7 +478,7 @@ const rekeyOwner = async (
   } catch (e) {
     if (e.id === "validation") {
       console.error("%o", e)
-      setInputError(toErrorMsg(e.details))
+      setInputError(toValidationErrorMsg(e.details))
     } else {
       deps.notification.error(e)
     }

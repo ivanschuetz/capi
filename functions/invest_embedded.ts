@@ -1,7 +1,7 @@
 import { Notification } from "../components/Notification"
 import { SetBool, SetString, Wasm } from "../type_alias"
 import { Wallet } from "../wallet/Wallet"
-import { toErrorMsg } from "./validation"
+import { toValidationErrorMsg } from "./validation"
 
 export const calculateSharesPrice = async (
   wasm,
@@ -119,7 +119,7 @@ export const invest = async (
     await updateSharesDistr(dao)
   } catch (e) {
     if (e.type_identifier === "input_errors") {
-      setShareAmountError(toErrorMsg(e.amount))
+      setShareAmountError(toValidationErrorMsg(e.amount))
       // show a general message additionally, just in case
       notification.error("Please fix the errors")
     } else if (e.id === "not_enough_funds_asset") {
