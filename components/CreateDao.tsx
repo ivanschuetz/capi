@@ -46,22 +46,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
   )
   const [prospectusBytes, setProspectusBytes] = useState(null)
 
-  const [daoNameError, setDaoNameError] = useState("")
-  const [daoDescrError, setDaoDescrError] = useState("")
-  const [shareCountError, setShareCountError] = useState("")
-  const [sharePriceError, setSharePriceError] = useState("")
-  const [investorsShareError, setInvestorsShareError] = useState("")
-  const [sharesForInvestorsError, setSharesForInvestorsError] = useState("")
-  const [minInvestSharesError, setMinInvestSharesError] = useState("")
-  const [maxInvestSharesError, setMaxInvestSharesError] = useState("")
-  const [socialMediaUrlError, setSocialMediaUrlError] = useState("")
-  const [minRaiseTargetError, setMinRaiseTargetError] = useState("")
-
-  const [minRaiseTargetEndDateError, setMinRaiseTargetEndDateError] =
-    useState("")
-
-  const [imageError, setImageError] = useState("")
-  const [prospectusError, setProspectusError] = useState("")
+  const [errors, setErrors] = useState<CreateValidationErrors>({})
 
   const [submitting, setSubmitting] = useState(false)
 
@@ -108,20 +93,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
 
           router,
 
-          setDaoNameError,
-          setDaoDescrError,
-          setShareCountError,
-          setSharePriceError,
-          setInvestorsShareError,
-          setSharesForInvestorsError,
-          setImageError,
-          setProspectusError,
-          setSocialMediaUrlError,
-          setMinRaiseTargetError,
-          setMinRaiseTargetEndDateError,
-          setMinInvestSharesError,
-          setMaxInvestSharesError,
-          setShowBuyCurrencyInfoModal,
+          setErrors,
 
           imageBytes,
           prospectusBytes
@@ -142,14 +114,14 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           label={"Project name"}
           inputValue={daoName}
           onChange={(input) => setDaoName(input)}
-          errorMsg={daoNameError}
+          errorMsg={errors.name}
           maxLength={40} // NOTE: has to match WASM
         />
         <LabeledTextArea
           label={"Description"}
           inputValue={daoDescr}
           onChange={(input) => setDaoDescr(input)}
-          errorMsg={daoDescrError}
+          errorMsg={errors.description}
           maxLength={2000} // NOTE: has to match WASM
         />
         <LabeledInput
@@ -157,17 +129,19 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           inputValue={socialMediaUrl}
           img={link}
           onChange={(input) => setSocialMediaUrl(input)}
-          errorMsg={socialMediaUrlError}
+          errorMsg={errors.social_media_url}
         />
         <div className="dao-title mt-60">Project Cover</div>
         <ImageUpload setImageBytes={setImageBytes} />
-        <ValidationMsg errorMsg={imageError} />
+        <ValidationMsg errorMsg={errors.image_url ?? errors.logo_url} />
 
         {deps.features.prospectus && (
           <React.Fragment>
             <div className="dao-title mt-60">Prospectus</div>
             <FileUploader setBytes={setProspectusBytes} />
-            <ValidationMsg errorMsg={prospectusError} />
+            <ValidationMsg
+              errorMsg={errors.prospectus_bytes ?? errors.prospectus_bytes}
+            />
           </React.Fragment>
         )}
 
@@ -178,7 +152,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           onChange={(input) => {
             setShareCount(input)
           }}
-          errorMsg={shareCountError}
+          errorMsg={errors.share_supply}
         />
 
         <LabeledAmountInput
@@ -186,7 +160,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           info={"Percentage of project income directed to investors."}
           inputValue={investorsShare}
           onChange={(input) => setInvestorsShare(input)}
-          errorMsg={investorsShareError}
+          errorMsg={errors.investors_share}
           placeholder="Investor's part in %"
         />
         <div className="d-flex gap-32">
@@ -198,7 +172,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
               }
               inputValue={sharesForInvestors}
               onChange={(input) => setSharesForInvestors(input)}
-              errorMsg={sharesForInvestorsError}
+              errorMsg={errors.shares_for_investors}
             />
           </div>
           <div className="f-basis-50">
@@ -208,7 +182,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
               onChange={(input) => {
                 setSharePrice(input)
               }}
-              errorMsg={sharePriceError}
+              errorMsg={errors.share_price}
             />
           </div>
         </div>
@@ -220,7 +194,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
                 info={"Minimum amount of shares an investor has to buy"}
                 inputValue={minInvestShares}
                 onChange={(input) => setMinInvestShares(input)}
-                errorMsg={minInvestSharesError}
+                errorMsg={errors.min_invest_shares}
               />
             </div>
             <div className="f-basis-50">
@@ -229,7 +203,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
                 info={"Maximum total amount of shares an investor can buy"}
                 inputValue={maxInvestShares}
                 onChange={(input) => setMaxInvestShares(input)}
-                errorMsg={maxInvestSharesError}
+                errorMsg={errors.max_invest_shares}
               />
             </div>
           </div>
@@ -241,7 +215,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
               info={"The minumum amount needed to start the project."}
               inputValue={minRaiseTarget}
               onChange={(input) => setMinRaiseTarget(input)}
-              errorMsg={minRaiseTargetError}
+              errorMsg={errors.min_raise_target}
             />
           </div>
           <MaxFundingTargetLabel text={totalSharePrice} />
@@ -254,7 +228,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           inputValue={minRaiseTargetEndDate}
           onChange={setMinRaiseTargetEndDate}
           disabled={true}
-          errorMsg={minRaiseTargetEndDateError}
+          errorMsg={errors.min_raise_target_end_date}
         />
         <SubmitButton
           label={"Create project"}
@@ -325,19 +299,7 @@ const createDao = async (
 
   router: NextRouter,
 
-  setDaoNameError: SetStringOpt,
-  setDaoDescrError: SetStringOpt,
-  setShareCountError: SetStringOpt,
-  setSharePriceError: SetStringOpt,
-  setInvestorsShareError: SetStringOpt,
-  setSharesForInvestorsError: SetStringOpt,
-  setImageError: SetStringOpt,
-  setProspectusError: SetStringOpt,
-  setSocialMediaUrlError: SetStringOpt,
-  setMinRaiseTargetError: SetStringOpt,
-  setMinRaiseTargetEndDateError: SetStringOpt,
-  setMinInvestSharesError: SetStringOpt,
-  setMaxInvestSharesError: SetStringOpt,
+  setValidationErrors: (errors: CreateValidationErrors) => void,
 
   setShowBuyCurrencyInfoModal: (value: boolean) => void,
 
@@ -403,53 +365,66 @@ const createDao = async (
     notification.success("Project created!")
 
     await updateMyBalance(myAddress)
-  } catch (e) {
-    if (e.type_identifier === "input_errors") {
-      setDaoNameError(toValidationErrorMsg(e.name))
-      setDaoDescrError(toValidationErrorMsg(e.description))
-      setShareCountError(toValidationErrorMsg(e.share_supply))
-      setSharePriceError(toValidationErrorMsg(e.share_price))
-      setInvestorsShareError(toValidationErrorMsg(e.investors_share))
-      setImageError(toValidationErrorMsg(e.logo_url))
-      setSocialMediaUrlError(toValidationErrorMsg(e.social_media_url))
-      setMinRaiseTargetError(toValidationErrorMsg(e.min_raise_target))
-      setMinRaiseTargetEndDateError(
-        toValidationErrorMsg(e.min_raise_target_end_date)
-      )
-      setMinInvestSharesError(toValidationErrorMsg(e.min_invest_shares))
-      setMaxInvestSharesError(toValidationErrorMsg(e.max_invest_shares))
-      setSharesForInvestorsError(toValidationErrorMsg(e.shares_for_investors))
+  } catch (eAny) {
+    const e: CreateError = eAny
 
-      // note that here, the later will override the former if both are set
-      // this is ok - we don't expect any of these to happen, normally,
-      // and this is in theory oriented towards being fixable by the user,
-      // in which case it can be done incrementally
-      // the console in any case logs all the errors simultaneously
+    if (e.id === "validations") {
+      let validationErrors = e.details
 
-      setImageError(toValidationErrorMsg(e.image_url))
-      // Note that this will make appear the prospectus errors incrementally, if both happen at once (normally not expected)
-      // i.e. user has to fix one first and submit, then the other would appear
-      if (e.prospectus_url) {
-        setProspectusError(toValidationErrorMsg(e.prospectus_url))
-      } else if (e.prospectus_bytes) {
-        setProspectusError(toValidationErrorMsg(e.prospectus_bytes))
-      }
+      setValidationErrors(localizeErrors(validationErrors))
 
       // workaround: the inline errors for these are not functional yet, so show as notification
-      showErrorNotificationIfError(notification, e.image_url)
-      showErrorNotificationIfError(notification, e.prospectus_url)
-      showErrorNotificationIfError(notification, e.prospectus_bytes)
+      showErrorNotificationIfError(
+        notification,
+        toValidationErrorMsg(e.details?.image_url)
+      )
+      showErrorNotificationIfError(
+        notification,
+        toValidationErrorMsg(e.details?.prospectus_url)
+      )
+      showErrorNotificationIfError(
+        notification,
+        toValidationErrorMsg(e.details?.prospectus_bytes)
+      )
 
       // show a general message additionally, just in case
       notification.error("Please fix the errors")
     } else if (e.id === "not_enough_algos") {
       setShowBuyCurrencyInfoModal(true)
     } else {
-      notification.error(e)
+      notification.error(JSON.stringify(e))
     }
 
     showProgress(false)
   }
+}
+
+// map error payloads to localized messages
+const localizeErrors = (
+  errors: CreateValidationErrors
+): CreateValidationErrors => {
+  // for convenience, we overwrite the fields in the same struct
+  errors.name = toValidationErrorMsg(errors.name)
+  errors.description = toValidationErrorMsg(errors.description)
+  errors.share_supply = toValidationErrorMsg(errors.share_supply)
+  errors.share_price = toValidationErrorMsg(errors.share_price)
+  errors.investors_share = toValidationErrorMsg(errors.investors_share)
+  errors.logo_url = toValidationErrorMsg(errors.logo_url)
+  errors.social_media_url = toValidationErrorMsg(errors.social_media_url)
+  errors.min_raise_target = toValidationErrorMsg(errors.min_raise_target)
+  errors.min_raise_target_end_date = toValidationErrorMsg(
+    errors.min_raise_target_end_date
+  )
+  errors.min_invest_shares = toValidationErrorMsg(errors.min_invest_shares)
+  errors.max_invest_shares = toValidationErrorMsg(errors.max_invest_shares)
+  errors.shares_for_investors = toValidationErrorMsg(
+    errors.shares_for_investors
+  )
+  errors.image_url = toValidationErrorMsg(errors.image_url)
+  errors.prospectus_url = toValidationErrorMsg(errors.prospectus_url)
+  errors.prospectus_bytes = toValidationErrorMsg(errors.prospectus_bytes)
+
+  return errors
 }
 
 const showErrorNotificationIfError = (
@@ -486,4 +461,27 @@ const calculateTotalPrice = async (
     console.error("Ignored: error calculating total price: %o", e)
     setTotalPrice("")
   }
+}
+
+type CreateError = {
+  id?: string
+  details?: CreateValidationErrors
+}
+
+type CreateValidationErrors = {
+  name?: any
+  description?: any
+  share_supply?: any
+  share_price?: any
+  investors_share?: any
+  logo_url?: any
+  social_media_url?: any
+  min_raise_target?: any
+  min_raise_target_end_date?: any
+  min_invest_shares?: any
+  max_invest_shares?: any
+  shares_for_investors?: any
+  image_url?: any
+  prospectus_url?: any
+  prospectus_bytes?: any
 }
