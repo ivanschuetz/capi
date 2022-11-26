@@ -65,6 +65,8 @@ export const toErrorMsg = (e: any): string | null => {
     case "unexpected":
       return "Unexpected problem: " + e.unexpected
     default:
-      return ""
+      console.error("Unexpected error type: %o", e.type_)
+      // TODO throw error instead?
+      return null
   }
 }
