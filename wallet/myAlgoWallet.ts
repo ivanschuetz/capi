@@ -36,7 +36,7 @@ export function createMyAlgoWallet(
     }
   }
 
-  function disconnect() {}
+  async function disconnect() {}
 
   function onPageLoad() {}
 
