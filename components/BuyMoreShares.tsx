@@ -28,7 +28,6 @@ export const BuyMoreShares = ({ deps, dao }) => {
 
   const onSubmitBuy = async () => {
     submitBuy(
-      wasm,
       deps,
       setSubmitting,
       daoId,
