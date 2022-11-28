@@ -7,7 +7,13 @@ import { CompactFundsActivityEntry } from "./CompactFundsActivityEntry"
 import CopyPasteText from "./CopyPastText"
 import Progress from "./Progress"
 
-export const FundsActivityEmbedded = ({ deps, daoId }) => {
+export const FundsActivityEmbedded = ({
+  deps,
+  daoId,
+}: {
+  deps: Deps
+  daoId: string
+}) => {
   const [dao, setDao] = useState(null)
 
   updateDao(deps, daoId, setDao)
@@ -28,7 +34,15 @@ export const FundsActivityEmbedded = ({ deps, daoId }) => {
   return <div>{view()}</div>
 }
 
-const Box = ({ deps, dao, hasEntries }) => {
+const Box = ({
+  deps,
+  dao,
+  hasEntries,
+}: {
+  deps: Deps
+  dao: any
+  hasEntries: () => boolean
+}) => {
   return (
     <div className="first_dao_widget">
       {deps.funds && <Funds deps={deps} />}
@@ -38,7 +52,7 @@ const Box = ({ deps, dao, hasEntries }) => {
   )
 }
 
-const Funds = ({ deps }) => {
+const Funds = ({ deps }: { deps: Deps }) => {
   return (
     <div className="d-flex flex-column gap-12">
       <div className="desc">{"Project funds"}</div>
@@ -101,7 +115,7 @@ const Activity = ({ deps }) => {
   }
 }
 
-const updateDao = (deps: Deps, daoId, setDao) => {
+const updateDao = (deps: Deps, daoId: string, setDao: (dao: any) => void) => {
   useEffect(() => {
     if (deps.wasm) {
       safe(deps.notification, async () => {

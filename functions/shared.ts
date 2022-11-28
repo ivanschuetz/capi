@@ -1,8 +1,11 @@
+import { BalanceChangeJs } from "wasm"
 import { Notification } from "../components/Notification"
+import { Wasm } from "../type_alias"
+import { Wallet } from "../wallet/Wallet"
 
 export const updateInvestmentData_ = async (
-  wasm,
-  notification,
+  wasm: Wasm,
+  notification: Notification,
   myAddress,
   daoId,
   setInvestmentData
@@ -22,7 +25,7 @@ export const updateInvestmentData_ = async (
 }
 
 export const retrieveProfits = async (
-  wasm,
+  wasm: Wasm,
   myAddress,
   showProgress,
   notification,
@@ -31,7 +34,7 @@ export const retrieveProfits = async (
   updateInvestmentData,
   updateFunds,
   updateMyDividend,
-  wallet
+  wallet: Wallet
 ) => {
   try {
     showProgress(true)
@@ -70,7 +73,7 @@ export const retrieveProfits = async (
 }
 
 export const updateFunds_ = async (
-  wasm,
+  wasm: Wasm,
   daoId,
   setFunds,
   setFundsChange,
