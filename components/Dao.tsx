@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react"
+import { Deps } from "../context/AppContext"
 import { safe } from "../functions/utils"
 import { useDaoId } from "../hooks/useDaoId"
+import { SetString } from "../type_alias"
 import { FundsActivityEmbedded } from "./FundsActivityEmbedded"
 import { IncomeSpendingBox } from "./IncomeSpendingBox"
 import { InvestEmbedded } from "./InvestEmbedded"
@@ -70,7 +72,7 @@ const MaybeInvestView = ({ deps }) => {
   }
 }
 
-const updateDao = (deps, daoId) => {
+const updateDao = (deps: Deps, daoId?: string) => {
   useEffect(() => {
     ;async () => {
       if (daoId) {
@@ -80,7 +82,7 @@ const updateDao = (deps, daoId) => {
   }, [daoId, deps.notification, deps.updateDao])
 }
 
-const updateDescription = (deps, setDescription) => {
+const updateDescription = (deps: Deps, setDescription: SetString) => {
   useEffect(() => {
     if (deps.wasm) {
       safe(deps.notification, async () => {
