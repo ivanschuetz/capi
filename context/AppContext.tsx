@@ -15,6 +15,7 @@ import { SetString, SetWallet } from "../type_alias"
 import { Wallet } from "../wallet/Wallet"
 import { initWcWalletIfAvailable } from "../wallet/walletConnectWallet"
 import { WASMContext } from "./WASMContext"
+import { QuantityChangeJs } from "/Users/ivanschuetz/dev/repo/github/capi/frontend/next/wasm/wasm"
 
 const initial: IAppContext = {}
 
@@ -385,7 +386,7 @@ export interface Deps {
   funds?: string
   updateFunds: (daoId: string) => void
 
-  fundsChange: string
+  fundsChange?: QuantityChangeJs
 
   dao: any
   updateDao: (daoId: string) => void
@@ -414,7 +415,7 @@ export interface Deps {
   updateSharesDistr: (dao: any) => void
   sharesDistr?: any[]
   notOwnedShares?: string
-  holdersChange?: string
+  holdersChange?: QuantityChangeJs
 
   size?: WindowSizeClasses
 

@@ -1,4 +1,4 @@
-import { BalanceChangeJs } from "wasm"
+import { QuantityChangeJs } from "wasm"
 import { Notification } from "../components/Notification"
 import { Wasm } from "../type_alias"
 import { Wallet } from "../wallet/Wallet"
@@ -76,7 +76,7 @@ export const updateFunds_ = async (
   wasm: Wasm,
   daoId,
   setFunds,
-  setFundsChange,
+  setFundsChange: (value: QuantityChangeJs) => void,
   notification: Notification
 ) => {
   /// We don't have a function in WASM yet to fetch only the funds so we re-fetch the dao.

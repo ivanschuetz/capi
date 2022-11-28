@@ -1,3 +1,4 @@
+import { QuantityChangeJs } from "wasm"
 import { Notification } from "../components/Notification"
 import { Wasm } from "../context/AppContext"
 import arrowDown from "../images/svg/arrow.svg"
@@ -59,21 +60,22 @@ export const logUnexpected = (
   notification.error("Unexpected error. Please contact support.")
 }
 
-export const changeArrow = (change: string) => {
-  if (change === "up") {
-    return (
-      <div className="arrow-container">
-        <img src={arrowUp.src} alt="arrow up" />
-      </div>
-    )
-  } else if (change === "down") {
-    return (
-      <div className="arrow-container">
-        <img src={arrowDown.src} alt="arrow down" />
-      </div>
-    )
-  } else {
-    return null
+export const changeArrow = (change: QuantityChangeJs): JSX.Element | null => {
+  switch (change) {
+    case "Up":
+      return (
+        <div className="arrow-container">
+          <img src={arrowUp.src} alt="arrow up" />
+        </div>
+      )
+    case "Down":
+      return (
+        <div className="arrow-container">
+          <img src={arrowDown.src} alt="arrow down" />
+        </div>
+      )
+    case "Eq":
+      return null
   }
 }
 
