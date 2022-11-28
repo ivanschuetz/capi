@@ -4,7 +4,7 @@ import QRCodeModal from "algorand-walletconnect-qrcode-modal"
 import buffer from "buffer"
 import { Notification } from "../components/Notification"
 import { SetBool, SetString, SetWallet } from "../type_alias"
-import { TxsToSign, Wallet, WcTx } from "./Wallet"
+import { TxsToSign, Wallet, WalletSignedTx, WcTx } from "./Wallet"
 const { Buffer } = buffer
 
 type WcWallet = Wallet & {
@@ -92,15 +92,13 @@ export function createWcWallet(
     return connector.connected
   }
 
-  async function signTxs(toSign: TxsToSign) {
+  async function signTxs(toSign: TxsToSign): Promise<WalletSignedTx[]> {
     if (!window.Buffer) window.Buffer = Buffer
     // modal tells the user to look at the wallet (usually phone)
     setShowOpenWalletModal(true)
-    let blob = await sign(connector, toSign.wc)
+    let signed = await sign(connector, toSign.wc)
     setShowOpenWalletModal(false)
-    return {
-      blob: blob,
-    }
+    return signed
   }
 
   return {
@@ -183,7 +181,10 @@ const subscribeToEvents = (
   })
 }
 
-const sign = async (connector: WalletConnect, toSign: WcTx[]) => {
+const sign = async (
+  connector: WalletConnect,
+  toSign: WcTx[]
+): Promise<WalletSignedTx[]> => {
   const requestParams = [toSign]
 
   const request = formatJsonRpcRequest("algo_signTxn", requestParams)
@@ -200,6 +201,6 @@ const sign = async (connector: WalletConnect, toSign: WcTx[]) => {
   return decodedSignedTxs
 }
 
-const decode = (wcTx: any) => {
-  return Array.from(new Uint8Array(Buffer.from(wcTx, "base64")))
+const decode = (wcTx: any): WalletSignedTx => {
+  return { blob: Array.from(new Uint8Array(Buffer.from(wcTx, "base64"))) }
 }

@@ -3,7 +3,7 @@ export type Wallet = {
   connect: () => Promise<void>
   disconnect: () => Promise<void>
   onPageLoad: () => void
-  signTxs: (txs: TxsToSign) => Promise<void>
+  signTxs: (txs: TxsToSign) => Promise<WalletSignedTx[]>
 }
 
 export type TxsToSign = {
@@ -18,3 +18,7 @@ export type MyAlgoTx = any
 // Transaction format expected by wallet connect
 // Marker type - we only pass the object through from Rust to MyAlgo
 export type WcTx = any
+
+export type WalletSignedTx = {
+  blob: number[]
+}
