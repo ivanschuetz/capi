@@ -38,7 +38,8 @@ export const SharesDistributionBox = ({ deps }) => {
   }, [])
 
   const onAddressSelected = useCallback(
-    (address) => {
+    // returns whether the address is now selected
+    (address: string): boolean => {
       const addressIndex = ownedSharesDistr.findIndex(
         (d) => d.address === address
       )
@@ -60,7 +61,7 @@ export const SharesDistributionBox = ({ deps }) => {
 
   const content = () => {
     if (entries === null) {
-      return <Progress vCenter={false} />
+      return <Progress />
     } else {
       return (
         <LabeledBox label={"Investor distribution"}>

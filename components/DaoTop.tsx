@@ -2,10 +2,11 @@ import { useState } from "react"
 import share from "../images/svg/share.svg"
 import twitter from "../images/svg/twitter.svg"
 import Modal from "../modal/Modal"
+import { SetBool } from "../type_alias"
 import Progress from "./Progress"
 import ShareView from "./ShareView"
 
-export const DaoTop = ({ dao }) => {
+export const DaoTop = ({ dao }: { dao: any; setShowShareModal: SetBool }) => {
   const [showShareModal, setShowShareModal] = useState(false)
 
   return (
@@ -19,12 +20,15 @@ export const DaoTop = ({ dao }) => {
   )
 }
 
-const ShareModal = ({ dao, setShowShareModal }) => {
+const ShareModal = ({
+  dao,
+  setShowModal,
+}: {
+  dao: any
+  setShowModal: SetBool
+}) => {
   return (
-    <Modal
-      title={"Share at social media"}
-      onClose={() => setShowShareModal(false)}
-    >
+    <Modal title={"Share at social media"} onClose={() => setShowModal(false)}>
       <ShareView projectUrl={projectUrl(dao.app_id)} />
     </Modal>
   )

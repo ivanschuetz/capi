@@ -1,6 +1,6 @@
 import { PdfView } from "../pdf/PdfView"
 
-export const ProspectusView = ({ deps, url, hash }) => {
+export const ProspectusView = ({ url, hash }) => {
   return (
     <div>
       <PdfView url={url} />

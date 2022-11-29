@@ -1,4 +1,4 @@
-import { QuantityChangeJs } from "wasm"
+import { QuantityChangeJs } from "wasm/wasm"
 import { Notification } from "../components/Notification"
 import { Wasm } from "../context/AppContext"
 import arrowDown from "../images/svg/arrow.svg"

@@ -51,7 +51,7 @@ const renderBarChart = (svg, flatData, colors, format) => {
     ...data.map((d) => d.spending)
   )
 
-  let offset = parseInt("1".padEnd(`${parseInt(yMax)}`.length, 0))
+  let offset = parseInt("1".padEnd(`${yMax}`.length, "0"))
 
   if (yMax === 0) {
     selected

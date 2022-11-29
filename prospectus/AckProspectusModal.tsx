@@ -1,12 +1,7 @@
 import { OkCancelModal } from "../modal/OkCancelModal"
 import { AckProspectusView } from "./AckProspectusView"
 
-export const AckProspectusModal = ({
-  url,
-  onAccept,
-  closeModal,
-  prospectusHash,
-}) => {
+export const AckProspectusModal = ({ deps, onAccept, closeModal }) => {
   return (
     <OkCancelModal
       title={"Prospectus"}
@@ -14,7 +9,11 @@ export const AckProspectusModal = ({
       okLabel={"Acknowledge"}
       onSubmit={() => onAccept()}
     >
-      <AckProspectusView url={url} hash={prospectusHash} />
+      <AckProspectusView
+        deps={deps}
+        url={deps.dao.prospectus.url}
+        hash={deps.dao.prospectus.hash}
+      />
     </OkCancelModal>
   )
 }

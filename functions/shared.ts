@@ -1,4 +1,4 @@
-import { QuantityChangeJs } from "wasm"
+import { QuantityChangeJs } from "wasm/wasm"
 import { Notification } from "../components/Notification"
 import { Wasm } from "../type_alias"
 import { Wallet } from "../wallet/Wallet"
@@ -52,9 +52,7 @@ export const retrieveProfits = async (
     let submitClaimRes = await wasm.submitClaim({
       investor_address_for_diagnostics: myAddress,
       dao_id_for_diagnostics: daoId,
-
       txs: claimResSigned,
-      pt: claimRes.pt,
     })
     console.log("submitClaimRes: " + JSON.stringify(submitClaimRes))
 

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react"
+import { ProspectusJs } from "wasm/wasm"
 import { Deps } from "../context/AppContext"
 import { toBytes, toBytesForRust } from "../functions/utils"
 import { toValidationErrorMsg } from "../functions/validation"
@@ -28,9 +29,10 @@ export const UpdateDaoData = ({ deps }) => {
   const [maxInvestShares, setMaxInvestShares] = useState("")
 
   // prefill-only (new url and hash are only generated when submitting and not set here), thus prefill prefix
-  const [prefillProspectus, setPrefillProspectus] = useState([])
+  const [prefillProspectus, setPrefillProspectus] =
+    useState<ProspectusJs | null>(null)
   // the bytes of prospectus uploaded - note that this is *not
-  const [prospectusBytes, setProspectusBytes] = useState([])
+  const [prospectusBytes, setProspectusBytes] = useState(null)
 
   const [rekeyAuthAddress, setRekeyAuthAddress] = useState("")
   const [submitting, setSubmitting] = useState(false)
@@ -93,7 +95,8 @@ export const UpdateDaoData = ({ deps }) => {
         {deps.features.prospectus && (
           <React.Fragment>
             <div className="info">Prospectus</div>
-            {prefillProspectus && (
+            {/* TODO check whether this is supposed to be used - href doesn't work on div */}
+            {/* {prefillProspectus && (
               <div
                 className="clickable"
                 href={prefillProspectus.url}
@@ -101,7 +104,7 @@ export const UpdateDaoData = ({ deps }) => {
               >
                 {"Current: " + prefillProspectus.hash}
               </div>
-            )}
+            )} */}
             <FileUploader setBytes={setProspectusBytes} />
             <ValidationMsg errorMsg={prospectusError} />
           </React.Fragment>
@@ -150,8 +153,6 @@ export const UpdateDaoData = ({ deps }) => {
               sharePrice,
               imageBytes,
               socialMediaUrl,
-              prospectusBytes,
-              prefillProspectus,
               minInvestShares,
               maxInvestShares,
 
@@ -161,7 +162,9 @@ export const UpdateDaoData = ({ deps }) => {
               setProspectusError,
               setSocialMediaUrlError,
               setMinInvestSharesError,
-              setMaxInvestSharesError
+              setMaxInvestSharesError,
+              prefillProspectus,
+              prospectusBytes
             )
           }}
         />
@@ -205,40 +208,43 @@ export const UpdateDaoData = ({ deps }) => {
             setShowConfirmRekeyModal(false)
           }}
         >
-          <div className="mb-32 line-height-1">
-            {"This will transfer all signing authority to the entered address."}
-          </div>
-          <div className="mb-32 line-height-1">
-            {
-              "YOUR CURRENT ACCOUNT WILL IRREVERSIBLY BECOME USELESS: IT WILL NOT BE ABLE TO SIGN *ANY* TRANSACTIONS (INCLUDING REVERTING THIS OPERATION)."
-            }
-          </div>
-          <div className="mb-32 line-height-1">
-            {
-              "THIS IS A UNIVERSAL (BLOCKCHAIN-WIDE) OPERATION, NOT LIMITED TO CAPI."
-            }
-          </div>
-          <div>
-            <div className="mb-32 line-height-1">{"Please ensure:"}</div>
-            <div className="line-height-1">
-              {"1. That the entered address to be rekeyed to is correct."}
-            </div>
+          <>
             <div className="mb-32 line-height-1">
               {
-                "2. That you / the expected account owner(s) of said address actually own it, i.e., can successfully sign and submit transactions with it."
+                "This will transfer all signing authority to the entered address."
               }
             </div>
             <div className="mb-32 line-height-1">
-              {"IF ANY OF THE POINTS ABOVE IS NOT TRUE, " +
-                "YOUR CAPI PROJECT, AS WELL AS ANY FUNDS, ASSETS AND APPLICATIONS LINKED TO YOUR CURRENT ADDRESS, RELATED OR NOT RELATED TO CAPI, WILL BE PERMANENTLY AND IRREVERSIBLY LOST."}
+              {
+                "YOUR CURRENT ACCOUNT WILL IRREVERSIBLY BECOME USELESS: IT WILL NOT BE ABLE TO SIGN *ANY* TRANSACTIONS (INCLUDING REVERTING THIS OPERATION)."
+              }
             </div>
-          </div>
+            <div className="mb-32 line-height-1">
+              {
+                "THIS IS A UNIVERSAL (BLOCKCHAIN-WIDE) OPERATION, NOT LIMITED TO CAPI."
+              }
+            </div>
+            <div>
+              <div className="mb-32 line-height-1">{"Please ensure:"}</div>
+              <div className="line-height-1">
+                {"1. That the entered address to be rekeyed to is correct."}
+              </div>
+              <div className="mb-32 line-height-1">
+                {
+                  "2. That you / the expected account owner(s) of said address actually own it, i.e., can successfully sign and submit transactions with it."
+                }
+              </div>
+              <div className="mb-32 line-height-1">
+                {"IF ANY OF THE POINTS ABOVE IS NOT TRUE, " +
+                  "YOUR CAPI PROJECT, AS WELL AS ANY FUNDS, ASSETS AND APPLICATIONS LINKED TO YOUR CURRENT ADDRESS, RELATED OR NOT RELATED TO CAPI, WILL BE PERMANENTLY AND IRREVERSIBLY LOST."}
+              </div>
+            </div>
+          </>
         </OkCancelModal>
       )}
       {showProspectusModal && (
         <ProspectusModal
-          url={prefillProspectus.url}
-          prospectusHash={prefillProspectus.hash}
+          deps={deps}
           closeModal={() => setShowProspectusModal(false)}
         />
       )}
@@ -256,7 +262,7 @@ const prefill = (
   setSocialMediaUrl,
   setMinInvestShares,
   setMaxInvestShares,
-  setPrefillProspectus
+  setPrefillProspectus: (value: ProspectusJs) => void
 ) => {
   useEffect(() => {
     async function prefill() {
@@ -289,7 +295,7 @@ const prefillInputs = async (
   setSocialMediaUrl,
   setMinInvestShares,
   setMaxInvestShares,
-  setProspectus
+  setProspectus: (value: ProspectusJs) => void
 ) => {
   try {
     // prefill dao inputs
@@ -323,8 +329,6 @@ const updateDaoData = async (
   socialMediaUrl,
 
   // OR: either bytes (new prospectus) or prospectus (existing prospectus) is set
-  prospectusBytes,
-  existingProspectus,
 
   minInvestShares,
   maxInvestShares,
@@ -335,7 +339,9 @@ const updateDaoData = async (
   setProspectusError,
   setSocialMediaUrlError,
   setMinInvestSharesError,
-  setMaxInvestSharesError
+  setMaxInvestSharesError,
+  existingProspectus?: ProspectusJs,
+  prospectusBytes?: ArrayBuffer
 ) => {
   try {
     showProgress(true)
@@ -418,11 +424,9 @@ const updateDaoData = async (
 }
 
 const toProspectusInputs = async (
-  existingProspectus,
-  newProspectusBytesPromise
-) => {
-  const prospectusBytes = await newProspectusBytesPromise
-
+  existingProspectus?: ProspectusJs,
+  prospectusBytes?: ArrayBuffer
+): Promise<ProspectusInputs> => {
   // new prospectus: generate the IPFS url and return corresponding data
   // note that the bytes are returned too, to generate a hash in rust
   // the IPFS CID is not easily reproducible, so we manage a separate hash
@@ -442,6 +446,12 @@ const toProspectusInputs = async (
     // no new or pre-existing prospectus data (the prospectus is optional)
     return null
   }
+}
+
+type ProspectusInputs = {
+  url: string
+  bytes?: number[]
+  hash?: string
 }
 
 const rekeyOwner = async (

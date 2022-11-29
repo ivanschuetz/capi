@@ -76,7 +76,7 @@ export const InvestEmbedded = ({ deps, dao }) => {
               <div>
                 <input
                   placeholder={"Enter amount"}
-                  size="30"
+                  size={30}
                   type="number"
                   min="0"
                   value={buySharesCount}
@@ -91,7 +91,7 @@ export const InvestEmbedded = ({ deps, dao }) => {
                 label={"Buy"}
                 className={"button-primary"}
                 isLoading={submitting}
-                onClick={async (_) => {
+                onClick={() => {
                   if (deps.features.prospectus) {
                     setShowProspectusModal(true)
                   } else {
@@ -124,8 +124,7 @@ export const InvestEmbedded = ({ deps, dao }) => {
 
         {showProspectusModal && (
           <AckProspectusModal
-            url={deps.dao.prospectus.url}
-            prospectusHash={deps.dao.prospectus.hash}
+            deps={deps}
             closeModal={() => setShowProspectusModal(false)}
             onAccept={() => {
               setShowProspectusModal(false)

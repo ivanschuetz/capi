@@ -99,11 +99,7 @@ const Activity = ({ deps }) => {
       return (
         <div>
           {deps.compactFundsActivity.map((entry) => (
-            <CompactFundsActivityEntry
-              entry={entry}
-              showDescr={false}
-              key={entry.tx_id}
-            />
+            <CompactFundsActivityEntry entry={entry} key={entry.tx_id} />
           ))}
         </div>
       )

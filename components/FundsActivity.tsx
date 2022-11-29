@@ -39,12 +39,7 @@ const Activity = ({ deps, daoId, activityEntries }) => {
         <div>
           {activityEntries &&
             activityEntries.map((entry) => (
-              <FundsActivityEntry
-                deps={deps}
-                entry={entry}
-                showDescr={true}
-                key={entry.tx_id}
-              />
+              <FundsActivityEntry deps={deps} entry={entry} key={entry.tx_id} />
             ))}
         </div>
       )

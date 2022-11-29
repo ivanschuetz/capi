@@ -119,7 +119,7 @@ export const LabeledAmountInput = ({
   placeholder,
   errorMsg,
   info,
-}) => {
+}: LabeledAmountInputPars) => {
   return (
     <WithLabel label={label} info={info} errorMsg={errorMsg}>
       <Input
@@ -282,7 +282,7 @@ export const LabeledTextArea = ({
         <textarea
           className={inputClass}
           rows={rows}
-          cols="50"
+          cols={50}
           value={inputValue}
           placeholder={placeholder}
           onChange={(event) => {
@@ -347,14 +347,17 @@ export const LabeledDateInput = ({
   )
 }
 
-type LabeledInputPars = {
+type InputBase = {
   label: string
   inputValue?: string
   onChange: (text: string) => void
   placeholder?: string
   errorMsg?: string
-  maxLength?: number
+}
+
+type LabeledInputPars = InputBase & {
   img?: any
+  maxLength?: number
   info?: string
   disabled?: boolean
 }
@@ -364,7 +367,9 @@ type InputLengthPars = {
   className: string
 }
 
-type LabeledCurrencyInputPars = {
+type LabeledCurrencyInputPars = LabeledAmountInputPars
+
+type LabeledAmountInputPars = {
   label: string
   inputValue: string
   onChange: (input: string) => void
@@ -384,14 +389,9 @@ type InputPars = {
   textLengthClass?: string
 }
 
-type LabeledTextAreaPars = {
-  label: string
-  inputValue?: string
-  onChange?: (input: string) => void
-  placeholder?: string
-  errorMsg?: string
-  maxLength?: number
+type LabeledTextAreaPars = InputBase & {
   img?: any
+  maxLength?: number
   className?: string
   rows?: number
 }

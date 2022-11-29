@@ -15,7 +15,10 @@ import { SetString, SetWallet } from "../type_alias"
 import { Wallet } from "../wallet/Wallet"
 import { initWcWalletIfAvailable } from "../wallet/walletConnectWallet"
 import { WASMContext } from "./WASMContext"
-import { QuantityChangeJs } from "/Users/ivanschuetz/dev/repo/github/capi/frontend/next/wasm/wasm"
+import {
+  BalanceResJs,
+  QuantityChangeJs,
+} from "/Users/ivanschuetz/dev/repo/github/capi/frontend/next/wasm/wasm"
 
 const initial: IAppContext = {}
 
@@ -26,7 +29,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 }) => {
   const [myAddress, setMyAddress] = useState("")
 
-  const [myBalance, setMyBalance] = useState("")
+  const [myBalance, setMyBalance] = useState(null)
 
   const [myShares, setMyShares] = useState(null)
   const [myDividend, setMyDividend] = useState(null)
@@ -253,8 +256,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
           // we need this, because the displayed entries are filtered ("show less" state)
           // so their indices don't correspond to the chart (which displays all the holders)
           const holdersWithIndex = distrRes.holders.map((holder, index) => {
-            holder.originalIndex = index
-            return holder
+            return { ...holdersChange, originalIndex: index }
           })
 
           setSharesDistr(holdersWithIndex)
@@ -371,7 +373,7 @@ export interface Deps {
 
   notification: Notification
 
-  myBalance?: string
+  myBalance?: BalanceResJs
   updateMyBalance: (myAddress: string) => void
 
   myShares?: string

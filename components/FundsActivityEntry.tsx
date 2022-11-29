@@ -20,7 +20,7 @@ const DesktopEntryView = ({ entry }) => {
           <div className="desc black">{entry.address}</div>
           <div className="ellipse"></div>
           <div className="grey-190 ft-size-14">
-            <FundsActivityEntryLabel entry={entry} />
+            {fundsActivityEntryLabel(entry)}
           </div>
         </div>
         <div className="description">{entry.description}</div>
@@ -45,9 +45,7 @@ const MobileEntryView = ({ entry }) => {
         </div>
         <div className="d-flex align-center order-1">
           <AmountView entry={entry} />
-          <div className="status">
-            <FundsActivityEntryLabel entry={entry} />
-          </div>
+          <div className="status">{fundsActivityEntryLabel(entry)}</div>
         </div>
         <div className="description order-3">{entry.description}</div>
       </div>
@@ -67,7 +65,7 @@ const DetailsLink = ({ entry }) => {
   )
 }
 
-export const FundsActivityEntryLabel = ({ entry }) => {
+export const fundsActivityEntryLabel = (entry) => {
   if (entry.is_income === "true") {
     return "Income"
   } else {

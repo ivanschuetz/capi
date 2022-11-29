@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Deps } from "../context/AppContext"
+import { SetBool } from "../type_alias"
 import { LockOrUnlockShares } from "./LockOrUnlockShares"
 
 export const UnlockShares = ({ deps, dao, daoId }) => {
@@ -27,7 +28,7 @@ export const UnlockShares = ({ deps, dao, daoId }) => {
   )
 }
 
-const unlock = async (deps: Deps, showProgress, daoId) => {
+const unlock = async (deps: Deps, showProgress: SetBool, daoId: string) => {
   try {
     showProgress(true)
     let unlockRes = await deps.wasm.unlock({
@@ -43,7 +44,6 @@ const unlock = async (deps: Deps, showProgress, daoId) => {
     showProgress(true)
     let submitUnlockRes = await deps.wasm.submitUnlock({
       txs: unlockResSigned,
-      pt: unlockRes.pt,
     })
     console.log("submitUnlockRes: " + JSON.stringify(submitUnlockRes))
 

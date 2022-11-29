@@ -18,7 +18,7 @@ const notOwnedEntry = (entry, isSelected) => {
   return entryBody(entry, isSelected)
 }
 
-const entryBody = (entry, isSelected, col) => {
+const entryBody = (entry: any, isSelected: boolean, color?: string) => {
   var containerClasses = "holder_item__container"
   if (isSelected) {
     containerClasses = containerClasses + " selected"
@@ -34,7 +34,7 @@ const entryBody = (entry, isSelected, col) => {
           fill="none"
           xmlns="http://www.w3.org/2000/svg"
         >
-          <circle cx="8" cy="8.5" r="8" fill={col} />
+          <circle cx="8" cy="8.5" r="8" fill={color} />
         </svg>
       </div>
       <div className="grey-190">{entry.label}</div>

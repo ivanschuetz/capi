@@ -96,7 +96,7 @@ const update = (deps: Deps, daoId, setDao) => {
 
         if (deps.myAddress) {
           // TODO check for daoId? or do we know it's always set?
-          await deps.updateInvestmentData()
+          await deps.updateInvestmentData(daoId, deps.myAddress)
           await deps.updateMyShares(daoId, deps.myAddress)
         }
       })

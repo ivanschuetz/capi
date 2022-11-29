@@ -7,21 +7,22 @@ export const startBuyCurrencyFlow = async (
   dstAmount,
   closeModal
 ) => {
-  const reserveWyreRes = await deps.wasm
-    .reserveWyre({
+  safe(deps.notification, async () => {
+    const reserveWyreRes = await deps.wasm.reserveWyre({
       address: deps.myAddress,
       dst_currency: dstCurrency,
       dst_amount: dstAmount,
     })
-    .catch(deps.notification.error)
+    // .catch(deps.notification.error)
 
-  // TODO return only reservation in rust - we don't use url
-  openWyreCheckoutDialog(deps, reserveWyreRes.reservation, closeModal)
+    // TODO return only reservation in rust - we don't use url
+    openWyreCheckoutDialog(deps, reserveWyreRes.reservation, closeModal)
+  })
 }
 
 // see https://docs.sendwyre.com/docs/checkout-hosted-dialog
 const openWyreCheckoutDialog = (deps: Deps, reservation, closeModal) => {
-  const Wyre = window.Wyre
+  const Wyre = (<any>window).Wyre
 
   // debit card popup
   // note: currently lists credit / debit and Apple Pay on Safari

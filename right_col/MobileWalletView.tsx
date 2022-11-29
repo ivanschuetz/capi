@@ -2,7 +2,7 @@ import { useEffect } from "react"
 import { MyAccount } from "../components/MyAccount"
 import { useDaoId } from "../hooks/useDaoId"
 
-export const MobileWalletView = ({ deps, containerClass, onClose }) => {
+export const MobileWalletView = ({ deps, containerClass }) => {
   const daoId = useDaoId()
 
   useEffect(() => {
@@ -25,7 +25,7 @@ export const MobileWalletView = ({ deps, containerClass, onClose }) => {
 
   return (
     <div id={containerClass}>
-      {daoId && <MyAccount deps={deps} daoId={daoId} onClose={onClose} />}
+      {daoId && <MyAccount deps={deps} daoId={daoId} />}
     </div>
   )
 }

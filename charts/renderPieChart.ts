@@ -4,15 +4,15 @@ import { PIE_CHART_GRAY } from "../functions/utils"
 const NOT_OWNED = "not_owned"
 const RED = "#DF5C60"
 
-// onSegmentSelected has to return selected status, to highlight the segment
 const renderPieChart = (
-  container,
-  data,
-  dataNumberSelector,
-  onSegmentSelected,
-  col,
-  animated,
-  disableClick
+  container: any,
+  data: any,
+  dataNumberSelector: (d: any) => string,
+  // returns whether the segment should be displayed as selected
+  onSegmentSelected: (segment: any) => boolean,
+  colors: string[],
+  animated: boolean,
+  disableClick: boolean
 ) => {
   var width = 300,
     height = 300
@@ -20,11 +20,11 @@ const renderPieChart = (
   let outerRadius = (height / 2) * 0.82
   let innerRadius = (height / 2) * 0.55
 
-  const colors = (d, i, isGray = false) => {
+  const color = (d, i, isGray = false) => {
     if (d && d.data.isSelected) {
       return RED
     } else {
-      return isGray ? PIE_CHART_GRAY : col[Math.round(i % col.length)]
+      return isGray ? PIE_CHART_GRAY : colors[Math.round(i % colors.length)]
     }
   }
 
@@ -62,7 +62,7 @@ const renderPieChart = (
     .selectAll()
     .data(data_ready)
     .join("path")
-    .attr("fill", (d, i) => colors(d, i, d.data.type_ === NOT_OWNED))
+    .attr("fill", (d, i) => color(d, i, d.data.type_ === NOT_OWNED))
     .attr("class", (d, i) => segmentClass(d, i, d.data.type_ === NOT_OWNED))
 
   let angleInterpolation = d3.interpolate(pie.startAngle()(), pie.endAngle()())
@@ -95,7 +95,7 @@ const renderPieChart = (
       .transition()
       .ease(d3.easeLinear)
       .duration(200)
-      .attr("fill", (d, i) => colors(d, i, d.data.type_ === NOT_OWNED))
+      .attr("fill", (d, i) => color(d, i, d.data.type_ === NOT_OWNED))
   }
 
   const selectedColorState = (segment) => {

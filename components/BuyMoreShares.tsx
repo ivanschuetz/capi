@@ -152,8 +152,7 @@ export const BuyMoreShares = ({ deps, dao }) => {
         )}
         {showProspectusModal && (
           <AckProspectusModal
-            url={deps.dao.prospectus.url}
-            prospectusHash={deps.dao.prospectus.hash}
+            deps={deps}
             closeModal={() => setShowProspectusModal(false)}
             onAccept={async () => {
               setShowProspectusModal(false)

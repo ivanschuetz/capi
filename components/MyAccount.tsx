@@ -14,7 +14,7 @@ import { CopyPasteHtml } from "./CopyPastText"
 import Progress from "./Progress"
 import { SubmitButton } from "./SubmitButton"
 
-export const MyAccount = ({ deps, daoId }) => {
+export const MyAccount = ({ deps, daoId }: { deps: Deps; daoId?: string }) => {
   const [showSelectWalletModal, setShowSelectWalletModal] = useState(false)
 
   const [showDisclaimerModal, setShowDisclaimerModal] = useState(false)

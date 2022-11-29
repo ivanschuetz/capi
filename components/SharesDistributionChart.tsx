@@ -8,6 +8,13 @@ export const SharesDistributionChart = ({
   col,
   animated,
   disableClick,
+}: {
+  sharesDistr: any
+  // returns whether the address segment should be displayed as selected
+  onAddressSelected?: (value: string) => boolean
+  col: any
+  animated: any
+  disableClick?: boolean
 }) => {
   const chart = useRef(null)
 
@@ -17,9 +24,7 @@ export const SharesDistributionChart = ({
         chart.current,
         sharesDistr,
         (d) => d.percentage_number,
-        (d) => {
-          return onAddressSelected(d.address)
-        },
+        (d) => onAddressSelected(d.address),
         col,
         animated,
         disableClick

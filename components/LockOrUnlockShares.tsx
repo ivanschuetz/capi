@@ -17,7 +17,7 @@ export const LockOrUnlockShares = ({
   submitting,
   // parameter: input (can be null if there's no input element or input text)
   onSubmit,
-}) => {
+}: LockOrUnlockSharesPars) => {
   const [input, setInput] = useState(null)
   const [inputError, setInputError] = useState(null)
 
@@ -136,4 +136,15 @@ export const LockOrUnlockShares = ({
 
 const to_pie_chart_slice = (percentage) => {
   return { percentage_number: percentage }
+}
+
+type LockOrUnlockSharesPars = {
+  dao: any
+  investmentData: any
+  showInput: boolean
+  title: string
+  inputLabel?: string
+  buttonLabel: string
+  submitting: boolean
+  onSubmit: (input: string, setErrorMsg: (msg: string) => void) => void
 }
