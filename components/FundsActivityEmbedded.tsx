@@ -1,5 +1,6 @@
 import Link from "next/link"
 import { useEffect, useState } from "react"
+import { DaoJs } from "wasm/wasm"
 import { Deps } from "../context/AppContext"
 import { changeArrow, safe, shortedAddress } from "../functions/utils"
 import funds from "../images/funds.svg"
@@ -40,7 +41,7 @@ const Box = ({
   hasEntries,
 }: {
   deps: Deps
-  dao: any
+  dao: DaoJs
   hasEntries: () => boolean
 }) => {
   return (
@@ -65,7 +66,7 @@ const Funds = ({ deps }: { deps: Deps }) => {
   )
 }
 
-const Wallet = ({ deps, dao }) => {
+const Wallet = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
   return (
     <div className="project-wallet">
       <div className="grey-190">{"Project wallet address:"}</div>
@@ -79,7 +80,7 @@ const Wallet = ({ deps, dao }) => {
   )
 }
 
-const ActivityContainer = ({ deps }) => {
+const ActivityContainer = ({ deps }: { deps: Deps }) => {
   return (
     <div>
       <div className="mt-32 ft-weight-600 mb-32 ft-size-18">
@@ -93,7 +94,7 @@ const ActivityContainer = ({ deps }) => {
   )
 }
 
-const Activity = ({ deps }) => {
+const Activity = ({ deps }: { deps: Deps }) => {
   if (deps.compactFundsActivity) {
     if (deps.compactFundsActivity.length > 0) {
       return (
@@ -111,7 +112,7 @@ const Activity = ({ deps }) => {
   }
 }
 
-const updateDao = (deps: Deps, daoId: string, setDao: (dao: any) => void) => {
+const updateDao = (deps: Deps, daoId: string, setDao: (dao: DaoJs) => void) => {
   useEffect(() => {
     if (deps.wasm) {
       safe(deps.notification, async () => {

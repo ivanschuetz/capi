@@ -6,6 +6,7 @@ import redArrow from "../images/svg/arrow.svg"
 import { SharesDistributionChart } from "./SharesDistributionChart"
 import { LabeledAmountInput, WithTooltip } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
+import { DaoJs } from "wasm/wasm"
 
 export const LockOrUnlockShares = ({
   dao,
@@ -139,7 +140,7 @@ const to_pie_chart_slice = (percentage) => {
 }
 
 type LockOrUnlockSharesPars = {
-  dao: any
+  dao: DaoJs
   investmentData: any
   showInput: boolean
   title: string

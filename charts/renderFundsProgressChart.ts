@@ -1,20 +1,23 @@
 import * as d3 from "d3"
 import moment from "moment"
+import { DaoJs } from "wasm/wasm"
 
 const topLabelFontSize = 12
 const bottomLabelFontSize = 10
 const surroundingLabelWeight = 400
 
 const renderFundsProgressChart = (
-  svg,
-  dao,
-  formattedRaisedFunds,
-  raisedFundsNumber,
-  successColors
+  svg: JSX.Element,
+  dao: DaoJs,
+  formattedRaisedFunds: string,
+  raisedFundsNumber: string,
+  useSuccessColors: boolean
 ) => {
-  let textTopLeft = moment.unix(dao.setup_date).format("D MMM YYYY")
+  let textTopLeft = moment.unix(parseInt(dao.setup_date)).format("D MMM YYYY")
   let textBottomLeft = "0"
-  let textTopRight = moment.unix(dao.raise_end_date).format("D MMM YYYY")
+  let textTopRight = moment
+    .unix(parseInt(dao.raise_end_date))
+    .format("D MMM YYYY")
   let textBottomRight = dao.total_raisable + ""
 
   const minFunds = dao.raise_min_target_number
@@ -56,7 +59,7 @@ const renderFundsProgressChart = (
     .attr("x", 0)
     .attr("y", margin.top)
 
-  const barColor = successColors ? "#6BB9BD" : "#DE5C62"
+  const barColor = useSuccessColors ? "#6BB9BD" : "#DE5C62"
 
   // the progress bar looks weird when it's too small (issue with rounded corners), so hidden
   if (x(raisedFundsNumber) > 14) {

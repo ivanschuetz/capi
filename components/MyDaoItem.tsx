@@ -1,6 +1,7 @@
 import Link from "next/link"
+import { MyDaoJs } from "wasm/wasm"
 
-export const MyDaoItem = ({ dao }) => {
+export const MyDaoItem = ({ dao }: { dao: MyDaoJs }) => {
   return (
     // the dao url is unique
     <div key={dao.url_rel} className="my_dao">

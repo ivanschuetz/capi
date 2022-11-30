@@ -392,7 +392,8 @@ const createDao = async (
     } else if (e.id === "not_enough_algos") {
       setShowBuyCurrencyInfoModal(true)
     } else {
-      notification.error(JSON.stringify(e))
+      console.error(eAny)
+      notification.error(eAny.toString())
     }
 
     showProgress(false)

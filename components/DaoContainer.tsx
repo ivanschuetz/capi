@@ -4,7 +4,7 @@ import { AppContext } from "../context/AppContext"
 import { WireframeWrapper } from "../wireframes/WireframeWrapper"
 import { AppContainer } from "./AppContainer"
 
-export const DaoContainer = ({ nested }) => {
+export const DaoContainer = ({ nested }: { nested: JSX.Element }) => {
   const ctx = useContext(AppContext)
 
   return (

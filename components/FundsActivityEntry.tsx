@@ -1,9 +1,17 @@
 import ReactTooltip from "react-tooltip"
+import { FundsActivityViewData } from "wasm/wasm"
+import { Deps } from "../context/AppContext"
 import funds from "../images/funds.svg"
 import arrowDown from "../images/svg/arrow-down.svg"
 import arrowUp from "../images/svg/arrow-up.svg"
 
-export const FundsActivityEntry = ({ deps, entry }) => {
+export const FundsActivityEntry = ({
+  deps,
+  entry,
+}: {
+  deps: Deps
+  entry: FundsActivityViewData
+}) => {
   if (deps.size?.s4) {
     return <MobileEntryView entry={entry} />
   } else {
@@ -11,7 +19,7 @@ export const FundsActivityEntry = ({ deps, entry }) => {
   }
 }
 
-const DesktopEntryView = ({ entry }) => {
+const DesktopEntryView = ({ entry }: { entry: FundsActivityViewData }) => {
   return (
     <div className="funds_act_entry">
       <AmountView entry={entry} />
@@ -54,7 +62,7 @@ const MobileEntryView = ({ entry }) => {
   )
 }
 
-const DetailsLink = ({ entry }) => {
+const DetailsLink = ({ entry }: { entry: FundsActivityViewData }) => {
   return (
     <div className="funds_act_entry__details">
       k<div className="funds_act_entry__date">{entry.date}</div>
@@ -65,7 +73,7 @@ const DetailsLink = ({ entry }) => {
   )
 }
 
-export const fundsActivityEntryLabel = (entry) => {
+export const fundsActivityEntryLabel = (entry: FundsActivityViewData) => {
   if (entry.is_income === "true") {
     return "Income"
   } else {
@@ -73,7 +81,7 @@ export const fundsActivityEntryLabel = (entry) => {
   }
 }
 
-const AmountView = ({ entry }) => {
+const AmountView = ({ entry }: { entry: FundsActivityViewData }) => {
   var className
   if (entry.is_income === "true") {
     className = "funds_act_entry__amount__number"
@@ -91,14 +99,12 @@ const AmountView = ({ entry }) => {
       />
       <img className="funds-dollar-icon" src={funds.src} alt="funds" />
 
-      <div className={className}>
-        <NestedAmountView entry={entry} />
-      </div>
+      <div className={className}>{nestedAmountView(entry)}</div>
     </div>
   )
 }
 
-export const NestedAmountView = ({ entry }) => {
+export const nestedAmountView = (entry: FundsActivityViewData) => {
   if (entry.amount_without_fee !== entry.short_amount_without_fee) {
     return (
       <>

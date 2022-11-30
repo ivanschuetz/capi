@@ -7,8 +7,9 @@ import { ContentTitle } from "./ContentTitle"
 import { FundsActivityEntry } from "./FundsActivityEntry"
 import Progress from "./Progress"
 import { SubmitButton } from "./SubmitButton"
+import { FundsActivityViewData } from "wasm/wasm"
 
-export const FundsActivity = ({ deps }) => {
+export const FundsActivity = ({ deps }: { deps: Deps }) => {
   const daoId = useDaoId()
 
   const [activityEntries, setActivityEntries] = useState(null)
@@ -32,7 +33,15 @@ export const FundsActivity = ({ deps }) => {
   )
 }
 
-const Activity = ({ deps, daoId, activityEntries }) => {
+const Activity = ({
+  deps,
+  daoId,
+  activityEntries,
+}: {
+  deps: Deps
+  daoId: string
+  activityEntries: FundsActivityViewData[]
+}) => {
   if (activityEntries) {
     if (activityEntries.length > 0) {
       return (
@@ -71,7 +80,11 @@ const NoActivityView = ({ daoId }) => {
   )
 }
 
-const updateActivityEntries = (deps: Deps, daoId, setActivityEntries) => {
+const updateActivityEntries = (
+  deps: Deps,
+  daoId: string,
+  setActivityEntries: (entries: FundsActivityViewData[]) => void
+) => {
   useEffect(() => {
     if (deps.wasm) {
       safe(deps.notification, async () => {

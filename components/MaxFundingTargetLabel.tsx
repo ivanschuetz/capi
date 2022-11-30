@@ -2,7 +2,7 @@ import ReactTooltip from "react-tooltip"
 import funds from "../images/funds.svg"
 import info from "../images/svg/info.svg"
 
-export const MaxFundingTargetLabel = ({ text }) => {
+export const MaxFundingTargetLabel = ({ text }: { text: string }) => {
   return (
     <div className="f-basis-50">
       <div className="pl-25 grey-160">
@@ -16,7 +16,7 @@ export const MaxFundingTargetLabel = ({ text }) => {
   )
 }
 
-const Tooltip = ({ uuid }) => {
+const Tooltip = ({ uuid }: { uuid: string }) => {
   return (
     <div className="d-flex align-center mb-8">
       <div className="ft-weight-600">{"Max funding target"}</div>

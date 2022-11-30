@@ -1,3 +1,4 @@
+import { DaoJs } from "wasm/wasm"
 import { Notification } from "../components/Notification"
 import { SetBool, SetString, Wasm } from "../type_alias"
 import { Wallet } from "../wallet/Wallet"
@@ -44,11 +45,11 @@ export const invest = async (
   updateAvailableShares: (daoId: string) => void,
   updateRaisedFunds: (daoId: string) => void,
   updateCompactFundsActivity: (daoId: string) => void,
-  updateSharesDistr: (dao: any) => void,
+  updateSharesDistr: (dao: DaoJs) => void,
 
   showProgress: SetBool,
   daoId: string,
-  dao: any,
+  dao: DaoJs,
   availableSharesNumber: string,
   buySharesCount: string,
   setShareAmountError: SetString,

@@ -3,7 +3,7 @@ import linkedin from "../images/svg/linkedin.svg"
 import telegram from "../images/svg/telegram.svg"
 import twitter from "../images/svg/twitter-white.svg"
 
-const ShareView = ({ projectUrl }) => {
+const ShareView = ({ projectUrl }: { projectUrl: string }) => {
   const shareText = "Invest in my project!"
 
   return (
@@ -39,7 +39,7 @@ const ShareView = ({ projectUrl }) => {
 
 export default ShareView
 
-const twitterLink = (url, title) => {
+const twitterLink = (url: string, title: string) => {
   return (
     "https://twitter.com/share" +
     objectToGetParams({
@@ -49,7 +49,7 @@ const twitterLink = (url, title) => {
   )
 }
 
-const facebookLink = (url, title) => {
+const facebookLink = (url: string, title: string) => {
   return (
     "https://www.facebook.com/sharer/sharer.php" +
     objectToGetParams({
@@ -59,7 +59,7 @@ const facebookLink = (url, title) => {
   )
 }
 
-const linkedInLink = (url, title) => {
+const linkedInLink = (url: string, title: string) => {
   return (
     "https://linkedin.com/shareArticle" +
     objectToGetParams({
@@ -70,7 +70,7 @@ const linkedInLink = (url, title) => {
   )
 }
 
-const telegramLink = (url, title) => {
+const telegramLink = (url: string, title: string) => {
   return (
     "https://telegram.me/share/url" +
     objectToGetParams({
@@ -80,7 +80,7 @@ const telegramLink = (url, title) => {
   )
 }
 
-function objectToGetParams(object) {
+function objectToGetParams(object: object) {
   const params = Object.entries(object).map(
     ([key, value]) =>
       `${encodeURIComponent(key)}=${encodeURIComponent(String(value))}`

@@ -7,7 +7,7 @@ export const Funds = ({
   showWithdrawLink,
   daoId,
   containerClassNameOpt,
-}) => {
+}: FundsPars) => {
   return (
     <div id="dao_funds__cont" className={containerClassNameOpt}>
       <div>{"Available funds"}</div>
@@ -20,7 +20,7 @@ export const Funds = ({
   )
 }
 
-const WithdrawButton = ({ daoId }) => {
+const WithdrawButton = ({ daoId }: { daoId: string }) => {
   return (
     <span>
       <Link href={"/" + daoId + "/withdraw"}>
@@ -28,4 +28,11 @@ const WithdrawButton = ({ daoId }) => {
       </Link>
     </span>
   )
+}
+
+type FundsPars = {
+  funds: string
+  showWithdrawLink: boolean
+  daoId: string
+  containerClassNameOpt?: string
 }

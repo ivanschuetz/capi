@@ -7,6 +7,7 @@ import { useDaoId } from "../hooks/useDaoId"
 import { storeIpfs, toMaybeIpfsUrl } from "../ipfs/store"
 import { OkCancelModal } from "../modal/OkCancelModal"
 import { ProspectusModal } from "../prospectus/ProspectusModal"
+import { SetBool, SetString } from "../type_alias"
 import { FileUploader } from "./FileUploader"
 import { ImageUpload } from "./ImageUpload"
 import {
@@ -17,7 +18,7 @@ import {
 } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
 
-export const UpdateDaoData = ({ deps }) => {
+export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
   const daoId = useDaoId()
 
   const [daoName, setDaoName] = useState("")
@@ -151,7 +152,6 @@ export const UpdateDaoData = ({ deps }) => {
               daoName,
               daoDescr,
               sharePrice,
-              imageBytes,
               socialMediaUrl,
               minInvestShares,
               maxInvestShares,
@@ -164,6 +164,8 @@ export const UpdateDaoData = ({ deps }) => {
               setMinInvestSharesError,
               setMaxInvestSharesError,
               prefillProspectus,
+
+              imageBytes,
               prospectusBytes
             )
           }}
@@ -254,14 +256,14 @@ export const UpdateDaoData = ({ deps }) => {
 
 const prefill = (
   deps: Deps,
-  daoId,
-  setDaoName,
-  setDaoDescr,
-  setSharePrice,
+  daoId: string,
+  setDaoName: SetString,
+  setDaoDescr: SetString,
+  setSharePrice: SetString,
   setImageBytes: (base64: string) => void,
-  setSocialMediaUrl,
-  setMinInvestShares,
-  setMaxInvestShares,
+  setSocialMediaUrl: SetString,
+  setMinInvestShares: SetString,
+  setMaxInvestShares: SetString,
   setPrefillProspectus: (value: ProspectusJs) => void
 ) => {
   useEffect(() => {
@@ -287,14 +289,14 @@ const prefill = (
 
 const prefillInputs = async (
   deps: Deps,
-  daoId,
-  setDaoName,
-  setDaoDescr,
-  setSharePrice,
+  daoId: string,
+  setDaoName: SetString,
+  setDaoDescr: SetString,
+  setSharePrice: SetString,
   setImageBytes: (base64: string) => void,
-  setSocialMediaUrl,
-  setMinInvestShares,
-  setMaxInvestShares,
+  setSocialMediaUrl: SetString,
+  setMinInvestShares: SetString,
+  setMaxInvestShares: SetString,
   setProspectus: (value: ProspectusJs) => void
 ) => {
   try {
@@ -320,27 +322,27 @@ const prefillInputs = async (
 
 const updateDaoData = async (
   deps: Deps,
-  showProgress,
-  daoId,
-  projectName,
-  daoDescr,
-  sharePrice,
-  imageBytes,
-  socialMediaUrl,
+  showProgress: SetBool,
+  daoId: string,
+  projectName: string,
+  daoDescr: string,
+  sharePrice: string,
+  socialMediaUrl: string,
 
   // OR: either bytes (new prospectus) or prospectus (existing prospectus) is set
 
-  minInvestShares,
-  maxInvestShares,
+  minInvestShares: string,
+  maxInvestShares: string,
 
-  setDaoNameError,
-  setDaoDescrError,
-  setImageError,
-  setProspectusError,
-  setSocialMediaUrlError,
-  setMinInvestSharesError,
-  setMaxInvestSharesError,
+  setDaoNameError: SetString,
+  setDaoDescrError: SetString,
+  setImageError: SetString,
+  setProspectusError: SetString,
+  setSocialMediaUrlError: SetString,
+  setMinInvestSharesError: SetString,
+  setMaxInvestSharesError: SetString,
   existingProspectus?: ProspectusJs,
+  imageBytes?: ArrayBuffer,
   prospectusBytes?: ArrayBuffer
 ) => {
   try {
@@ -456,10 +458,10 @@ type ProspectusInputs = {
 
 const rekeyOwner = async (
   deps: Deps,
-  showProgress,
-  daoId,
-  authAddress,
-  setInputError
+  showProgress: SetBool,
+  daoId: string,
+  authAddress: string,
+  setInputError: SetString
 ) => {
   try {
     showProgress(true)

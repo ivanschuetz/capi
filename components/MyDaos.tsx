@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react"
+import { MyDaoJs } from "wasm/wasm"
 import { Deps } from "../context/AppContext"
 import { safe } from "../functions/utils"
 import { ContentTitle } from "./ContentTitle"
 import { MyDaoCreateItem } from "./MyDaoCreateItem"
 import { MyDaoItem } from "./MyDaoItem"
 
-export const MyDaos = ({ deps }) => {
+export const MyDaos = ({ deps }: { deps: Deps }) => {
   const [myDaos, setMyDaos] = useState([])
 
   updateMyDaos(deps, setMyDaos)
@@ -20,13 +21,13 @@ export const MyDaos = ({ deps }) => {
   )
 }
 
-const MyDaosEntries = ({ myDaos }) => {
+const MyDaosEntries = ({ myDaos }: { myDaos: MyDaoJs[] }) => {
   var elements = myDaos ? myDaos.map((dao) => <MyDaoItem dao={dao} />) : []
   elements.push(<MyDaoCreateItem />)
   return myDaos && <div className="my-daos-container mt-40">{elements}</div>
 }
 
-const updateMyDaos = (deps: Deps, setMyDaos) => {
+const updateMyDaos = (deps: Deps, setMyDaos: (daos: MyDaoJs[]) => void) => {
   useEffect(() => {
     if (deps.wasm && deps.myAddress) {
       safe(deps.notification, async () => {

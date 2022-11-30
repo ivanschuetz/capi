@@ -1,4 +1,4 @@
-export const toFriendlyError = (msg) => {
+export const toFriendlyError = (msg: string) => {
   console.log("toFriendlyError: %o", msg)
   return (
     txIdNotFoundError(msg) ??
@@ -11,7 +11,7 @@ export const toFriendlyError = (msg) => {
   )
 }
 
-export const tryOverspendError = (msg) => {
+export const tryOverspendError = (msg: string) => {
   const regex = /account\s(.*?),/
   const match = msg.match(regex)
 
@@ -25,7 +25,7 @@ export const tryOverspendError = (msg) => {
   }
 }
 
-export const tryAssetNotOptedInError = (msg) => {
+export const tryAssetNotOptedInError = (msg: string) => {
   // TransactionPool.Remember: transaction X: asset Y missing from Z
   const regex = /asset\s(.*)\smissing from\s(.*)$/
   const match = msg.match(regex)
@@ -39,7 +39,7 @@ export const tryAssetNotOptedInError = (msg) => {
   }
 }
 
-export const tryAssetOverspendError = (msg) => {
+export const tryAssetOverspendError = (msg: string) => {
   // TransactionPool.Remember: transaction X: underflow on subtracting 1000000 from sender amount 1000
   const regex = /underflow on subtracting (.*) from sender amount (.*)$/
   const match = msg.match(regex)
@@ -59,7 +59,7 @@ export const tryAssetOverspendError = (msg) => {
   }
 }
 
-export const txIdNotFoundError = (msg) => {
+export const txIdNotFoundError = (msg: string) => {
   // http error: Some("http://127.0.0.1:8980/v2/transactions/X"), Http error: 404, no transaction found for transaction id: X
   const regex = /, no transaction found for transaction id: (.*)$/
   const match = msg.match(regex)
@@ -72,7 +72,7 @@ export const txIdNotFoundError = (msg) => {
   }
 }
 
-export const tealApiConnectionError = (msg) => {
+export const tealApiConnectionError = (msg: string) => {
   if (msg.includes("Failed to fetch") && msg.includes("TealApi")) {
     return "Couldn't connect to smart contracts api. Please try again."
   } else {
@@ -80,7 +80,7 @@ export const tealApiConnectionError = (msg) => {
   }
 }
 
-export const nodeApiConnectionError = (msg) => {
+export const nodeApiConnectionError = (msg: string) => {
   if (msg.includes("Failed to fetch") && msg.includes("algonaut_client")) {
     return "Couldn't connect to Algorand node. Please try again."
   } else {
@@ -88,7 +88,7 @@ export const nodeApiConnectionError = (msg) => {
   }
 }
 
-export const smartContractLogicError = (msg) => {
+export const smartContractLogicError = (msg: string) => {
   // http error 400 included just to make 100% sure that it's the "typical" smart contract error,
   // no particular reason, just to be sure
   if (msg.includes("logic eval error") && msg.includes("Http error: 400")) {

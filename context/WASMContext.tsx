@@ -1,5 +1,6 @@
 import { createContext, ReactNode, useState } from "react"
 import useEffectOnce from "../hooks/useEffectOnce"
+import { Wasm } from "../type_alias"
 
 const initial: IWASMContext = {}
 
@@ -15,7 +16,7 @@ export const WASMContextProvider: React.FC<WASMContextProviderProps> = ({
   // otherwise there can be race conditions that crash the app, see https://github.com/rustwasm/wasm-bindgen/issues/3153
   useEffectOnce(() => {
     ;(async () => {
-      const wasm = await import("wasm/wasm")
+      const wasm: Wasm = await import("wasm/wasm")
       await wasm.default()
       setState({ wasm })
     })()
@@ -25,7 +26,7 @@ export const WASMContextProvider: React.FC<WASMContextProviderProps> = ({
 }
 
 interface IWASMContext {
-  wasm?: typeof import("wasm/wasm")
+  wasm?: Wasm
 }
 
 interface WASMContextProviderProps {

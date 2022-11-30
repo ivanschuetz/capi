@@ -1,9 +1,11 @@
 import { useState } from "react"
+import { DaoJs } from "wasm/wasm"
 import { Deps } from "../context/AppContext"
 import { toValidationErrorMsg } from "../functions/validation"
+import { SetBool, SetString } from "../type_alias"
 import { LockOrUnlockShares } from "./LockOrUnlockShares"
 
-export const LockShares = ({ deps, dao, daoId, onLockOpt }) => {
+export const LockShares = ({ deps, dao, daoId, onLockOpt }: LockSharesPars) => {
   const [submitting, setSubmitting] = useState(false)
 
   return (
@@ -28,8 +30,8 @@ export const LockShares = ({ deps, dao, daoId, onLockOpt }) => {
           daoId,
           dao,
           input,
-          onLockOpt,
-          setInputError
+          setInputError,
+          onLockOpt
         )
       }}
     />
@@ -38,12 +40,12 @@ export const LockShares = ({ deps, dao, daoId, onLockOpt }) => {
 
 export const lock = async (
   deps: Deps,
-  showProgress,
-  daoId,
-  dao,
-  lockSharesCount,
-  onLockOpt,
-  setInputError
+  showProgress: SetBool,
+  daoId: string,
+  dao: DaoJs,
+  lockSharesCount: string,
+  setInputError: SetString,
+  onLockOpt?: () => void
 ) => {
   try {
     ///////////////////////////////////
@@ -111,4 +113,11 @@ export const lock = async (
     }
     showProgress(false)
   }
+}
+
+type LockSharesPars = {
+  deps: Deps
+  dao: DaoJs
+  daoId: string
+  onLockOpt?: () => void
 }

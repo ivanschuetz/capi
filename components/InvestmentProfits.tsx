@@ -7,8 +7,9 @@ import { safe } from "../functions/utils"
 import { useDaoId } from "../hooks/useDaoId"
 import Progress from "./Progress"
 import { SubmitButton } from "./SubmitButton"
+import { DaoJs } from "wasm/wasm"
 
-export const InvestmentProfits = ({ deps }) => {
+export const InvestmentProfits = ({ deps }: { deps: Deps }) => {
   let daoId = useDaoId()
 
   const [dao, setDao] = useState(null)
@@ -86,12 +87,12 @@ export const InvestmentProfits = ({ deps }) => {
   )
 }
 
-const update = (deps: Deps, daoId, setDao) => {
+const update = (deps: Deps, daoId: string, setDao: (dao: DaoJs) => void) => {
   useEffect(() => {
     if (deps.wasm) {
       safe(deps.notification, async () => {
         let dao = await deps.wasm.loadDao(daoId)
-        console.log("dao: " + JSON.stringify(dao))
+        console.log("dao: %o", dao)
         setDao(dao)
 
         if (deps.myAddress) {

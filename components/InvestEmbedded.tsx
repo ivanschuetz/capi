@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { DaoJs } from "wasm/wasm"
 import { BuyFundsAssetModal } from "../buy_currency/BuyFundsAssetModal"
 import { Deps } from "../context/AppContext"
 import {
@@ -15,7 +16,7 @@ import { SelectWalletModal } from "../wallet/SelectWalletModal"
 import { InfoView } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
 
-export const InvestEmbedded = ({ deps, dao }) => {
+export const InvestEmbedded = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
   const daoId = useDaoId()
 
   const [buySharesCount, setBuySharesCount] = useState("1")
@@ -140,7 +141,7 @@ export const InvestEmbedded = ({ deps, dao }) => {
   return deps.availableShares && view()
 }
 
-const TopBlock = ({ deps }) => {
+const TopBlock = ({ deps }: { deps: Deps }) => {
   return (
     <div className="top-block">
       <div className="available-shares">
@@ -172,7 +173,7 @@ const TopBlock = ({ deps }) => {
   )
 }
 
-const TopBlockItem = ({ label, value }) => {
+const TopBlockItem = ({ label, value }: { label: string; value: string }) => {
   return (
     <div className="d-flex align-center">
       <div className="mr-3">{label}</div>
@@ -181,7 +182,15 @@ const TopBlockItem = ({ label, value }) => {
   )
 }
 
-const RightView = ({ funds, totalCost, totalPercentage }) => {
+const RightView = ({
+  funds,
+  totalCost,
+  totalPercentage,
+}: {
+  funds: any
+  totalCost: string
+  totalPercentage: string
+}) => {
   return (
     <div className="buy-shares-right-col">
       <div id="shares_const_container">
@@ -223,7 +232,7 @@ const updateAvailableShares = (deps: Deps, daoId?: string) => {
 const updatePriceAndPercentage = (
   deps: Deps,
   buySharesCount: string,
-  dao: any,
+  dao: DaoJs,
   setTotalCost: SetString,
   setTotalCostNumber: SetString,
   setProfitPercentage: SetString,
@@ -275,7 +284,7 @@ const updatePriceAndPercentage = (
 
 const registerInvest = (
   deps: Deps,
-  dao: any,
+  dao: DaoJs,
   buyIntent: boolean,
   setBuyIntent: SetBool,
   buySharesCount: string,

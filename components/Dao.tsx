@@ -32,7 +32,15 @@ export const Dao = ({ deps }) => {
   return <div>{view()}</div>
 }
 
-const DaoView = ({ deps, description, daoId }) => {
+const DaoView = ({
+  deps,
+  description,
+  daoId,
+}: {
+  deps: Deps
+  description: string
+  daoId: string
+}) => {
   return (
     <div>
       {description && <div id="dao_description">{description}</div>}
@@ -54,7 +62,7 @@ const DaoView = ({ deps, description, daoId }) => {
   )
 }
 
-const MaybeInvestView = ({ deps }) => {
+const MaybeInvestView = ({ deps }: { deps: Deps }) => {
   if (!deps.features.prospectus) {
     return null
   } else {

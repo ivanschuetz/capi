@@ -9,7 +9,7 @@ import Progress from "./Progress"
 const entries_small_count = 3
 
 // Currently contains only a labeled chart but later could contain also e.g. list of holders / top holders
-export const SharesDistributionBox = ({ deps }) => {
+export const SharesDistributionBox = ({ deps }: { deps: Deps }) => {
   const [showMoreSelected, setShowMoreSelected] = useState(false)
   // used to highlight the address on the right side
   const [selectedAddress, setSelectedAddress] = useState(null)

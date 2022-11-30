@@ -1,14 +1,16 @@
 import { useEffect, useState } from "react"
+import { DaoJs } from "wasm/wasm"
 import { Deps } from "../context/AppContext"
 import { safe } from "../functions/utils"
 import { useDaoId } from "../hooks/useDaoId"
 import pencil from "../images/svg/pencil.svg"
+import { SetBool } from "../type_alias"
 import { Funds } from "./Funds"
 import { LabeledCurrencyInput, LabeledTextArea } from "./labeled_inputs"
 import Progress from "./Progress"
 import { SubmitButton } from "./SubmitButton"
 
-export const Withdraw = ({ deps }) => {
+export const Withdraw = ({ deps }: { deps: Deps }) => {
   let daoId = useDaoId()
 
   const [withdrawalAmount, setWithdrawalAmount] = useState("10")
@@ -75,9 +77,10 @@ export const Withdraw = ({ deps }) => {
   return <div>{view()}</div>
 }
 
-const updateDao = (deps: Deps, daoId, setDao) => {
+const updateDao = (deps: Deps, daoId: string, setDao: (dao: DaoJs) => void) => {
   useEffect(() => {
     safe(deps.notification, async () => {
+      // TODO can't we just use the dao in deps
       setDao(await deps.wasm.loadDao(daoId))
     })
   }, [deps.wasm, daoId, setDao, deps.notification])
@@ -85,10 +88,10 @@ const updateDao = (deps: Deps, daoId, setDao) => {
 
 const withdraw = async (
   deps: Deps,
-  showProgress,
-  daoId,
-  withdrawalAmount,
-  withdrawalDescr
+  showProgress: SetBool,
+  daoId: string,
+  withdrawalAmount: string,
+  withdrawalDescr: string
 ) => {
   try {
     showProgress(true)

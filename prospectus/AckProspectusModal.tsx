@@ -1,7 +1,16 @@
+import { Deps } from "../context/AppContext"
 import { OkCancelModal } from "../modal/OkCancelModal"
 import { AckProspectusView } from "./AckProspectusView"
 
-export const AckProspectusModal = ({ deps, onAccept, closeModal }) => {
+export const AckProspectusModal = ({
+  deps,
+  onAccept,
+  closeModal,
+}: {
+  deps: Deps
+  onAccept: () => void
+  closeModal: () => void
+}) => {
   return (
     <OkCancelModal
       title={"Prospectus"}

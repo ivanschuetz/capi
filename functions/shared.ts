@@ -1,14 +1,20 @@
-import { QuantityChangeJs } from "wasm/wasm"
+import { QuantityChangeJs, LoadInvestorResJs } from "wasm/wasm"
 import { Notification } from "../components/Notification"
-import { Wasm } from "../type_alias"
+import {
+  SetBool,
+  SetString,
+  Wasm,
+  WithDaoId,
+  WithDaoIdAddr,
+} from "../type_alias"
 import { Wallet } from "../wallet/Wallet"
 
 export const updateInvestmentData_ = async (
   wasm: Wasm,
   notification: Notification,
-  myAddress,
-  daoId,
-  setInvestmentData
+  daoId: string,
+  setInvestmentData: (value: LoadInvestorResJs) => void,
+  myAddress?: string
 ) => {
   try {
     if (myAddress) {
@@ -26,14 +32,14 @@ export const updateInvestmentData_ = async (
 
 export const retrieveProfits = async (
   wasm: Wasm,
-  myAddress,
-  showProgress,
-  notification,
-  updateMyBalance,
-  daoId,
-  updateInvestmentData,
-  updateFunds,
-  updateMyDividend,
+  myAddress: string,
+  showProgress: SetBool,
+  notification: Notification,
+  updateMyBalance: SetString,
+  daoId: string,
+  updateInvestmentData: WithDaoIdAddr,
+  updateFunds: WithDaoId,
+  updateMyDividend: WithDaoIdAddr,
   wallet: Wallet
 ) => {
   try {
@@ -72,8 +78,8 @@ export const retrieveProfits = async (
 
 export const updateFunds_ = async (
   wasm: Wasm,
-  daoId,
-  setFunds,
+  daoId: string,
+  setFunds: SetString,
   setFundsChange: (value: QuantityChangeJs) => void,
   notification: Notification
 ) => {

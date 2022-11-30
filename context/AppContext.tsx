@@ -17,7 +17,10 @@ import { initWcWalletIfAvailable } from "../wallet/walletConnectWallet"
 import { WASMContext } from "./WASMContext"
 import {
   BalanceResJs,
+  DaoJs,
+  MySharesResJs,
   QuantityChangeJs,
+  ShareHoldingPercentageJs,
 } from "/Users/ivanschuetz/dev/repo/github/capi/frontend/next/wasm/wasm"
 
 const initial: IAppContext = {}
@@ -57,7 +60,9 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
 
   const [compactFundsActivity, setCompactFundsActivity] = useState(null)
 
-  const [sharesDistr, setSharesDistr] = useState(null)
+  const [sharesDistr, setSharesDistr] = useState<HolderEntryViewData[] | null>(
+    null
+  )
   const [notOwnedShares, setNotOwnedShares] = useState(null)
   const [holdersChange, setHoldersChange] = useState(null)
 
@@ -91,7 +96,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   useEffect(() => {
     async function asyncInit() {
       if (wasm) {
-        safe(notification, async () => await wasm.initLog())
+        safe(notification, () => wasm.initLog())
       }
     }
     asyncInit()
@@ -169,8 +174,8 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
           wasm,
           notification,
           myAddress,
-          daoId,
-          setInvestmentData
+          setInvestmentData,
+          daoId
         )
       }
     },
@@ -242,7 +247,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   )
 
   const updateSharesDistr = useCallback(
-    async (dao: any) => {
+    async (dao?: DaoJs) => {
       if (wasm && dao) {
         safe(notification, async () => {
           let distrRes = await wasm.sharesDistribution({
@@ -256,7 +261,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
           // we need this, because the displayed entries are filtered ("show less" state)
           // so their indices don't correspond to the chart (which displays all the holders)
           const holdersWithIndex = distrRes.holders.map((holder, index) => {
-            return { ...holdersChange, originalIndex: index }
+            return { ...holdersChange, originalIndex: index, isSelected: false }
           })
 
           setSharesDistr(holdersWithIndex)
@@ -374,27 +379,27 @@ export interface Deps {
   notification: Notification
 
   myBalance?: BalanceResJs
-  updateMyBalance: (myAddress: string) => void
+  updateMyBalance: (myAddress: string) => Promise<void>
 
-  myShares?: string
-  updateMyShares: (daoId: string, myAddress: string) => void
+  myShares?: MySharesResJs
+  updateMyShares: (daoId: string, myAddress: string) => Promise<void>
 
   myDividend?: string
-  updateMyDividend: (daoId: string, myAddress: string) => void
+  updateMyDividend: (daoId: string, myAddress: string) => Promise<void>
 
   investmentData?: any
-  updateInvestmentData: (daoId: string, myAddress: string) => void
+  updateInvestmentData: (daoId: string, myAddress: string) => Promise<void>
 
   funds?: string
-  updateFunds: (daoId: string) => void
+  updateFunds: (daoId: string) => Promise<void>
 
   fundsChange?: QuantityChangeJs
 
-  dao: any
-  updateDao: (daoId: string) => void
+  dao?: DaoJs
+  updateDao: (daoId: string) => Promise<void>
 
   daoVersion: any
-  updateDaoVersion: (daoId: string) => void
+  updateDaoVersion: (daoId: string) => Promise<void>
 
   wallet: Wallet
   setWallet: SetWallet
@@ -404,18 +409,18 @@ export interface Deps {
 
   availableShares?: string
   availableSharesNumber?: string
-  updateAvailableShares: (daoId: string) => void
+  updateAvailableShares: (daoId: string) => Promise<void>
 
-  updateRaisedFunds: (daoId: string) => void
+  updateRaisedFunds: (daoId: string) => Promise<void>
   raisedFundsNumber?: string
   raisedFunds?: string
   raiseState?: RaiseState
 
-  updateCompactFundsActivity: (daoId: string) => void
+  updateCompactFundsActivity: (daoId: string) => Promise<void>
   compactFundsActivity: any[]
 
-  updateSharesDistr: (dao: any) => void
-  sharesDistr?: any[]
+  updateSharesDistr: (dao: DaoJs) => Promise<void>
+  sharesDistr?: HolderEntryViewData[]
   notOwnedShares?: string
   holdersChange?: QuantityChangeJs
 
@@ -492,4 +497,9 @@ const stateObj = (state: string, exceeded: string): RaiseState | null => {
 type RaiseState = {
   text: String
   success: boolean
+}
+
+export type HolderEntryViewData = ShareHoldingPercentageJs & {
+  originalIndex: number
+  isSelected: boolean
 }

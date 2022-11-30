@@ -5,8 +5,15 @@ import logo from "../images/logo.svg"
 import { useState } from "react"
 import { DevSettingsModal } from "../dev_settings/DevSettingsModal"
 import { AppVersion } from "./AppVersion"
+import { Deps } from "../context/AppContext"
 
-export const SideBar = ({ deps, containerClass }) => {
+export const SideBar = ({
+  deps,
+  containerClass,
+}: {
+  deps: Deps
+  containerClass: string
+}) => {
   const [devSettingsModal, setDevSettingsModal] = useState(false)
 
   return (

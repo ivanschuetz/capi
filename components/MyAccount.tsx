@@ -9,6 +9,7 @@ import {
   needsToAcceptDisclaimer,
   saveAcceptedDisclaimer,
 } from "../modal/storage"
+import { SetBool } from "../type_alias"
 import { SelectWallet } from "../wallet/SelectWallet"
 import { CopyPasteHtml } from "./CopyPastText"
 import Progress from "./Progress"
@@ -58,7 +59,7 @@ export const MyAccount = ({ deps, daoId }: { deps: Deps; daoId?: string }) => {
   )
 }
 
-const MyAddressSection = ({ deps, daoId }) => {
+const MyAddressSection = ({ deps, daoId }: { deps: Deps; daoId?: string }) => {
   if (deps.myAddress !== "") {
     return (
       <div id="user_data">
@@ -66,7 +67,7 @@ const MyAddressSection = ({ deps, daoId }) => {
           <div>
             <MyAddress deps={deps} />
           </div>
-          <MyBalanceAndDisconnect deps={deps} />
+          {deps.myBalance && <MyBalanceAndDisconnect deps={deps} />}
         </div>
         {daoId && <DividendSection deps={deps} daoId={daoId} />}
       </div>
@@ -76,7 +77,7 @@ const MyAddressSection = ({ deps, daoId }) => {
   }
 }
 
-const MyBalanceAndDisconnect = ({ deps }) => {
+const MyBalanceAndDisconnect = ({ deps }: { deps: Deps }) => {
   return (
     <div id="my_account_my_balance__balance">
       <img className="mr-10 s-16" src={funds.src} alt="funds" />
@@ -91,7 +92,7 @@ const MyBalanceAndDisconnect = ({ deps }) => {
   )
 }
 
-const MyAddress = ({ deps }) => {
+const MyAddress = ({ deps }: { deps: Deps }) => {
   return (
     <CopyPasteHtml
       element={
@@ -111,7 +112,7 @@ const MyAddress = ({ deps }) => {
   )
 }
 
-const DividendSection = ({ deps, daoId }) => {
+const DividendSection = ({ deps, daoId }: { deps: Deps; daoId?: string }) => {
   updateInvestmentData(deps, daoId)
 
   if (deps.myDividend) {
@@ -131,7 +132,7 @@ const DividendSection = ({ deps, daoId }) => {
   }
 }
 
-const ClaimableDividend = ({ dividend }) => {
+const ClaimableDividend = ({ dividend }: { dividend: string }) => {
   return (
     <div className="mb-32 desc d-flex align-center justify-between">
       {"Claimable dividend: "}
@@ -143,7 +144,7 @@ const ClaimableDividend = ({ dividend }) => {
   )
 }
 
-const SubmitClaimButton = ({ deps, daoId }) => {
+const SubmitClaimButton = ({ deps, daoId }: { deps: Deps; daoId: string }) => {
   const [submitting, setSubmitting] = useState(false)
 
   return (
@@ -177,8 +178,8 @@ const SubmitClaimButton = ({ deps, daoId }) => {
 
 const maybeConnectButton = (
   deps: Deps,
-  setShowSelectWalletModal,
-  setShowDisclaimerModal
+  setShowSelectWalletModal: SetBool,
+  setShowDisclaimerModal: SetBool
 ) => {
   if (deps.myAddress === "") {
     return (
@@ -195,6 +196,9 @@ const maybeConnectButton = (
 const ConnectButton = ({
   setShowSelectWalletModal,
   setShowDisclaimerModal,
+}: {
+  setShowSelectWalletModal: SetBool
+  setShowDisclaimerModal: SetBool
 }) => {
   return (
     <button
@@ -221,7 +225,7 @@ const disconnect = async (deps: Deps) => {
   }
 }
 
-const updateInvestmentData = (deps: Deps, daoId) => {
+const updateInvestmentData = (deps: Deps, daoId: string) => {
   useEffect(() => {
     ;(async () => {
       if (deps.myAddress) {

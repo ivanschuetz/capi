@@ -1,4 +1,14 @@
-export const HolderEntry = ({ entry, isSelected, col }) => {
+import { HolderEntryViewData } from "../context/AppContext"
+
+export const HolderEntry = ({
+  entry,
+  isSelected,
+  col,
+}: {
+  entry: HolderEntryViewData
+  isSelected: boolean
+  col?: string
+}) => {
   if (entry.type_ === "holder") {
     return holderEntry(entry, isSelected, col)
   } else if (entry.type_ === "not_owned") {
@@ -6,7 +16,11 @@ export const HolderEntry = ({ entry, isSelected, col }) => {
   }
 }
 
-const holderEntry = (entry, isSelected, col) => {
+const holderEntry = (
+  entry: HolderEntryViewData,
+  isSelected: boolean,
+  col?: string
+) => {
   return (
     <a href={entry.address_browser_link} target="_blank" rel="noreferrer">
       {entryBody(entry, isSelected, col)}
@@ -14,11 +28,15 @@ const holderEntry = (entry, isSelected, col) => {
   )
 }
 
-const notOwnedEntry = (entry, isSelected) => {
+const notOwnedEntry = (entry: HolderEntryViewData, isSelected: boolean) => {
   return entryBody(entry, isSelected)
 }
 
-const entryBody = (entry: any, isSelected: boolean, color?: string) => {
+const entryBody = (
+  entry: HolderEntryViewData,
+  isSelected: boolean,
+  color?: string
+) => {
   var containerClasses = "holder_item__container"
   if (isSelected) {
     containerClasses = containerClasses + " selected"

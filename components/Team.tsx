@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react"
+import { TeamMemberJs } from "wasm/wasm"
 import { Deps } from "../context/AppContext"
 import { safe } from "../functions/utils"
 import twitter from "../images/svg/twitter.svg"
-import { SetAnyArr } from "../type_alias"
 import { AddTeamMember } from "./AddTeamMember"
 import { ContentTitle } from "./ContentTitle"
 import { SubmitButton } from "./SubmitButton"
 
-export const Team = ({ deps }) => {
+export const Team = ({ deps }: { deps: Deps }) => {
   const [team, setTeam] = useState([])
   const [isAdding, setIsAdding] = useState(false)
 
@@ -49,7 +49,7 @@ const dummyPrefillData = () => {
   }
 }
 
-const TeamMembers = ({ team }: { team: any[] }) => {
+const TeamMembers = ({ team }: { team: TeamMemberJs[] }) => {
   return (
     <>
       {team.map((member) => (
@@ -99,7 +99,7 @@ const EmptyTeamView = () => {
   return <div>{"No team yet"}</div>
 }
 
-const updateTeam = (deps: Deps, setTeam: SetAnyArr) => {
+const updateTeam = (deps: Deps, setTeam: (team: TeamMemberJs[]) => void) => {
   useEffect(() => {
     if (deps.wasm && deps.dao?.team_url) {
       safe(deps.notification, async () => {

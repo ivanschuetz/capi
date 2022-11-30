@@ -1,4 +1,5 @@
 import { useState } from "react"
+import { DaoJs } from "wasm/wasm"
 import share from "../images/svg/share.svg"
 import twitter from "../images/svg/twitter.svg"
 import Modal from "../modal/Modal"
@@ -6,7 +7,7 @@ import { SetBool } from "../type_alias"
 import Progress from "./Progress"
 import ShareView from "./ShareView"
 
-export const DaoTop = ({ dao }: { dao: any; setShowShareModal: SetBool }) => {
+export const DaoTop = ({ dao }: { dao: DaoJs; setShowShareModal: SetBool }) => {
   const [showShareModal, setShowShareModal] = useState(false)
 
   return (
@@ -24,7 +25,7 @@ const ShareModal = ({
   dao,
   setShowModal,
 }: {
-  dao: any
+  dao: DaoJs
   setShowModal: SetBool
 }) => {
   return (

@@ -1,6 +1,6 @@
 import React from "react"
 
-export const ChartLegends = ({ legends }) => {
+export const ChartLegends = ({ legends }: { legends: Legend[] }) => {
   const legendsViews = () => {
     return (
       legends &&
@@ -17,7 +17,7 @@ export const ChartLegends = ({ legends }) => {
   return <div>{legendsViews()}</div>
 }
 
-const ChartLegend = ({ legend }) => {
+const ChartLegend = ({ legend }: { legend: Legend }) => {
   return (
     <div className="chart_legend__container">
       <svg className="chart_legend__color" fill={legend.color}>
@@ -26,4 +26,9 @@ const ChartLegend = ({ legend }) => {
       <span className="chart_legend__text">{legend.text}</span>
     </div>
   )
+}
+
+type Legend = {
+  color: string
+  text: string
 }

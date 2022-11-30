@@ -1,19 +1,39 @@
-import { useContext, useEffect, useMemo, useRef, useState } from "react"
+import {
+  MutableRefObject,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react"
 import Select from "react-select"
+import { IncomeVsSpendingResJs } from "wasm/wasm"
 import { ChartLegends } from "../charts/ChartLegends"
 import renderBarChart from "../charts/renderBarChart"
 import { AppContext, Deps } from "../context/AppContext"
 import { safe } from "../functions/utils"
 import { LabeledBox } from "./LabeledBox"
+import { Notification } from "./Notification"
 import Progress from "./Progress"
 
-const barsOptions = [
+const barsOptions: BarInterval[] = [
   { value: "days7", label: "Last 7 days" },
   { value: "months3", label: "Last 3 months" },
   { value: "year", label: "Last year" },
 ]
 
-export const IncomeSpendingBox = ({ notification, daoId }) => {
+type BarInterval = {
+  value: string
+  label: string
+}
+
+export const IncomeSpendingBox = ({
+  notification,
+  daoId,
+}: {
+  notification: Notification
+  daoId: string
+}) => {
   const { deps } = useContext(AppContext)
 
   const [chartData, setChartData] = useState(null)
@@ -90,12 +110,12 @@ const ChartBox = ({
 
 const updateChartData = (
   deps: Deps,
-  notification,
-  daoId,
-  selectedBarsInterval,
-  colors,
-  chart,
-  setChartData
+  notification: Notification,
+  daoId: string,
+  selectedBarsInterval: BarInterval,
+  colors: string[],
+  chart: MutableRefObject<any>,
+  setChartData: (data: IncomeVsSpendingResJs) => void
 ) => {
   useEffect(() => {
     if (deps.wasm) {

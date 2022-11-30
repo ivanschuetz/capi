@@ -1,9 +1,18 @@
 import { useState } from "react"
+import { DaoJs } from "wasm/wasm"
 import { Deps } from "../context/AppContext"
 import { SetBool } from "../type_alias"
 import { LockOrUnlockShares } from "./LockOrUnlockShares"
 
-export const UnlockShares = ({ deps, dao, daoId }) => {
+export const UnlockShares = ({
+  deps,
+  dao,
+  daoId,
+}: {
+  deps: Deps
+  dao: DaoJs
+  daoId: string
+}) => {
   const [submitting, setSubmitting] = useState(false)
 
   return (

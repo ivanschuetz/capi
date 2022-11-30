@@ -1,17 +1,18 @@
-import { useEffect, useRef } from "react"
+import { MutableRefObject, useEffect, useRef } from "react"
+import { DaoJs } from "wasm/wasm"
 import renderFundsProgressChart from "../charts/renderFundsProgressChart"
 import { Deps } from "../context/AppContext"
 import { useDaoId } from "../hooks/useDaoId"
 import Progress from "./Progress"
 
-export const RaisedFunds = ({ deps, dao }) => {
+export const RaisedFunds = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
   const daoId = useDaoId()
 
   const chart = useRef(null)
 
   console.log("deps: " + JSON.stringify(deps))
 
-  updateRaisedFunds(deps, daoId, dao)
+  updateRaisedFunds(deps, dao, daoId)
   updateChart(deps, dao, chart)
 
   const view = () => {
@@ -26,7 +27,13 @@ export const RaisedFunds = ({ deps, dao }) => {
   return <div>{view()}</div>
 }
 
-const RaisedFundsView = ({ deps, chart }) => {
+const RaisedFundsView = ({
+  deps,
+  chart,
+}: {
+  deps: Deps
+  chart: MutableRefObject<any>
+}) => {
   return (
     <div>
       {/* debug */}
@@ -55,7 +62,7 @@ const RaisedFundsView = ({ deps, chart }) => {
   )
 }
 
-const updateRaisedFunds = (deps: Deps, daoId, dao) => {
+const updateRaisedFunds = (deps: Deps, dao: DaoJs, daoId?: string) => {
   useEffect(() => {
     ;(async () => {
       if (daoId) {
@@ -65,7 +72,7 @@ const updateRaisedFunds = (deps: Deps, daoId, dao) => {
   }, [daoId, dao, deps.notification, deps.updateRaisedFunds])
 }
 
-const updateChart = (deps: Deps, dao, chart) => {
+const updateChart = (deps: Deps, dao: DaoJs, chart: MutableRefObject<any>) => {
   useEffect(() => {
     if (dao && deps.raisedFunds) {
       renderFundsProgressChart(

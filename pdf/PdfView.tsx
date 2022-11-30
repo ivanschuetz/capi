@@ -7,7 +7,7 @@ import workerSrc from "../pdf-worker"
 
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc
 
-export const PdfView = ({ url }) => {
+export const PdfView = ({ url }: { url: string }) => {
   const [numPages, setNumPages] = useState(null)
   const [pageNumber, setPageNumber] = useState(1)
 

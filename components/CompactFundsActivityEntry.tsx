@@ -1,7 +1,7 @@
 import funds from "../images/funds.svg"
 import arrowDown from "../images/svg/arrow-down.svg"
 import arrowUp from "../images/svg/arrow-up.svg"
-import { fundsActivityEntryLabel, NestedAmountView } from "./FundsActivityEntry"
+import { fundsActivityEntryLabel, nestedAmountView } from "./FundsActivityEntry"
 
 export const CompactFundsActivityEntry = ({ entry }) => {
   return (
@@ -46,9 +46,7 @@ const AmountView = ({ entry }) => {
             alt="funds"
           />
 
-          <div className="ft-weight-600">
-            <NestedAmountView entry={entry} />
-          </div>
+          <div className="ft-weight-600">{nestedAmountView(entry)}</div>
           <div className="ft-size-14 ml-16 grey-150">
             {fundsActivityEntryLabel(entry)}
           </div>

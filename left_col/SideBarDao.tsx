@@ -11,8 +11,16 @@ import logo from "../images/logo.svg"
 import { DevSettingsModal } from "../dev_settings/DevSettingsModal"
 import { AppVersion } from "./AppVersion"
 import { useDaoId } from "../hooks/useDaoId"
+import { Deps } from "../context/AppContext"
+import { DaoJs } from "wasm/wasm"
 
-export const SideBarDao = ({ deps, containerClass }) => {
+export const SideBarDao = ({
+  deps,
+  containerClass,
+}: {
+  deps: Deps
+  containerClass: string
+}) => {
   const [devSettingsModal, setDevSettingsModal] = useState(false)
   const daoId = useDaoId()
 
@@ -34,7 +42,8 @@ export const SideBarDao = ({ deps, containerClass }) => {
     }
   }, [daoId, deps.notification, deps.updateDao])
 
-  const iHaveShares = deps.myShares && deps.myShares.total > 0
+  // TODO add this property to wasm. we shouldn't have this kind of logic here
+  const iHaveShares = deps.myShares && parseInt(deps.myShares?.total ?? "0") > 0
   const iAmDaoOwner = iAmDaoOwner_(deps.dao, deps.myAddress)
 
   return (
@@ -99,7 +108,7 @@ export const SideBarDao = ({ deps, containerClass }) => {
   )
 }
 
-const iAmDaoOwner_ = (dao, myAddress) => {
+const iAmDaoOwner_ = (dao: DaoJs, myAddress: string) => {
   //   return dao && myAddress && dao.creator_address === myAddress;
   return true // see owner items / views in mock
 }
