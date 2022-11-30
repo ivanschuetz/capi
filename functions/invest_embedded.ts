@@ -1,7 +1,12 @@
-import { DaoJs } from "wasm/wasm"
+import { DaoJs, FrError } from "wasm/wasm"
 import { Notification } from "../components/Notification"
 import { SetBool, SetString, Wasm } from "../type_alias"
 import { Wallet } from "../wallet/Wallet"
+import {
+  isNotEnoughFundsAssetError,
+  isValidationError,
+  toDefaultErrorMsg,
+} from "./errors"
 import { toValidationErrorMsg } from "./validation"
 
 export const calculateSharesPrice = async (
@@ -118,16 +123,19 @@ export const invest = async (
     await updateRaisedFunds(daoId)
     await updateCompactFundsActivity(daoId)
     await updateSharesDistr(dao)
-  } catch (e) {
-    if (e.type_identifier === "input_errors") {
-      setShareAmountError(toValidationErrorMsg(e.amount))
+  } catch (eAny) {
+    const e: FrError = eAny
+
+    if (isValidationError(e)) {
+      setShareAmountError(toValidationErrorMsg(e.validation))
       // show a general message additionally, just in case
       notification.error("Please fix the errors")
-    } else if (e.id === "not_enough_funds_asset") {
-      setShowBuyCurrencyInfoModal({ amount: e.details })
+    } else if (isNotEnoughFundsAssetError(e)) {
+      setShowBuyCurrencyInfoModal({ amount: e.notEnoughFundsAsset.to_buy })
     } else {
-      notification.error(e)
+      notification.error(toDefaultErrorMsg(e))
     }
+
     showProgress(false)
   }
 }

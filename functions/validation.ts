@@ -1,72 +1,121 @@
-/// field validation error -> error message
-export const toValidationErrorMsg = (e: any): string | null => {
-  // if the field-specific error is null, there's no error so there's no error message
+import { ValidationError } from "wasm/wasm"
+
+/// validation error -> error message
+/// error can be null, meaning that there's no error
+/// return is null if there's no message (because there's no error)
+export const toValidationErrorMsg = (e?: ValidationError): string | null => {
+  // if the (field-specific) error is null, there's no error so there's no error message
   if (!e) {
     return null
   }
 
-  switch (e.type_) {
-    case "empty":
-      return "Please enter something"
-    case "min_length":
-      return (
-        "Must have at least " +
-        e.min_length.min +
-        " characters. Current: " +
-        e.min_length.actual
-      )
-    case "max_length":
-      return (
-        "Must have less than " +
-        e.max_length.max +
-        " characters. Current: " +
-        e.max_length.actual
-      )
-    case "min":
-      return "Must be greater than " + e.min.min
-    case "max":
-      return "Must be less than " + e.max.max
-    case "address":
-      return "Invalid address format"
-    case "not_pos":
-      return "Please enter a positive amount"
-    case "not_int":
-      return "Invalid (whole) number format"
-    case "not_dec":
-      return "Invalid number format"
-    case "not_timestamp":
-      return "Invalid date"
-    case "max_fractionals":
-      return (
-        "Must have less than " +
-        e.max_fractionals.max +
-        " fractional digits. Current: " +
-        e.max_fractionals.actual
-      )
-    case "count_le_supply":
-      return "Please enter an amount smaller or equal to available shares"
-    case "must_be_less_max_invest":
-      return "Must be less or equal than max investment"
-    case "must_be_more_min_min_invest":
-      return "Must be more or equal than min investment"
-    case "buying_less_shares_than_min":
-      return "The minimum of shares to buy is " + e.min.min
-    case "buying_more_shares_than_max":
-      return (
-        "You can't own more than " +
-        e.max_share_buy.max +
-        " shares. Currently owned: " +
-        e.max_share_buy.currently_owned
-      )
-    case "shares_for_investors_greater_than_supply":
-      return "Must be less than or equal to supply"
-    case "mus_be_after_now":
-      return "Date must be in the future"
-    case "unexpected":
-      return "Unexpected problem: " + e.unexpected
-    default:
-      console.error("Unexpected error type: %o", e.type_)
-      // TODO throw error instead?
-      return null
+  if (e === "empty") {
+    return "Please enter something"
+  } else if (isMinlength(e)) {
+    return (
+      "Must have at least " +
+      e.minLength.min +
+      " characters. Current: " +
+      e.minLength.actual
+    )
+  } else if (isMaxlength(e)) {
+    return (
+      "Must have less than " +
+      e.maxLength.max +
+      " characters. Current: " +
+      e.maxLength.actual
+    )
+  } else if (isMin(e)) {
+    return "Must be greater than " + e.min.min
+  } else if (isMax(e)) {
+    return "Must be less than " + e.max.max
+  } else if (e === "address") {
+    return "Invalid address format"
+  } else if (e === "notPositive") {
+    return "Please enter a positive amount"
+  } else if (e === "notAnInteger") {
+    return "Invalid (whole) number format"
+  } else if (e === "notTimestamp") {
+    return "Invalid date"
+  } else if (e === "notADecimal") {
+    return "Invalid number format"
+  } else if (isTooManyFractionalDigits(e)) {
+    return (
+      "Must have less than " +
+      e.tooManyFractionalDigits.max +
+      " fractional digits. Current: " +
+      e.tooManyFractionalDigits.actual
+    )
+  } else if (e === "shareCountLargerThanAvailable") {
+    return "Please enter an amount smaller or equal to available shares"
+  } else if (e === "mustBeAfterNow") {
+    return "Date must be in the future"
+  } else if (e === "mustBeLessThanMaxInvestAmount") {
+    return "Must be less or equal than max investment"
+  } else if (e === "mustBeGreaterThanMinInvestAmount") {
+    return "Must be more or equal than min investment"
+  } else if (e === "sharesForInvestorsGreaterThanSupply") {
+    return "Must be less than or equal to supply"
+  } else if (isBuyingLessSharesThanMinAmount(e)) {
+    return (
+      "The minimum of shares to buy is " + e.buyingLessSharesThanMinAmount.min
+    )
+  } else if (isBuyingMoreSharesThanMaxTotalAmount(e)) {
+    return (
+      "You can't own more than " +
+      e.buyingMoreSharesThanMaxTotalAmount.max +
+      " shares. Currently owned: " +
+      e.buyingMoreSharesThanMaxTotalAmount.currently_owned
+    )
+  } else if (isUnexpected(e)) {
+    return "Unexpected error: " + e.unexpected
+  } else {
+    return "Unexpected error: " + e
   }
+}
+
+const isMinlength = (
+  value: ValidationError
+): value is { minLength: { min: string; actual: string } } => {
+  return value.hasOwnProperty("minLength")
+}
+
+const isMaxlength = (
+  value: ValidationError
+): value is { maxLength: { max: string; actual: string } } => {
+  return value.hasOwnProperty("maxLength")
+}
+
+const isMin = (value: ValidationError): value is { min: { min: string } } => {
+  return value.hasOwnProperty("min")
+}
+
+const isMax = (value: ValidationError): value is { max: { max: string } } => {
+  return value.hasOwnProperty("max")
+}
+
+const isTooManyFractionalDigits = (
+  value: ValidationError
+): value is { tooManyFractionalDigits: { max: string; actual: string } } => {
+  return value.hasOwnProperty("tooManyFractionalDigits")
+}
+
+const isBuyingLessSharesThanMinAmount = (
+  value: ValidationError
+): value is { buyingLessSharesThanMinAmount: { min: string } } => {
+  return value.hasOwnProperty("buyingLessSharesThanMinAmount")
+}
+
+const isBuyingMoreSharesThanMaxTotalAmount = (
+  value: ValidationError
+): value is {
+  buyingMoreSharesThanMaxTotalAmount: { max: string; currently_owned: string }
+} => {
+  return value.hasOwnProperty("buyingMoreSharesThanMaxTotalAmount")
+}
+
+const isUnexpected = (
+  value: ValidationError
+): value is { unexpected: string } => {
+  return value.hasOwnProperty("unexpected")
 }

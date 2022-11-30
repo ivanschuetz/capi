@@ -25,6 +25,12 @@ import { Wallet } from "../wallet/Wallet"
 import { FileUploader } from "./FileUploader"
 import { MaxFundingTargetLabel } from "./MaxFundingTargetLabel"
 import { Notification } from "./Notification"
+import {
+  isCreateDaoValidationsError,
+  isNotEnoughAlgosError,
+  toDefaultErrorMsg,
+} from "../functions/errors"
+import { CreateAssetsInputErrors, FrError } from "wasm/wasm"
 
 export const CreateDao = ({ deps }: { deps: Deps }) => {
   const [daoName, setDaoName] = useState("My project")
@@ -366,34 +372,33 @@ const createDao = async (
 
     await updateMyBalance(myAddress)
   } catch (eAny) {
-    const e: CreateError = eAny
+    const e: FrError = eAny
 
-    if (e.id === "validations") {
-      let validationErrors = e.details
+    if (isCreateDaoValidationsError(e)) {
+      const validations = e.createDaoValidations
 
-      setValidationErrors(localizeErrors(validationErrors))
+      setValidationErrors(localizeErrors(validations))
 
       // workaround: the inline errors for these are not functional yet, so show as notification
       showErrorNotificationIfError(
         notification,
-        toValidationErrorMsg(e.details?.image_url)
+        toValidationErrorMsg(validations.image_url)
       )
       showErrorNotificationIfError(
         notification,
-        toValidationErrorMsg(e.details?.prospectus_url)
+        toValidationErrorMsg(validations.prospectus_url)
       )
       showErrorNotificationIfError(
         notification,
-        toValidationErrorMsg(e.details?.prospectus_bytes)
+        toValidationErrorMsg(validations.prospectus_bytes)
       )
 
       // show a general message additionally, just in case
       notification.error("Please fix the errors")
-    } else if (e.id === "not_enough_algos") {
+    } else if (isNotEnoughAlgosError(e)) {
       setShowBuyCurrencyInfoModal(true)
     } else {
-      console.error(eAny)
-      notification.error(eAny.toString())
+      notification.error(toDefaultErrorMsg(e))
     }
 
     showProgress(false)
@@ -402,30 +407,31 @@ const createDao = async (
 
 // map error payloads to localized messages
 const localizeErrors = (
-  errors: CreateValidationErrors
-): CreateValidationErrors => {
-  // for convenience, we overwrite the fields in the same struct
-  errors.name = toValidationErrorMsg(errors.name)
-  errors.description = toValidationErrorMsg(errors.description)
-  errors.share_supply = toValidationErrorMsg(errors.share_supply)
-  errors.share_price = toValidationErrorMsg(errors.share_price)
-  errors.investors_share = toValidationErrorMsg(errors.investors_share)
-  errors.logo_url = toValidationErrorMsg(errors.logo_url)
-  errors.social_media_url = toValidationErrorMsg(errors.social_media_url)
-  errors.min_raise_target = toValidationErrorMsg(errors.min_raise_target)
-  errors.min_raise_target_end_date = toValidationErrorMsg(
-    errors.min_raise_target_end_date
-  )
-  errors.min_invest_shares = toValidationErrorMsg(errors.min_invest_shares)
-  errors.max_invest_shares = toValidationErrorMsg(errors.max_invest_shares)
-  errors.shares_for_investors = toValidationErrorMsg(
-    errors.shares_for_investors
-  )
-  errors.image_url = toValidationErrorMsg(errors.image_url)
-  errors.prospectus_url = toValidationErrorMsg(errors.prospectus_url)
-  errors.prospectus_bytes = toValidationErrorMsg(errors.prospectus_bytes)
+  errors: CreateAssetsInputErrors
+): CreateValidationErrorsMessages => {
+  return {
+    name: toValidationErrorMsg(errors.name),
+    description: toValidationErrorMsg(errors.description),
+    share_supply: toValidationErrorMsg(errors.share_supply),
+    share_price: toValidationErrorMsg(errors.share_price),
+    investors_share: toValidationErrorMsg(errors.investors_share),
+    logo_url: toValidationErrorMsg(errors.image_url),
+    social_media_url: toValidationErrorMsg(errors.social_media_url),
+    min_raise_target: toValidationErrorMsg(errors.min_raise_target),
+    min_raise_target_end_date: toValidationErrorMsg(
+      errors.min_raise_target_end_date
+    ),
+    min_invest_shares: toValidationErrorMsg(errors.min_invest_amount),
+    max_invest_shares: toValidationErrorMsg(errors.max_invest_amount),
+    shares_for_investors: toValidationErrorMsg(errors.shares_for_investors),
+    image_url: toValidationErrorMsg(errors.image_url),
+    prospectus_url: toValidationErrorMsg(errors.prospectus_url),
+    prospectus_bytes: toValidationErrorMsg(errors.prospectus_bytes),
+  }
+}
 
-  return errors
+export type CreateValidationErrorsMessages = {
+  [K in keyof CreateValidationErrors]: string
 }
 
 const showErrorNotificationIfError = (
