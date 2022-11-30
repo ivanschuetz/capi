@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react"
-import { DaoJs } from "wasm/wasm"
 import { Deps } from "../context/AppContext"
 import { safe } from "../functions/utils"
 import { useDaoId } from "../hooks/useDaoId"
