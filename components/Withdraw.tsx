@@ -15,13 +15,12 @@ export const Withdraw = ({ deps }: { deps: Deps }) => {
 
   const [withdrawalAmount, setWithdrawalAmount] = useState("10")
   const [withdrawalDescr, setWithdrawalDescr] = useState("Type the reason")
-  const [dao, setDao] = useState(null)
   const [submitting, setSubmitting] = useState(false)
 
-  updateDao(deps, daoId, setDao)
+  updateDao(deps, daoId)
 
   const view = () => {
-    if (dao) {
+    if (deps.dao) {
       return (
         <div className="box-container mt-80">
           <div className="title">{"Withdraw Funds from project"}</div>
@@ -77,13 +76,12 @@ export const Withdraw = ({ deps }: { deps: Deps }) => {
   return <div>{view()}</div>
 }
 
-const updateDao = (deps: Deps, daoId: string, setDao: (dao: DaoJs) => void) => {
+const updateDao = (deps: Deps, daoId: string) => {
   useEffect(() => {
     safe(deps.notification, async () => {
-      // TODO can't we just use the dao in deps
-      setDao(await deps.wasm.loadDao(daoId))
+      deps.updateDao.call(null, daoId)
     })
-  }, [deps.wasm, daoId, setDao, deps.notification])
+  }, [daoId])
 }
 
 const withdraw = async (
