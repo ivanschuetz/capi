@@ -1,11 +1,14 @@
 import { useState } from "react"
+import { Deps, Wasm } from "../context/AppContext"
 import { useDaoId } from "../hooks/useDaoId"
+import { SetBool } from "../type_alias"
 import { Wallet } from "../wallet/Wallet"
 import { ContentTitle } from "./ContentTitle"
+import { Notification } from "./Notification"
 import { SubmitButton } from "./SubmitButton"
 import { UpdateDaoData } from "./UpdateDaoData"
 
-export const Settings = ({ deps }) => {
+export const Settings = ({ deps }: { deps: Deps }) => {
   const daoId = useDaoId()
 
   return (
@@ -23,7 +26,7 @@ export const Settings = ({ deps }) => {
   )
 }
 
-const AppVersionView = ({ deps, daoId }) => {
+const AppVersionView = ({ deps, daoId }: { deps: Deps; daoId: string }) => {
   return (
     deps.daoVersion && (
       <div className="section_large_bottom">
@@ -41,7 +44,7 @@ const AppVersionView = ({ deps, daoId }) => {
   )
 }
 
-const UpdateAppView = ({ deps, daoId }) => {
+const UpdateAppView = ({ deps, daoId }: { deps: Deps; daoId: string }) => {
   const [submitting, setSubmitting] = useState(false)
 
   const updateData = deps.daoVersion.update_data
@@ -83,23 +86,23 @@ const UpdateAppView = ({ deps, daoId }) => {
   }
 }
 
-const appVersionStr = (approvalVersion, clearVersion) => {
+const appVersionStr = (approvalVersion: string, clearVersion: string) => {
   // For visual purposes, the "app version" contains both the approval and clear version
   // not important (for now?) that the user doesn't know what this means.
   return approvalVersion + "-" + clearVersion
 }
 
 export const updateApp = async (
-  wasm,
-  notification,
-  myAddress,
+  wasm: Wasm,
+  notification: Notification,
+  myAddress: string,
   wallet: Wallet,
 
-  showProgress,
-  daoId,
-  approvalVersion,
-  clearVersion,
-  updateVersion
+  showProgress: SetBool,
+  daoId: string,
+  approvalVersion: string,
+  clearVersion: string,
+  updateVersion: (daoId: string) => Promise<void>
 ) => {
   try {
     showProgress(true)
