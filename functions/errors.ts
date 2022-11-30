@@ -13,7 +13,7 @@ export const toDefaultErrorMsg = (e: any): string | null => {
     case "validation":
     case "validations":
     default:
-      // either a case was forgotten, or the error isn't meant to have a general message / show a notification
+      // a case was forgotten, or the error isn't meant to have a general message / show a notification
       // (e.g. we ask the user to do something, like buying algos or correcting input errors)
       console.error(
         "Not supported default error: %o. Showing unknown error.",

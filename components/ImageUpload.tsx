@@ -32,7 +32,7 @@ export const ImageUpload = ({
   const updateCrop = async (blob: Blob) => {
     if (fileReader) {
       const bytes = await blobToArrayBuffer(fileReader, blob)
-      console.log("crop updated - setting image bytes: %o", bytes)
+      // console.log("crop updated - setting image bytes: %o", bytes)
       setImageBytes(bytes)
     }
   }

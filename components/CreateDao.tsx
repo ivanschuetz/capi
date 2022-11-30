@@ -281,7 +281,7 @@ const createDao = async (
   notification: Notification,
   myAddress: string,
   wallet: Wallet,
-  updateMyBalance: (myAddress: string) => void,
+  updateMyBalance: (myAddress: string) => Promise<void>,
 
   showProgress: SetBool,
 
