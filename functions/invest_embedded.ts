@@ -10,11 +10,11 @@ import {
 import { toValidationErrorMsg } from "./validation"
 
 export const calculateSharesPrice = async (
-  wasm,
-  availableSharesNumber,
-  shareCount,
-  dao,
-  lockedShares
+  wasm: Wasm,
+  availableSharesNumber: string,
+  shareCount: string,
+  dao: DaoJs,
+  lockedShares: string
 ) => {
   try {
     let res = await wasm.calculateSharesPrice({
@@ -43,14 +43,14 @@ export const invest = async (
   notification: Notification,
   myAddress: string,
   wallet: Wallet,
-  updateMyBalance: (myAddress: string) => void,
-  updateMyShares: (daoId: string, myAddress: string) => void,
-  updateFunds: (daoId: string) => void,
-  updateInvestmentData: (daoId: string, myAddress: string) => void,
-  updateAvailableShares: (daoId: string) => void,
-  updateRaisedFunds: (daoId: string) => void,
-  updateCompactFundsActivity: (daoId: string) => void,
-  updateSharesDistr: (dao: DaoJs) => void,
+  updateMyBalance: (myAddress: string) => Promise<void>,
+  updateMyShares: (daoId: string, myAddress: string) => Promise<void>,
+  updateFunds: (daoId: string) => Promise<void>,
+  updateInvestmentData: (daoId: string, myAddress: string) => Promise<void>,
+  updateAvailableShares: (daoId: string) => Promise<void>,
+  updateRaisedFunds: (daoId: string) => Promise<void>,
+  updateCompactFundsActivity: (daoId: string) => Promise<void>,
+  updateSharesDistr: (dao: DaoJs) => Promise<void>,
 
   showProgress: SetBool,
   daoId: string,
