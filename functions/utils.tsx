@@ -88,9 +88,12 @@ export const shortedAddress = (address: string) => {
 }
 
 // Executes code in try catch and shows an error notification if it fails
-export const safe = (notification: Notification, f: () => void) => {
+export const safe = async (
+  notification: Notification,
+  f: () => Promise<void>
+) => {
   try {
-    f()
+    await f()
   } catch (e) {
     showError(notification, e)
   }
