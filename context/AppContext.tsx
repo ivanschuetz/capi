@@ -261,7 +261,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
           // we need this, because the displayed entries are filtered ("show less" state)
           // so their indices don't correspond to the chart (which displays all the holders)
           const holdersWithIndex = distrRes.holders.map((holder, index) => {
-            return { ...holdersChange, originalIndex: index, isSelected: false }
+            return { ...holder, originalIndex: index, isSelected: false }
           })
 
           setSharesDistr(holdersWithIndex)
