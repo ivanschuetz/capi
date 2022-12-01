@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Deps, Wasm } from "../context/AppContext"
+import { showError } from "../functions/utils"
 import { useDaoId } from "../hooks/useDaoId"
 import { SetBool } from "../type_alias"
 import { Wallet } from "../wallet/Wallet"
@@ -130,6 +131,6 @@ export const updateApp = async (
     showProgress(false)
     notification.success("App updated!")
   } catch (e) {
-    notification.error(e)
+    showError(notification, e)
   }
 }

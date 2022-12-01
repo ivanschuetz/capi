@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react"
 import { Deps } from "../context/AppContext"
 import { retrieveProfits } from "../functions/shared"
+import { showError } from "../functions/utils"
 import funds from "../images/funds.svg"
 import arrow from "../images/svg/arrow-right.svg"
 import { DisclaimerModal } from "../modal/DisclaimerModal"
@@ -221,7 +222,7 @@ const disconnect = async (deps: Deps) => {
     await deps.wallet.disconnect()
     deps.setMyAddress("")
   } catch (e) {
-    deps.notification.error(e)
+    showError(deps.notification, e)
   }
 }
 

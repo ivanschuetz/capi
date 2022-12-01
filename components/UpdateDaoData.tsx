@@ -5,7 +5,7 @@ import {
   isUpdateDaoDataValidationsError,
   toDefaultErrorMsg,
 } from "../functions/errors"
-import { toBytes, toBytesForRust } from "../functions/utils"
+import { showError, toBytes, toBytesForRust } from "../functions/utils"
 import { toValidationErrorMsg } from "../functions/validation"
 import { useDaoId } from "../hooks/useDaoId"
 import { storeIpfs, toMaybeIpfsUrl } from "../ipfs/store"
@@ -310,7 +310,7 @@ const prefillInputs = async (
     setMaxInvestShares(updatableData.max_invest_amount)
     setProspectus(updatableData.prospectus)
   } catch (e) {
-    deps.notification.error(e)
+    showError(deps.notification, e)
   }
 }
 
@@ -492,7 +492,7 @@ const rekeyOwner = async (
       console.error("%o", e)
       setInputError(toValidationErrorMsg(e.details))
     } else {
-      deps.notification.error(e)
+      showError(deps.notification, e)
     }
     showProgress(false)
   }

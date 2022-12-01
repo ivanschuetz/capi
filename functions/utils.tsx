@@ -1,8 +1,9 @@
-import { QuantityChangeJs } from "wasm/wasm"
+import { FrError, QuantityChangeJs } from "wasm/wasm"
 import { Notification } from "../components/Notification"
 import { Wasm } from "../context/AppContext"
 import arrowDown from "../images/svg/arrow.svg"
 import arrowUp from "../images/svg/green-arrow.svg"
+import { toDefaultErrorMsg } from "./errors"
 
 export const toBytesForRust = (bytes?: ArrayBuffer): number[] | null => {
   if (bytes && bytes.byteLength > 0) {
@@ -34,7 +35,7 @@ export const checkForUpdates = async (
       setVersionData(versionData)
     }
   } catch (e) {
-    notification.error(e)
+    showError(notification, e)
   }
 }
 
@@ -92,6 +93,11 @@ export const safe = (notification: Notification, f: () => void) => {
   try {
     f()
   } catch (e) {
-    notification.error(e)
+    showError(notification, e)
   }
+}
+
+export const showError = (notification: Notification, error: any) => {
+  const e: FrError = error
+  notification.error(toDefaultErrorMsg(error))
 }

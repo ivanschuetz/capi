@@ -3,6 +3,7 @@ import WalletConnect from "@walletconnect/client"
 import QRCodeModal from "algorand-walletconnect-qrcode-modal"
 import buffer from "buffer"
 import { Notification } from "../components/Notification"
+import { showError } from "../functions/utils"
 import { SetBool, SetString, SetWallet } from "../type_alias"
 import { TxsToSign, Wallet, WalletSignedTx, WcTx } from "./Wallet"
 const { Buffer } = buffer
@@ -54,7 +55,7 @@ export function createWcWallet(
       }
       return initSession()
     } catch (e) {
-      notification.error(e)
+      showError(notification, e)
     }
   }
 
@@ -64,7 +65,7 @@ export function createWcWallet(
       await connector.killSession()
       onDisconnect()
     } catch (e) {
-      notification.error(e)
+      showError(notification, e)
     }
   }
 
@@ -75,7 +76,7 @@ export function createWcWallet(
         initSession()
       }
     } catch (e) {
-      notification.error(e)
+      showError(notification, e)
     }
   }
 
@@ -84,7 +85,7 @@ export function createWcWallet(
     try {
       onConnectorConnected(connector, onAddressUpdate, onDisconnect)
     } catch (e) {
-      notification.error(e)
+      showError(notification, e)
     }
   }
 

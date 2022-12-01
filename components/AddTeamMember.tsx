@@ -1,6 +1,6 @@
 import { useState } from "react"
 import { Deps } from "../context/AppContext"
-import { toBytes } from "../functions/utils"
+import { showError, toBytes } from "../functions/utils"
 import { toValidationErrorMsg } from "../functions/validation"
 import { useDaoId } from "../hooks/useDaoId"
 import { toMaybeIpfsUrl } from "../ipfs/store"
@@ -196,7 +196,7 @@ export const addTeamMember = async (
       // show a general message additionally, just in case
       deps.notification.error("Please fix the errors")
     } else {
-      deps.notification.error(e)
+      showError(deps.notification, e)
     }
 
     showProgress(false)

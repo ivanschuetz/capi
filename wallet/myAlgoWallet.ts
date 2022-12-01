@@ -1,6 +1,7 @@
 import MyAlgo, { SignedTx } from "@randlabs/myalgo-connect"
 import buffer from "buffer"
 import { Notification } from "../components/Notification"
+import { showError } from "../functions/utils"
 import { SetString } from "../type_alias"
 import { TxsToSign, Wallet, WalletSignedTx } from "./Wallet"
 const { Buffer } = buffer
@@ -32,7 +33,7 @@ export function createMyAlgoWallet(
 
       return selectedAddress
     } catch (e) {
-      notification.error(e)
+      showError(notification, e)
     }
   }
 

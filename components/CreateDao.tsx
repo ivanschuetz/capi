@@ -17,7 +17,7 @@ import {
 import { SubmitButton } from "./SubmitButton"
 
 import { Deps, Wasm } from "../context/AppContext"
-import { toBytes, toBytesForRust } from "../functions/utils"
+import { showError, toBytes, toBytesForRust } from "../functions/utils"
 import { toValidationErrorMsg } from "../functions/validation"
 import { toMaybeIpfsUrl } from "../ipfs/store"
 import { SetBool, SetString } from "../type_alias"
@@ -398,7 +398,7 @@ const createDao = async (
     } else if (isNotEnoughAlgosError(e)) {
       setShowBuyCurrencyInfoModal(true)
     } else {
-      notification.error(toDefaultErrorMsg(e))
+      showError(notification, eAny)
     }
 
     showProgress(false)

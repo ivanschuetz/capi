@@ -199,7 +199,7 @@ const updateTotalPrice = (
           setTotalCostNumber(res.total_price_number)
         } catch (e) {
           // for now disabled - we don't want to show validation messages while typing, to be consistent with other inputs
-          // deps.notification.error(e);
+          // showError(deps.notification, e)
           console.error("updatePercentage error (ignored): %o", e)
         }
       }

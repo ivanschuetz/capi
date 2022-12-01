@@ -8,6 +8,7 @@ import {
   WithDaoIdAddr,
 } from "../type_alias"
 import { Wallet } from "../wallet/Wallet"
+import { showError } from "./utils"
 
 export const updateInvestmentData_ = async (
   wasm: Wasm,
@@ -26,7 +27,7 @@ export const updateInvestmentData_ = async (
       setInvestmentData(data)
     }
   } catch (e) {
-    notification.error(e)
+    showError(notification, e)
   }
 }
 
@@ -71,7 +72,7 @@ export const retrieveProfits = async (
 
     await updateMyBalance(myAddress)
   } catch (e) {
-    notification.error(e)
+    showError(notification, e)
     showProgress(false)
   }
 }
@@ -100,6 +101,6 @@ export const updateFunds_ = async (
     })
     setFundsChange(balance_change_res.change)
   } catch (e) {
-    notification.error(e)
+    showError(notification, e)
   }
 }

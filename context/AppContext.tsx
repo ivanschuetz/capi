@@ -173,9 +173,9 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
         await updateInvestmentData_(
           wasm,
           notification,
-          daoId,
+          myAddress,
           setInvestmentData,
-          myAddress
+          daoId
         )
       }
     },

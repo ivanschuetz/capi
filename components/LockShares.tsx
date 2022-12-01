@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { DaoJs } from "wasm/wasm"
 import { Deps } from "../context/AppContext"
+import { showError } from "../functions/utils"
 import { toValidationErrorMsg } from "../functions/validation"
 import { SetBool, SetString } from "../type_alias"
 import { LockOrUnlockShares } from "./LockOrUnlockShares"
@@ -109,7 +110,7 @@ export const lock = async (
       console.error("%o", e)
       setInputError(toValidationErrorMsg(e.details))
     } else {
-      deps.notification.error(e)
+      showError(deps.notification, e)
     }
     showProgress(false)
   }

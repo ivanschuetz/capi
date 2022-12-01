@@ -119,7 +119,7 @@ const withdraw = async (
     await deps.updateMyBalance(deps.myAddress)
     await deps.updateFunds(daoId)
   } catch (e) {
-    deps.notification.error(e)
+    showError(deps.notification, e)
     showProgress(false)
   }
 }

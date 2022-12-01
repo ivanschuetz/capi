@@ -1,6 +1,7 @@
 import { useState } from "react"
 import { DaoJs } from "wasm/wasm"
 import { Deps } from "../context/AppContext"
+import { showError } from "../functions/utils"
 import { SetBool } from "../type_alias"
 import { LockOrUnlockShares } from "./LockOrUnlockShares"
 
@@ -64,7 +65,7 @@ const unlock = async (deps: Deps, showProgress: SetBool, daoId: string) => {
     await deps.updateMyShares(daoId, deps.myAddress)
     // await updateMyDividend(daoId, deps.myAddress);
   } catch (e) {
-    deps.notification.error(e)
+    showError(deps.notification, e)
     showProgress(false)
   }
 }

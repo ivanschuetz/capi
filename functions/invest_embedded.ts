@@ -32,7 +32,7 @@ export const calculateSharesPrice = async (
     return res
   } catch (e) {
     // for now disabled - we don't want to show validation messages while typing, to be consistent with other inputs
-    // deps.notification.error(e);
+    // showError(deps.notification, e)
     console.error("calculateSharesPrice error (ignored): %o", e)
   }
 }
