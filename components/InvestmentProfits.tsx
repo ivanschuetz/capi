@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react"
 import { FundsAssetImg } from "../images/FundsAssetImg"
-// import {updateChainInvestmentData_ as updateInvestmentData_} from "./controller";
 import { Deps } from "../context/AppContext"
 import { retrieveProfits } from "../functions/shared"
 import { safe } from "../functions/utils"
