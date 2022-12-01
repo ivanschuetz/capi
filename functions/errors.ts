@@ -1,4 +1,9 @@
-import { CreateAssetsInputErrors, FrError, ValidationError } from "wasm/wasm"
+import {
+  CreateAssetsInputErrors,
+  FrError,
+  ValidateUpateDataInputErrors,
+  ValidationError,
+} from "wasm/wasm"
 
 // and it's better if testers see the complete error in the notification, instead of just "unknown error"
 // note that error returned from here might be further transformed in the notification (to "friendly" message)
@@ -39,6 +44,12 @@ export const isCreateDaoValidationsError = (
   value: FrError
 ): value is { createDaoValidations: CreateAssetsInputErrors } => {
   return value.hasOwnProperty("createDaoValidations")
+}
+
+export const isUpdateDaoDataValidationsError = (
+  value: FrError
+): value is { updateDaoDataValidations: ValidateUpateDataInputErrors } => {
+  return value.hasOwnProperty("updateDaoDataValidations")
 }
 
 export const isValidationsError = (

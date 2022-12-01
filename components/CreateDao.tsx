@@ -20,7 +20,7 @@ import { Deps, Wasm } from "../context/AppContext"
 import { toBytes, toBytesForRust } from "../functions/utils"
 import { toValidationErrorMsg } from "../functions/validation"
 import { toMaybeIpfsUrl } from "../ipfs/store"
-import { SetBool, SetString, SetStringOpt } from "../type_alias"
+import { SetBool, SetString } from "../type_alias"
 import { Wallet } from "../wallet/Wallet"
 import { FileUploader } from "./FileUploader"
 import { MaxFundingTargetLabel } from "./MaxFundingTargetLabel"
@@ -52,7 +52,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
   )
   const [prospectusBytes, setProspectusBytes] = useState(null)
 
-  const [errors, setErrors] = useState<CreateValidationErrors>({})
+  const [errors, setErrors] = useState<CreateValidationErrorsMessages>({})
 
   const [submitting, setSubmitting] = useState(false)
 
@@ -139,7 +139,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
         />
         <div className="dao-title mt-60">Project Cover</div>
         <ImageUpload setImageBytes={setImageBytes} />
-        <ValidationMsg errorMsg={errors.image_url ?? errors.logo_url} />
+        <ValidationMsg errorMsg={errors.image_url} />
 
         {deps.features.prospectus && (
           <React.Fragment>
@@ -200,7 +200,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
                 info={"Minimum amount of shares an investor has to buy"}
                 inputValue={minInvestShares}
                 onChange={(input) => setMinInvestShares(input)}
-                errorMsg={errors.min_invest_shares}
+                errorMsg={errors.min_invest_amount}
               />
             </div>
             <div className="f-basis-50">
@@ -209,7 +209,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
                 info={"Maximum total amount of shares an investor can buy"}
                 inputValue={maxInvestShares}
                 onChange={(input) => setMaxInvestShares(input)}
-                errorMsg={errors.max_invest_shares}
+                errorMsg={errors.max_invest_amount}
               />
             </div>
           </div>
@@ -305,7 +305,7 @@ const createDao = async (
 
   router: NextRouter,
 
-  setValidationErrors: (errors: CreateValidationErrors) => void,
+  setValidationErrors: (errors: CreateValidationErrorsMessages) => void,
 
   setShowBuyCurrencyInfoModal: (value: boolean) => void,
 
@@ -415,24 +415,24 @@ const localizeErrors = (
     share_supply: toValidationErrorMsg(errors.share_supply),
     share_price: toValidationErrorMsg(errors.share_price),
     investors_share: toValidationErrorMsg(errors.investors_share),
-    logo_url: toValidationErrorMsg(errors.image_url),
+    image_url: toValidationErrorMsg(errors.image_url),
     social_media_url: toValidationErrorMsg(errors.social_media_url),
     min_raise_target: toValidationErrorMsg(errors.min_raise_target),
     min_raise_target_end_date: toValidationErrorMsg(
       errors.min_raise_target_end_date
     ),
-    min_invest_shares: toValidationErrorMsg(errors.min_invest_amount),
-    max_invest_shares: toValidationErrorMsg(errors.max_invest_amount),
+    min_invest_amount: toValidationErrorMsg(errors.min_invest_amount),
+    max_invest_amount: toValidationErrorMsg(errors.max_invest_amount),
     shares_for_investors: toValidationErrorMsg(errors.shares_for_investors),
-    image_url: toValidationErrorMsg(errors.image_url),
     prospectus_url: toValidationErrorMsg(errors.prospectus_url),
     prospectus_bytes: toValidationErrorMsg(errors.prospectus_bytes),
+    creator: toValidationErrorMsg(errors.creator),
   }
 }
 
-export type CreateValidationErrorsMessages = {
-  [K in keyof CreateValidationErrors]: string
-}
+export type CreateValidationErrorsMessages = Partial<{
+  [K in keyof CreateAssetsInputErrors]: string
+}>
 
 const showErrorNotificationIfError = (
   notification: Notification,
@@ -468,27 +468,4 @@ const calculateTotalPrice = async (
     console.error("Ignored: error calculating total price: %o", e)
     setTotalPrice("")
   }
-}
-
-type CreateError = {
-  id?: string
-  details?: CreateValidationErrors
-}
-
-type CreateValidationErrors = {
-  name?: any
-  description?: any
-  share_supply?: any
-  share_price?: any
-  investors_share?: any
-  logo_url?: any
-  social_media_url?: any
-  min_raise_target?: any
-  min_raise_target_end_date?: any
-  min_invest_shares?: any
-  max_invest_shares?: any
-  shares_for_investors?: any
-  image_url?: any
-  prospectus_url?: any
-  prospectus_bytes?: any
 }

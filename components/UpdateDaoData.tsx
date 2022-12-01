@@ -1,6 +1,10 @@
 import React, { useEffect, useState } from "react"
-import { ProspectusJs } from "wasm/wasm"
+import { FrError, ProspectusJs, ValidateUpateDataInputErrors } from "wasm/wasm"
 import { Deps } from "../context/AppContext"
+import {
+  isUpdateDaoDataValidationsError,
+  toDefaultErrorMsg,
+} from "../functions/errors"
 import { toBytes, toBytesForRust } from "../functions/utils"
 import { toValidationErrorMsg } from "../functions/validation"
 import { useDaoId } from "../hooks/useDaoId"
@@ -38,14 +42,7 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
   const [rekeyAuthAddress, setRekeyAuthAddress] = useState("")
   const [submitting, setSubmitting] = useState(false)
 
-  const [daoNameError, setDaoNameError] = useState("")
-  const [daoDescrError, setDaoDescrError] = useState("")
-  const [socialMediaUrlError, setSocialMediaUrlError] = useState("")
-  const [minInvestSharesError, setMinInvestSharesError] = useState("")
-  const [maxInvestSharesError, setMaxInvestSharesError] = useState("")
-
-  const [imageError, setImageError] = useState("")
-  const [prospectusError, setProspectusError] = useState("")
+  const [errors, setErrors] = useState<UpdateDataErrorsMessages>({})
 
   const [rekeyAddressError, setRekeyAddressError] = useState("")
 
@@ -77,21 +74,21 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
           inputValue={daoName}
           onChange={(input) => setDaoName(input)}
           maxLength={40} // NOTE: has to match WASM
-          errorMsg={daoNameError}
+          errorMsg={errors.name}
         />
         <LabeledTextArea
           label={"Description"}
           inputValue={daoDescr}
           onChange={(input) => setDaoDescr(input)}
           maxLength={2000} // NOTE: has to match WASM
-          errorMsg={daoDescrError}
+          errorMsg={errors.description}
         />
         <div className="info">Project Cover</div>
         <ImageUpload
           initImageBytes={imageBytes}
           setImageBytes={setImageBytes}
         />
-        <ValidationMsg errorMsg={imageError} />
+        <ValidationMsg errorMsg={errors.image_url} />
 
         {deps.features.prospectus && (
           <React.Fragment>
@@ -107,7 +104,9 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
               </div>
             )} */}
             <FileUploader setBytes={setProspectusBytes} />
-            <ValidationMsg errorMsg={prospectusError} />
+            <ValidationMsg
+              errorMsg={errors.prospectus_bytes ?? errors.prospectus_bytes}
+            />
           </React.Fragment>
         )}
         {deps.features.minMaxInvestment && (
@@ -118,7 +117,7 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
                 info={"Minimum amount of shares an investor has to buy"}
                 inputValue={minInvestShares}
                 onChange={(input) => setMinInvestShares(input)}
-                errorMsg={minInvestSharesError}
+                errorMsg={errors.min_invest_shares}
               />
             </div>
             <div className="f-basis-50">
@@ -127,7 +126,7 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
                 info={"Maximum total amount of shares an investor can buy"}
                 inputValue={maxInvestShares}
                 onChange={(input) => setMaxInvestShares(input)}
-                errorMsg={maxInvestSharesError}
+                errorMsg={errors.max_invest_shares}
               />
             </div>
           </div>
@@ -136,7 +135,7 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
           label={"Primary social media (optional)"}
           inputValue={socialMediaUrl}
           onChange={(input) => setSocialMediaUrl(input)}
-          errorMsg={socialMediaUrlError}
+          errorMsg={errors.social_media_url}
         />
         <SubmitButton
           label={"Update data"}
@@ -156,13 +155,8 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
               minInvestShares,
               maxInvestShares,
 
-              setDaoNameError,
-              setDaoDescrError,
-              setImageError,
-              setProspectusError,
-              setSocialMediaUrlError,
-              setMinInvestSharesError,
-              setMaxInvestSharesError,
+              setErrors,
+
               prefillProspectus,
 
               imageBytes,
@@ -334,13 +328,8 @@ const updateDaoData = async (
   minInvestShares: string,
   maxInvestShares: string,
 
-  setDaoNameError: SetString,
-  setDaoDescrError: SetString,
-  setImageError: SetString,
-  setProspectusError: SetString,
-  setSocialMediaUrlError: SetString,
-  setMinInvestSharesError: SetString,
-  setMaxInvestSharesError: SetString,
+  setValidationErrors: (errors: UpdateDataErrorsMessages) => void,
+
   existingProspectus?: ProspectusJs,
   imageBytes?: ArrayBuffer,
   prospectusBytes?: ArrayBuffer
@@ -398,32 +387,43 @@ const updateDaoData = async (
     deps.notification.success("Dao data updated!")
 
     showProgress(false)
-  } catch (e) {
-    if (e.id === "validations") {
-      let details = e.details
-      setDaoNameError(toValidationErrorMsg(details.name))
-      setDaoDescrError(toValidationErrorMsg(details.description))
-      setImageError(toValidationErrorMsg(details.image))
+  } catch (eAny) {
+    const e: FrError = eAny
 
-      // Note that this will make appear the prospectus errors incrementally, if both happen at once (normally not expected)
-      // i.e. user has to fix one first and submit, then the other would appear
-      if (details.prospectus_url) {
-        setProspectusError(toValidationErrorMsg(details.prospectus_url))
-      } else if (details.prospectus_bytes) {
-        setProspectusError(toValidationErrorMsg(details.prospectus_bytes))
-      }
+    if (isUpdateDaoDataValidationsError(e)) {
+      const validations = e.updateDaoDataValidations
 
-      setSocialMediaUrlError(toValidationErrorMsg(details.social_media_url))
-      setMinInvestSharesError(toValidationErrorMsg(details.min_invest_shares))
-      setMaxInvestSharesError(toValidationErrorMsg(details.max_invest_shares))
+      setValidationErrors(localizeErrors(validations))
 
+      // show a general message additionally, just in case
       deps.notification.error("Please fix the errors")
     } else {
-      deps.notification.error(e)
+      deps.notification.error(toDefaultErrorMsg(e))
     }
+
     showProgress(false)
   }
 }
+
+// map error payloads to localized messages
+const localizeErrors = (
+  errors: ValidateUpateDataInputErrors
+): UpdateDataErrorsMessages => {
+  return {
+    name: toValidationErrorMsg(errors.name),
+    description: toValidationErrorMsg(errors.description),
+    image_url: toValidationErrorMsg(errors.image_url),
+    social_media_url: toValidationErrorMsg(errors.social_media_url),
+    min_invest_shares: toValidationErrorMsg(errors.min_invest_shares),
+    max_invest_shares: toValidationErrorMsg(errors.max_invest_shares),
+    prospectus_url: toValidationErrorMsg(errors.prospectus_url),
+    prospectus_bytes: toValidationErrorMsg(errors.prospectus_bytes),
+  }
+}
+
+export type UpdateDataErrorsMessages = Partial<{
+  [K in keyof ValidateUpateDataInputErrors]: string
+}>
 
 const toProspectusInputs = async (
   existingProspectus?: ProspectusJs,
