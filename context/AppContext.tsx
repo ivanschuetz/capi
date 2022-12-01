@@ -452,7 +452,7 @@ const SIZE_PHONE_THRESHOLD = 600
 // we use abstract identifiers like "s1", to accomodate possible new cases (phone-landscape, tablet with certain aspect ratio etc.) while keeping naming simple
 const windowSizeClasses = (windowSize: WindowSize): WindowSizeClasses => {
   const windowWidth = windowSize.width
-  console.log("Window width updated: " + windowWidth)
+  // console.log("Window width updated: " + windowWidth)
 
   // Note: tablet and phone here implies portrait mode. Landscape hasn't been explicitly designed for or tested yet.
   const isTablet =
