@@ -1,10 +1,11 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
-import { Deps } from "../context/AppContext"
+import { Deps, HolderEntryViewData } from "../context/AppContext"
 import { changeArrow, pieChartColors } from "../functions/utils"
 import { HolderEntry } from "./HolderEntry"
 import { SharesDistributionChart } from "./SharesDistributionChart"
 import { LabeledBox } from "./LabeledBox"
 import Progress from "./Progress"
+import { SetBool } from "../type_alias"
 
 const entries_small_count = 3
 
@@ -16,13 +17,15 @@ export const SharesDistributionBox = ({ deps }: { deps: Deps }) => {
 
   /// Distribution that's not "not owned", i.e. owned by someone
   /// needed for the views where "not owned" is not used
-  const ownedSharesDistr = useMemo(() => {
+  const ownedSharesDistr: HolderEntryViewData[] | null = useMemo(() => {
     if (deps.sharesDistr) {
-      return deps.sharesDistr.filter((entry) => entry.type_ !== "not_owned")
+      return deps.sharesDistr?.filter((entry) => entry.type_ !== "not_owned")
     }
   }, [deps.sharesDistr])
 
-  const [entries, setEntries] = useState(ownedSharesDistr)
+  const [entries, setEntries] = useState<HolderEntryViewData[] | null>(
+    ownedSharesDistr
+  )
 
   updateSharesDistr(deps)
   updateEntries(
@@ -33,7 +36,7 @@ export const SharesDistributionBox = ({ deps }: { deps: Deps }) => {
     setEntries
   )
 
-  const col = useMemo(() => {
+  const colors: string[] = useMemo(() => {
     return pieChartColors()
   }, [])
 
@@ -77,7 +80,7 @@ export const SharesDistributionBox = ({ deps }: { deps: Deps }) => {
                   selectedAddress={selectedAddress}
                   showMoreSelected={showMoreSelected}
                   setShowMoreSelected={setShowMoreSelected}
-                  col={col}
+                  colors={colors}
                 />
               </div>
             </div>
@@ -85,7 +88,7 @@ export const SharesDistributionBox = ({ deps }: { deps: Deps }) => {
               <SharesDistributionChart
                 sharesDistr={deps.sharesDistr}
                 onAddressSelected={onAddressSelected}
-                col={col}
+                col={colors}
                 animated={true}
               />
             </div>
@@ -97,7 +100,7 @@ export const SharesDistributionBox = ({ deps }: { deps: Deps }) => {
                 selectedAddress={selectedAddress}
                 showMoreSelected={showMoreSelected}
                 setShowMoreSelected={setShowMoreSelected}
-                col={col}
+                colors={colors}
               />
             </div>
           </div>
@@ -149,10 +152,10 @@ const HoldersListItems = ({
   selectedAddress,
   showMoreSelected,
   setShowMoreSelected,
-  col,
-}) => {
-  const color = (index) => {
-    return col[Math.round(index % col.length)]
+  colors,
+}: HoldersListItemsPars) => {
+  const color = (index: number): string => {
+    return colors[Math.round(index % colors.length)]
   }
 
   if (ownedSharesDistr && entries) {
@@ -192,10 +195,24 @@ const HoldersListItems = ({
   }
 }
 
+type HoldersListItemsPars = {
+  deps: Deps
+  ownedSharesDistr: HolderEntryViewData[]
+  entries: HolderEntryViewData[]
+  selectedAddress: string
+  showMoreSelected: boolean
+  setShowMoreSelected: SetBool
+  colors: string[]
+}
+
 const ShowMoreOrLessFooter = ({
   ownedSharesDistr,
   showMoreSelected,
   setShowMoreSelected,
+}: {
+  ownedSharesDistr: HolderEntryViewData[]
+  showMoreSelected: boolean
+  setShowMoreSelected: SetBool
 }) => {
   // not enough entries for collapsing: no footer needed
   if (ownedSharesDistr && ownedSharesDistr.length <= entries_small_count) {
@@ -226,20 +243,20 @@ const updateSharesDistr = (deps: Deps) => {
 
 const updateEntries = (
   deps: Deps,
-  ownedSharesDistr,
-  showMoreSelected,
-  selectedAddress,
-  setEntries
+  ownedSharesDistr: HolderEntryViewData[],
+  showMoreSelected: boolean,
+  selectedAddress: string,
+  setEntries: (entries: HolderEntryViewData[]) => void
 ) => {
   useEffect(() => {
-    const showAll = () => {
+    const showAll = (): boolean => {
       return (
         showMoreSelected ||
         (ownedSharesDistr && ownedSharesDistr.length <= entries_small_count)
       )
     }
 
-    const filterHolders = (startIndex) => {
+    const filterHolders = (startIndex: number): HolderEntryViewData[] => {
       if (!ownedSharesDistr) return null
 
       let min = Math.min(ownedSharesDistr.length, entries_small_count)

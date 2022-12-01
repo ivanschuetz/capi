@@ -37,7 +37,7 @@ export const checkForUpdates = async (
   })
 }
 
-export const pieChartColors = () => {
+export const pieChartColors = (): string[] => {
   return [
     "#4CA5A9",
     "#8ECACD",
