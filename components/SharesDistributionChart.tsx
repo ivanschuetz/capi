@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react"
+import { useEffect, useLayoutEffect, useRef } from "react"
 import renderPieChart from "../charts/renderPieChart"
 
 // onAddressSelected has to return selected status, to highlight the segment
@@ -18,7 +18,7 @@ export const SharesDistributionChart = ({
 }) => {
   const chart = useRef(null)
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (sharesDistr && chart.current) {
       renderPieChart(
         chart.current,

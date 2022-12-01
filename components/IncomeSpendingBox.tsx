@@ -2,6 +2,7 @@ import {
   MutableRefObject,
   useContext,
   useEffect,
+  useLayoutEffect,
   useMemo,
   useRef,
   useState,
@@ -117,7 +118,7 @@ const updateChartData = (
   chart: MutableRefObject<any>,
   setChartData: (data: IncomeVsSpendingResJs) => void
 ) => {
-  useEffect(() => {
+  useLayoutEffect(() => {
     if (deps.wasm) {
       safe(notification, async () => {
         let res = await deps.wasm.incomeVsSpending({
