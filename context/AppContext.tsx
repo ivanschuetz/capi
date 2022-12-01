@@ -96,7 +96,7 @@ export const AppContextProvider: React.FC<AppContextProviderProps> = ({
   useEffect(() => {
     async function asyncInit() {
       if (wasm) {
-        safe(notification, () => wasm.initLog())
+        safe(notification, async () => wasm.initLog())
       }
     }
     asyncInit()
