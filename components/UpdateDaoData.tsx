@@ -5,7 +5,7 @@ import {
   isUpdateDaoDataValidationsError,
   toDefaultErrorMsg,
 } from "../functions/errors"
-import { showError, toBytes, toBytesForRust } from "../functions/utils"
+import { safe, showError, toBytes, toBytesForRust } from "../functions/utils"
 import { toValidationErrorMsg } from "../functions/validation"
 import { useDaoId } from "../hooks/useDaoId"
 import { storeIpfs, toMaybeIpfsUrl } from "../ipfs/store"
@@ -293,7 +293,7 @@ const prefillInputs = async (
   setMaxInvestShares: SetString,
   setProspectus: (value: ProspectusJs) => void
 ) => {
-  try {
+  safe(deps.notification, async () => {
     // prefill dao inputs
     let updatableData = await deps.wasm.updatableData({ dao_id: daoId })
     setDaoName(updatableData.project_name)
@@ -309,9 +309,7 @@ const prefillInputs = async (
     setMinInvestShares(updatableData.min_invest_amount)
     setMaxInvestShares(updatableData.max_invest_amount)
     setProspectus(updatableData.prospectus)
-  } catch (e) {
-    showError(deps.notification, e)
-  }
+  })
 }
 
 const updateDaoData = async (

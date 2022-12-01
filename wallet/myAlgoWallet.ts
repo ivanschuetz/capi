@@ -1,7 +1,7 @@
 import MyAlgo, { SignedTx } from "@randlabs/myalgo-connect"
 import buffer from "buffer"
 import { Notification } from "../components/Notification"
-import { showError } from "../functions/utils"
+import { safe, showError } from "../functions/utils"
 import { SetString } from "../type_alias"
 import { TxsToSign, Wallet, WalletSignedTx } from "./Wallet"
 const { Buffer } = buffer
@@ -15,7 +15,7 @@ export function createMyAlgoWallet(
 
   // returns address, if needed for immediate use
   async function connect() {
-    try {
+    safe(notification, async () => {
       const accounts = await wallet.connect()
       const addresses = accounts.map((account) => account.address)
 
@@ -32,9 +32,7 @@ export function createMyAlgoWallet(
       }
 
       return selectedAddress
-    } catch (e) {
-      showError(notification, e)
-    }
+    })
   }
 
   async function disconnect() {}

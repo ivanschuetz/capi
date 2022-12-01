@@ -8,7 +8,7 @@ import {
   WithDaoIdAddr,
 } from "../type_alias"
 import { Wallet } from "../wallet/Wallet"
-import { showError } from "./utils"
+import { safe, showError } from "./utils"
 
 export const updateInvestmentData_ = async (
   wasm: Wasm,
@@ -17,7 +17,7 @@ export const updateInvestmentData_ = async (
   setInvestmentData: (value: LoadInvestorResJs) => void,
   myAddress?: string
 ) => {
-  try {
+  safe(notification, async () => {
     if (myAddress) {
       let data = await wasm.loadInvestment({
         dao_id: daoId,
@@ -26,9 +26,7 @@ export const updateInvestmentData_ = async (
       console.log("Investment data: %o", data)
       setInvestmentData(data)
     }
-  } catch (e) {
-    showError(notification, e)
-  }
+  })
 }
 
 export const retrieveProfits = async (
@@ -86,7 +84,7 @@ export const updateFunds_ = async (
 ) => {
   /// We don't have a function in WASM yet to fetch only the funds so we re-fetch the dao.
   /// TODO: optimize: fetch only the funds (probably pass dao as input), so request is quicker.
-  try {
+  safe(notification, async () => {
     let viewDao = await wasm.viewDao({
       dao_id: daoId,
     })
@@ -100,7 +98,5 @@ export const updateFunds_ = async (
       dao_id: daoId,
     })
     setFundsChange(balance_change_res.change)
-  } catch (e) {
-    showError(notification, e)
-  }
+  })
 }

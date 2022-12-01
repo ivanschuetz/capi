@@ -3,7 +3,7 @@ import WalletConnect from "@walletconnect/client"
 import QRCodeModal from "algorand-walletconnect-qrcode-modal"
 import buffer from "buffer"
 import { Notification } from "../components/Notification"
-import { showError } from "../functions/utils"
+import { safe, showError } from "../functions/utils"
 import { SetBool, SetString, SetWallet } from "../type_alias"
 import { TxsToSign, Wallet, WalletSignedTx, WcTx } from "./Wallet"
 const { Buffer } = buffer
@@ -49,44 +49,36 @@ export function createWcWallet(
   // returns address, if needed for immediate use
   async function connect() {
     if (!window.Buffer) window.Buffer = Buffer
-    try {
+    safe(notification, async () => {
       if (!connector.connected) {
         await connector.createSession()
       }
       return initSession()
-    } catch (e) {
-      showError(notification, e)
-    }
+    })
   }
 
   async function disconnect() {
     if (!window.Buffer) window.Buffer = Buffer
-    try {
+    safe(notification, async () => {
       await connector.killSession()
       onDisconnect()
-    } catch (e) {
-      showError(notification, e)
-    }
+    })
   }
 
   function onPageLoad() {
     if (!window.Buffer) window.Buffer = Buffer
-    try {
+    safe(notification, async () => {
       if (connector.connected) {
         initSession()
       }
-    } catch (e) {
-      showError(notification, e)
-    }
+    })
   }
 
   function initSession() {
     if (!window.Buffer) window.Buffer = Buffer
-    try {
+    safe(notification, async () => {
       onConnectorConnected(connector, onAddressUpdate, onDisconnect)
-    } catch (e) {
-      showError(notification, e)
-    }
+    })
   }
 
   function isConnected() {

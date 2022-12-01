@@ -3,7 +3,7 @@ import { Notification } from "../components/Notification"
 import { Wasm } from "../context/AppContext"
 import arrowDown from "../images/svg/arrow.svg"
 import arrowUp from "../images/svg/green-arrow.svg"
-import { toDefaultErrorMsg } from "./errors"
+import { isFrError, toDefaultErrorMsg } from "./errors"
 
 export const toBytesForRust = (bytes?: ArrayBuffer): number[] | null => {
   if (bytes && bytes.byteLength > 0) {
@@ -28,15 +28,13 @@ export const checkForUpdates = async (
   daoId: string,
   setVersionData: (data: any) => void
 ) => {
-  try {
+  safe(notification, async () => {
     let versionData = await wasm.checkForUpdates({ dao_id: daoId })
 
     if (versionData) {
       setVersionData(versionData)
     }
-  } catch (e) {
-    showError(notification, e)
-  }
+  })
 }
 
 export const pieChartColors = () => {
@@ -89,6 +87,7 @@ export const shortedAddress = (address: string) => {
   return leading + "..." + trailing
 }
 
+// Executes code in try catch and shows an error notification if it fails
 export const safe = (notification: Notification, f: () => void) => {
   try {
     f()
@@ -97,7 +96,16 @@ export const safe = (notification: Notification, f: () => void) => {
   }
 }
 
+// Maps error to error msg and shows it in a notification
 export const showError = (notification: Notification, error: any) => {
-  const e: FrError = error
-  notification.error(toDefaultErrorMsg(error))
+  const errorMsg = isFrError(error)
+    ? toDefaultErrorMsg(error)
+    : jsErrorToErrorMsg(error)
+  notification.error(errorMsg)
+}
+
+// Maps arbitrary errors triggered in js/ts (opposed to wasm) to error messages
+// TODO improve implementation
+const jsErrorToErrorMsg = (jsError: any): string => {
+  return jsError as string
 }

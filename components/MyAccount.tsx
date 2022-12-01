@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Deps } from "../context/AppContext"
 import { retrieveProfits } from "../functions/shared"
-import { showError } from "../functions/utils"
+import { safe, showError } from "../functions/utils"
 import funds from "../images/funds.svg"
 import arrow from "../images/svg/arrow-right.svg"
 import { DisclaimerModal } from "../modal/DisclaimerModal"
@@ -218,12 +218,10 @@ const ConnectButton = ({
 }
 
 const disconnect = async (deps: Deps) => {
-  try {
+  safe(deps.notification, async () => {
     await deps.wallet.disconnect()
     deps.setMyAddress("")
-  } catch (e) {
-    showError(deps.notification, e)
-  }
+  })
 }
 
 const updateInvestmentData = (deps: Deps, daoId: string) => {

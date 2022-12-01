@@ -9,7 +9,7 @@ import {
 // note that error returned from here might be further transformed in the notification (to "friendly" message)
 // we do it there because we used to have functionality there to show friendly msg + copy button to copy paste complete msg
 // this might need to be redesigned
-export const toDefaultErrorMsg = (e: FrError): string | null => {
+export const toDefaultErrorMsg = (e: FrError): string => {
   if (isInternalError(e)) {
     return e.internal
   } else if (isMsgError(e)) {
@@ -20,6 +20,19 @@ export const toDefaultErrorMsg = (e: FrError): string | null => {
     console.error("Not supported default error: %o. Showing unknown error.", e)
     return unknownErroMsg
   }
+}
+
+export const isFrError = (value: any): value is FrError => {
+  return (
+    isNotEnoughAlgosError(value) ||
+    isNotEnoughFundsAssetError(value) ||
+    isValidationError(value) ||
+    isCreateDaoValidationsError(value) ||
+    isUpdateDaoDataValidationsError(value) ||
+    isValidationsError(value) ||
+    isInternalError(value) ||
+    isMsgError(value)
+  )
 }
 
 export const isNotEnoughAlgosError = (
