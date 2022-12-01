@@ -28,7 +28,6 @@ import { Notification } from "./Notification"
 import {
   isCreateDaoValidationsError,
   isNotEnoughAlgosError,
-  toDefaultErrorMsg,
 } from "../functions/errors"
 import { CreateAssetsInputErrors, FrError } from "wasm/wasm"
 
@@ -41,7 +40,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
   const [sharesForInvestors, setSharesForInvestors] = useState("100")
   const [minInvestShares, setMinInvestShares] = useState("3")
   const [maxInvestShares, setMaxInvestShares] = useState("10")
-  const [imageBytes, setImageBytes] = useState(null)
+  const [imageBytes, setImageBytes] = useState<ArrayBuffer | null>(null)
   const [socialMediaUrl, setSocialMediaUrl] = useState(
     "https://twitter.com/doesnotexist"
   )
@@ -50,7 +49,9 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
   const [minRaiseTargetEndDate, setMinRaiseTargetEndDate] = useState(
     moment(new Date()).add(1, "M")
   )
-  const [prospectusBytes, setProspectusBytes] = useState(null)
+  const [prospectusBytes, setProspectusBytes] = useState<ArrayBuffer | null>(
+    null
+  )
 
   const [errors, setErrors] = useState<CreateValidationErrorsMessages>({})
 
@@ -100,6 +101,8 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           router,
 
           setErrors,
+
+          setShowBuyCurrencyInfoModal,
 
           imageBytes,
           prospectusBytes
@@ -307,7 +310,7 @@ const createDao = async (
 
   setValidationErrors: (errors: CreateValidationErrorsMessages) => void,
 
-  setShowBuyCurrencyInfoModal: (value: boolean) => void,
+  setShowBuyCurrencyInfoModal: SetBool,
 
   imageBytes?: ArrayBuffer,
   prospectusBytes?: ArrayBuffer
