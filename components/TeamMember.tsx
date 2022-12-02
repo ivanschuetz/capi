@@ -1,14 +1,15 @@
+import { TeamMemberJs } from "wasm/wasm"
 import twitter from "../images/svg/twitter.svg"
 
-export const TeamMember = ({ data }) => {
+export const TeamMember = ({ data }: { data: TeamMemberJs }) => {
   return (
-    <div>
+    <div className="team_member">
       <img src={data.picture} alt="" />
       <div>{data.name}</div>
       <div>{data.role}</div>
       <div>{data.descr}</div>
       <div>
-        {data.social_links.map((url) => (
+        {data.social_links.map((url: string) => (
           <SocialLink key={url} url={url} />
         ))}
       </div>
@@ -25,7 +26,7 @@ const SocialLink = ({ url }: { url: string }) => {
 }
 
 const SocialMediaImage = ({ url }: { url: string }) => {
-  var src
+  var src: string
   if (url.includes("twitter")) {
     src = twitter.src
     // TODO other social media
