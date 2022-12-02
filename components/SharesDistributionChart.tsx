@@ -1,19 +1,19 @@
-import { useEffect, useLayoutEffect, useRef } from "react"
-import renderPieChart from "../charts/renderPieChart"
+import { useLayoutEffect, useRef } from "react"
+import renderPieChart, { PieChartSlice } from "../charts/renderPieChart"
 
 // onAddressSelected has to return selected status, to highlight the segment
 export const SharesDistributionChart = ({
   sharesDistr,
   onAddressSelected,
-  col,
+  colors,
   animated,
   disableClick,
 }: {
-  sharesDistr: any
+  sharesDistr: PieChartPercentageSlice[]
   // returns whether the address segment should be displayed as selected
   onAddressSelected?: (value: string) => boolean
-  col: any
-  animated: any
+  colors: any
+  animated: boolean
   disableClick?: boolean
 }) => {
   const chart = useRef(null)
@@ -24,13 +24,17 @@ export const SharesDistributionChart = ({
         chart.current,
         sharesDistr,
         (d) => d.percentage_number,
-        (d) => onAddressSelected(d.address),
-        col,
+        (d) => false,
+        colors,
         animated,
         disableClick
       )
     }
-  }, [onAddressSelected, sharesDistr, col, animated, disableClick])
+  }, [onAddressSelected, sharesDistr, colors, animated, disableClick])
 
   return <svg className="pie_chart__svg" ref={chart} />
+}
+
+export type PieChartPercentageSlice = PieChartSlice & {
+  percentage_number: string
 }

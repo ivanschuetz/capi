@@ -3,7 +3,10 @@ import { pieChartColors } from "../functions/utils"
 import dark_cyan_circle from "../images/dark_cyan_circle.svg"
 import light_cyan_circle from "../images/light_cyan_circle.svg"
 import redArrow from "../images/svg/arrow.svg"
-import { SharesDistributionChart } from "./SharesDistributionChart"
+import {
+  PieChartPercentageSlice,
+  SharesDistributionChart,
+} from "./SharesDistributionChart"
 import { LabeledAmountInput, WithTooltip } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
 import { DaoJs } from "wasm/wasm"
@@ -98,7 +101,7 @@ export const LockOrUnlockShares = ({
                   to_pie_chart_slice(investmentData.investor_locked_shares),
                   to_pie_chart_slice(investmentData.investor_unlocked_shares),
                 ]}
-                col={pieChartColors()}
+                colors={pieChartColors()}
                 animated={false}
                 disableClick={true}
               />
@@ -123,7 +126,7 @@ export const LockOrUnlockShares = ({
               to_pie_chart_slice(investmentData.investor_locked_shares),
               to_pie_chart_slice(investmentData.investor_unlocked_shares),
             ]}
-            col={pieChartColors()}
+            colors={pieChartColors()}
             animated={false}
             disableClick={true}
           />
@@ -135,8 +138,8 @@ export const LockOrUnlockShares = ({
   return <div>{dao && investmentData && view()}</div>
 }
 
-const to_pie_chart_slice = (percentage) => {
-  return { percentage_number: percentage }
+const to_pie_chart_slice = (percentage: string): PieChartPercentageSlice => {
+  return { percentage_number: percentage, isSelected: false, type_: "" }
 }
 
 type LockOrUnlockSharesPars = {

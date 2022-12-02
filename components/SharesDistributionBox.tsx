@@ -88,7 +88,7 @@ export const SharesDistributionBox = ({ deps }: { deps: Deps }) => {
               <SharesDistributionChart
                 sharesDistr={deps.sharesDistr}
                 onAddressSelected={onAddressSelected}
-                col={colors}
+                colors={colors}
                 animated={true}
               />
             </div>

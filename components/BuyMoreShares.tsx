@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react"
 import { BuyFundsAssetModal } from "../buy_currency/BuyFundsAssetModal"
 import { Deps } from "../context/AppContext"
-import { calculateSharesPrice, invest } from "../functions/invest_embedded"
+import {
+  BuyCurrencyModalInfo,
+  calculateSharesPrice,
+  invest,
+} from "../functions/invest_embedded"
 import { pieChartColors, PIE_CHART_GRAY } from "../functions/utils"
 import { useDaoId } from "../hooks/useDaoId"
 import dark_cyan_circle from "../images/dark_cyan_circle.svg"
@@ -9,11 +13,17 @@ import grey_circle from "../images/grey_circle.svg"
 import light_cyan_circle from "../images/light_cyan_circle.svg"
 import redArrow from "../images/svg/arrow.svg"
 import { AckProspectusModal } from "../prospectus/AckProspectusModal"
-import { SharesDistributionChart } from "./SharesDistributionChart"
+import {
+  PieChartPercentageSlice,
+  SharesDistributionChart,
+} from "./SharesDistributionChart"
 import { LabeledAmountInput } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
+import { DaoJs } from "wasm/wasm"
+import { SetBool, SetString } from "../type_alias"
+import { PieChartSlice } from "../charts/renderPieChart"
 
-export const BuyMoreShares = ({ deps, dao }) => {
+export const BuyMoreShares = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
   let daoId = useDaoId()
 
   const [buySharesCount, setBuySharesCount] = useState(null)
@@ -95,7 +105,7 @@ export const BuyMoreShares = ({ deps, dao }) => {
                 // we want to show available shares in gray and it's the first segment, so we prepend gray to the colors
                 // note that this is inconsistent with how it's shown on investors distribution (using NOT_OWNED segment type)
                 // we should refactor this (maybe create a generic "gray" segment type)
-                col={[PIE_CHART_GRAY].concat(pieChartColors())}
+                colors={[PIE_CHART_GRAY].concat(pieChartColors())}
                 animated={false}
                 disableClick={true}
               />
@@ -137,7 +147,7 @@ export const BuyMoreShares = ({ deps, dao }) => {
               // we want to show available shares in gray and it's the first segment, so we prepend gray to the colors
               // note that this is inconsistent with how it's shown on investors distribution (using NOT_OWNED segment type)
               // we should refactor this (maybe create a generic "gray" segment type)
-              col={[PIE_CHART_GRAY].concat(pieChartColors())}
+              colors={[PIE_CHART_GRAY].concat(pieChartColors())}
               animated={false}
               disableClick={true}
             />
@@ -167,11 +177,11 @@ export const BuyMoreShares = ({ deps, dao }) => {
   return <div>{dao && deps.investmentData && view()}</div>
 }
 
-const to_pie_chart_slice = (percentage) => {
-  return { percentage_number: percentage }
+const to_pie_chart_slice = (percentage: string): PieChartPercentageSlice => {
+  return { percentage_number: percentage, isSelected: false, type_: "" }
 }
 
-const updateAvailableShares = (deps: Deps, daoId) => {
+const updateAvailableShares = (deps: Deps, daoId: string) => {
   useEffect(() => {
     deps.updateAvailableShares.call(null, daoId)
   }, [deps.updateAvailableShares, deps.notification, daoId])
@@ -179,10 +189,10 @@ const updateAvailableShares = (deps: Deps, daoId) => {
 
 const updateTotalPrice = (
   deps: Deps,
-  daoId,
-  buySharesCount,
-  dao,
-  setTotalCostNumber
+  daoId: string,
+  buySharesCount: string,
+  dao: DaoJs,
+  setTotalCostNumber: SetString
 ) => {
   useEffect(() => {
     ;(async () => {
@@ -216,13 +226,13 @@ const updateTotalPrice = (
 
 const submitBuy = async (
   deps: Deps,
-  setSubmitting,
-  daoId,
-  dao,
-  buySharesCount,
-  setBuySharesAmountError,
-  setShowBuyCurrencyInfoModal,
-  totalCostNumber
+  setSubmitting: SetBool,
+  daoId: string,
+  dao: DaoJs,
+  buySharesCount: string,
+  setBuySharesAmountError: SetString,
+  setShowBuyCurrencyInfoModal: (info: BuyCurrencyModalInfo) => void,
+  totalCostNumber: string
 ) => {
   await invest(
     deps.wasm,
