@@ -8,6 +8,7 @@ import { SetAnyArr, SetBool, SetString } from "../type_alias"
 import { LabeledInput, LabeledTextArea } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
 import styles from "./add_team_member.module.sass"
+import { TeamMemberJs } from "wasm/wasm"
 
 export const AddTeamMember = ({
   deps,
@@ -133,7 +134,7 @@ export const addTeamMember = async (
   descr: string,
   picture: string,
   social_link: string,
-  team: any[],
+  team: TeamMemberJs[],
   setTeam: SetAnyArr,
 
   setNameError: SetString,
