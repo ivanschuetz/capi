@@ -1,6 +1,18 @@
 @import ../styles/variables
+@import ../styles/_global_vars
 
-.team_members
+.grid
   display: grid
   grid-template-columns: 1fr 1fr
   gap: 40px
+
+.add_member
+  height: 180px
+  border: 2px dashed $color_purple_dark
+  display: flex
+  align-items: center
+  justify-content: center
+  border-radius: $global-border-radius
+
+  img
+    cursor: pointer

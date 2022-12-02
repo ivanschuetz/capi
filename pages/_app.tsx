@@ -22,6 +22,7 @@ import "../styles/_sidebar.scss"
 import "../styles/_toastify.scss"
 import "../styles/_utils.scss"
 import "../styles/_withdraw.scss"
+import "../styles/global.sass"
 import { NextPage } from "next"
 
 export type NextPageWithLayout = NextPage & {

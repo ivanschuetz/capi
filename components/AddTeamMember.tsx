@@ -7,6 +7,7 @@ import { toMaybeIpfsUrl } from "../ipfs/store"
 import { SetAnyArr, SetBool, SetString } from "../type_alias"
 import { LabeledInput, LabeledTextArea } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
+import styles from "./add_team_member.module.sass"
 
 export const AddTeamMember = ({
   deps,
@@ -33,7 +34,7 @@ export const AddTeamMember = ({
 
   const ContentView = () => {
     return (
-      <div>
+      <div className={styles.add_team_member}>
         <LabeledInput
           label={"Name"}
           inputValue={name}
