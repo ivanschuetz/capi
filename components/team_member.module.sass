@@ -1,0 +1,38 @@
+@import ../styles/variables
+
+.team_member
+  border: 1px solid $color_gray_light
+  padding: 50px
+
+  .top_row
+    display: flex
+
+    .filler
+      width: 100%
+
+  $pic_size: 100px
+  .pic
+    width: $pic_size
+    height: $pic_size
+    border-radius: 50%
+
+  .name
+    font-size: $font_size_70
+    color: $color_purple_dark
+    margin-bottom: 10px
+
+  .role
+    font-weight: 300
+    color: $color_purple_light2
+
+  .separator
+    height: 1px
+    background-color: $color_gray_light
+    margin-top: 35px
+    margin-bottom: 30px
+
+  .descr
+    font-weight: 300
+    color: $color_purple_light2
+.social_links
+  display: flex

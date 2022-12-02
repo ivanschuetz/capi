@@ -6,6 +6,7 @@ import { AddTeamMember } from "./AddTeamMember"
 import { ContentTitle } from "./ContentTitle"
 import { SubmitButton } from "./SubmitButton"
 import { TeamMember } from "./TeamMember"
+import styles from "./team.module.sass"
 
 export const Team = ({ deps }: { deps: Deps }) => {
   const [team, setTeam] = useState([])
@@ -51,11 +52,11 @@ const dummyPrefillData = () => {
 
 const TeamMembers = ({ team }: { team: TeamMemberJs[] }) => {
   return (
-    <>
+    <div className={styles.team_members}>
       {team.map((member) => (
         <TeamMember key={member.uuid} data={member} />
       ))}
-    </>
+    </div>
   )
 }
 
