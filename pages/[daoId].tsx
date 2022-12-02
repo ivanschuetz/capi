@@ -7,7 +7,11 @@ import { AppContext } from "../context/AppContext"
 const DaoPage = () => {
   const { deps } = useContext(AppContext)
 
-  return <DaoContainer nested={<Dao deps={deps} />}></DaoContainer>
+  return <Dao deps={deps} />
 }
 
 export default DaoPage
+
+DaoPage.getLayout = function getLayout(page: React.ReactElement) {
+  return <DaoContainer nested={page}></DaoContainer>
+}

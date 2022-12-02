@@ -15,16 +15,16 @@ const StatsPage = () => {
   }, [deps.updateDao, daoId])
 
   return (
-    <DaoContainer
-      nested={
-        <div>
-          {deps.dao && <SharesDistributionBox deps={deps} />}
+    <div>
+      {deps.dao && <SharesDistributionBox deps={deps} />}
 
-          <IncomeSpendingBox notification={deps.notification} daoId={daoId} />
-        </div>
-      }
-    ></DaoContainer>
+      <IncomeSpendingBox notification={deps.notification} daoId={daoId} />
+    </div>
   )
 }
 
 export default StatsPage
+
+StatsPage.getLayout = function getLayout(page: React.ReactElement) {
+  return <DaoContainer nested={page}></DaoContainer>
+}

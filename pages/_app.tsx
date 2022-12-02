@@ -22,8 +22,20 @@ import "../styles/_sidebar.scss"
 import "../styles/_toastify.scss"
 import "../styles/_utils.scss"
 import "../styles/_withdraw.scss"
+import { NextPage } from "next"
 
-const App = ({ Component, pageProps }: AppProps) => {
+export type NextPageWithLayout = NextPage & {
+  getLayout?: (page: React.ReactElement) => React.ReactNode
+}
+
+type AppPropsWithLayout = AppProps & {
+  Component: NextPageWithLayout
+}
+
+const App = ({ Component, pageProps }: AppPropsWithLayout) => {
+  // Use the layout defined at the page level, if available
+  const getLayout = Component.getLayout ?? ((page) => page)
+
   return (
     <WASMContextProvider>
       <AppContextProvider>
@@ -31,7 +43,7 @@ const App = ({ Component, pageProps }: AppProps) => {
           <title>Create Next App</title>
           <link rel="icon" href="/favicon.ico" />
         </Head>
-        <Component {...pageProps} />
+        {getLayout(<Component {...pageProps} />)}
       </AppContextProvider>
     </WASMContextProvider>
   )

@@ -6,17 +6,17 @@ import { AppContext } from "../context/AppContext"
 import { WireframeWrapper } from "../wireframes/WireframeWrapper"
 
 const MyProjectsPage = () => {
-  const ctx = useContext(AppContext)
+  const { deps } = useContext(AppContext)
 
-  return (
-    <AppContainer>
-      <WireframeWrapper
-        deps={ctx.deps}
-        isGlobal={true}
-        nested={<MyDaos deps={ctx.deps} />}
-      />
-    </AppContainer>
-  )
+  return <MyDaos deps={deps} />
 }
 
 export default MyProjectsPage
+
+MyProjectsPage.getLayout = function getLayout(page: React.ReactElement) {
+  return (
+    <AppContainer>
+      <WireframeWrapper isGlobal={true} nested={page} />
+    </AppContainer>
+  )
+}
