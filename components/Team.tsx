@@ -7,6 +7,7 @@ import { ContentTitle } from "./ContentTitle"
 import { TeamMember } from "./TeamMember"
 import styles from "./team.module.sass"
 import plus from "../images/svg/plus_purple.svg"
+import Modal from "../modal/Modal"
 
 export const Team = ({ deps }: { deps: Deps }) => {
   const [team, setTeam] = useState([])
@@ -32,13 +33,15 @@ export const Team = ({ deps }: { deps: Deps }) => {
         )}
       </div>
       {isAdding && (
-        <AddTeamMember
-          deps={deps}
-          prefillData={dummyPrefillData()}
-          team={team}
-          setTeam={setTeam}
-          onAdded={() => setIsAdding(false)}
-        />
+        <Modal title={"Add team member"} onClose={() => setIsAdding(false)}>
+          <AddTeamMember
+            deps={deps}
+            prefillData={dummyPrefillData()}
+            team={team}
+            setTeam={setTeam}
+            onAdded={() => setIsAdding(false)}
+          />
+        </Modal>
       )}
     </div>
   )
