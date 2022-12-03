@@ -10,9 +10,10 @@ import { isAddTeamMemberValidationsError } from "../functions/errors"
 import { showError, toBytes } from "../functions/utils"
 import { toValidationErrorMsg } from "../functions/validation"
 import { useDaoId } from "../hooks/useDaoId"
-import { toMaybeIpfsUrl } from "../ipfs/store"
+import { storeIpfs, toMaybeIpfsUrl } from "../ipfs/store"
 import { SetAnyArr, SetBool } from "../type_alias"
 import styles from "./add_team_member.module.sass"
+import { ImageUpload } from "./ImageUpload"
 import { LabeledInput, LabeledTextArea } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
 
@@ -28,19 +29,20 @@ export const AddTeamMember = ({
   const [name, setName] = useState(prefillData.name)
   const [role, setRole] = useState(prefillData.role)
   const [descr, setDescr] = useState(prefillData.descr)
-  const [picture, setPicture] = useState(prefillData.picture)
   const [githubUrl, setGithubUrl] = useState(prefillData.github_link)
   const [twitterUrl, setTwitterUrl] = useState(prefillData.twitter_link)
   const [linkedinUrl, setLinkedinUrl] = useState(prefillData.linkedin_link)
+  const [imageBytes, setImageBytes] = useState<ArrayBuffer | null>(null)
 
   const [submitting, setSubmitting] = useState(false)
 
   const [errors, setErrors] = useState<AddTeamMemberValidationErrorsMessages>(
     {}
   )
-  const ContentView = () => {
+  const contentView = () => {
     return (
       <div className={styles.add_team_member}>
+        <ImageUpload setImageBytes={setImageBytes} />
         <LabeledInput
           label={"Name"}
           inputValue={name}
@@ -61,13 +63,6 @@ export const AddTeamMember = ({
           onChange={(input) => setDescr(input)}
           maxLength={2000} // NOTE: has to match WASM
           errorMsg={errors.descr}
-        />
-        <LabeledInput
-          label={"Picture"}
-          inputValue={picture}
-          onChange={(input) => setPicture(input)}
-          maxLength={100}
-          errorMsg={errors.picture}
         />
         <LabeledInput
           label={"Github"}
@@ -110,7 +105,7 @@ export const AddTeamMember = ({
               name,
               role,
               descr,
-              picture,
+              imageBytes,
               team,
               setTeam,
               setErrors,
@@ -127,7 +122,7 @@ export const AddTeamMember = ({
   }
 
   if (deps.myAddress) {
-    return <ContentView />
+    return contentView()
   } else {
     return null
   }
@@ -141,7 +136,7 @@ export const addTeamMember = async (
   name: string,
   role: string,
   descr: string,
-  picture: string,
+  imageBytes: ArrayBuffer,
   team: TeamMemberJs[],
   setTeam: SetAnyArr,
   setValidationErrors: (errors: AddTeamMemberValidationErrorsMessages) => void,
@@ -151,13 +146,17 @@ export const addTeamMember = async (
 ) => {
   try {
     showProgress(true)
+
+    // save image to ipfs
+    const imageUrl = await storeIpfs(imageBytes)
+
     // update json + possible validations in wasm
     let addMemberRes = await deps.wasm.addTeamMember({
       inputs: {
         name,
         role,
         descr,
-        picture,
+        picture: imageUrl,
         github_link: github_url,
         twitter_link: twitter_url,
         linkedin_link: linkedin_url,
@@ -167,7 +166,7 @@ export const addTeamMember = async (
     console.log("addMemberRes: " + JSON.stringify(addMemberRes))
 
     // save json to ipfs (ideally we'd do this in wasm too, but web3 sdk is js)
-    const teamUrl = await toMaybeIpfsUrl(toBytes(await addMemberRes.to_save))
+    const teamUrl = await toMaybeIpfsUrl(toBytes(addMemberRes.to_save))
 
     // save the ipfs url in dao state
     let setTeamRes = await deps.wasm.setTeam({

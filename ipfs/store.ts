@@ -1,6 +1,6 @@
 import { Web3Storage } from "web3.storage"
 
-export const storeIpfs = async (bytes: ArrayBuffer) => {
+export const storeIpfs = async (bytes: ArrayBuffer): Promise<string> => {
   const token =
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiJkaWQ6ZXRocjoweDQ3ZjgwZkJlNTg4Njc1MUYyYjdiOWFmMzc0ODZFZDIyMUViYjM5QWYiLCJpc3MiOiJ3ZWIzLXN0b3JhZ2UiLCJpYXQiOjE2NTY3NzIzMjA2MDUsIm5hbWUiOiJjYXAifQ.OhJ_FMoew_9QrHIl7Wjkw4JYI3qzKw1Mff8h8saSHIw"
 
@@ -31,7 +31,9 @@ export const storeIpfs = async (bytes: ArrayBuffer) => {
 
 // if bytes is set, stores them in ipfs and returns ipfs url (gateway),
 // if not set doesn't do anything and returns null
-export const toMaybeIpfsUrl = async (bytes?: ArrayBuffer) => {
+export const toMaybeIpfsUrl = async (
+  bytes?: ArrayBuffer
+): Promise<string | null> => {
   if (bytes && bytes.byteLength > 0) {
     return await storeIpfs(bytes)
   } else {
