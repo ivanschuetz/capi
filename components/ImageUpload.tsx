@@ -14,7 +14,7 @@ export const ImageUpload = ({
     inputImg,
     updateCrop,
     clear,
-    handleSubmitImage,
+    onFormSubmit,
     getRootProps,
     getInputProps,
     isDragActive,
@@ -23,11 +23,9 @@ export const ImageUpload = ({
   return (
     <form
       className={`upload-form-image ${isDragActive ? "highlighted" : ""}`}
-      onSubmit={handleSubmitImage}
+      onSubmit={onFormSubmit}
     >
-      {/* <div className="upload-container"> */}
-
-      {/* upload image: set in inputImg via onDrop */}
+      {/* image uploader */}
       <div {...getRootProps({ className: "upload-container" })}>
         <div className="grey-190">Upload a cover image</div>
         <div className="upload-custom">
@@ -42,7 +40,7 @@ export const ImageUpload = ({
         <div className="grey-190">or Drag and drop here</div>
       </div>
 
-      {/* crop image: gets image from inputImg hook, updates it via updateCrop */}
+      {/* image cropper */}
       {inputImg && (
         <ImageCropper
           updateBlob={updateCrop}
@@ -57,9 +55,10 @@ export const ImageUpload = ({
 const useImageUpload = (
   setImageBytes: (bytes?: ArrayBuffer) => void,
   initImageBytes?: string
-) => {
-  // the initial image in base64 - not updated when changing the crop area
+): ImageUploadSettings => {
+  // the image in base64 - not updated when cropping
   const [inputImg, setInputImg] = useState<string | null>(null)
+
   const [fileReader, setFileReader] = useState(null)
 
   initFileReader(setFileReader)
@@ -74,7 +73,6 @@ const useImageUpload = (
     }
   })
 
-  // called when the crop area is updated (also triggered by setting the image)
   const updateCrop = async (blob: Blob) => {
     if (fileReader) {
       const bytes = await blobToArrayBuffer(fileReader, blob)
@@ -88,7 +86,7 @@ const useImageUpload = (
     setImageBytes(null) // clear state
   }
 
-  const handleSubmitImage = (e: any) => {
+  const onFormSubmit = (e: any) => {
     e.preventDefault()
   }
 
@@ -98,11 +96,30 @@ const useImageUpload = (
     inputImg,
     updateCrop,
     clear,
-    handleSubmitImage,
+    onFormSubmit,
     getRootProps,
     getInputProps,
     isDragActive,
   }
+}
+
+type ImageUploadSettings = {
+  // base64 representation of original (i.e. not cropped) image
+  inputImg: string | null
+  // called when the crop area is updated, or the image is set
+  updateCrop: (blob: Blob) => void
+  // call this to remove the image
+  clear: () => void
+  // assign to the form's onSubmit handler
+  onFormSubmit: (event: any) => void
+  // dropzone properties, to be added to the containing root element
+  getRootProps: any
+  // dropzone properties, to be added to upload input
+  // note: not sure this input is actually needed. It was removed in a test and everything seemed to still work.
+  getInputProps: any
+  // whether the user is dragging an image over the root element
+  // can be used for styling (commonly to highlight the area)
+  isDragActive: any
 }
 
 async function blobToArrayBuffer(

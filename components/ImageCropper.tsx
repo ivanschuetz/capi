@@ -9,8 +9,11 @@ export const ImageCropper = ({
   inputImg,
   clear,
 }: {
+  // called when the crop area is modified, with its corresponding bytes
   updateBlob: (blob: Blob) => void
+  // the image with which to initialize the cropper
   inputImg: string
+  // called when delete button is pressed
   clear: () => void
 }) => {
   const [crop, setCrop] = useState({ x: 0, y: 0 })
