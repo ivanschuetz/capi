@@ -8,9 +8,10 @@ import { TeamMember } from "./TeamMember"
 import styles from "./team.module.sass"
 import plus from "../images/svg/plus_purple.svg"
 import Modal from "../modal/Modal"
+import { SetBool } from "../type_alias"
 
 export const Team = ({ deps }: { deps: Deps }) => {
-  const [team, setTeam] = useState([])
+  const [team, setTeam] = useState(null)
   const [isAdding, setIsAdding] = useState(false)
 
   updateTeam(deps, setTeam)
@@ -19,20 +20,8 @@ export const Team = ({ deps }: { deps: Deps }) => {
     <div className="mt-80">
       <ContentTitle title={"Team"} />
       {!deps.dao?.team_url && <EmptyTeamView />}
-      <div className={styles.grid}>
-        <TeamMembers team={team} />
-        {deps.myAddress && (
-          <div className={styles.add_member}>
-            <button
-              className="btn_no_bg"
-              onClick={async () => setIsAdding(true)}
-            >
-              <img src={plus.src} alt="icon" />
-            </button>
-          </div>
-        )}
-      </div>
-      {isAdding && (
+      {team && <TeamView deps={deps} team={team} setIsAdding={setIsAdding} />}
+      {team && isAdding && (
         <Modal title={"Add team member"} onClose={() => setIsAdding(false)}>
           <AddTeamMember
             deps={deps}
@@ -42,6 +31,30 @@ export const Team = ({ deps }: { deps: Deps }) => {
             onAdded={() => setIsAdding(false)}
           />
         </Modal>
+      )}
+    </div>
+  )
+}
+
+/// shown if the project has a team
+const TeamView = ({
+  deps,
+  team,
+  setIsAdding,
+}: {
+  deps: Deps
+  team: TeamMemberJs[]
+  setIsAdding: SetBool
+}) => {
+  return (
+    <div className={styles.grid}>
+      <TeamMembers team={team} />
+      {deps.myAddress && (
+        <div className={styles.add_member}>
+          <button className="btn_no_bg" onClick={async () => setIsAdding(true)}>
+            <img src={plus.src} alt="icon" />
+          </button>
+        </div>
       )}
     </div>
   )
