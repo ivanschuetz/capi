@@ -9,6 +9,7 @@ import styles from "./team.module.sass"
 import plus from "../images/svg/plus_purple.svg"
 import Modal from "../modal/Modal"
 import { SetBool } from "../type_alias"
+import Progress from "./Progress"
 
 export const Team = ({ deps }: { deps: Deps }) => {
   const [team, setTeam] = useState(null)
@@ -16,10 +17,21 @@ export const Team = ({ deps }: { deps: Deps }) => {
 
   updateTeam(deps, setTeam)
 
+  const shouldShowEmptyView = () => {
+    // no team added, or for some reason a team without members
+    return (deps.dao && !deps.dao?.team_url) || (team && team.length === 0)
+  }
+
+  const shouldShowProgress = () => {
+    // is loading the dao or is loading the team
+    return !deps.dao || (deps.dao?.team_url && !team)
+  }
+
   return (
     <div className="mt-80">
       <ContentTitle title={"Team"} />
-      {!deps.dao?.team_url && <EmptyTeamView />}
+      {shouldShowEmptyView() && <EmptyTeamView />}
+      {shouldShowProgress() && <Progress />}
       {team && <TeamView deps={deps} team={team} setIsAdding={setIsAdding} />}
       {team && isAdding && (
         <Modal title={"Add team member"} onClose={() => setIsAdding(false)}>
