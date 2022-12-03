@@ -32,8 +32,9 @@ export const Team = ({ deps }: { deps: Deps }) => {
       <ContentTitle title={"Team"} />
       {shouldShowEmptyView() && <EmptyTeamView />}
       {shouldShowProgress() && <Progress />}
-      {team && <TeamView deps={deps} team={team} setIsAdding={setIsAdding} />}
-      {team && isAdding && (
+      {/* the team view contains the "add member" button, so we show it too if there's no team */}
+      {<TeamView deps={deps} team={team ?? []} setIsAdding={setIsAdding} />}
+      {isAdding && (
         <Modal title={"Add team member"} onClose={() => setIsAdding(false)}>
           <AddTeamMember
             deps={deps}
@@ -61,14 +62,26 @@ const TeamView = ({
   return (
     <div className={styles.grid}>
       <TeamMembers team={team} />
-      {deps.myAddress && (
-        <div className={styles.add_member}>
-          <button className="btn_no_bg" onClick={async () => setIsAdding(true)}>
-            <img src={plus.src} alt="icon" />
-          </button>
-        </div>
-      )}
+      <MaybeAddMemberButton deps={deps} setIsAdding={setIsAdding} />
     </div>
+  )
+}
+
+const MaybeAddMemberButton = ({
+  deps,
+  setIsAdding,
+}: {
+  deps: Deps
+  setIsAdding: SetBool
+}) => {
+  return (
+    deps.myAddress && (
+      <div className={styles.add_member}>
+        <button className="btn_no_bg" onClick={async () => setIsAdding(true)}>
+          <img src={plus.src} alt="icon" />
+        </button>
+      </div>
+    )
   )
 }
 
