@@ -10,41 +10,15 @@ export const ImageUpload = ({
   initImageBytes?: string
   setImageBytes: (bytes?: ArrayBuffer) => void
 }) => {
-  // the initial image in base64 - not updated when changing the crop area
-  const [inputImg, setInputImg] = useState<string | null>(null)
-  const [fileReader, setFileReader] = useState(null)
-
-  initFileReader(setFileReader)
-  initInputImg(setInputImg, initImageBytes)
-
-  // sets image: called when uploading image with button or dropping it in target zone
-  const onDrop = useDrop((file: File) => {
-    if (fileReader) {
-      setImageFromFile(fileReader, file, setInputImg)
-    } else {
-      console.log("Warn: no file reader set on drop. Should be already loaded.")
-    }
-  })
-
-  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
-
-  // called when the crop area is updated (also triggered by setting the image)
-  const updateCrop = async (blob: Blob) => {
-    if (fileReader) {
-      const bytes = await blobToArrayBuffer(fileReader, blob)
-      // console.log("crop updated - setting image bytes: %o", bytes)
-      setImageBytes(bytes)
-    }
-  }
-
-  const clear = () => {
-    setInputImg(null) // clear displayed image
-    setImageBytes(null) // clear state
-  }
-
-  const handleSubmitImage = (e: any) => {
-    e.preventDefault()
-  }
+  const {
+    inputImg,
+    updateCrop,
+    clear,
+    handleSubmitImage,
+    getRootProps,
+    getInputProps,
+    isDragActive,
+  } = useImageUpload(setImageBytes, initImageBytes)
 
   return (
     <form
@@ -78,6 +52,57 @@ export const ImageUpload = ({
       )}
     </form>
   )
+}
+
+const useImageUpload = (
+  setImageBytes: (bytes?: ArrayBuffer) => void,
+  initImageBytes?: string
+) => {
+  // the initial image in base64 - not updated when changing the crop area
+  const [inputImg, setInputImg] = useState<string | null>(null)
+  const [fileReader, setFileReader] = useState(null)
+
+  initFileReader(setFileReader)
+  initInputImg(setInputImg, initImageBytes)
+
+  // sets image: called when uploading image with button or dropping it in target zone
+  const onDrop = useDrop((file: File) => {
+    if (fileReader) {
+      setImageFromFile(fileReader, file, setInputImg)
+    } else {
+      console.log("Warn: no file reader set on drop. Should be already loaded.")
+    }
+  })
+
+  // called when the crop area is updated (also triggered by setting the image)
+  const updateCrop = async (blob: Blob) => {
+    if (fileReader) {
+      const bytes = await blobToArrayBuffer(fileReader, blob)
+      // console.log("crop updated - setting image bytes: %o", bytes)
+      setImageBytes(bytes)
+    }
+  }
+
+  const clear = () => {
+    setInputImg(null) // clear displayed image
+    setImageBytes(null) // clear state
+  }
+
+  const handleSubmitImage = (e: any) => {
+    e.preventDefault()
+  }
+
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop })
+
+  return {
+    inputImg,
+    updateCrop,
+    clear,
+    handleSubmitImage,
+    getRootProps,
+    getInputProps,
+    isDragActive,
+  }
 }
 
 async function blobToArrayBuffer(
