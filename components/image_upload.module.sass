@@ -1,0 +1,24 @@
+@import ../styles/variables
+@import ../styles/_global_vars
+@import ../styles/shared
+
+.circle_upload_container
+  position: relative
+
+  .upload_container
+    display: flex
+    align-items: center
+    gap: 40px
+
+  $drag_here_width: 150px
+  $drag_here_height: 150px
+  .drag_here
+    @include center_child
+    background-color: red
+    width: $drag_here_width
+    height: $drag_here_height
+    border-radius: 50%
+
+  .upload_image_btn
+    background-color: $color_purple_dark
+    color: white

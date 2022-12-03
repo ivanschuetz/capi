@@ -13,7 +13,7 @@ import { useDaoId } from "../hooks/useDaoId"
 import { storeIpfs, toMaybeIpfsUrl } from "../ipfs/store"
 import { SetAnyArr, SetBool } from "../type_alias"
 import styles from "./add_team_member.module.sass"
-import { ImageUpload } from "./ImageUpload"
+import { CircleImageUpload, ImageUpload } from "./ImageUpload"
 import { LabeledInput, LabeledTextArea } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
 
@@ -42,7 +42,7 @@ export const AddTeamMember = ({
   const contentView = () => {
     return (
       <div className={styles.add_team_member}>
-        <ImageUpload setImageBytes={setImageBytes} />
+        <CircleImageUpload setImageBytes={setImageBytes} />
         <LabeledInput
           label={"Name"}
           inputValue={name}

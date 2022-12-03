@@ -1,0 +1,63 @@
+@import ./variables
+@import ./_global_vars
+@import ./shared
+
+// these have to be here instead of a css module, because we have to control third party styles (e.g. reactEasyCrop_Container)
+
+@mixin crop_container()
+  position: absolute
+  top: 0
+  left: 0
+  z-index: 200
+  .reactEasyCrop_Container
+    .reactEasyCrop_CropArea
+      border: none
+      box-shadow: none
+  .btn-container
+    position: absolute
+    right: 16px
+    bottom: 16px
+    display: flex
+    gap: 40px
+    button
+      font-size: 16px
+    .delete
+      background-color: $grey-190
+
+.crop_container_full_width
+  @include crop_container
+  width: 100%
+  aspect-ratio: $image-uploader-aspect-ratio
+  border-radius: 32px
+
+  .reactEasyCrop_Container
+    border-radius: 32px
+
+$drag_here_width: 150px
+$drag_here_height: $drag_here_width
+.circle_upload_container
+  position: relative
+
+  .upload_container
+    display: flex
+    align-items: center
+    gap: 40px
+
+  .drag_here
+    @include center_child
+    background-color: red
+    width: $drag_here_width
+    height: $drag_here_height
+    border-radius: 50%
+
+  .upload_image_btn
+    background-color: $color_purple_dark
+    color: white
+
+.crop_container_circle
+  @include crop_container
+  width: $drag_here_width
+  height: $drag_here_height
+
+  .reactEasyCrop_Container
+    border-radius: 50%

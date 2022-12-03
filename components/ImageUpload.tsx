@@ -2,6 +2,7 @@ import { useEffect, useState } from "react"
 import { useDropzone } from "react-dropzone"
 import { useDrop } from "./FileUploader"
 import { ImageCropper } from "./ImageCropper"
+import styles from "./image_upload.module.sass"
 
 export const ImageUpload = ({
   initImageBytes,
@@ -45,7 +46,67 @@ export const ImageUpload = ({
         <ImageCropper
           updateBlob={updateCrop}
           inputImg={inputImg}
+          showClear={true}
           clear={() => clear()}
+          imageWidth={1032}
+          aspectRatio={3}
+          containerClassName={"crop_container_full_width"}
+        />
+      )}
+    </form>
+  )
+}
+
+export const CircleImageUpload = ({
+  initImageBytes,
+  setImageBytes,
+}: {
+  initImageBytes?: string
+  setImageBytes: (bytes?: ArrayBuffer) => void
+}) => {
+  const {
+    inputImg,
+    updateCrop,
+    onFormSubmit,
+    getRootProps,
+    getInputProps,
+    isDragActive,
+  } = useImageUpload(setImageBytes, initImageBytes)
+
+  return (
+    <form
+      className={`${styles.circle_upload_container} ${
+        isDragActive ? "highlighted" : ""
+      }`}
+      onSubmit={onFormSubmit}
+    >
+      {/* image uploader */}
+      <div {...getRootProps({ className: styles.upload_container })}>
+        <div className={styles.drag_here}>
+          <div>{"Drag and drop here"}</div>
+        </div>
+        <div>{"or"}</div>
+        <div className="upload-custom">
+          <button className={styles.upload_image_btn}>Upload Image</button>
+          <input
+            {...getInputProps()}
+            className="upload-input"
+            type="file"
+            accept="image/*"
+          />
+        </div>
+      </div>
+
+      {/* image cropper */}
+      {inputImg && (
+        <ImageCropper
+          updateBlob={updateCrop}
+          inputImg={inputImg}
+          showClear={false}
+          clear={() => {}}
+          imageWidth={150}
+          aspectRatio={1}
+          containerClassName={"crop_container_circle"}
         />
       )}
     </form>
