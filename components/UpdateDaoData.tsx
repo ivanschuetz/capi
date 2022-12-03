@@ -393,7 +393,6 @@ const updateDaoData = async (
 
       setValidationErrors(localizeErrors(validations))
 
-      // show a general message additionally, just in case
       deps.notification.error("Please fix the errors")
     } else {
       deps.notification.error(toDefaultErrorMsg(e))

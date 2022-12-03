@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { TeamMemberJs } from "wasm/wasm"
+import { TeamMemberInputs, TeamMemberJs } from "wasm/wasm"
 import { Deps } from "../context/AppContext"
 import { safe } from "../functions/utils"
 import { AddTeamMember } from "./AddTeamMember"
@@ -47,14 +47,16 @@ export const Team = ({ deps }: { deps: Deps }) => {
   )
 }
 
-const dummyPrefillData = () => {
+const dummyPrefillData = (): TeamMemberInputs => {
   return {
     name: "Foo Bar",
     role: "Founder",
     descr:
       "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat",
     picture: "https://placekitten.com/200/300",
-    social: "https://twitter.com",
+    github_link: "https://github.com",
+    twitter_link: "https://twitter.com",
+    linkedin_link: "https://linkedin.com",
   }
 }
 

@@ -1,14 +1,20 @@
 import { useState } from "react"
+import {
+  AddTeamMemberInputErrors,
+  FrError,
+  TeamMemberInputs,
+  TeamMemberJs,
+} from "wasm/wasm"
 import { Deps } from "../context/AppContext"
+import { isAddTeamMemberValidationsError } from "../functions/errors"
 import { showError, toBytes } from "../functions/utils"
 import { toValidationErrorMsg } from "../functions/validation"
 import { useDaoId } from "../hooks/useDaoId"
 import { toMaybeIpfsUrl } from "../ipfs/store"
-import { SetAnyArr, SetBool, SetString } from "../type_alias"
+import { SetAnyArr, SetBool } from "../type_alias"
+import styles from "./add_team_member.module.sass"
 import { LabeledInput, LabeledTextArea } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
-import styles from "./add_team_member.module.sass"
-import { TeamMemberJs } from "wasm/wasm"
 
 export const AddTeamMember = ({
   deps,
@@ -23,16 +29,15 @@ export const AddTeamMember = ({
   const [role, setRole] = useState(prefillData.role)
   const [descr, setDescr] = useState(prefillData.descr)
   const [picture, setPicture] = useState(prefillData.picture)
-  const [social, setSocial] = useState(prefillData.social)
+  const [githubUrl, setGithubUrl] = useState(prefillData.github_link)
+  const [twitterUrl, setTwitterUrl] = useState(prefillData.twitter_link)
+  const [linkedinUrl, setLinkedinUrl] = useState(prefillData.linkedin_link)
 
   const [submitting, setSubmitting] = useState(false)
 
-  const [nameError, setNameError] = useState("")
-  const [roleError, setRoleError] = useState("")
-  const [descrError, setDescrError] = useState("")
-  const [pictureError, setPictureError] = useState("")
-  const [socialError, setSocialError] = useState("")
-
+  const [errors, setErrors] = useState<AddTeamMemberValidationErrorsMessages>(
+    {}
+  )
   const ContentView = () => {
     return (
       <div className={styles.add_team_member}>
@@ -41,35 +46,49 @@ export const AddTeamMember = ({
           inputValue={name}
           onChange={(input) => setName(input)}
           maxLength={40} // NOTE: has to match WASM
-          errorMsg={nameError}
+          errorMsg={errors.name}
         />
         <LabeledInput
           label={"Role"}
           inputValue={role}
           onChange={(input) => setRole(input)}
           maxLength={40} // NOTE: has to match WASM
-          errorMsg={roleError}
+          errorMsg={errors.role}
         />
         <LabeledTextArea
           label={"Description"}
           inputValue={descr}
           onChange={(input) => setDescr(input)}
           maxLength={2000} // NOTE: has to match WASM
-          errorMsg={descrError}
+          errorMsg={errors.descr}
         />
         <LabeledInput
           label={"Picture"}
           inputValue={picture}
           onChange={(input) => setPicture(input)}
           maxLength={100}
-          errorMsg={pictureError}
+          errorMsg={errors.picture}
         />
         <LabeledInput
-          label={"Social"}
-          inputValue={social}
-          onChange={(input) => setSocial(input)}
+          label={"Github"}
+          inputValue={githubUrl}
+          onChange={(input) => setGithubUrl(input)}
           maxLength={40} // NOTE: has to match WASM
-          errorMsg={socialError}
+          errorMsg={errors.github_url}
+        />
+        <LabeledInput
+          label={"Twitter"}
+          inputValue={twitterUrl}
+          onChange={(input) => setTwitterUrl(input)}
+          maxLength={40} // NOTE: has to match WASM
+          errorMsg={errors.twitter_url}
+        />
+        <LabeledInput
+          label={"LinkedIn"}
+          inputValue={linkedinUrl}
+          onChange={(input) => setLinkedinUrl(input)}
+          maxLength={40} // NOTE: has to match WASM
+          errorMsg={errors.linkedin_url}
         />
 
         <SubmitButton
@@ -85,26 +104,19 @@ export const AddTeamMember = ({
 
             await addTeamMember(
               deps,
-
               setSubmitting,
-
               daoId,
               deps.myAddress,
-
               name,
               role,
-
               descr,
               picture,
-              social,
               team,
               setTeam,
-
-              setNameError,
-              setRoleError,
-              setDescrError,
-              setPictureError,
-              setSocialError
+              setErrors,
+              githubUrl,
+              twitterUrl,
+              linkedinUrl
             )
 
             onAdded()
@@ -123,25 +135,19 @@ export const AddTeamMember = ({
 
 export const addTeamMember = async (
   deps: Deps,
-
   showProgress: SetBool,
-
   daoId: string,
   myAddress: string,
-
   name: string,
   role: string,
   descr: string,
   picture: string,
-  social_link: string,
   team: TeamMemberJs[],
   setTeam: SetAnyArr,
-
-  setNameError: SetString,
-  setRoleError: SetString,
-  setDescrError: SetString,
-  setPictureError: SetString,
-  setSocialError: SetString
+  setValidationErrors: (errors: AddTeamMemberValidationErrorsMessages) => void,
+  github_url?: string,
+  twitter_url?: string,
+  linkedin_url?: string
 ) => {
   try {
     showProgress(true)
@@ -152,7 +158,9 @@ export const addTeamMember = async (
         role,
         descr,
         picture,
-        social_links: [social_link],
+        github_link: github_url,
+        twitter_link: twitter_url,
+        linkedin_link: linkedin_url,
       },
       existing_members: team,
     })
@@ -187,18 +195,17 @@ export const addTeamMember = async (
     setTeam(addMemberRes.team)
 
     showProgress(false)
-  } catch (e) {
-    if (e.type_identifier === "input_errors") {
-      setNameError(toValidationErrorMsg(e.name))
-      setDescrError(toValidationErrorMsg(e.description))
-      setRoleError(toValidationErrorMsg(e.share_supply))
-      setPictureError(toValidationErrorMsg(e.share_price))
-      setSocialError(toValidationErrorMsg(e.investors_share))
+  } catch (eAny) {
+    const e: FrError = eAny
 
-      // show a general message additionally, just in case
+    if (isAddTeamMemberValidationsError(e)) {
+      const validations = e.addTeamMemberValidations
+
+      setValidationErrors(localizeErrors(validations))
+
       deps.notification.error("Please fix the errors")
     } else {
-      showError(deps.notification, e)
+      showError(deps.notification, eAny)
     }
 
     showProgress(false)
@@ -207,8 +214,27 @@ export const addTeamMember = async (
 
 type AddTeamMemberPars = {
   deps: Deps
-  prefillData: any
-  team: any[]
+  prefillData: TeamMemberInputs
+  team: TeamMemberJs[]
   setTeam: SetAnyArr
   onAdded: () => void
 }
+
+// map error payloads to localized messages
+const localizeErrors = (
+  errors: AddTeamMemberInputErrors
+): AddTeamMemberValidationErrorsMessages => {
+  return {
+    name: toValidationErrorMsg(errors.name),
+    descr: toValidationErrorMsg(errors.descr),
+    role: toValidationErrorMsg(errors.role),
+    picture: toValidationErrorMsg(errors.picture),
+    github_url: toValidationErrorMsg(errors.github_url),
+    twitter_url: toValidationErrorMsg(errors.twitter_url),
+    linkedin_url: toValidationErrorMsg(errors.linkedin_url),
+  }
+}
+
+export type AddTeamMemberValidationErrorsMessages = Partial<{
+  [K in keyof AddTeamMemberInputErrors]: string
+}>

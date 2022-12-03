@@ -9,9 +9,9 @@ export const TeamMember = ({ data }: { data: TeamMemberJs }) => {
         <img className={styles.pic} src={data.picture} alt="" />
         <div className={styles.filler} />
         <div className={styles.social_links}>
-          {data.social_links.map((url: string) => (
-            <SocialLink key={url} url={url} />
-          ))}
+          {maybeSocialLink(data.github_url)}
+          {maybeSocialLink(data.twitter_url)}
+          {maybeSocialLink(data.linkedin_url)}
         </div>
       </div>
       <div className={styles.name}>{data.name}</div>
@@ -20,6 +20,14 @@ export const TeamMember = ({ data }: { data: TeamMemberJs }) => {
       <div className={styles.descr}>{data.descr}</div>
     </div>
   )
+}
+
+const maybeSocialLink = (url?: string): JSX.Element | null => {
+  if (url) {
+    return <SocialLink key={url} url={url} />
+  } else {
+    return null
+  }
 }
 
 const SocialLink = ({ url }: { url: string }) => {

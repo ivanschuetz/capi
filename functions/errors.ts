@@ -1,4 +1,5 @@
 import {
+  AddTeamMemberInputErrors,
   CreateAssetsInputErrors,
   FrError,
   ValidateUpateDataInputErrors,
@@ -63,6 +64,12 @@ export const isUpdateDaoDataValidationsError = (
   value: FrError
 ): value is { updateDaoDataValidations: ValidateUpateDataInputErrors } => {
   return value.hasOwnProperty("updateDaoDataValidations")
+}
+
+export const isAddTeamMemberValidationsError = (
+  value: FrError
+): value is { addTeamMemberValidations: AddTeamMemberInputErrors } => {
+  return value.hasOwnProperty("addTeamMemberValidations")
 }
 
 export const isValidationsError = (

@@ -396,7 +396,6 @@ const createDao = async (
         toValidationErrorMsg(validations.prospectus_bytes)
       )
 
-      // show a general message additionally, just in case
       notification.error("Please fix the errors")
     } else if (isNotEnoughAlgosError(e)) {
       setShowBuyCurrencyInfoModal(true)
