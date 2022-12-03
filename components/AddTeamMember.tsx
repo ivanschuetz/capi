@@ -121,11 +121,7 @@ export const AddTeamMember = ({
     )
   }
 
-  if (deps.myAddress) {
-    return contentView()
-  } else {
-    return null
-  }
+  return deps.myAddress && contentView()
 }
 
 export const addTeamMember = async (
