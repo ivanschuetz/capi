@@ -12,7 +12,7 @@ import { SetBool } from "../type_alias"
 import Progress from "./Progress"
 
 export const Team = ({ deps }: { deps: Deps }) => {
-  const [team, setTeam] = useState(null)
+  const [team, setTeam] = useState<TeamMemberJs[] | null>(null)
   const [isAdding, setIsAdding] = useState(false)
 
   updateTeam(deps, setTeam)
@@ -39,7 +39,7 @@ export const Team = ({ deps }: { deps: Deps }) => {
           <AddTeamMember
             deps={deps}
             prefillData={dummyPrefillData()}
-            team={team}
+            team={team ?? []}
             setTeam={setTeam}
             onAdded={() => setIsAdding(false)}
           />
