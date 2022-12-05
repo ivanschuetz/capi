@@ -23,7 +23,9 @@ export const ImageUpload = ({
 
   return (
     <form
-      className={`upload-form-image ${isDragActive ? "highlighted" : ""}`}
+      className={`upload-form-image_full_width ${
+        isDragActive ? "highlighted" : ""
+      }`}
       onSubmit={onFormSubmit}
     >
       {/* image uploader */}
