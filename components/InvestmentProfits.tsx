@@ -56,16 +56,9 @@ export const InvestmentProfits = ({ deps }: { deps: Deps }) => {
               }}
             />
           </div>
-          <div className="retrieved-tab">
-            <div className="desc">{"Retrieved:"}</div>
-            <div className="flex-block align-center">
-              <FundsAssetImg className="fund-asset" />
-              <div className="subtitle">
-                {" "}
-                {deps.investmentData.investor_already_retrieved_amount}
-              </div>
-            </div>
-          </div>
+          <Retrieved
+            amount={deps.investmentData.investor_already_retrieved_amount}
+          />
         </div>
       </InteractiveBox>
     )
@@ -76,6 +69,18 @@ export const InvestmentProfits = ({ deps }: { deps: Deps }) => {
   } else {
     return <Progress />
   }
+}
+
+const Retrieved = ({ amount }: { amount: string }) => {
+  return (
+    <div className="retrieved-tab">
+      <div className="desc">{"Retrieved:"}</div>
+      <div className="flex-block align-center">
+        <FundsAssetImg className="fund-asset" />
+        <div className="subtitle">{amount}</div>
+      </div>
+    </div>
+  )
 }
 
 const update = (deps: Deps, daoId: string, setDao: (dao: DaoJs) => void) => {
