@@ -5,7 +5,6 @@ import { WireframeWrapper } from "../wireframes/WireframeWrapper"
 import { AppContainer } from "./AppContainer"
 
 export const DaoContainer = ({ nested }: { nested: JSX.Element }) => {
-
   return (
     <AppContainer>
       <WireframeWrapper isGlobal={false} nested={nested} />

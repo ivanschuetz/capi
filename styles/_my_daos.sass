@@ -1,0 +1,52 @@
+@import "global_vars"
+
+.my-daos-container
+  display: flex
+  flex-wrap: wrap
+  gap: 40px
+
+  .my_dao
+    display: flex
+    gap: 20px
+    flex-direction: column-reverse
+    width: calc((100% - 40px) / 2)
+    font-size: 1.2rem
+    font-weight: bold
+    border-radius: $global-border-radius
+
+    .img-placeholder
+      width: 100%
+      height: 180px
+      border-radius: $global-border-radius
+      background-size: cover
+      background-position: center
+      overflow: hidden
+
+      img
+        width: 100%
+        height: 100%
+
+    &__involvement_icon
+      width: 100%
+      height: 150px
+      border-radius: $global-border-radius
+
+  .my_dao_create_project
+    height: 180px
+    border: 2px dashed $red-10
+    display: flex
+    align-items: center
+    justify-content: center
+    border-radius: $global-border-radius
+
+    img
+      cursor: pointer
+
+  a
+    color: $black
+    font-size: 18px
+    font-weight: 700
+
+@media only screen and (max-width: $mobile-max-width)
+  .my-daos-container .my_dao
+    width: 100%

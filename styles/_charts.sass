@@ -1,0 +1,110 @@
+@import "global_vars"
+
+$pie_chart_diameter: 100% // NOTE: has to be equal to value in js passed to d3
+
+.pie_chart
+  &__container
+    max-width: 300px
+
+  &__svg
+    width: $pie_chart_diameter
+    height: $pie_chart_diameter
+
+.holder_item
+  &__container
+    display: flex
+    gap: 16px
+    align-items: center
+    margin: 0 0 8px -16px
+    padding: 8px 16px
+    max-width: fit-content
+
+.chart_legends_container
+  display: flex
+  justify-content: center
+  gap: 24px
+
+.chart_legend
+  &__container
+    white-space: nowrap
+
+  &__color
+    width: 10px
+    height: 10px
+    margin-right: 4px
+
+  &__text
+    font-weight: 400
+    color: $black
+
+.select-legend-container
+  width: 100%
+  display: flex
+  align-items: center
+  justify-content: space-between
+
+  .spacer
+    flex-basis: 100px
+
+.charts-container
+  .labeled_box_children
+    .charts-select
+      width: 200px
+
+  &.css-b62m3t-container
+    .css-1s2u09g-control,
+    .css-1pahdxg-control,
+    .css-1f43avz-a11yText-A11yText
+      cursor: pointer
+      background-color: $grey-110
+      border-radius: 24px
+      border: none
+      box-shadow: none
+
+      .css-319lph-ValueContainer
+        overflow: none
+
+        .css-qc6sy-singleValue
+          padding: 2px 16px
+          color: $grey-160
+          font-size: 14px
+
+          .css-6j8wv5-Input input
+            height: 30px
+            padding: 0
+            caret-color: transparent
+            margin: 0
+
+        .css-1hb7zxy-IndicatorsContainer
+          .css-1okebmr-indicatorSeparator
+            display: none
+
+          .css-tlfecz-indicatorContainer
+            svg
+              fill: $grey-160
+
+      .css-2613qy-menu
+        margin-top: 0
+
+@media only screen and (max-width: $mobile-max-width)
+  .chart_legends_container
+    padding-left: 0
+    flex-direction: column
+    gap: 12px
+
+  .pie_chart
+    &__container
+      align-self: center
+      max-width: 200px
+
+  .mb--40
+    margin-bottom: -20px
+
+  .select-legend-container
+    align-items: flex-start
+
+    .spacer
+      display: none
+
+  .charts-container .labeled_box .labeled_box_children
+    padding: 20px
