@@ -16,6 +16,7 @@ import { SelectWalletModal } from "../wallet/SelectWalletModal"
 import { InfoView } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
 import styles from "./invest_embedded.module.sass"
+import { InteractiveBox } from "./InteractiveBox"
 
 export const InvestEmbedded = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
   const daoId = useDaoId()
@@ -67,63 +68,66 @@ export const InvestEmbedded = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
     }
   }
 
-  const view = () => {
+  const box = () => {
     return (
-      <div className="mt-80">
-        <div className="dao_action_active_tab box-container">
-          <div className="box_header_on_acc">{"Buy Shares"}</div>
-          <div className="buy-shares-content">
-            <div className="dao-shares buy-shares-left-col">
-              <TopBlock deps={deps} />
-              <div>
-                <input
-                  placeholder={"Enter amount"}
-                  size={30}
-                  type="number"
-                  min="0"
-                  value={buySharesCount}
-                  onChange={(event) => setBuySharesCount(event.target.value)}
-                />
-                <div className="labeled_input__error w-100 mb-32">
-                  {shareAmountError ? <img src={error} alt="error" /> : ""}
-                  {shareAmountError}
-                </div>
-              </div>
-              <SubmitButton
-                label={"Buy"}
-                className={"button-primary"}
-                isLoading={submitting}
-                onClick={() => {
-                  if (deps.features.prospectus) {
-                    setShowProspectusModal(true)
-                  } else {
-                    onSubmitBuy()
-                  }
-                }}
+      <InteractiveBox>
+        <div className="buy-shares-content">
+          <div className="dao-shares buy-shares-left-col">
+            <TopBlock deps={deps} />
+            <div>
+              <input
+                placeholder={"Enter amount"}
+                size={30}
+                type="number"
+                min="0"
+                value={buySharesCount}
+                onChange={(event) => setBuySharesCount(event.target.value)}
               />
+              <div className="labeled_input__error w-100 mb-32">
+                {shareAmountError ? <img src={error} alt="error" /> : ""}
+                {shareAmountError}
+              </div>
             </div>
-            <RightView
-              funds={funds}
-              totalCost={totalCost}
-              totalPercentage={totalPercentage}
+            <SubmitButton
+              label={"Buy"}
+              className={"button-primary"}
+              isLoading={submitting}
+              onClick={() => {
+                if (deps.features.prospectus) {
+                  setShowProspectusModal(true)
+                } else {
+                  onSubmitBuy()
+                }
+              }}
             />
           </div>
-
-          {showSelectWalletModal && (
-            <SelectWalletModal
-              deps={deps}
-              setShowModal={setShowSelectWalletModal}
-            />
-          )}
-          {showBuyCurrencyInfoModal && deps.myAddress && (
-            <BuyFundsAssetModal
-              deps={deps}
-              amount={showBuyCurrencyInfoModal.amount}
-              closeModal={() => setShowBuyCurrencyInfoModal(null)}
-            />
-          )}
+          <RightView
+            funds={funds}
+            totalCost={totalCost}
+            totalPercentage={totalPercentage}
+          />
         </div>
+      </InteractiveBox>
+    )
+  }
 
+  return (
+    deps.availableShares && (
+      <>
+        {box()}
+        {showSelectWalletModal && (
+          <SelectWalletModal
+            deps={deps}
+            setShowModal={setShowSelectWalletModal}
+          />
+        )}
+        {showBuyCurrencyInfoModal && deps.myAddress && (
+          <BuyFundsAssetModal
+            deps={deps}
+            amount={showBuyCurrencyInfoModal.amount}
+            closeModal={() => setShowBuyCurrencyInfoModal(null)}
+          />
+        )}
         {showProspectusModal && (
           <AckProspectusModal
             deps={deps}
@@ -135,11 +139,9 @@ export const InvestEmbedded = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
             }}
           />
         )}
-      </div>
+      </>
     )
-  }
-
-  return deps.availableShares && view()
+  )
 }
 
 const TopBlock = ({ deps }: { deps: Deps }) => {
