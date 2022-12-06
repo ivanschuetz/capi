@@ -20,63 +20,57 @@ export const Investment = ({ deps }) => {
   initAndUpdateInvestmentData(deps, daoId, setDao)
 
   const view = () => {
-    if (deps.myAddress && dao && deps.investmentData) {
-      return (
-        <div>
-          <div className="section_container">
-            {deps.features.prospectus && (
+    return (
+      <div>
+        <div className="section_container">
+          {deps.features.prospectus && (
+            <div>
+              <a href={deps.dao.prospectus_url}>{"Acknowledged prospectus"}</a>
+            </div>
+          )}
+
+          <ContentTitle title={"My investment"} />
+
+          {deps.features.stillRaisingFundsLabels &&
+            dao.funds_raised === "false" && (
               <div>
-                <a href={deps.dao.prospectus_url}>
-                  {"Acknowledged prospectus"}
-                </a>
+                {
+                  "The project is still raising funds. Some features are disabled."
+                }
               </div>
             )}
 
-            <ContentTitle title={"My investment"} />
-
-            {deps.features.stillRaisingFundsLabels &&
-              dao.funds_raised === "false" && (
-                <div>
-                  {
-                    "The project is still raising funds. Some features are disabled."
-                  }
-                </div>
-              )}
-
-            <InvestmentProfits deps={deps} />
-            <Tabs
-              showBuyMoreTab={showBuyMoreTab}
-              showUnlockTab={showUnlockTab}
-              showLockTab={showLockTab}
-              setShowBuyMoreTab={setShowBuyMoreTab}
-              setShowUnlockTab={setShowUnlockTab}
-              setShowLockTab={setShowLockTab}
+          <InvestmentProfits deps={deps} />
+          <Tabs
+            showBuyMoreTab={showBuyMoreTab}
+            showUnlockTab={showUnlockTab}
+            showLockTab={showLockTab}
+            setShowBuyMoreTab={setShowBuyMoreTab}
+            setShowUnlockTab={setShowUnlockTab}
+            setShowLockTab={setShowLockTab}
+          />
+          {showBuyMoreTab && <BuyMoreShares deps={deps} dao={dao} />}
+          {showUnlockTab && (
+            <UnlockShares deps={deps} dao={dao} daoId={daoId} />
+          )}
+          {showLockTab && (
+            <LockShares
+              deps={deps}
+              dao={dao}
+              daoId={daoId}
+              onLockOpt={deps.updateInvestmentData}
             />
-            {showBuyMoreTab && <BuyMoreShares deps={deps} dao={dao} />}
-            {showUnlockTab && (
-              <UnlockShares deps={deps} dao={dao} daoId={daoId} />
-            )}
-            {showLockTab && (
-              <LockShares
-                deps={deps}
-                dao={dao}
-                daoId={daoId}
-                onLockOpt={deps.updateInvestmentData}
-              />
-            )}
-          </div>
+          )}
         </div>
-      )
-    } else {
-      return <Progress />
-    }
+      </div>
+    )
   }
 
-  return (
-    <div>
-      <div>{view()}</div>
-    </div>
-  )
+  if (deps.myAddress && dao && deps.investmentData) {
+    return view()
+  } else {
+    return <Progress />
+  }
 }
 
 const Tabs = ({
