@@ -1,0 +1,70 @@
+@import "variables"
+
+// note that numbers/sorting has a meaning only inside the respective blocks
+// e.g. the 20 in "label20" doesn't have any relationship with the 20 in "label_20_on_acc"
+
+////////////////////////
+// basic (size, weight, style..)
+// ordered decreasingly by importance
+////////////////////////
+
+@mixin label20()
+  font-size: $font_size_70
+  font-weight: 700
+
+@mixin label40()
+  font-size: $font_size_60
+  font-weight: 700
+
+@mixin label50()
+  font-size: $font_size_50
+  font-weight: 700
+
+@mixin label60()
+  font-size: $font_size_45
+  font-weight: 700
+
+@mixin label70()
+  font-size: $font_size_45
+  font-weight: 400
+
+////////////////////////
+// colored
+// ordered decreasingly by importance (impact)
+//
+// "on_acc": on accent, meaning that the label has accent color bg
+////////////////////////
+
+.label_20_on_acc
+  @include label20
+  color: $acc_bg_text_5
+
+.label_30_on_acc
+  @include label40
+  color: $acc_bg_text_5
+
+.label_40_on_acc
+  @include label50
+  color: $acc_bg_text_10
+
+.label_50_on_acc
+  @include label50
+  color: $acc_bg_text_15
+
+.label_60_on_acc
+  @include label60
+  color: $acc_bg_text_10
+
+.label_70_on_acc
+  @include label70
+  color: $acc_bg_text_15
+
+////////////////////////
+// with spacing
+// use scarcely - only for very frequently used elements
+// otherwise define in the module specific styling
+////////////////////////
+
+.box_header_on_acc
+  @extend .label_20_on_acc
+  margin-bottom: 40px

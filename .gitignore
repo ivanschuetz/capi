@@ -28,3 +28,8 @@ yarn-error.log*
 .env.development.local
 .env.test.local
 .env.production.local
+
+# ignore debugging in-place-compilation of sass files
+# this might be confusing if anyone attempts to commit real css files, but we're unlikely to need them.
+*.css
+*.css.map

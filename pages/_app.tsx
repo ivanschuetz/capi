@@ -23,6 +23,7 @@ import "../styles/_toastify.sass"
 import "../styles/_utils.sass"
 import "../styles/_withdraw.sass"
 import "../styles/global.sass"
+import "../styles/shared_text.sass"
 import { NextPage } from "next"
 
 export type NextPageWithLayout = NextPage & {

@@ -1,4 +1,5 @@
 @import "global_vars"
+@import "variables"
 
 *,
 *:before,
@@ -14,7 +15,7 @@ body
   margin: 0
   padding: 0
   font-family: "Satoshi"
-  color: $grey-190
+  color: $text_secondary
 
 a
   text-decoration: none
@@ -29,6 +30,7 @@ p
 .subtitle
   font-size: 24px
   font-weight: 700
+  color: $text_title
 
 #nav_and_main
   display: inline-flex
@@ -48,12 +50,11 @@ p
       padding: 0 24px 0 40px
 
 .box-container
-  background-color: $blue-10
+  background-color: $acc_bg
   border-radius: $global-border-radius-m
   padding: 40px
 
   .title
-    color: $cyan-20
     font-size: 32px
     font-weight: 700
     margin-bottom: 40px
@@ -76,7 +77,7 @@ p
     .title
       font-size: $global-title
       font-weight: 700
-      color: $black
+      color: $text_title
 
   .content-img-container
     width: 100%
@@ -122,13 +123,11 @@ select
   margin-bottom: 70px
   width: 100%
 
-
   &_label
     font-weight: 700
     font-size: $global-title
     margin-bottom: 40px
     color: $grey-190
-
 
   &_children
     border: 1px solid $grey-120
@@ -170,11 +169,9 @@ select
   .labeled_box
     margin-bottom: 32px
 
-
   &_label
     font-size: 16px
     margin-bottom: 12px
-
 
   &_children
     display: flex

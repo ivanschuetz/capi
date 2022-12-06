@@ -15,6 +15,7 @@ import { SetBool, SetString } from "../type_alias"
 import { SelectWalletModal } from "../wallet/SelectWalletModal"
 import { InfoView } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
+import styles from "./invest_embedded.module.sass"
 
 export const InvestEmbedded = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
   const daoId = useDaoId()
@@ -70,7 +71,7 @@ export const InvestEmbedded = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
     return (
       <div className="mt-80">
         <div className="dao_action_active_tab box-container">
-          <div className="title">{"Buy Shares"}</div>
+          <div className="box_header_on_acc">{"Buy Shares"}</div>
           <div className="buy-shares-content">
             <div className="dao-shares buy-shares-left-col">
               <TopBlock deps={deps} />
@@ -146,12 +147,12 @@ const TopBlock = ({ deps }: { deps: Deps }) => {
     <div className="top-block">
       <div className="available-shares">
         <div className="d-flex mb-16 gap-12">
-          <div className="desc">{"Available: "}</div>
-          <div className="desc">{deps.availableShares}</div>
+          <div className="label_50_on_acc">{"Available: "}</div>
+          <div className="label_40_on_acc">{deps.availableShares}</div>
         </div>
         {deps.investmentData && (
           <div className="shares-block">
-            <div className="desc">You have:</div>
+            <div className="label_50_on_acc">You have:</div>
             <TopBlockItem
               label={"Locked shares:"}
               value={deps.investmentData.investor_locked_shares}
@@ -176,8 +177,8 @@ const TopBlock = ({ deps }: { deps: Deps }) => {
 const TopBlockItem = ({ label, value }: { label: string; value: string }) => {
   return (
     <div className="d-flex align-center">
-      <div className="mr-3">{label}</div>
-      <div className="ft-weight-700">{value}</div>
+      <div className={styles.topblock_item_label}>{label}</div>
+      <div className="label_60_on_acc">{value}</div>
     </div>
   )
 }
@@ -197,7 +198,7 @@ const RightView = ({
         <div className="desc">{"Total price"}</div>
         <div className="d-flex gap-10">
           <img src={funds.src} alt="funds" />
-          <div className="subtitle black">{totalCost}</div>
+          <div className="label_30_on_acc">{totalCost}</div>
         </div>
       </div>
       <div className="d-flex mobile-input-block">
@@ -213,7 +214,7 @@ const RightView = ({
             }
           </div>
           <div className="d-flex gap-10">
-            <div className="subtitle black">{totalPercentage}</div>
+            <div className="label_30_on_acc">{totalPercentage}</div>
           </div>
         </div>
       </div>

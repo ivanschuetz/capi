@@ -254,21 +254,17 @@ const calculateTextSize = (text, fontWeight, fontSize) => {
 }
 
 const surroundingTopLabel = (svg, text) => {
-  return surroundingLabel(svg, text)
-    .attr("font-size", topLabelFontSize)
-    .attr("class", "funds-progress-text-top")
+  return surroundingLabel(svg, text).attr("font-size", topLabelFontSize)
 }
 
 const surroundingBottomLabel = (svg, text) => {
-  return surroundingLabel(svg, text)
-    .attr("font-size", bottomLabelFontSize)
-    .attr("class", "funds-progress-text-bottom")
+  return surroundingLabel(svg, text).attr("font-size", bottomLabelFontSize)
 }
 
 const surroundingLabel = (svg, text) => {
   return svg
     .append("text")
     .text(text)
-    .attr("fill", "#787E82")
+    .attr("fill", "#847C9C") // $text_secondary
     .attr("font-weight", surroundingLabelWeight)
 }
