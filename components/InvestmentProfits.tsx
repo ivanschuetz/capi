@@ -16,74 +16,70 @@ export const InvestmentProfits = ({ deps }: { deps: Deps }) => {
 
   update(deps, daoId, setDao)
 
-  const view = () => {
-    if (dao && deps.investmentData) {
-      return (
-        <div>
-          <div className="box-container">
-            <div className="title">{"Your profits"}</div>
-            <div className="retrievable-profits">
-              <div className="retrievable-tab">
-                <div className="flex-block align-center">
-                  <div className="desc">{"Retrievable:"}</div>
-                  <FundsAssetImg className="fund-asset" />
-                  <div className="subtitle">
-                    {deps.investmentData.investor_claimable_dividend}
-                  </div>
+  const box = () => {
+    return (
+      <div>
+        <div className="box-container">
+          <div className="title">{"Your profits"}</div>
+          <div className="retrievable-profits">
+            <div className="retrievable-tab">
+              <div className="flex-block align-center">
+                <div className="desc">{"Retrievable:"}</div>
+                <FundsAssetImg className="fund-asset" />
+                <div className="subtitle">
+                  {deps.investmentData.investor_claimable_dividend}
                 </div>
-                <SubmitButton
-                  label={"Claim"}
-                  className="button-primary"
-                  isLoading={submitting}
-                  disabled={
-                    deps.investmentData.investor_claimable_dividend === "0"
-                  }
-                  onClick={async () => {
-                    if (!deps.wasm) {
-                      // should be unlikely, as wasm should initialize quickly
-                      console.error("Click while wasm isn't ready. Ignoring.")
-                      return
-                    }
-
-                    await retrieveProfits(
-                      deps.wasm,
-                      deps.myAddress,
-                      setSubmitting,
-                      deps.notification,
-                      deps.updateMyBalance,
-                      daoId,
-                      deps.updateInvestmentData,
-                      deps.updateFunds,
-                      deps.updateMyDividend,
-                      deps.wallet
-                    )
-                  }}
-                />
               </div>
-              <div className="retrieved-tab">
-                <div className="desc">{"Retrieved:"}</div>
-                <div className="flex-block align-center">
-                  <FundsAssetImg className="fund-asset" />
-                  <div className="subtitle">
-                    {" "}
-                    {deps.investmentData.investor_already_retrieved_amount}
-                  </div>
+              <SubmitButton
+                label={"Claim"}
+                className="button-primary"
+                isLoading={submitting}
+                disabled={
+                  deps.investmentData.investor_claimable_dividend === "0"
+                }
+                onClick={async () => {
+                  if (!deps.wasm) {
+                    // should be unlikely, as wasm should initialize quickly
+                    console.error("Click while wasm isn't ready. Ignoring.")
+                    return
+                  }
+
+                  await retrieveProfits(
+                    deps.wasm,
+                    deps.myAddress,
+                    setSubmitting,
+                    deps.notification,
+                    deps.updateMyBalance,
+                    daoId,
+                    deps.updateInvestmentData,
+                    deps.updateFunds,
+                    deps.updateMyDividend,
+                    deps.wallet
+                  )
+                }}
+              />
+            </div>
+            <div className="retrieved-tab">
+              <div className="desc">{"Retrieved:"}</div>
+              <div className="flex-block align-center">
+                <FundsAssetImg className="fund-asset" />
+                <div className="subtitle">
+                  {" "}
+                  {deps.investmentData.investor_already_retrieved_amount}
                 </div>
               </div>
             </div>
           </div>
         </div>
-      )
-    } else {
-      return <Progress />
-    }
+      </div>
+    )
   }
 
-  return (
-    <div>
-      <div className="mt-40">{view()}</div>
-    </div>
-  )
+  if (dao && deps.investmentData) {
+    return box()
+  } else {
+    return <Progress />
+  }
 }
 
 const update = (deps: Deps, daoId: string, setDao: (dao: DaoJs) => void) => {

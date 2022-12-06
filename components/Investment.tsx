@@ -33,7 +33,7 @@ export const Investment = ({ deps }) => {
 
           {deps.features.stillRaisingFundsLabels &&
             dao.funds_raised === "false" && (
-              <div>
+              <div className="mb-40">
                 {
                   "The project is still raising funds. Some features are disabled."
                 }
