@@ -6,6 +6,7 @@ import funds from "../images/funds.svg"
 import error from "../images/svg/error.svg"
 import info from "../images/svg/info.svg"
 import { SelectDateModal } from "../modal/SelectDateModal"
+import styles from "./labeled_inputs.module.sass"
 
 export const LabeledInput = ({
   label,
@@ -144,8 +145,8 @@ const WithLabel = ({
   children: JSX.Element
 }) => {
   return (
-    <div className="labeled_input">
-      <div className="labeled_input__label">
+    <div>
+      <div className={styles.input_label}>
         {label}
         {info && <InfoView text={info} />}
       </div>

@@ -1,3 +1,5 @@
+import styles from "./chart_label.module.sass"
+
 export const ChartLabel = ({
   number,
   circleImg,
@@ -9,7 +11,7 @@ export const ChartLabel = ({
 }) => {
   return (
     <div className="chartBlock">
-      <div className="numbers desc">{number}</div>
+      <div className={styles.number}>{number}</div>
       <div className="h-16px">
         <img src={circleImg} alt="" />
       </div>
