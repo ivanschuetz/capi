@@ -20,7 +20,7 @@ export const UnlockShares = ({
     <LockOrUnlockShares
       dao={dao}
       investmentData={deps.investmentData}
-      // currently we allow only to unlock all the shares
+      // currently only unlocking all shares is allowed
       showInput={false}
       title={"Unlock shares"}
       buttonLabel={"Unlock"}

@@ -18,6 +18,7 @@ import { WASMContext } from "./WASMContext"
 import {
   BalanceResJs,
   DaoJs,
+  LoadInvestorResJs,
   MySharesResJs,
   QuantityChangeJs,
   ShareHoldingPercentageJs,
@@ -387,7 +388,7 @@ export interface Deps {
   myDividend?: string
   updateMyDividend: (daoId: string, myAddress: string) => Promise<void>
 
-  investmentData?: any
+  investmentData?: LoadInvestorResJs
   updateInvestmentData: (daoId: string, myAddress: string) => Promise<void>
 
   funds?: string

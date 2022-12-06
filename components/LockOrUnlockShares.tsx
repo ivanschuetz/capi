@@ -9,7 +9,11 @@ import {
 } from "./SharesDistributionChart"
 import { LabeledAmountInput, WithTooltip } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
-import { DaoJs } from "wasm/wasm"
+import { DaoJs, LoadInvestorResJs } from "wasm/wasm"
+import { InteractiveBox } from "./InteractiveBox"
+import { ShareSupply } from "./ShareSupply"
+import { ChartLabel } from "./ChartLabel"
+import { WithPieChartBox } from "./WithPieChartBox"
 
 export const LockOrUnlockShares = ({
   dao,
@@ -64,49 +68,20 @@ export const LockOrUnlockShares = ({
 
   const view = () => {
     return (
-      <div className="shares-box box-container">
-        <div className="shares-amount">
-          <div className="available-shares">
-            <div>
-              <div className="title">{title}</div>
-              <div className="mb-16 flex-block align-center">
-                <div className="desc">{"Share supply"}</div>
-                <div className="subtitle black">{dao.share_supply}</div>
-                <div className="arrow-container">
-                  <img src={redArrow.src} alt="redArrow" />
-                </div>
-              </div>
-              <div className="chartBlock ">
-                <div className="numbers desc">
-                  {investmentData.investor_locked_shares}
-                </div>
-                <div className="h-16px">
-                  <img src={dark_cyan_circle.src} alt="" />
-                </div>
-                <div>{"Your locked shares"}</div>
-              </div>
-              <div className="chartBlock">
-                <div className="numbers desc">
-                  {investmentData.investor_unlocked_shares}
-                </div>
-                <div className="h-16px">
-                  <img src={light_cyan_circle.src} alt="" />
-                </div>
-                <div>{"Your unlocked shares"}</div>
-              </div>
-            </div>
-            <div className="shares-chart d-desktop-none">
-              <SharesDistributionChart
-                sharesDistr={[
-                  to_pie_chart_slice(investmentData.investor_locked_shares),
-                  to_pie_chart_slice(investmentData.investor_unlocked_shares),
-                ]}
-                colors={pieChartColors()}
-                animated={false}
-                disableClick={true}
-              />
-            </div>
+      <WithPieChartBox
+        title={title}
+        slices={[
+          to_pie_chart_slice(investmentData.investor_locked_shares),
+          to_pie_chart_slice(investmentData.investor_unlocked_shares),
+        ]}
+        chartColors={pieChartColors()}
+      >
+        <>
+          <div>
+            <ShareSupply supply={dao.share_supply} />
+            <ChartLabels investmentData={investmentData} />
           </div>
+
           <div className="buy-shares-input">
             {showInput && (
               <LabeledAmountInput
@@ -119,23 +94,32 @@ export const LockOrUnlockShares = ({
             )}
             {submitButtonWithMaybeTooltip()}
           </div>
-        </div>
-        <div className="shares-chart d-tablet-mobile-none">
-          <SharesDistributionChart
-            sharesDistr={[
-              to_pie_chart_slice(investmentData.investor_locked_shares),
-              to_pie_chart_slice(investmentData.investor_unlocked_shares),
-            ]}
-            colors={pieChartColors()}
-            animated={false}
-            disableClick={true}
-          />
-        </div>
-      </div>
+        </>
+      </WithPieChartBox>
     )
   }
-
   return <div>{dao && investmentData && view()}</div>
+}
+
+const ChartLabels = ({
+  investmentData,
+}: {
+  investmentData: LoadInvestorResJs
+}) => {
+  return (
+    <>
+      <ChartLabel
+        number={investmentData.investor_locked_shares}
+        circleImg={dark_cyan_circle.src}
+        text={"Your locked shares"}
+      />
+      <ChartLabel
+        number={investmentData.investor_unlocked_shares}
+        circleImg={light_cyan_circle.src}
+        text={"Your unlocked shares"}
+      />
+    </>
+  )
 }
 
 const to_pie_chart_slice = (percentage: string): PieChartPercentageSlice => {
@@ -144,7 +128,7 @@ const to_pie_chart_slice = (percentage: string): PieChartPercentageSlice => {
 
 type LockOrUnlockSharesPars = {
   dao: DaoJs
-  investmentData: any
+  investmentData: LoadInvestorResJs
   showInput: boolean
   title: string
   inputLabel?: string

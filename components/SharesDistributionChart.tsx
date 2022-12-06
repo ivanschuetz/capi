@@ -12,7 +12,7 @@ export const SharesDistributionChart = ({
   sharesDistr: PieChartPercentageSlice[]
   // returns whether the address segment should be displayed as selected
   onAddressSelected?: (value: string) => boolean
-  colors: any
+  colors: string[]
   animated: boolean
   disableClick?: boolean
 }) => {
