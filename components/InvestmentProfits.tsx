@@ -7,6 +7,7 @@ import { useDaoId } from "../hooks/useDaoId"
 import Progress from "./Progress"
 import { SubmitButton } from "./SubmitButton"
 import { DaoJs } from "wasm/wasm"
+import { InteractiveBox } from "./InteractiveBox"
 
 export const InvestmentProfits = ({ deps }: { deps: Deps }) => {
   let daoId = useDaoId()
@@ -18,60 +19,55 @@ export const InvestmentProfits = ({ deps }: { deps: Deps }) => {
 
   const box = () => {
     return (
-      <div>
-        <div className="box-container">
-          <div className="title">{"Your profits"}</div>
-          <div className="retrievable-profits">
-            <div className="retrievable-tab">
-              <div className="flex-block align-center">
-                <div className="desc">{"Retrievable:"}</div>
-                <FundsAssetImg className="fund-asset" />
-                <div className="subtitle">
-                  {deps.investmentData.investor_claimable_dividend}
-                </div>
+      <InteractiveBox title="Your profits">
+        <div className="retrievable-profits">
+          <div className="retrievable-tab">
+            <div className="flex-block align-center">
+              <div className="desc">{"Retrievable:"}</div>
+              <FundsAssetImg className="fund-asset" />
+              <div className="subtitle">
+                {deps.investmentData.investor_claimable_dividend}
               </div>
-              <SubmitButton
-                label={"Claim"}
-                className="button-primary"
-                isLoading={submitting}
-                disabled={
-                  deps.investmentData.investor_claimable_dividend === "0"
-                }
-                onClick={async () => {
-                  if (!deps.wasm) {
-                    // should be unlikely, as wasm should initialize quickly
-                    console.error("Click while wasm isn't ready. Ignoring.")
-                    return
-                  }
-
-                  await retrieveProfits(
-                    deps.wasm,
-                    deps.myAddress,
-                    setSubmitting,
-                    deps.notification,
-                    deps.updateMyBalance,
-                    daoId,
-                    deps.updateInvestmentData,
-                    deps.updateFunds,
-                    deps.updateMyDividend,
-                    deps.wallet
-                  )
-                }}
-              />
             </div>
-            <div className="retrieved-tab">
-              <div className="desc">{"Retrieved:"}</div>
-              <div className="flex-block align-center">
-                <FundsAssetImg className="fund-asset" />
-                <div className="subtitle">
-                  {" "}
-                  {deps.investmentData.investor_already_retrieved_amount}
-                </div>
+            <SubmitButton
+              label={"Claim"}
+              className="button-primary"
+              isLoading={submitting}
+              disabled={deps.investmentData.investor_claimable_dividend === "0"}
+              onClick={async () => {
+                if (!deps.wasm) {
+                  // should be unlikely, as wasm should initialize quickly
+                  console.error("Click while wasm isn't ready. Ignoring.")
+                  return
+                }
+
+                await retrieveProfits(
+                  deps.wasm,
+                  deps.myAddress,
+                  setSubmitting,
+                  deps.notification,
+                  deps.updateMyBalance,
+                  daoId,
+                  deps.updateInvestmentData,
+                  deps.updateFunds,
+                  deps.updateMyDividend,
+                  deps.wallet
+                )
+              }}
+            />
+          </div>
+          <div className="retrieved-tab">
+            <div className="desc">{"Retrieved:"}</div>
+            <div className="flex-block align-center">
+              <FundsAssetImg className="fund-asset" />
+              <div className="subtitle">
+                {" "}
+                {deps.investmentData.investor_already_retrieved_amount}
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </InteractiveBox>
     )
   }
 

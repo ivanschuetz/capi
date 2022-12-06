@@ -70,7 +70,7 @@ export const InvestEmbedded = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
 
   const box = () => {
     return (
-      <InteractiveBox>
+      <InteractiveBox title={"Buy shares"}>
         <div className="buy-shares-content">
           <div className="dao-shares buy-shares-left-col">
             <TopBlock deps={deps} />
