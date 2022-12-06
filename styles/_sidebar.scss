@@ -1,4 +1,5 @@
 @import "global_vars";
+@import "variables";
 
 .sidebar-container {
   width: 200px;
@@ -12,6 +13,7 @@
     display: flex;
     justify-content: center;
     width: 150px;
+    margin-bottom: 24px;
 
     img {
       margin: auto;
@@ -26,12 +28,12 @@
   }
 
   a {
-    color: $grey-190;
+    color: $text_secondary;
   }
 
   a:hover,
   a.menu_active {
-    color: $cyan-20;
+    color: $color_nav_highlight;
     font-weight: 700;
     transition: 0.2s;
   }
@@ -39,8 +41,10 @@
   a:hover img,
   a.menu_active > * > img {
     transition: 0.2s;
-    filter: invert(70%) sepia(14%) saturate(980%) hue-rotate(134deg)
-      brightness(94%) contrast(93%);
+    // corresponds to $color_purple_dark https://codepen.io/sosuke/pen/Pjoqqp, src: https://stackoverflow.com/a/53336754
+    // note: brightness(0) saturate(100%) added to beginning to turn it black first, so the filter works
+    filter: brightness(0) saturate(100%) invert(12%) sepia(50%) saturate(1883%)
+      hue-rotate(232deg) brightness(92%) contrast(103%);
   }
 
   .sidebar-item {
@@ -48,6 +52,7 @@
     align-items: center;
     cursor: pointer;
     gap: 12px;
+    margin-left: 2px;
 
     .settings-dot {
       width: 12px;

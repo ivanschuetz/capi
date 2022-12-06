@@ -25,7 +25,7 @@ export const SideBar = ({
       <SideBarItem
         imageSrc={project.src}
         route="/my_projects"
-        label="My Projects"
+        label="My projects"
       />
       {deps.features.developer && (
         <div className="clickable" onClick={() => setDevSettingsModal(true)}>

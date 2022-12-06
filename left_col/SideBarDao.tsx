@@ -55,7 +55,7 @@ export const SideBarDao = ({
       <SideBarItem
         imageSrc={project}
         route="/my_projects"
-        label="My Projects"
+        label="My projects"
       />
       {deps.features.developer && (
         <div className="clickable" onClick={() => setDevSettingsModal(true)}>
