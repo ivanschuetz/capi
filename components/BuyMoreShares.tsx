@@ -22,6 +22,7 @@ import { SubmitButton } from "./SubmitButton"
 import { DaoJs } from "wasm/wasm"
 import { SetBool, SetString } from "../type_alias"
 import { PieChartSlice } from "../charts/renderPieChart"
+import { InteractiveBox } from "./InteractiveBox"
 
 export const BuyMoreShares = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
   let daoId = useDaoId()
@@ -51,130 +52,144 @@ export const BuyMoreShares = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
 
   const view = () => {
     return (
-      <div className="shares-box box-container">
-        <div className="shares-amount">
-          <div className="available-shares">
-            <div>
-              <div className="title nowrap">{"Buy more shares"}</div>
-              <div className="mb-16 flex-block align-center">
-                <div className="desc">{"Share supply"}</div>
-                <div className="subtitle black">{dao.share_supply}</div>
-                <div className="arrow-container">
-                  <img src={redArrow.src} alt="redArrow" />
-                </div>
-              </div>
-              <div className="chartBlock">
-                {deps.availableShares && (
-                  <div className="numbers desc">{deps.availableShares}</div>
-                )}
-                <div className="h-16px">
-                  <img src={grey_circle.src} alt="" />
-                </div>
-                <div>{"Available"}</div>
-              </div>
-              <div className="chartBlock">
-                <div className="numbers desc">
-                  {deps.investmentData.investor_locked_shares}
-                </div>
-                <div className="h-16px">
-                  <img src={light_cyan_circle.src} alt="" />
-                </div>
-                <div>{"Your locked shares"}</div>
-              </div>
-              <div className="chartBlock">
-                <div className="numbers desc">
-                  {deps.investmentData.investor_unlocked_shares}
-                </div>
-                <div className="h-16px">
-                  <img src={dark_cyan_circle.src} alt="" />
-                </div>
-                <div>{"Your unlocked shares"}</div>
-              </div>
-            </div>
-            <div className="shares-chart d-desktop-none">
-              <SharesDistributionChart
-                sharesDistr={[
-                  to_pie_chart_slice(deps.availableShares),
-                  to_pie_chart_slice(
-                    deps.investmentData.investor_locked_shares
-                  ),
-                  to_pie_chart_slice(
-                    deps.investmentData.investor_unlocked_shares
-                  ),
-                ]}
-                // we want to show available shares in gray and it's the first segment, so we prepend gray to the colors
-                // note that this is inconsistent with how it's shown on investors distribution (using NOT_OWNED segment type)
-                // we should refactor this (maybe create a generic "gray" segment type)
-                colors={[PIE_CHART_GRAY].concat(pieChartColors())}
-                animated={false}
-                disableClick={true}
+      <InteractiveBox title={"Buy more shares"}>
+        <div className="shares-box">
+          <div className="shares-amount">
+            <ShareSupply supply={dao.share_supply} />
+            <ChartLabels deps={deps} />
+
+            <div className="buy-shares-input">
+              <LabeledAmountInput
+                label={"Buy shares"}
+                placeholder={"Enter amount"}
+                inputValue={buySharesCount}
+                onChange={(input) => setBuySharesCount(input)}
+                errorMsg={buySharesAmountError}
+              />
+              <SubmitButton
+                label={"Buy"}
+                className="button-primary"
+                isLoading={submitting}
+                disabled={deps.availableShares === "0"}
+                onClick={async () => {
+                  if (deps.features.prospectus) {
+                    setShowProspectusModal(true)
+                  } else {
+                    await onSubmitBuy()
+                  }
+                }}
               />
             </div>
           </div>
-          <div className="buy-shares-input">
-            <LabeledAmountInput
-              label={"Buy shares"}
-              placeholder={"Enter amount"}
-              inputValue={buySharesCount}
-              onChange={(input) => setBuySharesCount(input)}
-              errorMsg={buySharesAmountError}
-            />
-            <SubmitButton
-              label={"Buy"}
-              className="button-primary"
-              isLoading={submitting}
-              disabled={deps.availableShares === "0"}
-              onClick={async () => {
-                if (deps.features.prospectus) {
-                  setShowProspectusModal(true)
-                } else {
-                  await onSubmitBuy()
-                }
-              }}
-            />
+
+          {/* desktop chart */}
+          {deps.availableShares && (
+            <div className="shares-chart d-tablet-mobile-none">
+              <LockedUnlockedChart deps={deps} />
+            </div>
+          )}
+          {/* mobile chart */}
+          <div className="shares-chart d-desktop-none">
+            <LockedUnlockedChart deps={deps} />
           </div>
         </div>
-        {deps.availableShares && (
-          <div className="shares-chart d-tablet-mobile-none">
-            <SharesDistributionChart
-              sharesDistr={[
-                to_pie_chart_slice(deps.availableShares),
-                to_pie_chart_slice(deps.investmentData.investor_locked_shares),
-                to_pie_chart_slice(
-                  deps.investmentData.investor_unlocked_shares
-                ),
-              ]}
-              // we want to show available shares in gray and it's the first segment, so we prepend gray to the colors
-              // note that this is inconsistent with how it's shown on investors distribution (using NOT_OWNED segment type)
-              // we should refactor this (maybe create a generic "gray" segment type)
-              colors={[PIE_CHART_GRAY].concat(pieChartColors())}
-              animated={false}
-              disableClick={true}
-            />
-          </div>
-        )}
-        {showBuyCurrencyInfoModal && deps.myAddress && (
-          <BuyFundsAssetModal
-            deps={deps}
-            amount={showBuyCurrencyInfoModal.amount}
-            closeModal={() => setShowBuyCurrencyInfoModal(null)}
-          />
-        )}
-        {showProspectusModal && (
-          <AckProspectusModal
-            deps={deps}
-            closeModal={() => setShowProspectusModal(false)}
-            onAccept={async () => {
-              setShowProspectusModal(false)
-              onSubmitBuy()
-            }}
-          />
-        )}
-      </div>
+      </InteractiveBox>
     )
   }
 
-  return <div>{dao && deps.investmentData && view()}</div>
+  return (
+    <div>
+      {dao && deps.investmentData && view()}
+      {showBuyCurrencyInfoModal && deps.myAddress && (
+        <BuyFundsAssetModal
+          deps={deps}
+          amount={showBuyCurrencyInfoModal.amount}
+          closeModal={() => setShowBuyCurrencyInfoModal(null)}
+        />
+      )}
+      {showProspectusModal && (
+        <AckProspectusModal
+          deps={deps}
+          closeModal={() => setShowProspectusModal(false)}
+          onAccept={async () => {
+            setShowProspectusModal(false)
+            onSubmitBuy()
+          }}
+        />
+      )}
+    </div>
+  )
+}
+
+const ShareSupply = ({ supply }: { supply: string }) => {
+  return (
+    <div className="mb-16 flex-block align-center">
+      <div className="desc">{"Share supply"}</div>
+      <div className="subtitle black">{supply}</div>
+      <div className="arrow-container">
+        <img src={redArrow.src} alt="redArrow" />
+      </div>
+    </div>
+  )
+}
+const ChartLabels = ({ deps }: { deps: Deps }) => {
+  return (
+    <>
+      <ChartLabel
+        number={deps.availableShares}
+        circleImg={grey_circle.src}
+        text={"Available"}
+      />
+      <ChartLabel
+        number={deps.investmentData.investor_locked_shares}
+        circleImg={light_cyan_circle.src}
+        text={"Your locked shares"}
+      />
+      <ChartLabel
+        number={deps.investmentData.investor_unlocked_shares}
+        circleImg={dark_cyan_circle.src}
+        text={"Your unlocked shares"}
+      />
+    </>
+  )
+}
+
+const ChartLabel = ({
+  number,
+  circleImg,
+  text,
+}: {
+  number: string
+  circleImg: any
+  text: string
+}) => {
+  return (
+    <div className="chartBlock">
+      <div className="numbers desc">{number}</div>
+      <div className="h-16px">
+        <img src={circleImg} alt="" />
+      </div>
+      <div>{text}</div>
+    </div>
+  )
+}
+
+const LockedUnlockedChart = ({ deps }: { deps: Deps }) => {
+  return (
+    <SharesDistributionChart
+      sharesDistr={[
+        to_pie_chart_slice(deps.availableShares),
+        to_pie_chart_slice(deps.investmentData.investor_locked_shares),
+        to_pie_chart_slice(deps.investmentData.investor_unlocked_shares),
+      ]}
+      // we want to show available shares in gray and it's the first segment, so we prepend gray to the colors
+      // note that this is inconsistent with how it's shown on investors distribution (using NOT_OWNED segment type)
+      // we should refactor this (maybe create a generic "gray" segment type)
+      colors={[PIE_CHART_GRAY].concat(pieChartColors())}
+      animated={false}
+      disableClick={true}
+    />
+  )
 }
 
 const to_pie_chart_slice = (percentage: string): PieChartPercentageSlice => {
