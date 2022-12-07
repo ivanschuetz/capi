@@ -1,8 +1,10 @@
 export const LabeledBox = ({ label, children }) => {
   return (
     <div className="labeled_box">
-      <div className="labeled_box_label">{label}</div>
-      <div className="labeled_box_children">{children}</div>
+      <div className="text-70 font-bold text-te md:mb-10 xl:text-80">
+        {label}
+      </div>
+      <div className="border border-solid border-ne3 p-10">{children}</div>
     </div>
   )
 }

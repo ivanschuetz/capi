@@ -37,25 +37,44 @@ const entryBody = (
   isSelected: boolean,
   color?: string
 ) => {
-  var containerClasses = "holder_item__container"
+  return (
+    <HolderEntryBody
+      amount={entry.percentage_formatted}
+      label={entry.label}
+      isSelected={isSelected}
+      color={color}
+    />
+  )
+}
+
+export const HolderEntryBody = ({
+  amount,
+  label,
+  isSelected,
+  color,
+}: {
+  amount: string
+  label: string
+  isSelected: boolean
+  color?: string
+}) => {
+  var ngClass = "flex gap-4 items-center mb-2 py-2 "
   if (isSelected) {
-    containerClasses = containerClasses + " selected"
+    ngClass = ngClass + " selected"
   }
   return (
-    <div className={containerClasses}>
-      <div className="w-55px grey-190 desc">{entry.percentage_formatted}</div>
-      <div className="h-16px">
-        <svg
-          width="16"
-          height="17"
-          viewBox="0 0 16 17"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-        >
-          <circle cx="8" cy="8.5" r="8" fill={color} />
-        </svg>
-      </div>
-      <div className="grey-190">{entry.label}</div>
+    <div className={ngClass}>
+      <div className="w-14 text-50 font-bold text-te">{amount}</div>
+      <svg
+        width="16"
+        height="17"
+        viewBox="0 0 16 17"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <circle cx="8" cy="8.5" r="8" fill={color} />
+      </svg>
+      <div className="text-45 text-te">{label}</div>
     </div>
   )
 }

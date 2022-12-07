@@ -39,13 +39,13 @@ export const checkForUpdates = async (
 
 export const pieChartColors = (): string[] => {
   return [
-    "#4CA5A9",
-    "#8ECACD",
-    "#BCDBDF",
-    "#C8E3E3",
-    "#D9E9EB",
-    "#E4F0F1",
-    "#F1F8F8",
+    "#273088",
+    "#333eaf",
+    "#4c56c7",
+    "#737dd4",
+    "#9ba2df",
+    "#c3c7ec",
+    "#ebecf8",
   ]
 }
 

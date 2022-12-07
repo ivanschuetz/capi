@@ -1,11 +1,12 @@
 import { useCallback, useEffect, useMemo, useState } from "react"
 import { Deps, HolderEntryViewData } from "../context/AppContext"
 import { changeArrow, pieChartColors } from "../functions/utils"
-import { HolderEntry } from "./HolderEntry"
+import { HolderEntry, HolderEntryBody } from "./HolderEntry"
 import { SharesDistributionChart } from "./SharesDistributionChart"
 import { LabeledBox } from "./LabeledBox"
 import Progress from "./Progress"
 import { SetBool } from "../type_alias"
+import { QuantityChangeJs } from "wasm"
 
 const entries_small_count = 3
 
@@ -68,7 +69,7 @@ export const SharesDistributionBox = ({ deps }: { deps: Deps }) => {
     } else {
       return (
         <LabeledBox label={"Investor distribution"}>
-          <div className="investors-container">
+          <div className="flex max-w-4xl justify-between">
             <div className="d-flex flex-column">
               <TotalAndAvailableShares deps={deps} />
 
@@ -119,28 +120,41 @@ export const SharesDistributionBox = ({ deps }: { deps: Deps }) => {
 const TotalAndAvailableShares = ({ deps }: { deps: Deps }) => {
   return (
     <div className="d-flex flex-column flex-wrap">
-      <TotalShares deps={deps} />
+      <SubtitleWithCount
+        title={"Total shares"}
+        number={deps.dao.share_supply}
+      />
       <NotOwnedShares deps={deps} />
-    </div>
-  )
-}
-
-const TotalShares = ({ deps }: { deps: Deps }) => {
-  return (
-    <div className="flexBlock">
-      <div className="desc nowrap mr-12">{"Total shares"}</div>
-      <div className="subtitle">{deps.dao.share_supply}</div>
-      <div className="arrow-container"></div>
     </div>
   )
 }
 
 const NotOwnedShares = ({ deps }: { deps: Deps }) => {
   return (
-    <div className="d-flex align-center justify-between-tablet w-100 gap-10">
-      <div className="desc">{deps.notOwnedShares}</div>
-      <div className="circle"></div>
-      <div className="grey-190">{"Available for sale"}</div>
+    <HolderEntryBody
+      amount={deps.notOwnedShares}
+      label={"Available for sale"}
+      isSelected={false}
+      // ne3 theme color
+      color={"#e7e7f1"}
+    />
+  )
+}
+
+const SubtitleWithCount = ({
+  title,
+  number,
+  change,
+}: {
+  title: string
+  number: string
+  change?: QuantityChangeJs
+}) => {
+  return (
+    <div className="mb-8 flex items-center">
+      <span className="nowrap mr-3 text-50 font-bold text-te">{title}</span>
+      <span className="text-60 font-bold text-te">{number}</span>
+      <div>{changeArrow(change)}</div>
     </div>
   )
 }
@@ -161,11 +175,11 @@ const HoldersListItems = ({
   if (ownedSharesDistr && entries) {
     return (
       <div className="holder_list_container">
-        <div className="flexBlock">
-          <span className="desc mr-12">{"Investors"}</span>
-          <span className="subtitle">{ownedSharesDistr.length}</span>
-          <div>{changeArrow(deps.holdersChange)}</div>
-        </div>
+        <SubtitleWithCount
+          title={"Investors"}
+          number={ownedSharesDistr.length + ""}
+          change={deps.holdersChange}
+        />
         {entries.map((entry) => {
           // not owned is shown on the left side, so we remove the entry from the list here
           // note that we keep it in the original list, because it's also used for the chart, where we show not owned
@@ -223,7 +237,7 @@ const ShowMoreOrLessFooter = ({
   let showMore = !showMoreSelected
   return (
     <button
-      className="link_button ml-50"
+      className="w-full text-45 font-bold text-pr"
       onClick={() => setShowMoreSelected(showMore)}
     >
       {showMore ? "See all" : "Show less"}

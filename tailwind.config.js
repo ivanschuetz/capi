@@ -12,12 +12,13 @@ module.exports = {
       quat: "#f6f6f8", // quaternary (on figma fields, not in palette)
       bg: "#ffffff", // background
       bg2: "#f6f6f8", // background secondary
-      bg3: "#eeeef1", // background tertiary ("neural" in figma, not in the palette but in-place)
+      bg3: "#eeeef1", // background tertiary ("neural" in figma, not in the palette but in-place) TODO rename in ne* (see e.g. ne3)
       te: "#271952", // text primary ("title" in figma)
       te2: "#847c9c", // text secondary
       te3: "#aea8bf", // text tertiary ("title secondary" in figma)
       twitter: "#55acee", // use this only for twitter assets
       inp: "#554a78", // input bg, assumed on bgs with "text primary" color (note: on figma fields, not in palette)
+      ne3: "#e7e7f1", // neural 3
     },
     fontSize: {
       45: "16px",
