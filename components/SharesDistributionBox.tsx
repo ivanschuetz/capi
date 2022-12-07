@@ -110,7 +110,7 @@ export const SharesDistributionBox = ({ deps }: { deps: Deps }) => {
   }
 
   return (
-    <div className="mt-80" id="investors-distribution">
+    <div className="mt-20" id="investors-distribution">
       {content()}
     </div>
   )
@@ -128,7 +128,7 @@ const TotalAndAvailableShares = ({ deps }: { deps: Deps }) => {
 const TotalShares = ({ deps }: { deps: Deps }) => {
   return (
     <div className="flexBlock">
-      <div className="mr-12 desc nowrap">{"Total shares"}</div>
+      <div className="desc nowrap mr-12">{"Total shares"}</div>
       <div className="subtitle">{deps.dao.share_supply}</div>
       <div className="arrow-container"></div>
     </div>

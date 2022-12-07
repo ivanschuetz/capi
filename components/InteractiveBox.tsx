@@ -8,7 +8,7 @@ export const InteractiveBox = ({
   children: JSX.Element
 }) => {
   return (
-    <div className="mt-80">
+    <div className="mt-20">
       <div className="dao_action_active_tab box-container">
         <div className="box_header_on_acc">{title}</div>
         {children}
