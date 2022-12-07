@@ -9,6 +9,7 @@ module.exports = {
       pr: "#de5c62", // primary
       sec: "#6bb9bd", // secondary
       ter: "#6672d7", // tertiary (repeated "secondary" in figma)
+      quat: "#f6f6f8", // quaternary (on figma fields, not in palette)
       bg: "#ffffff", // background
       bg2: "#f6f6f8", // background secondary
       bg3: "#eeeef1", // background tertiary ("neural" in figma, not in the palette but in-place)

@@ -68,12 +68,8 @@ const NoActivityView = ({ daoId }) => {
         <div className="ft-weight-600 grey-190">
           {"Let's make some investments!"}
         </div>
-        <Link href={"/" + daoId} className="text-center w-100">
-          <SubmitButton
-            label={"Buy shares"}
-            className="button-primary w-100"
-            onClick={async () => {}}
-          />
+        <Link href={"/" + daoId} className="w-100 text-center">
+          <SubmitButton label={"Buy shares"} onClick={async () => {}} />
         </Link>
       </div>
     </div>

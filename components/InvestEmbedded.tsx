@@ -80,7 +80,6 @@ export const InvestEmbedded = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
             />
             <SubmitButton
               label={"Buy"}
-              className={"button-primary"}
               isLoading={submitting}
               onClick={() => {
                 if (deps.features.prospectus) {

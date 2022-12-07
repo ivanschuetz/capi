@@ -241,7 +241,6 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
         />
         <SubmitButton
           label={"Create project"}
-          className={"button-primary"}
           isLoading={submitting}
           disabled={
             daoName === "" ||

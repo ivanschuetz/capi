@@ -32,7 +32,6 @@ export const DevSettings = ({ closeModal }) => {
       />
       <SubmitButton
         label={"Submit"}
-        className={"button-primary"}
         disabled={fundsAssetId === "" || capiAddress === ""}
         onClick={async () => {
           saveDevSettingCapiAddress(capiAddress)

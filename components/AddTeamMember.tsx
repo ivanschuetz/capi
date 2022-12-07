@@ -89,7 +89,6 @@ export const AddTeamMember = ({
         <SubmitButton
           label={"Submit"}
           isLoading={submitting}
-          className="button-primary w-100"
           onClick={async () => {
             if (!deps.wasm) {
               // should be unlikely, as wasm should initialize quickly

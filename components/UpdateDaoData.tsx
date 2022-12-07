@@ -110,7 +110,7 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
           </React.Fragment>
         )}
         {deps.features.minMaxInvestment && (
-          <div className="d-flex gap-32 mt-40">
+          <div className="d-flex mt-40 gap-32">
             <div className="f-basis-50">
               <LabeledAmountInput
                 label={"Min investment (shares)"}
@@ -139,7 +139,6 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
         />
         <SubmitButton
           label={"Update data"}
-          className="button-primary"
           isLoading={submitting}
           onClick={async () => {
             updateDaoData(
@@ -173,7 +172,6 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
         />
         <SubmitButton
           label={"Rekey owner"}
-          className="button-primary mb-80"
           isLoading={submitting}
           disabled={!rekeyAuthAddress}
           onClick={async () => {
@@ -205,32 +203,32 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
           }}
         >
           <>
-            <div className="mb-32 line-height-1">
+            <div className="line-height-1 mb-32">
               {
                 "This will transfer all signing authority to the entered address."
               }
             </div>
-            <div className="mb-32 line-height-1">
+            <div className="line-height-1 mb-32">
               {
                 "YOUR CURRENT ACCOUNT WILL IRREVERSIBLY BECOME USELESS: IT WILL NOT BE ABLE TO SIGN *ANY* TRANSACTIONS (INCLUDING REVERTING THIS OPERATION)."
               }
             </div>
-            <div className="mb-32 line-height-1">
+            <div className="line-height-1 mb-32">
               {
                 "THIS IS A UNIVERSAL (BLOCKCHAIN-WIDE) OPERATION, NOT LIMITED TO CAPI."
               }
             </div>
             <div>
-              <div className="mb-32 line-height-1">{"Please ensure:"}</div>
+              <div className="line-height-1 mb-32">{"Please ensure:"}</div>
               <div className="line-height-1">
                 {"1. That the entered address to be rekeyed to is correct."}
               </div>
-              <div className="mb-32 line-height-1">
+              <div className="line-height-1 mb-32">
                 {
                   "2. That you / the expected account owner(s) of said address actually own it, i.e., can successfully sign and submit transactions with it."
                 }
               </div>
-              <div className="mb-32 line-height-1">
+              <div className="line-height-1 mb-32">
                 {"IF ANY OF THE POINTS ABOVE IS NOT TRUE, " +
                   "YOUR CAPI PROJECT, AS WELL AS ANY FUNDS, ASSETS AND APPLICATIONS LINKED TO YOUR CURRENT ADDRESS, RELATED OR NOT RELATED TO CAPI, WILL BE PERMANENTLY AND IRREVERSIBLY LOST."}
               </div>

@@ -1,4 +1,4 @@
-import { SubmitButton } from "../components/SubmitButton"
+import { CancelButton, SubmitButton } from "../components/SubmitButton"
 import Modal from "./Modal"
 
 export const OkCancelModal = ({
@@ -23,12 +23,10 @@ export const OkCancelModal = ({
         <div className="d-flex gap-40">
           <SubmitButton
             label={okLabel ?? "Continue"}
-            className="button-primary"
             onClick={async () => onSubmit()}
           />
-          <SubmitButton
+          <CancelButton
             label={cancelLabel ?? "Cancel"}
-            className="button-cyan"
             onClick={async () => closeModal()}
           />
         </div>

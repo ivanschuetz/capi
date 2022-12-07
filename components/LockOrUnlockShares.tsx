@@ -34,7 +34,6 @@ export const LockOrUnlockShares = ({
       <SubmitButton
         label={buttonLabel}
         disabled={dao.funds_raised === "false"}
-        className="button-primary"
         isLoading={submitting}
         onClick={async () => {
           onSubmit(input, setInputError)

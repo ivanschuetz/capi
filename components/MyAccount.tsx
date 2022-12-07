@@ -81,7 +81,7 @@ const MyAddressSection = ({ deps, daoId }: { deps: Deps; daoId?: string }) => {
 const MyBalanceAndDisconnect = ({ deps }: { deps: Deps }) => {
   return (
     <div id="my_account_my_balance__balance">
-      <img className="mr-10 s-16" src={funds.src} alt="funds" />
+      <img className="s-16 mr-10" src={funds.src} alt="funds" />
       <div>{deps.myBalance.balance_funds_asset}</div>
       <img
         className="arrow"
@@ -120,7 +120,7 @@ const DividendSection = ({ deps, daoId }: { deps: Deps; daoId?: string }) => {
     return (
       <div className="d-flex flex-column">
         <ClaimableDividend dividend={deps.myDividend} />
-        <div className="d-flex justify-center w-100">
+        <div className="d-flex w-100 justify-center">
           <SubmitClaimButton deps={deps} daoId={daoId} />
         </div>
       </div>
@@ -135,9 +135,9 @@ const DividendSection = ({ deps, daoId }: { deps: Deps; daoId?: string }) => {
 
 const ClaimableDividend = ({ dividend }: { dividend: string }) => {
   return (
-    <div className="mb-32 desc d-flex align-center justify-between">
+    <div className="desc d-flex align-center mb-32 justify-between">
       {"Claimable dividend: "}
-      <div className="d-flex align-center gap-10 mr-26">
+      <div className="d-flex align-center mr-26 gap-10">
         <img className="s-16" src={funds.src} alt="funds" />
         {dividend}
       </div>
@@ -151,7 +151,6 @@ const SubmitClaimButton = ({ deps, daoId }: { deps: Deps; daoId: string }) => {
   return (
     <SubmitButton
       label={"Claim"}
-      className="button-primary w-100"
       isLoading={submitting}
       disabled={deps.investmentData?.investor_claimable_dividend === "0"}
       onClick={async () => {

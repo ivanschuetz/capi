@@ -8,16 +8,8 @@ export const BuyCurrencyInfoView = ({ closeModal, children, onSubmit }) => {
     <div>
       {children}
       <div>
-        <SubmitButton
-          label={"Continue"}
-          className="button-primary w-100"
-          onClick={async () => onSubmit()}
-        />
-        <SubmitButton
-          label={"Cancel"}
-          className="button-primary w-100"
-          onClick={async () => closeModal()}
-        />
+        <SubmitButton label={"Continue"} onClick={async () => onSubmit()} />
+        <SubmitButton label={"Cancel"} onClick={async () => closeModal()} />
       </div>
     </div>
   )

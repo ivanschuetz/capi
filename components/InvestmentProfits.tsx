@@ -31,7 +31,6 @@ export const InvestmentProfits = ({ deps }: { deps: Deps }) => {
             </div>
             <SubmitButton
               label={"Claim"}
-              className="button-primary"
               isLoading={submitting}
               disabled={deps.investmentData.investor_claimable_dividend === "0"}
               onClick={async () => {

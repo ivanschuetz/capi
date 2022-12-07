@@ -46,7 +46,6 @@ export const Withdraw = ({ deps }: { deps: Deps }) => {
 
           <SubmitButton
             label={"Withdraw"}
-            className="button-primary"
             isLoading={submitting}
             disabled={deps.myAddress === ""}
             onClick={async () => {

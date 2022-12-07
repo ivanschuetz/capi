@@ -2,12 +2,52 @@ export const SubmitButton = ({
   label,
   disabled,
   isLoading,
-  className,
   onClick,
 }: SubmitButtonPars) => {
   return (
+    <Button
+      label={label}
+      disabled={disabled}
+      isLoading={isLoading}
+      bgColor="bg-pr"
+      onClick={onClick}
+    />
+  )
+}
+
+export const CancelButton = ({
+  label,
+  disabled,
+  isLoading,
+  onClick,
+}: SubmitButtonPars) => {
+  return (
+    <Button
+      label={label}
+      disabled={disabled}
+      isLoading={isLoading}
+      bgColor="bg-te"
+      onClick={onClick}
+    />
+  )
+}
+
+const Button = ({
+  label,
+  disabled,
+  isLoading,
+  bgColor,
+  onClick,
+}: {
+  label: string
+  disabled?: boolean
+  isLoading?: boolean
+  bgColor: string
+  onClick: () => void
+}) => {
+  return (
     <button
-      className={`position-relative ${className}`}
+      className={`relative h-16 w-60 ${bgColor} font-bold text-bg transition duration-300 hover:bg-te disabled:pointer-events-none disabled:bg-quat disabled:text-te2`}
       disabled={disabled}
       onClick={async () => {
         onClick()
@@ -36,6 +76,5 @@ type SubmitButtonPars = {
   label: string
   disabled?: boolean
   isLoading?: boolean
-  className: string
   onClick: () => void
 }

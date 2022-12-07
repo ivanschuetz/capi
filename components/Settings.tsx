@@ -62,7 +62,6 @@ const UpdateAppView = ({ deps, daoId }: { deps: Deps; daoId: string }) => {
 
           <SubmitButton
             label={"Update"}
-            className="button-primary ml-30"
             isLoading={submitting}
             onClick={async () => {
               await updateApp(

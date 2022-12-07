@@ -19,7 +19,6 @@ export const OkModal = ({
         <div className="d-flex gap-40">
           <SubmitButton
             label={okLabel ?? "Ok"}
-            className="button-primary"
             onClick={async () => closeModal()}
           />
         </div>

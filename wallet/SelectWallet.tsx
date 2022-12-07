@@ -15,7 +15,6 @@ export const SelectWallet = ({
     <div className="d-flex flex-column align-center">
       <SubmitButton
         label={"Wallet Connect"}
-        className="button-primary w-300px mb-24"
         onClick={async () =>
           selectWallet(
             deps,
@@ -30,7 +29,6 @@ export const SelectWallet = ({
       />
       <SubmitButton
         label={"My Algo"}
-        className="button-primary w-300px"
         onClick={async () =>
           selectWallet(
             deps,

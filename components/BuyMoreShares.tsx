@@ -75,7 +75,6 @@ export const BuyMoreShares = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
             />
             <SubmitButton
               label={"Buy"}
-              className="button-primary"
               isLoading={submitting}
               disabled={deps.availableShares === "0"}
               onClick={async () => {
