@@ -70,8 +70,8 @@ export const InvestEmbedded = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
   const box = () => {
     return (
       <InteractiveBox title={"Buy shares"}>
-        <div className="flex flex-col justify-between gap-10 4xl:flex-row 4xl:justify-start 4xl:gap-36">
-          <div className="flex max-w-[535px] flex-col flex-wrap 4xl:w-full">
+        <div className="flex flex-col justify-between gap-10 3xl:flex-row 3xl:justify-start 3xl:gap-36">
+          <div className="flex max-w-[535px] flex-col flex-wrap 3xl:w-full">
             <TopBlock deps={deps} />
             <Input
               input={buySharesCount}
