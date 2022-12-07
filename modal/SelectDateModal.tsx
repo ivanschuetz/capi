@@ -19,7 +19,7 @@ export const SelectDateModal = ({ closeModal, endDate, setEndDate }) => {
       <div className="d-flex gap-40">
         <SubmitButton
           label={"Save"}
-          onClick={() => {
+          onClick={async () => {
             setEndDate(newEndDate)
             closeModal()
           }}

@@ -76,5 +76,5 @@ type SubmitButtonPars = {
   label: string
   disabled?: boolean
   isLoading?: boolean
-  onClick: () => void
+  onClick: () => Promise<void>
 }

@@ -201,18 +201,16 @@ const ConnectButton = ({
   setShowDisclaimerModal: SetBool
 }) => {
   return (
-    <button
-      className="button-primary w-100"
-      onClick={async (event) => {
+    <SubmitButton
+      label={"Connect wallet"}
+      onClick={async () => {
         if (await needsToAcceptDisclaimer()) {
           setShowDisclaimerModal(true)
         } else {
           setShowSelectWalletModal(true)
         }
       }}
-    >
-      {"Connect wallet"}
-    </button>
+    />
   )
 }
 
