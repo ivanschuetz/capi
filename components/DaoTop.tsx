@@ -4,6 +4,8 @@ import share from "../images/svg/share.svg"
 import twitter from "../images/svg/twitter.svg"
 import Modal from "../modal/Modal"
 import { SetBool } from "../type_alias"
+import SvgShare from "./icons/SvgShare"
+import SvgTwitter from "./icons/SvgTwitter"
 import Progress from "./Progress"
 import ShareView from "./ShareView"
 
@@ -44,7 +46,7 @@ const TopBar = ({
 }) => {
   return (
     <div className="title-container">
-      <div className="title">{dao.name}</div>
+      <div className="text-80 font-bold text-te">{dao.name}</div>
       <SocialButtons dao={dao} setShowModal={setShowModal} />
     </div>
   )
@@ -60,18 +62,28 @@ const SocialButtons = ({
   return (
     <div className="social-media-buttons">
       {dao.social_media_url && (
-        <SocialButton url={dao.social_media_url} icon={twitter.src} />
+        <SocialButton className="" url={dao.social_media_url}>
+          <SvgTwitter className="fill-bg" />
+        </SocialButton>
       )}
       <ShareButton setShowModal={setShowModal} />
     </div>
   )
 }
 
-const SocialButton = ({ url, icon }: { url: string; icon: any }) => {
+const SocialButton = ({
+  url,
+  children,
+  className,
+}: {
+  url: string
+  children: JSX.Element
+  className: string
+}) => {
   return (
-    <a href={url} target="_blank" rel="noreferrer">
-      <div className="button__follow share-icon">
-        <img src={icon} alt="logo-twitter" />
+    <a href={url} target="_blank" rel="noreferrer" className={className}>
+      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-twitter">
+        {children}
       </div>
     </a>
   )
@@ -79,8 +91,11 @@ const SocialButton = ({ url, icon }: { url: string; icon: any }) => {
 
 const ShareButton = ({ setShowModal }: { setShowModal: SetBool }) => {
   return (
-    <div className="button-share share-icon" onClick={() => setShowModal(true)}>
-      <img src={share.src} alt="share-icon" />
+    <div
+      className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-te"
+      onClick={() => setShowModal(true)}
+    >
+      <SvgShare className="fill-bg" />
     </div>
   )
 }

@@ -14,6 +14,7 @@ module.exports = {
       te: "#271952", // text primary ("title" in figma)
       te2: "#847c9c", // text secondary
       te3: "#aea8bf", // text tertiary ("title secondary" in figma)
+      twitter: "#55acee", // use this only for twitter assets
     },
     fontSize: {
       45: "16px",

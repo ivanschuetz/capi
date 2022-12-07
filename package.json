@@ -33,6 +33,7 @@
     "web3.storage": "^3.0.0"
   },
   "devDependencies": {
+    "@svgr/cli": "^6.5.1",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",
     "autoprefixer": "^10.4.13",
