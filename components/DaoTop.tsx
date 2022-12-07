@@ -12,7 +12,9 @@ export const DaoTop = ({ dao }: { dao: DaoJs; setShowShareModal: SetBool }) => {
 
   return (
     <div>
-      <div>{LogoView(dao)}</div>
+      <div>
+        <LogoView dao={dao} />
+      </div>
       <Social dao={dao} setShowModal={setShowShareModal} />
       {showShareModal && dao && (
         <ShareModal dao={dao} setShowModal={setShowShareModal} />
@@ -35,7 +37,13 @@ const ShareModal = ({
   )
 }
 
-const Social = ({ dao, setShowModal }) => {
+const Social = ({
+  dao,
+  setShowModal,
+}: {
+  dao: DaoJs
+  setShowModal: SetBool
+}) => {
   return (
     <div className="title-container">
       <div className="title">{dao.name}</div>
@@ -58,7 +66,7 @@ const Social = ({ dao, setShowModal }) => {
   )
 }
 
-const LogoView = (dao) => {
+const LogoView = ({ dao }: { dao: DaoJs }) => {
   const [imgLoaded, setImageLoaded] = useState(false)
   return (
     dao.image_url && (
@@ -75,6 +83,6 @@ const LogoView = (dao) => {
   )
 }
 
-const projectUrl = (daoId) => {
+const projectUrl = (daoId: string) => {
   return window.location.protocol + "//" + window.location.host + "/" + daoId
 }
