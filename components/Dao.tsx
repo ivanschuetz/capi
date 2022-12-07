@@ -43,7 +43,11 @@ const DaoView = ({
 }) => {
   return (
     <div>
-      {description && <div id="dao_description">{description}</div>}
+      {description && (
+        <div className="mb-10 w-full leading-8 text-te2 4xl:w-4/5">
+          {description}
+        </div>
+      )}
       <RaisedFunds deps={deps} dao={deps.dao} />
       {deps.size?.s4 && <FundsActivityEmbedded deps={deps} daoId={daoId} />}
       <MaybeInvestView deps={deps} />
