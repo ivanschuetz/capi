@@ -82,20 +82,34 @@ const SocialButton = ({
 }) => {
   return (
     <a href={url} target="_blank" rel="noreferrer" className={className}>
-      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-twitter">
-        {children}
-      </div>
+      <RoundButton bgColor="bg-twitter">{children}</RoundButton>
     </a>
   )
 }
 
 const ShareButton = ({ setShowModal }: { setShowModal: SetBool }) => {
   return (
-    <div
-      className="flex h-12 w-12 cursor-pointer items-center justify-center rounded-full bg-te"
-      onClick={() => setShowModal(true)}
-    >
+    <RoundButton bgColor="bg-te" onClick={() => setShowModal(true)}>
       <SvgShare className="fill-bg" />
+    </RoundButton>
+  )
+}
+
+const RoundButton = ({
+  bgColor,
+  onClick,
+  children,
+}: {
+  bgColor: string
+  onClick?: () => void
+  children: JSX.Element
+}) => {
+  return (
+    <div
+      className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-full ${bgColor}`}
+      onClick={onClick}
+    >
+      {children}
     </div>
   )
 }
