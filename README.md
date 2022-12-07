@@ -54,10 +54,22 @@ npx prettier --write .
 
 There should be no differences between CLI and VSCode formatting.
 
+Note that running Prettier is also neecessary to sort correctly Tailwind attributes (this happens via the installed [Tailwind Prettier plugin](https://github.com/tailwindlabs/prettier-plugin-tailwindcss)).
+
 #### sass
 
 For VSCode, Install the [Sass extension](https://marketplace.visualstudio.com/items?itemName=Syler.sass-indented).
+⚠️ Sass is deprecated. New styling will be developed with Tailwind.
 
 ### Make a pull request
 
 Create a branch, open a pull request and request a review. Use descriptive commit messages. Split work in commits that can be easily understood and reverted.
+
+## Recommended extensions (VS Code)
+
+- [Prettier](https://marketplace.visualstudio.com/items?itemName=esbenp.prettier-vscode)
+
+- [Tailwind IntelliSense](https://marketplace.visualstudio.com/items?itemName=bradlc.vscode-tailwindcss)
+
+  - It's recommended to add the following attributes to `tailwindCSS.classAttributes`, in order for autocomplete etc. to work in custom component properties:
+    - `bgColor`
