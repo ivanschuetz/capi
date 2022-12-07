@@ -47,7 +47,7 @@ const Button = ({
 }) => {
   return (
     <button
-      className={`relative h-16 w-60 ${bgColor} font-bold text-bg transition duration-300 hover:bg-te disabled:pointer-events-none disabled:bg-quat disabled:text-te2`}
+      className={`relative h-16 w-60 ${bgColor} text-45 font-bold text-bg transition duration-300 hover:bg-te disabled:pointer-events-none disabled:bg-quat disabled:text-te2`}
       disabled={disabled}
       onClick={async () => {
         onClick()
