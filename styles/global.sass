@@ -2,5 +2,10 @@
 @tailwind components
 @tailwind utilities
 
+@layer utilities
+  // center children vertically and horizontally (often used to center a single element)
+  .center-children
+    @apply flex items-center justify-center
+
 .btn_no_bg
   background-color: transparent

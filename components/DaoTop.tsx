@@ -106,7 +106,7 @@ const RoundButton = ({
 }) => {
   return (
     <div
-      className={`flex h-12 w-12 cursor-pointer items-center justify-center rounded-full ${bgColor}`}
+      className={`center-children h-12 w-12 cursor-pointer rounded-full ${bgColor}`}
       onClick={onClick}
     >
       {children}
