@@ -1,7 +1,5 @@
 import { useState } from "react"
 import { DaoJs } from "wasm/wasm"
-import share from "../images/svg/share.svg"
-import twitter from "../images/svg/twitter.svg"
 import Modal from "../modal/Modal"
 import { SetBool } from "../type_alias"
 import SvgShare from "./icons/SvgShare"
