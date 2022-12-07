@@ -43,7 +43,7 @@ const TopBar = ({
   setShowModal: SetBool
 }) => {
   return (
-    <div className="title-container">
+    <div className="mb-6 flex w-full flex-col justify-between gap-6 md:mb-10 md:items-start md:gap-10 xl:flex-row">
       <div className="text-80 font-bold text-te">{dao.name}</div>
       <SocialButtons dao={dao} setShowModal={setShowModal} />
     </div>
@@ -58,9 +58,9 @@ const SocialButtons = ({
   setShowModal: SetBool
 }) => {
   return (
-    <div className="social-media-buttons">
+    <div className="flex items-center gap-4">
       {dao.social_media_url && (
-        <SocialButton className="" url={dao.social_media_url}>
+        <SocialButton url={dao.social_media_url}>
           <SvgTwitter className="fill-bg" />
         </SocialButton>
       )}
@@ -72,14 +72,12 @@ const SocialButtons = ({
 const SocialButton = ({
   url,
   children,
-  className,
 }: {
   url: string
   children: JSX.Element
-  className: string
 }) => {
   return (
-    <a href={url} target="_blank" rel="noreferrer" className={className}>
+    <a href={url} target="_blank" rel="noreferrer">
       <RoundButton bgColor="bg-twitter">{children}</RoundButton>
     </a>
   )
@@ -115,12 +113,14 @@ const RoundButton = ({
 const CoverImg = ({ dao }: { dao: DaoJs }) => {
   const [imgLoaded, setImageLoaded] = useState(false)
 
+  const imgVisible = !imgLoaded ? "hidden" : ""
+
   return (
     dao.image_url && (
-      <div className="content-img-container">
+      <div className="relative mb-10 h-[360px] w-full overflow-hidden">
         {!imgLoaded && <Progress />}
         <img
-          className={`content-img ${!imgLoaded ? "d-none" : ""}`}
+          className={`mb-6 h-[266px] w-full object-cover md:h-[240px] ${imgVisible}`}
           src={dao.image_url}
           alt="Cover"
           onLoad={() => setImageLoaded(true)}
