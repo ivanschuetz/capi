@@ -12,10 +12,8 @@ export const DaoTop = ({ dao }: { dao: DaoJs; setShowShareModal: SetBool }) => {
 
   return (
     <div>
-      <div>
-        <LogoView dao={dao} />
-      </div>
-      <Social dao={dao} setShowModal={setShowShareModal} />
+      <CoverImg dao={dao} />
+      <TopBar dao={dao} setShowModal={setShowShareModal} />
       {showShareModal && dao && (
         <ShareModal dao={dao} setShowModal={setShowShareModal} />
       )}
@@ -37,7 +35,7 @@ const ShareModal = ({
   )
 }
 
-const Social = ({
+const TopBar = ({
   dao,
   setShowModal,
 }: {
@@ -47,27 +45,49 @@ const Social = ({
   return (
     <div className="title-container">
       <div className="title">{dao.name}</div>
-      <div className="social-media-buttons">
-        {dao.social_media_url && (
-          <a href={dao.social_media_url} target="_blank" rel="noreferrer">
-            <div className="button__follow share-icon">
-              <img src={twitter.src} alt="logo-twitter" />
-            </div>
-          </a>
-        )}
-        <div
-          className="button-share share-icon"
-          onClick={() => setShowModal((visible) => !visible)}
-        >
-          <img src={share.src} alt="share-icon" />
-        </div>
-      </div>
+      <SocialButtons dao={dao} setShowModal={setShowModal} />
     </div>
   )
 }
 
-const LogoView = ({ dao }: { dao: DaoJs }) => {
+const SocialButtons = ({
+  dao,
+  setShowModal,
+}: {
+  dao: DaoJs
+  setShowModal: SetBool
+}) => {
+  return (
+    <div className="social-media-buttons">
+      {dao.social_media_url && (
+        <SocialButton url={dao.social_media_url} icon={twitter.src} />
+      )}
+      <ShareButton setShowModal={setShowModal} />
+    </div>
+  )
+}
+
+const SocialButton = ({ url, icon }: { url: string; icon: any }) => {
+  return (
+    <a href={url} target="_blank" rel="noreferrer">
+      <div className="button__follow share-icon">
+        <img src={icon} alt="logo-twitter" />
+      </div>
+    </a>
+  )
+}
+
+const ShareButton = ({ setShowModal }: { setShowModal: SetBool }) => {
+  return (
+    <div className="button-share share-icon" onClick={() => setShowModal(true)}>
+      <img src={share.src} alt="share-icon" />
+    </div>
+  )
+}
+
+const CoverImg = ({ dao }: { dao: DaoJs }) => {
   const [imgLoaded, setImageLoaded] = useState(false)
+
   return (
     dao.image_url && (
       <div className="content-img-container">
