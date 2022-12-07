@@ -5,6 +5,7 @@ import { Deps } from "../context/AppContext"
 import { changeArrow, safe, shortedAddress } from "../functions/utils"
 import funds from "../images/funds.svg"
 import { CompactFundsActivityEntry } from "./CompactFundsActivityEntry"
+import { Subtitle } from "./ContentTitle"
 import CopyPasteText from "./CopyPastText"
 import Progress from "./Progress"
 
@@ -59,7 +60,7 @@ const Funds = ({ deps }: { deps: Deps }) => {
       <div className="desc">{"Project funds"}</div>
       <div className="d-flex align-center gap-10">
         <img src={funds.src} alt="funds" />
-        <div className="subtitle">{deps.funds}</div>
+        <Subtitle text={deps.funds} />
         <div>{changeArrow(deps.fundsChange)}</div>
       </div>
     </div>
@@ -83,11 +84,11 @@ const Wallet = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
 const ActivityContainer = ({ deps }: { deps: Deps }) => {
   return (
     <div>
-      <div className="mt-32 ft-weight-600 mb-32 ft-size-18">
+      <div className="ft-weight-600 ft-size-18 mt-32 mb-32">
         {"Recent funds activity"}
       </div>
       <Activity deps={deps} />
-      <Link className="text-center d-flex justify-center" href="funds_activity">
+      <Link className="d-flex justify-center text-center" href="funds_activity">
         <button className="link_button">{"See all"}</button>
       </Link>
     </div>

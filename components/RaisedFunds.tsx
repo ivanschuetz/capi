@@ -3,6 +3,7 @@ import { DaoJs } from "wasm/wasm"
 import renderFundsProgressChart from "../charts/renderFundsProgressChart"
 import { Deps } from "../context/AppContext"
 import { useDaoId } from "../hooks/useDaoId"
+import { Subtitle } from "./ContentTitle"
 import Progress from "./Progress"
 
 export const RaisedFunds = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
@@ -44,12 +45,11 @@ const RaisedFundsView = ({
           <div>{"Min target number: " + dao.raise_min_target_number}</div>
           <div>{"Total raisable: " + dao.total_raisable}</div>
           <div>{"Total raisable number: " + dao.total_raisable_number}</div> */}
-      <div className="subtitle mb-32">{"Investing progress"}</div>
-
+      <Subtitle text={"Investing progress"} />
       <div>
         {deps.raiseState && (
           <div
-            className={`text-center subtitle mb-12 ${
+            className={`mb-12 text-center text-50 font-bold text-te sm:text-60 ${
               deps.raiseState.success ? "cyan-20" : "red-10"
             }`}
           >

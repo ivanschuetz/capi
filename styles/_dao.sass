@@ -57,24 +57,12 @@
     flex-wrap: wrap
 
     .top-block
-      margin-bottom: 48px
 
       .blue-circle
         width: 8px
         height: 8px
         background-color: $cyan-20
         border-radius: 50%
-
-      .available-shares
-        display: flex
-        flex-direction: column
-
-        .shares-block
-          white-space: nowrap
-          display: flex
-          gap: 12px
-          align-items: center
-          line-height: 25.6px
 
 #withdraw_icon
   display: block
@@ -134,11 +122,6 @@
   display: flex
   justify-content: space-between
 
-  .buy-shares-right-col
-    display: flex
-    flex-direction: column
-    gap: 40px
-
 .arrow-container
   display: flex
   align-items: flex-start
@@ -154,36 +137,13 @@
     flex-direction: column
     gap: 40px
 
-    .buy-shares-right-col
-      flex-direction: row
-      gap: 130px
-
-@media only screen and (max-width: 1430px)
-  .shares-block
-    flex-wrap: wrap
-
 @media only screen and (max-width: $mobile-max-width)
-  .dao_action_active_tab
-    .dao-shares
-      .top-block
-        .blue-circle
-          display: none
-
-        .available-shares
-          .shares-block
-            flex-direction: column
-            align-items: flex-start
-            margin-top: 8px
-
   .available-shares
     .arrow-container
       display: none
 
   .buy-shares-content
     .buy-shares-right-col
-      flex-direction: column
-      align-items: center
-      gap: 24px
 
       #shares_const_container,
       #retrieved-profits

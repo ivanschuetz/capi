@@ -15,7 +15,6 @@ import { SetBool, SetString } from "../type_alias"
 import { SelectWalletModal } from "../wallet/SelectWalletModal"
 import { InfoView } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
-import styles from "./invest_embedded.module.sass"
 import { InteractiveBox } from "./InteractiveBox"
 
 export const InvestEmbedded = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
@@ -71,23 +70,14 @@ export const InvestEmbedded = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
   const box = () => {
     return (
       <InteractiveBox title={"Buy shares"}>
-        <div className="buy-shares-content">
-          <div className="dao-shares buy-shares-left-col">
+        <div className="flex flex-col justify-between gap-10 4xl:flex-row 4xl:justify-start 4xl:gap-36">
+          <div className="flex max-w-[535px] flex-col flex-wrap 4xl:w-full">
             <TopBlock deps={deps} />
-            <div>
-              <input
-                placeholder={"Enter amount"}
-                size={30}
-                type="number"
-                min="0"
-                value={buySharesCount}
-                onChange={(event) => setBuySharesCount(event.target.value)}
-              />
-              <div className="labeled_input__error w-100 mb-32">
-                {shareAmountError ? <img src={error} alt="error" /> : ""}
-                {shareAmountError}
-              </div>
-            </div>
+            <Input
+              input={buySharesCount}
+              setInput={setBuySharesCount}
+              errorMsg={shareAmountError}
+            />
             <SubmitButton
               label={"Buy"}
               className={"button-primary"}
@@ -144,27 +134,57 @@ export const InvestEmbedded = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
   )
 }
 
+const Input = ({
+  input,
+  setInput,
+  errorMsg,
+}: {
+  input: string
+  setInput: SetString
+  errorMsg?: string
+}) => {
+  return (
+    <div>
+      <input
+        className="bg-inp px-6 py-5"
+        placeholder={"Enter amount"}
+        size={30}
+        type="number"
+        min="0"
+        value={input}
+        onChange={(event) => setInput(event.target.value)}
+      />
+      <div className="mx-5 mt-2 mb-8 flex w-full items-center gap-2 text-pr">
+        {errorMsg ? <img src={error.src} alt="error" /> : ""}
+        {errorMsg}
+      </div>{" "}
+    </div>
+  )
+}
+
 const TopBlock = ({ deps }: { deps: Deps }) => {
   return (
-    <div className="top-block">
-      <div className="available-shares">
-        <div className="d-flex mb-16 gap-12">
-          <div className="label_50_on_acc">{"Available: "}</div>
-          <div className="label_40_on_acc">{deps.availableShares}</div>
+    <div className="mb-3">
+      <div className="flex flex-col">
+        <div className="mb-4 flex gap-3">
+          <div className="text-50 font-bold text-te2">{"Available: "}</div>
+          <div className="text-50 font-bold text-bg">
+            {deps.availableShares}
+          </div>
         </div>
         {deps.investmentData && (
-          <div className="shares-block">
-            <div className="label_50_on_acc">You have:</div>
+          <div className="lead mt-2 flex flex-col flex-wrap items-start gap-3 whitespace-nowrap sm:flex-row sm:items-center 2xl:flex-nowrap">
+            <div className="text-50 font-bold text-te2">You have:</div>
             <TopBlockItem
               label={"Locked shares:"}
               value={deps.investmentData.investor_locked_shares}
             />
-            <div className="blue-circle"></div>
+            <BlueCircle />
             <TopBlockItem
               label={"Unlocked shares:"}
               value={deps.investmentData.investor_unlocked_shares}
             />
-            <div className="blue-circle"></div>
+            <BlueCircle />
             <TopBlockItem
               label={"Share:"}
               value={deps.investmentData.investor_share}
@@ -176,11 +196,14 @@ const TopBlock = ({ deps }: { deps: Deps }) => {
   )
 }
 
+const BlueCircle = () => {
+  return <div className="hidden h-2 w-2 rounded-full bg-ter sm:block" />
+}
 const TopBlockItem = ({ label, value }: { label: string; value: string }) => {
   return (
-    <div className="d-flex align-center">
-      <div className={styles.topblock_item_label}>{label}</div>
-      <div className="label_60_on_acc">{value}</div>
+    <div className="flex items-center">
+      <div className="mr-2 text-45 text-te2">{label}</div>
+      <div className="text-45 font-bold text-bg3">{value}</div>
     </div>
   )
 }
@@ -195,17 +218,18 @@ const RightView = ({
   totalPercentage: string
 }) => {
   return (
-    <div className="buy-shares-right-col">
-      <div id="shares_const_container">
-        <div className="desc">{"Total price"}</div>
-        <div className="d-flex gap-10">
+    <div className="flex flex-col items-center gap-10 sm:items-stretch sm:gap-32 md:flex-row xl:flex-col xl:gap-10">
+      <div className="align-center">
+        {/* <div className="desc">{"Total price"}</div> */}
+        <div className="text-50 font-semibold">{"Total price"}</div>
+        <div className="flex gap-2">
           <img src={funds.src} alt="funds" />
-          <div className="label_30_on_acc">{totalCost}</div>
+          <div className="text-60 font-bold text-bg">{totalCost}</div>
         </div>
       </div>
-      <div className="d-flex mobile-input-block">
-        <div id="retrieved-profits">
-          <div className="ft-weight-600 d-flex align-center gap-10 ft-size-18 nowrap">
+      <div className="flex">
+        <div className="items-center">
+          <div className="flex flex-nowrap items-center gap-2 text-50 font-semibold">
             {"Expected dividend"}
             {
               <InfoView
@@ -215,8 +239,10 @@ const RightView = ({
               />
             }
           </div>
-          <div className="d-flex gap-10">
-            <div className="label_30_on_acc">{totalPercentage}</div>
+          <div className="flex gap-2 ">
+            <div className="text-center text-60 font-bold text-bg">
+              {totalPercentage}
+            </div>
           </div>
         </div>
       </div>
