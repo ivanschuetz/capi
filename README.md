@@ -73,3 +73,15 @@ Create a branch, open a pull request and request a review. Use descriptive commi
 
   - It's recommended to add the following attributes to `tailwindCSS.classAttributes`, in order for autocomplete etc. to work in custom component properties:
     - `bgColor`
+
+## Misc
+
+### Exporting SVGs
+
+SVGs that use theme colors should be exported as components:
+
+```
+npx @svgr/cli -- <svg path>hello.svg > <project path>components/icons/SvgHello.tsx
+```
+
+Then remove colors from exported svg and pass as tailwind classes. Addjust size properties if needed. Orient with existing ones.
