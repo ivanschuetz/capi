@@ -32,15 +32,23 @@ export const CopyPasteHtml = ({ notification, element, copyText, copyMsg }) => {
 
   return (
     <CopyToClipboard text={copyText} onCopy={onCopy}>
-      <div className="clickable ft-size-18 d-flex gap-18">
+      <div className="flex cursor-pointer items-center gap-5 text-50 text-ne4">
         {element}
         {/* <span className="ft-weight-600">{isCopied ? "Copied!" : null}</span> */}
-        <span className={`copy ${isCopied ? "active" : ""}`}>
+        <span className={isCopied ? "active" : ""}>
           {isCopied ? (
-            // <img className="clickable" src={checkmark.src} alt="checkmark" />
-            <img className="clickable" src={myalgo.src} alt="myalgo" />
+            // <img className="cursor-pointer" src={checkmark.src} alt="checkmark" />
+            <img
+              className="h-3 w-3 cursor-pointer"
+              src={myalgo.src}
+              alt="myalgo"
+            />
           ) : (
-            <img className="clickable" src={myalgo.src} alt="myalgo" />
+            <img
+              className="h-3 w-3 max-w-none cursor-pointer"
+              src={myalgo.src}
+              alt="myalgo"
+            />
           )}
         </span>
       </div>

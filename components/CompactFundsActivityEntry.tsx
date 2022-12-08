@@ -1,57 +1,104 @@
+import { FundsActivityViewData } from "wasm"
 import funds from "../images/funds.svg"
-import arrowDown from "../images/svg/arrow-down.svg"
-import arrowUp from "../images/svg/arrow-up.svg"
-import { fundsActivityEntryLabel, nestedAmountView } from "./FundsActivityEntry"
+import { fundsActivityEntryLabel, amountTextView } from "./FundsActivityEntry"
+import SvgArrowDown from "./icons/SvgArrowDown"
+import SvgArrowUp from "./icons/SvgArrowUp"
 
-export const CompactFundsActivityEntry = ({ entry }) => {
+export const CompactFundsActivityEntry = ({
+  entry,
+}: {
+  entry: FundsActivityViewData
+}) => {
   return (
-    <div className="funds_act_entry">
-      <AmountView entry={entry} />
-      <div className="funds_act_entry__body">
-        <div className="funds_act_entry__date">{entry.date}</div>
-        <a
-          className="details"
-          href={entry.tx_link}
-          target="_blank"
-          rel="noreferrer"
-        >
-          {"Details"}
-        </a>
+    <div className="relative mb-8 flex items-center justify-start gap-4">
+      <MaybeBigScreensArrow entry={entry} />
+      <AddressAndAmount entry={entry} />
+      <DateAndLink entry={entry} />
+    </div>
+  )
+}
+
+const AmountViewNumberRow = ({ entry }: { entry: FundsActivityViewData }) => {
+  return (
+    <div className="flex items-center">
+      <MaybeSmallScreensArrow entry={entry} />
+      <img
+        className="opacity-50"
+        width="16px"
+        height="16px"
+        src={funds.src}
+        alt="funds"
+      />
+
+      <div className="ml-1 text-45 font-bold text-te">
+        {amountTextView(entry)}
+      </div>
+      <div className="ml-4 text-40 text-te2">
+        {fundsActivityEntryLabel(entry)}
       </div>
     </div>
   )
 }
 
-const AmountView = ({ entry }) => {
+const AddressAndAmount = ({ entry }: { entry: FundsActivityViewData }) => {
   return (
-    <div className="funds_act_entry__amount__container">
-      <img
-        className="arrow-icon d-mobile-none"
-        src={entry.is_income === "true" ? arrowUp.src : arrowDown.src}
-        alt="arrow"
-      />
-      <div className="d-flex flex-column justify-between">
-        <div className="grey-160 ft-size-18 line-height-1">{entry.address}</div>
-        <div className="d-flex align-center">
-          <img
-            className="arrow funds-arrow-icon tablet-desktop-none"
-            src={entry.is_income === "true" ? arrowUp.src : arrowDown.src}
-            alt="arrow"
-          />
-          <img
-            className="opacity-50 mr-5"
-            width="16px"
-            height="16px"
-            src={funds.src}
-            alt="funds"
-          />
-
-          <div className="ft-weight-600">{nestedAmountView(entry)}</div>
-          <div className="ft-size-14 ml-16 grey-150">
-            {fundsActivityEntryLabel(entry)}
-          </div>
-        </div>
-      </div>
+    <div className="flex flex-col justify-between md:gap-1">
+      <div className="text-50 font-medium text-ne4">{entry.address}</div>
+      <AmountViewNumberRow entry={entry} />
     </div>
   )
+}
+
+const DateAndLink = ({ entry }: { entry: FundsActivityViewData }) => {
+  return (
+    <div className="ml-0 flex flex-grow flex-col md:ml-4 md:gap-1">
+      <div className="whitespace-nowrap text-right text-35 text-te2 xl:text-36">
+        {entry.date}
+      </div>
+      <a
+        className="text-right font-semibold text-pr underline underline-offset-4"
+        href={entry.tx_link}
+        target="_blank"
+        rel="noreferrer"
+      >
+        {"Details"}
+      </a>
+    </div>
+  )
+}
+
+// shows on big screen
+const MaybeBigScreensArrow = ({ entry }: { entry: FundsActivityViewData }) => {
+  return (
+    <div className="hidden h-8 w-8 md:block">
+      <ArrowUpOrDown entry={entry} sizeClasses="w-8 h-8" />
+    </div>
+  )
+}
+
+// shows on small screen
+const MaybeSmallScreensArrow = ({
+  entry,
+}: {
+  entry: FundsActivityViewData
+}) => {
+  return (
+    <div className="md:hidden">
+      <ArrowUpOrDown entry={entry} sizeClasses="w-4 h-4 mr-1" />
+    </div>
+  )
+}
+
+const ArrowUpOrDown = ({
+  entry,
+  sizeClasses,
+}: {
+  entry: FundsActivityViewData
+  sizeClasses: string
+}) => {
+  if (entry.is_income === "true") {
+    return <SvgArrowUp className={`fill-sec ${sizeClasses}`} />
+  } else {
+    return <SvgArrowDown className={`fill-pr ${sizeClasses}`} />
+  }
 }

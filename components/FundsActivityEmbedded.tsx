@@ -46,7 +46,7 @@ const Box = ({
   hasEntries: () => boolean
 }) => {
   return (
-    <div className="first_dao_widget">
+    <div className="mb-20 flex w-full flex-col justify-center p-0 sm:mt-6 sm:p-6 lg:bg-bg2 xl:mt-10 xl:p-10">
       {deps.funds && <Funds deps={deps} />}
       {dao && <Wallet deps={deps} dao={dao} />}
       {hasEntries() && <ActivityContainer deps={deps} />}
@@ -56,11 +56,11 @@ const Box = ({
 
 const Funds = ({ deps }: { deps: Deps }) => {
   return (
-    <div className="d-flex flex-column gap-12">
-      <div className="desc">{"Project funds"}</div>
-      <div className="d-flex align-center gap-10">
+    <div className="flex flex-col gap-3">
+      <div className="text-50 font-bold text-te">{"Project funds"}</div>
+      <div className="mb-1 flex items-center gap-2">
         <img src={funds.src} alt="funds" />
-        <Subtitle text={deps.funds} />
+        <div className="text-50 font-bold text-te sm:text-60">{deps.funds}</div>
         <div>{changeArrow(deps.fundsChange)}</div>
       </div>
     </div>
@@ -69,8 +69,8 @@ const Funds = ({ deps }: { deps: Deps }) => {
 
 const Wallet = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
   return (
-    <div className="project-wallet">
-      <div className="grey-190">{"Project wallet address:"}</div>
+    <div className="hidden w-full items-center gap-6 sm:flex">
+      <div className="text-te">{"Project wallet address:"}</div>
       <CopyPasteText
         text={shortedAddress(dao.app_address)}
         copyText={dao.app_address}
@@ -84,12 +84,12 @@ const Wallet = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
 const ActivityContainer = ({ deps }: { deps: Deps }) => {
   return (
     <div>
-      <div className="ft-weight-600 ft-size-18 mt-32 mb-32">
+      <div className="mt-11 mb-14 text-50 font-bold text-ne4">
         {"Recent funds activity"}
       </div>
       <Activity deps={deps} />
-      <Link className="d-flex justify-center text-center" href="funds_activity">
-        <button className="link_button">{"See all"}</button>
+      <Link className="flex justify-center text-center" href="funds_activity">
+        <button className="font-bold text-pr">{"See all"}</button>
       </Link>
     </div>
   )

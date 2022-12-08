@@ -27,7 +27,7 @@ const DesktopEntryView = ({ entry }: { entry: FundsActivityViewData }) => {
         <div className="d-flex align-center">
           <div className="desc black">{entry.address}</div>
           <div className="ellipse"></div>
-          <div className="grey-190 ft-size-14">
+          <div className="ml-4 grey-190 ft-size-14">
             {fundsActivityEntryLabel(entry)}
           </div>
         </div>
@@ -82,14 +82,6 @@ export const fundsActivityEntryLabel = (entry: FundsActivityViewData) => {
 }
 
 const AmountView = ({ entry }: { entry: FundsActivityViewData }) => {
-  var className
-  if (entry.is_income === "true") {
-    className = "funds_act_entry__amount__number"
-  } else if (entry.is_income === "false") {
-    className = "funds_act_entry__amount__number"
-  } else {
-    throw Error("Invalid entry: " + JSON.stringify(entry))
-  }
   return (
     <div className="funds_act_entry__amount__container">
       <img
@@ -98,13 +90,15 @@ const AmountView = ({ entry }: { entry: FundsActivityViewData }) => {
         alt="arrow"
       />
       <img className="funds-dollar-icon" src={funds.src} alt="funds" />
-
-      <div className={className}>{nestedAmountView(entry)}</div>
+      <div className={"funds_act_entry__amount__number"}>
+        {amountTextView(entry)}
+      </div>
     </div>
   )
 }
 
-export const nestedAmountView = (entry: FundsActivityViewData) => {
+export const amountTextView = (entry: FundsActivityViewData) => {
+  // show tooltip if the displayed amount was shortened
   if (entry.amount_without_fee !== entry.short_amount_without_fee) {
     return (
       <>
