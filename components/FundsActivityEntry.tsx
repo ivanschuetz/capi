@@ -15,7 +15,7 @@ export const FundsActivityEntry = ({
   entry: FundsActivityViewData
 }) => {
   if (deps.size?.s4) {
-    return <MobileEntryView entry={entry} />
+    return <TabletEntryView entry={entry} />
   } else {
     return <DesktopEntryView entry={entry} />
   }
@@ -49,7 +49,7 @@ const AddressRow = ({ entry }: { entry: FundsActivityViewData }) => {
     </div>
   )
 }
-const MobileEntryView = ({ entry }) => {
+const TabletEntryView = ({ entry }) => {
   return (
     <div className="funds_act_entry-tab">
       <img
