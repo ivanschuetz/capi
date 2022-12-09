@@ -144,7 +144,8 @@ const SubmitClaimButton = ({ deps, daoId }: { deps: Deps; daoId: string }) => {
     <SubmitButton
       label={"Claim"}
       isLoading={submitting}
-      disabled={deps.investmentData?.investor_claimable_dividend === "0"}
+      // TODO return has dividend or unformatted 0 from wasm and check against that
+      disabled={deps.myDividend === "0.00"}
       fullWidth={true}
       onClick={async () => {
         if (!deps.wasm) {
