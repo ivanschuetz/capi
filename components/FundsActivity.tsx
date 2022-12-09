@@ -19,9 +19,9 @@ export const FundsActivity = ({ deps }: { deps: Deps }) => {
   return (
     <div>
       {" "}
-      <div className="mt-80 mb-80">
+      <div className="mt-20 mb-20">
         <ContentTitle title={"Funds activity"} />
-        <div className="mt-40">
+        <div>
           <Activity
             deps={deps}
             daoId={daoId}
