@@ -11,6 +11,7 @@ const renderFundsProgressChart = (
   dao: DaoJs,
   formattedRaisedFunds: string,
   raisedFundsNumber: string,
+  // true if still raising or successfully raised, false if couldn't meet target
   useSuccessColors: boolean
 ) => {
   let textTopLeft = moment.unix(parseInt(dao.setup_date)).format("D MMM YYYY")
@@ -53,13 +54,15 @@ const renderFundsProgressChart = (
     // .attr("class", "bg-rect")
     .attr("rx", radius)
     .attr("ry", radius)
-    .attr("fill", "#EAECF1")
+    // theme color: `bg2`
+    .attr("fill", "#F6F6F8")
     .attr("height", barHeight)
     .attr("width", totalWidth)
     .attr("x", 0)
     .attr("y", margin.top)
 
-  const barColor = useSuccessColors ? "#6BB9BD" : "#DE5C62"
+  // theme colors: #6672D7 -> `ter`, de5c62 -> `pr`
+  const barColor = useSuccessColors ? "#6672d7" : "#de5c62"
 
   // the progress bar looks weird when it's too small (issue with rounded corners), so hidden
   if (x(raisedFundsNumber) > 14) {
@@ -117,7 +120,8 @@ const renderFundsProgressChart = (
   // min funds line
   selected
     .append("line")
-    .attr("stroke", "black")
+    // theme color: #6672D7 -> `ter`
+    .attr("stroke", "#6672D7")
     .style("stroke-width", 0.5)
     .style("stroke-dasharray", "1.5, 1.5")
     .attr("x1", function (d) {
