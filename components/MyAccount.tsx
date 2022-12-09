@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react"
 import { Deps } from "../context/AppContext"
 import { retrieveProfits } from "../functions/shared"
-import { safe, showError } from "../functions/utils"
+import { safe } from "../functions/utils"
 import funds from "../images/funds.svg"
 import arrow from "../images/svg/arrow-right.svg"
 import { DisclaimerModal } from "../modal/DisclaimerModal"
@@ -13,7 +13,6 @@ import {
 import { SetBool } from "../type_alias"
 import { SelectWallet } from "../wallet/SelectWallet"
 import { CopyPasteHtml } from "./CopyPastText"
-import Progress from "./Progress"
 import { SubmitButton } from "./SubmitButton"
 
 export const MyAccount = ({ deps, daoId }: { deps: Deps; daoId?: string }) => {
@@ -24,10 +23,10 @@ export const MyAccount = ({ deps, daoId }: { deps: Deps; daoId?: string }) => {
   return (
     <div className="my-account-container">
       <div className="d-flex justify-between">
-        <div className="text">Wallet</div>
+        <div className="text-60 font-semibold text-te">{"Wallet"}</div>
       </div>
-      <div className="my-address">
-        <MyAddressSection deps={deps} daoId={daoId} />
+      <div className="w-full sm:w-1/2 md:w-auto">
+        <MyData deps={deps} daoId={daoId} />
         {maybeConnectButton(
           deps,
           setShowSelectWalletModal,
@@ -60,17 +59,21 @@ export const MyAccount = ({ deps, daoId }: { deps: Deps; daoId?: string }) => {
   )
 }
 
-const MyAddressSection = ({ deps, daoId }: { deps: Deps; daoId?: string }) => {
+const MyData = ({ deps, daoId }: { deps: Deps; daoId?: string }) => {
   if (deps.myAddress !== "") {
     return (
-      <div id="user_data">
-        <div className="my_address">
-          <div>
+      <div>
+        <div className="mb-8 flex flex-row justify-between">
+          <MyDataColumn>
             <MyAddress deps={deps} />
-          </div>
-          {deps.myBalance && <MyBalanceAndDisconnect deps={deps} />}
+            <DividendLabel />
+          </MyDataColumn>
+          <MyDataColumn>
+            {deps.myBalance && <MyBalanceAndDisconnect deps={deps} />}
+            <DividendAmount dividend={deps.myDividend} />
+          </MyDataColumn>
         </div>
-        {daoId && <DividendSection deps={deps} daoId={daoId} />}
+        <SubmitClaimButton deps={deps} daoId={daoId} />
       </div>
     )
   } else {
@@ -78,11 +81,17 @@ const MyAddressSection = ({ deps, daoId }: { deps: Deps; daoId?: string }) => {
   }
 }
 
+const MyDataColumn = ({ children }: { children: React.ReactNode }) => {
+  return <div className="flex flex-col justify-between gap-6">{children}</div>
+}
+
 const MyBalanceAndDisconnect = ({ deps }: { deps: Deps }) => {
   return (
     <div id="my_account_my_balance__balance">
-      <img className="s-16 mr-10" src={funds.src} alt="funds" />
-      <div>{deps.myBalance.balance_funds_asset}</div>
+      <img className="s-16 mr-3" src={funds.src} alt="funds" />
+      <div className="mr-4 text-45 font-semibold text-te">
+        {deps.myBalance.balance_funds_asset}
+      </div>
       <img
         className="arrow"
         src={arrow.src}
@@ -101,7 +110,7 @@ const MyAddress = ({ deps }: { deps: Deps }) => {
           href={"https://testnet.algoexplorer.io/address/" + deps.myAddress}
           target="_blank"
           rel="noreferrer"
-          className="grey-190"
+          className="text-50 font-medium text-ne4"
         >
           {deps.myAddressDisplay}
         </a>
@@ -113,34 +122,17 @@ const MyAddress = ({ deps }: { deps: Deps }) => {
   )
 }
 
-const DividendSection = ({ deps, daoId }: { deps: Deps; daoId?: string }) => {
-  updateInvestmentData(deps, daoId)
-
-  if (deps.myDividend) {
-    return (
-      <div className="d-flex flex-column">
-        <ClaimableDividend dividend={deps.myDividend} />
-        <div className="d-flex w-100 justify-center">
-          <SubmitClaimButton deps={deps} daoId={daoId} />
-        </div>
-      </div>
-    )
-  } else if (daoId) {
-    // we're on a dao page: waiting for dividend to be fetched
-    return <Progress />
-  } else {
-    return null
-  }
+const DividendLabel = () => {
+  return (
+    <div className="text-50 font-bold text-te">{"Claimable dividend: "}</div>
+  )
 }
 
-const ClaimableDividend = ({ dividend }: { dividend: string }) => {
+const DividendAmount = ({ dividend }: { dividend: string }) => {
   return (
-    <div className="desc d-flex align-center mb-32 justify-between">
-      {"Claimable dividend: "}
-      <div className="d-flex align-center mr-26 gap-10">
-        <img className="s-16" src={funds.src} alt="funds" />
-        {dividend}
-      </div>
+    <div className="mr-6 flex items-center gap-3 text-50 font-bold text-te">
+      <img className="h-4 w-4" src={funds.src} alt="funds" />
+      {dividend}
     </div>
   )
 }
@@ -153,6 +145,7 @@ const SubmitClaimButton = ({ deps, daoId }: { deps: Deps; daoId: string }) => {
       label={"Claim"}
       isLoading={submitting}
       disabled={deps.investmentData?.investor_claimable_dividend === "0"}
+      fullWidth={true}
       onClick={async () => {
         if (!deps.wasm) {
           // ignoring this seems reasonable, wasm file should be normally loaded before user can interact

@@ -3,6 +3,7 @@ export const SubmitButton = ({
   disabled,
   isLoading,
   onClick,
+  fullWidth,
 }: SubmitButtonPars) => {
   return (
     <Button
@@ -11,6 +12,7 @@ export const SubmitButton = ({
       isLoading={isLoading}
       bgColor="bg-pr"
       onClick={onClick}
+      fullWidth={fullWidth}
     />
   )
 }
@@ -20,6 +22,7 @@ export const CancelButton = ({
   disabled,
   isLoading,
   onClick,
+  fullWidth,
 }: SubmitButtonPars) => {
   return (
     <Button
@@ -28,6 +31,7 @@ export const CancelButton = ({
       isLoading={isLoading}
       bgColor="bg-te"
       onClick={onClick}
+      fullWidth={fullWidth}
     />
   )
 }
@@ -38,16 +42,20 @@ const Button = ({
   isLoading,
   bgColor,
   onClick,
+  fullWidth,
 }: {
   label: string
   disabled?: boolean
   isLoading?: boolean
   bgColor: string
+  fullWidth?: boolean
   onClick: () => void
 }) => {
+  const width = fullWidth ? "w-full" : "w-60"
+
   return (
     <button
-      className={`relative h-16 w-60 ${bgColor} text-45 font-bold text-bg transition duration-300 hover:bg-te disabled:pointer-events-none disabled:bg-bg2 disabled:text-te2`}
+      className={`relative h-16 ${width} ${bgColor} text-45 font-bold text-bg transition duration-300 hover:bg-te disabled:pointer-events-none disabled:bg-bg2 disabled:text-te2`}
       disabled={disabled}
       onClick={async () => {
         onClick()
@@ -76,5 +84,6 @@ type SubmitButtonPars = {
   label: string
   disabled?: boolean
   isLoading?: boolean
+  fullWidth?: boolean
   onClick: () => Promise<void>
 }

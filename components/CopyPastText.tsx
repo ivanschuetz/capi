@@ -32,7 +32,7 @@ export const CopyPasteHtml = ({ notification, element, copyText, copyMsg }) => {
 
   return (
     <CopyToClipboard text={copyText} onCopy={onCopy}>
-      <div className="flex cursor-pointer items-center gap-5 text-50 text-ne4">
+      <div className="flex cursor-pointer items-center gap-3 text-50 text-ne4">
         {element}
         {/* <span className="ft-weight-600">{isCopied ? "Copied!" : null}</span> */}
         <span className={isCopied ? "active" : ""}>
