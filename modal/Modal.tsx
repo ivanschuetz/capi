@@ -25,7 +25,7 @@ export const Modal = ({ title, children, onClose }) => {
           <img src={close.src} alt="close" />
         </div>
         <div className="modal-topbar">
-          <p className="modal-topbar-title">{title}</p>
+          <p className="text-70 font-bold text-te">{title}</p>
         </div>
         <div className="modal-body">{children}</div>
       </div>

@@ -12,7 +12,7 @@ export const SelectWallet = ({
   closeModal: () => void
 }) => {
   return (
-    <div className="d-flex flex-column align-center">
+    <div className="align-center mt-8 mb-5 flex flex-col">
       <SubmitButton
         label={"Wallet Connect"}
         onClick={async () =>
@@ -27,6 +27,7 @@ export const SelectWallet = ({
           )
         }
       />
+      <div className="mb-10" />
       <SubmitButton
         label={"My Algo"}
         onClick={async () =>
