@@ -1,6 +1,6 @@
 export const ContentTitle = ({ title, children }: ContentTitlePars) => {
   return (
-    <div id="content__title">
+    <div className="mb-10 text-80 font-bold text-te">
       {title} {children}
     </div>
   )
