@@ -11,13 +11,14 @@ module.exports = {
       ter: "#6672d7", // tertiary (repeated "secondary" in figma)
       bg: "#ffffff", // background
       bg2: "#f6f6f8", // background secondary
-      bg3: "#eeeef1", // background tertiary ("neural" in figma, not in the palette but in-place) TODO rename in ne* (see e.g. ne3)
+      bg3: "#eeeef1", // background tertiary ("neural" in figma, not in the palette but in-place) TODO remove and use ne2
       te: "#271952", // text primary ("title" in figma)
       te2: "#847c9c", // text secondary
       te3: "#aea8bf", // text tertiary ("title secondary" in figma)
       twitter: "#55acee", // use this only for twitter assets
       inp: "#554a78", // input bg, assumed on bgs with "text primary" color (note: on figma fields, not in palette)
       // ne: "#f6f6f8",
+      ne2: "#eeeef1", // neural 2
       ne3: "#e7e7f1", // neural 3
       ne4: "#524b67", // neural 4
     },

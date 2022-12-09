@@ -4,6 +4,8 @@ import { Deps } from "../context/AppContext"
 import funds from "../images/funds.svg"
 import arrowDown from "../images/svg/arrow-down.svg"
 import arrowUp from "../images/svg/arrow-up.svg"
+import SvgArrowDown from "./icons/SvgArrowDown"
+import SvgArrowUp from "./icons/SvgArrowUp"
 
 export const FundsActivityEntry = ({
   deps,
@@ -21,23 +23,32 @@ export const FundsActivityEntry = ({
 
 const DesktopEntryView = ({ entry }: { entry: FundsActivityViewData }) => {
   return (
-    <div className="funds_act_entry">
+    <div className="mb-8 flex justify-between border border-solid border-ne3 p-6">
+      {/* center arrow internally so justify-between works in right column (date at top edge and link at bottom edge) */}
+      <div className="center-children mr-4">
+        <ArrowUpOrDown entry={entry} sizeClasses="w-14 h-14" />
+      </div>
       <AmountView entry={entry} />
-      <div className="funds_act_entry__body">
-        <div className="d-flex align-center">
-          <div className="desc black">{entry.address}</div>
-          <div className="ellipse"></div>
-          <div className="ml-4 grey-190 ft-size-14">
-            {fundsActivityEntryLabel(entry)}
-          </div>
+      <div className="mr-2 grow basis-0">
+        <AddressRow entry={entry} />
+        <div className="shrink-3 mb-5 w-full text-45 text-ne4 sm:mb-0 sm:w-auto">
+          {entry.description}
         </div>
-        <div className="description">{entry.description}</div>
       </div>
       <DetailsLink entry={entry} />
     </div>
   )
 }
 
+const AddressRow = ({ entry }: { entry: FundsActivityViewData }) => {
+  return (
+    <div className="align-center mb-3 flex">
+      <div className="text-50 font-bold text-te">{entry.address}</div>
+      <div className="mx-6 h-2 w-2 rounded-full bg-ne2"></div>
+      <div className="grey-190 text-40 ">{fundsActivityEntryLabel(entry)}</div>
+    </div>
+  )
+}
 const MobileEntryView = ({ entry }) => {
   return (
     <div className="funds_act_entry-tab">
@@ -64,9 +75,14 @@ const MobileEntryView = ({ entry }) => {
 
 const DetailsLink = ({ entry }: { entry: FundsActivityViewData }) => {
   return (
-    <div className="funds_act_entry__details">
-      k<div className="funds_act_entry__date">{entry.date}</div>
-      <a href={entry.tx_link} target="_blank" rel="noreferrer">
+    <div className="flex flex-col justify-between text-right">
+      <div className="text-te2">{entry.date}</div>
+      <a
+        href={entry.tx_link}
+        target="_blank"
+        rel="noreferrer"
+        className="font-semibold text-pr underline-offset-2"
+      >
         {"Details"}
       </a>
     </div>
@@ -83,16 +99,9 @@ export const fundsActivityEntryLabel = (entry: FundsActivityViewData) => {
 
 const AmountView = ({ entry }: { entry: FundsActivityViewData }) => {
   return (
-    <div className="funds_act_entry__amount__container">
-      <img
-        className="arrow funds-arrow-icon tablet-none"
-        src={entry.is_income === "true" ? arrowUp.src : arrowDown.src}
-        alt="arrow"
-      />
-      <img className="funds-dollar-icon" src={funds.src} alt="funds" />
-      <div className={"funds_act_entry__amount__number"}>
-        {amountTextView(entry)}
-      </div>
+    <div className="flex w-48 items-center">
+      <img className="mr-2 h-6 w-6" src={funds.src} alt="funds" />
+      <div className={"text-60 font-bold text-te"}>{amountTextView(entry)}</div>
     </div>
   )
 }
@@ -110,5 +119,19 @@ export const amountTextView = (entry: FundsActivityViewData) => {
     )
   } else {
     return entry.short_amount_without_fee
+  }
+}
+
+const ArrowUpOrDown = ({
+  entry,
+  sizeClasses,
+}: {
+  entry: FundsActivityViewData
+  sizeClasses: string
+}) => {
+  if (entry.is_income === "true") {
+    return <SvgArrowUp className={`fill-sec ${sizeClasses}`} />
+  } else {
+    return <SvgArrowDown className={`fill-pr ${sizeClasses}`} />
   }
 }
