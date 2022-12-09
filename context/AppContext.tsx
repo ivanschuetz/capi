@@ -461,18 +461,37 @@ const windowSizeClasses = (windowSize: WindowSize): WindowSizeClasses => {
   const isPhone = windowWidth <= SIZE_PHONE_THRESHOLD
 
   return {
-    s1: windowWidth > SIZE_TABLET_THRESHOLD, // desktop
+    s1: windowWidth > SIZE_TABLET_THRESHOLD,
     s2: isTablet,
     s3: isPhone,
-    s4: isTablet || isPhone, // convenience size, so caller doesn't have to keep writing this
+    s4: isTablet || isPhone,
+
+    sm: windowWidth <= 640,
+    md: windowWidth <= 768,
+    lg: windowWidth <= 1024,
+    xl: windowWidth <= 1280,
+    xl2: windowWidth <= 1536,
+    xl3: windowWidth <= 1700,
+    xl4: windowWidth <= 1920,
   }
 }
 
 type WindowSizeClasses = {
-  s1: boolean
+  // s* classes deprecated - use only Tailwind sizes.
+  s1: boolean // desktop
   s2: boolean
   s3: boolean
-  s4: boolean
+  s4: boolean // convenience size for "tablet or phone", so caller doesn't have to keep writing this
+
+  // Tailwind sizes (default sizes + config sizes)
+  // IMPORTANT: do not change without changing config sizes
+  sm: boolean
+  md: boolean
+  lg: boolean
+  xl: boolean
+  xl2: boolean
+  xl3: boolean
+  xl4: boolean
 }
 
 const stateObj = (state: string, exceeded: string): RaiseState | null => {

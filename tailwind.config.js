@@ -38,6 +38,8 @@ module.exports = {
       8: "160%",
     },
     extend: {
+      // Important: when editing sizes, edit the programmatic WindowSizeClasses too
+      // (used to render conditionally)
       screens: {
         "3xl": "1700px",
         "4xl": "1920px", // "desktop" in figma
