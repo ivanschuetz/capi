@@ -12,7 +12,7 @@ export const FundsActivityEntry = ({
   deps: Deps
   entry: FundsActivityViewData
 }) => {
-  if (deps.size?.s4) {
+  if (deps.size?.xl) {
     return <TabletEntryView entry={entry} />
   } else {
     return <DesktopEntryView entry={entry} />
