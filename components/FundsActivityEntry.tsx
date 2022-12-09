@@ -12,6 +12,9 @@ export const FundsActivityEntry = ({
   deps: Deps
   entry: FundsActivityViewData
 }) => {
+  if (deps.size?.sm) {
+    return <PhoneEntryView entry={entry} />
+  }
   if (deps.size?.xl) {
     return <TabletEntryView entry={entry} />
   } else {
@@ -26,14 +29,19 @@ const DesktopEntryView = ({ entry }: { entry: FundsActivityViewData }) => {
       <div className="center-children mr-4">
         <Arrow entry={entry} addClass="w-14 h-14" />
       </div>
-      <AmountView entry={entry} widthClass={"w-48"} />
+      <AmountView
+        textClass={"text-60"}
+        entry={entry}
+        widthClass={"w-48"}
+        imgClass={"h-6 w-6"}
+      />
       <div className="mr-2 grow basis-0">
         <AddressRow entry={entry} />
         <div className="shrink-3 mb-5 w-full text-45 text-ne4 sm:mb-0 sm:w-auto">
           {entry.description}
         </div>
       </div>
-      <DetailsLink entry={entry} />
+      <DateAndDetailsLink entry={entry} />
     </div>
   )
 }
@@ -42,10 +50,14 @@ const AddressRow = ({ entry }: { entry: FundsActivityViewData }) => {
   return (
     <div className="align-center mb-3 flex">
       <div className="text-50 font-bold text-te">{entry.address}</div>
-      <div className="mx-6 h-2 w-2 rounded-full bg-ne2"></div>
+      <SeparatorDot widthClass="mx-6" />
       <div className="grey-190 text-40 ">{fundsActivityEntryLabel(entry)}</div>
     </div>
   )
+}
+
+const SeparatorDot = ({ widthClass }: { widthClass: string }) => {
+  return <div className={`${widthClass} h-2 w-2 rounded-full bg-ne2`} />
 }
 
 const TabletEntryView = ({ entry }) => {
@@ -55,11 +67,51 @@ const TabletEntryView = ({ entry }) => {
       <div className="flex flex-grow flex-col">
         <div className="text-50 font-bold text-te">{entry.address}</div>
         <div className="flex flex-row items-center gap-4">
-          <AmountView entry={entry} widthClass={"w-24"} />
+          <AmountView
+            textClass={"text-60"}
+            entry={entry}
+            widthClass={"w-24"}
+            imgClass={"h-6 w-6"}
+          />
           <div className="">{fundsActivityEntryLabel(entry)}</div>
         </div>
         <div className="mr-5 text-40 text-te">{entry.description}</div>
       </div>
+      <DateAndDetailsLink entry={entry} />
+    </div>
+  )
+}
+
+const PhoneEntryView = ({ entry }) => {
+  return (
+    <div className="mb-6 flex flex-col gap-4 border border-solid border-ne3 p-5">
+      <div className="flex items-center gap-4">
+        <Arrow entry={entry} addClass="w-6 h-6" />
+        <AmountView
+          textClass={"text-50"}
+          entry={entry}
+          widthClass={"w-24"}
+          imgClass={"h-4 w-4"}
+        />
+        <div className="grow text-right text-35 leading-[16px] text-te2">
+          {entry.date}
+        </div>
+      </div>
+      <div className="mt-6 flex items-center">
+        <div className="text-50 font-bold text-te">{entry.address}</div>
+        <SeparatorDot widthClass="mx-3" />
+        <div className="">{fundsActivityEntryLabel(entry)}</div>
+      </div>
+      <div className="mr-5 mt-2 text-te">{entry.description}</div>
+      <DetailsLink entry={entry} />
+    </div>
+  )
+}
+
+const DateAndDetailsLink = ({ entry }: { entry: FundsActivityViewData }) => {
+  return (
+    <div className={`flex flex-shrink-0 flex-col justify-between text-right`}>
+      <div className="text-te2">{entry.date}</div>
       <DetailsLink entry={entry} />
     </div>
   )
@@ -67,17 +119,14 @@ const TabletEntryView = ({ entry }) => {
 
 const DetailsLink = ({ entry }: { entry: FundsActivityViewData }) => {
   return (
-    <div className={`flex flex-shrink-0 flex-col justify-between text-right`}>
-      <div className="text-te2">{entry.date}</div>
-      <a
-        href={entry.tx_link}
-        target="_blank"
-        rel="noreferrer"
-        className="font-semibold text-pr underline-offset-2"
-      >
-        {"Details"}
-      </a>
-    </div>
+    <a
+      href={entry.tx_link}
+      target="_blank"
+      rel="noreferrer"
+      className="text-right font-semibold text-pr underline underline-offset-2"
+    >
+      {"Details"}
+    </a>
   )
 }
 
@@ -92,14 +141,20 @@ export const fundsActivityEntryLabel = (entry: FundsActivityViewData) => {
 const AmountView = ({
   entry,
   widthClass,
+  imgClass,
+  textClass,
 }: {
   entry: FundsActivityViewData
   widthClass: string
+  imgClass: string
+  textClass: string
 }) => {
   return (
     <div className={`flex ${widthClass} items-center`}>
-      <img className="mr-2 h-6 w-6" src={funds.src} alt="funds" />
-      <div className={"text-60 font-bold text-te"}>{amountTextView(entry)}</div>
+      <img className={`mr-2 ${imgClass}`} src={funds.src} alt="funds" />
+      <div className={`${textClass} font-bold text-te`}>
+        {amountTextView(entry)}
+      </div>
     </div>
   )
 }
