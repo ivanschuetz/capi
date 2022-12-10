@@ -53,13 +53,14 @@ const UpdateAppView = ({ deps, daoId }: { deps: Deps; daoId: string }) => {
   if (updateData) {
     return (
       <div id="update-app">
-        <div className="d-flex align-center">
-          {"There's a new version: " +
-            appVersionStr(
-              updateData.new_approval_version,
-              updateData.new_clear_version
-            )}
-
+        <div className="flex flex-col">
+          <div className="mb-4">
+            {"There's a new version: " +
+              appVersionStr(
+                updateData.new_approval_version,
+                updateData.new_clear_version
+              )}
+          </div>
           <SubmitButton
             label={"Update"}
             isLoading={submitting}

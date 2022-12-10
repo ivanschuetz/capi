@@ -12,6 +12,7 @@ import { storeIpfs, toMaybeIpfsUrl } from "../ipfs/store"
 import { OkCancelModal } from "../modal/OkCancelModal"
 import { ProspectusModal } from "../prospectus/ProspectusModal"
 import { SetBool, SetString } from "../type_alias"
+import { ContentTitle } from "./ContentTitle"
 import { FileUploader } from "./FileUploader"
 import { ImageUpload } from "./ImageUpload"
 import {
@@ -65,10 +66,10 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
   const body = () => {
     return (
       <div className="update-dao-data">
-        <div className="ft-size-32 ft-weight-700 mt-80 mb-48">
+        <div className="mb-12 text-70 font-bold text-te">
           {"Update project data"}
         </div>
-        <div className="info">{"Project Info"}</div>
+        <SubHeader text={"Project info"} />
         <LabeledInput
           label={"Project name"}
           inputValue={daoName}
@@ -110,7 +111,7 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
           </React.Fragment>
         )}
         {deps.features.minMaxInvestment && (
-          <div className="d-flex mt-40 gap-32">
+          <div className="flex mt-10 gap-8">
             <div className="f-basis-50">
               <LabeledAmountInput
                 label={"Min investment (shares)"}
@@ -163,7 +164,7 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
             )
           }}
         />
-        <div className="info">{"Ownership"}</div>
+        <SubHeader text={"Ownership"} />
         <LabeledInput
           label={"Rekey owner to:"}
           inputValue={rekeyAuthAddress}
@@ -491,4 +492,8 @@ const rekeyOwner = async (
     }
     showProgress(false)
   }
+}
+
+const SubHeader = ({ text }: { text: String }) => {
+  return <div className="info">{text}</div>
 }
