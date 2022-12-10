@@ -1,9 +1,16 @@
+import { useEffect, useState } from "react"
 import * as ReactDOM from "react-dom"
 import walletIcon from "../images/walletIcon.svg"
 import { SetBool } from "../type_alias"
 
 const OpenWalletModal = ({ setShowModal }: { setShowModal: SetBool }) => {
-  return ReactDOM.createPortal(
+  const [isBrowser, setIsBrowser] = useState(false)
+
+  useEffect(() => {
+    setIsBrowser(true)
+  }, [])
+
+  const view = (
     <div className="modal open-wallet-modal">
       <div className="open-wallet-modal-content modal-content-size">
         <div className="open-wallet-modal-topbar">
@@ -31,9 +38,14 @@ const OpenWalletModal = ({ setShowModal }: { setShowModal: SetBool }) => {
           </div>
         </div>
       </div>
-    </div>,
-    document.getElementById("modal-root")
+    </div>
   )
+
+  if (isBrowser) {
+    return ReactDOM.createPortal(view, document.getElementById("modal_root"))
+  } else {
+    return null
+  }
 }
 
 export default OpenWalletModal
