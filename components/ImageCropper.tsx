@@ -1,5 +1,6 @@
 import { useState } from "react"
 import Cropper, { Area } from "react-easy-crop"
+import trash from "../images/trash.svg"
 
 export const ImageCropper = ({
   updateBlob,
@@ -50,10 +51,14 @@ export const ImageCropper = ({
         onCropComplete={onCropComplete}
         onZoomChange={setZoom}
       />
-      <div className="btn-container">
+      <div className="absolute right-4 bottom-4 flex gap-10">
         {showClear && (
-          <button className="delete" onClick={() => clear()}>
-            Delete
+          <button
+            className="flex h-8 w-28 items-center justify-center gap-2 bg-te px-2 font-bold text-bg transition hover:bg-pr"
+            onClick={() => clear()}
+          >
+            <img src={trash.src} alt="trash" />
+            {"Delete"}
           </button>
         )}
       </div>

@@ -29,10 +29,17 @@ export const ImageUpload = ({
       onSubmit={onFormSubmit}
     >
       {/* image uploader */}
-      <div {...getRootProps({ className: "upload-container" })}>
-        <div className="grey-190">Upload a cover image</div>
+      <div
+        {...getRootProps({
+          className:
+            "bg-dashed_border bg-no-repeat bg-contain aspect-banner flex flex-col items-center justify-center gap-4",
+        })}
+      >
+        <div className="text-te">{"Upload a cover image"}</div>
         <div className="upload-custom">
-          <button className="file-custom secondary-button">Upload Image</button>
+          <button className="h-12 w-36 bg-te text-bg transition hover:bg-pr">
+            {"Upload"}
+          </button>
           <input
             {...getInputProps()}
             className="upload-input"
@@ -40,7 +47,7 @@ export const ImageUpload = ({
             accept="image/*"
           />
         </div>
-        <div className="grey-190">or Drag and drop here</div>
+        <div className="text-te">{"or Drag and drop here"}</div>
       </div>
 
       {/* image cropper */}
@@ -52,7 +59,8 @@ export const ImageUpload = ({
           clear={() => clear()}
           imageWidth={1032}
           aspectRatio={3}
-          containerClassName={"crop_container_full_width"}
+          // Note: aspect ratio number above and aspect-banner in tailwind config have to be equal. This for sure can be improved.
+          containerClassName={"absolute top-0 left-0 z-50 w-full aspect-banner"}
         />
       )}
     </form>

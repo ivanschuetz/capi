@@ -19,11 +19,10 @@ export const LabeledInput = ({
   info,
   disabled,
 }: LabeledInputPars) => {
-  const container_class = img ? "input_with_image__container" : ""
+  const containerClass = img ? "relative" : ""
 
   const {
     remainingChars,
-    inputClass,
     lengthClass,
     showLength,
     setShowLength,
@@ -40,7 +39,7 @@ export const LabeledInput = ({
       remainingChars={remainingChars}
       lengthClass={lengthClass}
     >
-      <div className={container_class}>
+      <div className={containerClass}>
         <Input
           value={inputValue}
           type={"text"}
@@ -53,12 +52,19 @@ export const LabeledInput = ({
           }}
           placeholder={placeholder}
           disabled={disabled}
-          textLengthClass={inputClass}
+          hasImage={img}
         />
-
-        {img && <img src={img.src} alt="img" />}
+        {img && <InputLeftImg img={img} />}
       </div>
     </WithLabelAndLength>
+  )
+}
+
+export const InputLeftImg = ({ img }: { img: any }) => {
+  return (
+    <div className="center-children absolute top-0 left-0 h-16 pl-6">
+      <img src={img.src} alt="img" />
+    </div>
   )
 }
 
@@ -79,7 +85,7 @@ export const WithTooltip = ({
 }) => {
   return (
     <>
-      <div className="d-flex align-center" data-tip={text}>
+      <div className="flex items-center" data-tip={text}>
         {children}
       </div>
       {/* <ReactTooltip uuid={"infoview" + text} /> */}
@@ -100,14 +106,15 @@ export const LabeledCurrencyInput = ({
 }: LabeledCurrencyInputPars) => {
   return (
     <WithLabel label={label} info={info} errorMsg={errorMsg}>
-      <div className="input_with_image__container">
+      <div className="relative">
         <Input
           value={inputValue}
           type={"number"}
           onChange={onChange}
           placeholder={placeholder}
+          hasImage={true}
         />
-        <img src={funds.src} alt="img" />
+        <InputLeftImg img={funds} />
       </div>
     </WithLabel>
   )
@@ -146,10 +153,7 @@ const WithLabel = ({
 }) => {
   return (
     <div>
-      <div className={styles.input_label}>
-        {label}
-        {info && <InfoView text={info} />}
-      </div>
+      <Label text={label} info={info} />
       {children}
       <ValidationMsg errorMsg={errorMsg} />
     </div>
@@ -176,13 +180,10 @@ const WithLabelAndLength = ({
   lengthClass?: string
 }) => {
   return (
-    <div className="labeled_input">
-      <div className="labeled_input__label d-flex align-center w-94 justify-between">
-        <div className="d-flex align-center gap-10">
-          <div>{label}</div>
-          {info && <InfoView text={info} />}
-        </div>
-        <div>
+    <div className="mb-6 sm:mb-8">
+      <div>
+        <div className="flex">
+          <Label text={label} info={info} />
           {showLength && maxLength && (
             <InputLength
               remainingChars={remainingChars}
@@ -193,6 +194,15 @@ const WithLabelAndLength = ({
       </div>
       {children}
       <ValidationMsg errorMsg={errorMsg} />
+    </div>
+  )
+}
+
+export const Label = ({ text, info }: { text: string; info: string }) => {
+  return (
+    <div className="mb-1 flex grow items-center gap-2">
+      <div className="text-te">{text}</div>
+      {info && <InfoView text={info} />}
     </div>
   )
 }
@@ -214,16 +224,13 @@ const Input = ({
   onFocusToggle,
   placeholder,
   disabled,
-  textLengthClass,
+  hasImage,
 }: InputPars) => {
-  var className = "label-input-style"
-  if (textLengthClass) {
-    className += ` ${textLengthClass}`
-  }
+  const paddingLeft = hasImage ? "pl-14" : "pl-5"
 
   return (
     <input
-      className={className}
+      className={`h-16 w-full bg-bg2 pr-5 ${paddingLeft} mb-8 pr-5 text-te`}
       placeholder={placeholder}
       size={30}
       type={type}
@@ -255,14 +262,11 @@ export const LabeledTextArea = ({
   errorMsg,
   maxLength,
   img,
-  className,
   rows = 10,
 }: LabeledTextAreaPars) => {
-  const container_class = img ? "textarea_with_image__container" : ""
-
   const {
     remainingChars,
-    inputClass,
+    inputErrorClass,
     lengthClass,
     showLength,
     setShowLength,
@@ -279,9 +283,9 @@ export const LabeledTextArea = ({
       remainingChars={remainingChars}
       lengthClass={lengthClass}
     >
-      <div className={container_class}>
+      <div className={`${img ? "relative" : ""}`}>
         <textarea
-          className={inputClass}
+          className={`w-full bg-bg2 py-5 px-6 text-te ${inputErrorClass}`}
           rows={rows}
           cols={50}
           value={inputValue}
@@ -298,7 +302,7 @@ export const LabeledTextArea = ({
             setShowLength(false)
           }}
         />
-        {img && <img src={img.src} alt="img" />}
+        {img && <InputLeftImg img={img} />}
       </div>
     </WithLabelAndLength>
   )
@@ -323,18 +327,15 @@ export const LabeledDateInput = ({
   return (
     <>
       <WithLabel label={label} info={info} errorMsg={errorMsg}>
-        <div className="date-input__container">
+        <div className="relative">
           <Input
             value={formattedMinRaiseTargetEndDate}
             type={"text"}
             placeholder={placeholder}
             disabled={disabled}
+            hasImage={true}
           />
-          <img
-            src={calendar.src}
-            alt="img"
-            onClick={() => setShowMinRaiseTargetEndDateModal(true)}
-          />
+          <InputLeftImg img={calendar} />
         </div>
       </WithLabel>
       {showMinRaiseTargetEndDateModal && (
@@ -387,13 +388,12 @@ type InputPars = {
   onFocusToggle?: (focus: boolean) => void
   placeholder?: string
   disabled?: boolean
-  textLengthClass?: string
+  hasImage?: boolean
 }
 
 type LabeledTextAreaPars = InputBase & {
   img?: any
   maxLength?: number
-  className?: string
   rows?: number
 }
 

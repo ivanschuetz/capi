@@ -1,10 +1,18 @@
-import { useEffect, useState } from "react"
+import React, { useEffect, useState } from "react"
 import ReactDOM from "react-dom"
 import close from "../images/svg/close.svg"
 
 const modalContainerId = "modal_container"
 
-export const Modal = ({ title, children, onClose }) => {
+export const Modal = ({
+  title,
+  children,
+  onClose,
+}: {
+  title: string
+  children: React.ReactNode
+  onClose: () => void
+}) => {
   const [isBrowser, setIsBrowser] = useState(false)
 
   useEffect(() => {
@@ -12,7 +20,7 @@ export const Modal = ({ title, children, onClose }) => {
   }, [])
 
   // close with click on bg
-  const onModalClick = (event) => {
+  const onModalClick = (event: any) => {
     if (event.target === document.querySelector(`#${modalContainerId}`)) {
       onClose()
     }

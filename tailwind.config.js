@@ -44,6 +44,12 @@ module.exports = {
         "3xl": "1700px",
         "4xl": "1920px", // "desktop" in figma
       },
+      backgroundImage: {
+        dashed_border: "url('/dashed_border.svg')",
+      },
+      aspectRatio: {
+        banner: "3",
+      },
     },
   },
   plugins: [],

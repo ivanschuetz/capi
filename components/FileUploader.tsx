@@ -34,17 +34,24 @@ export const FileUploader = ({
       }`}
       onSubmit={handleSubmit}
     >
-      <div {...getRootProps({ className: "upload-container prospectus" })}>
-        <div className="grey-190">Upload your business prospectus</div>
-        <div>{filename}</div>
-        <InfoView
-          text={
-            "Your business prospectus, if you have one already. If you don't, you can upload it later."
-          }
-        />
-        <div className="upload-custom">
-          <button className="file-custom secondary-button">
-            Upload prospectus
+      <div
+        {...getRootProps({
+          className:
+            "bg-dashed_border bg-no-repeat bg-contain aspect-banner flex flex-col items-center justify-center gap-4",
+        })}
+      >
+        <div className="flex gap-2">
+          <div className="text-te">{"Upload your business prospectus"}</div>
+          <InfoView
+            text={
+              "Your business prospectus, if you have one already. If you don't, you can upload it later."
+            }
+          />
+        </div>
+        {filename && <div>{filename}</div>}
+        <div className="upload-custom h-">
+          <button className="h-12 w-36 bg-te text-bg transition hover:bg-pr">
+            {"Upload"}
           </button>
           <input
             {...getInputProps()}
@@ -53,7 +60,7 @@ export const FileUploader = ({
             accept="image/*"
           />
         </div>
-        <div className="grey-190">or Drag and drop here</div>
+        <div className="grey-190">{"or Drag and drop here"}</div>
       </div>
     </form>
   )

@@ -8,7 +8,7 @@ export const useTextCounter = (
   // number to be displayed
   remainingChars: number
   // class to be applied to input
-  inputClass: string | null
+  inputErrorClass: string | null
   // class to be applied to view with length
   lengthClass: string | null
   // whether to show view with length
@@ -33,7 +33,7 @@ export const useTextCounter = (
     }
   }, [remainingChars])
 
-  const inputClass = useMemo(() => {
+  const inputErrorClass = useMemo(() => {
     if (stateForRemainingChars === "over") {
       return "input-length-error"
     } else {
@@ -55,7 +55,7 @@ export const useTextCounter = (
 
   return {
     remainingChars,
-    inputClass,
+    inputErrorClass,
     lengthClass,
     showLength,
     setShowLength,

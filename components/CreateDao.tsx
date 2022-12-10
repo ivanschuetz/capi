@@ -118,7 +118,9 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
   const formView = () => {
     return (
       <div className="create-dao-container mb-40">
-        <div className="dao-title mt-80">Project Info</div>
+        <div className="mt-12 mb-10 text-60 font-bold text-te2">
+          Project Info
+        </div>
         <LabeledInput
           label={"Project name"}
           inputValue={daoName}
@@ -140,13 +142,13 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           onChange={(input) => setSocialMediaUrl(input)}
           errorMsg={errors.social_media_url}
         />
-        <div className="dao-title mt-60">Project Cover</div>
+        <SectionTitle text="Project Cover" />
         <ImageUpload setImageBytes={setImageBytes} />
         <ValidationMsg errorMsg={errors.image_url} />
 
         {deps.features.prospectus && (
           <React.Fragment>
-            <div className="dao-title mt-60">Prospectus</div>
+            <SectionTitle text="Prospectus" />
             <FileUploader setBytes={setProspectusBytes} />
             <ValidationMsg
               errorMsg={errors.prospectus_bytes ?? errors.prospectus_bytes}
@@ -154,7 +156,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           </React.Fragment>
         )}
 
-        <div className="dao-title mt-60">Project Funds</div>
+        <SectionTitle text="Project funds" />
         <LabeledAmountInput
           label={"Share supply"}
           inputValue={shareCount}
@@ -284,6 +286,9 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
   )
 }
 
+const SectionTitle = ({ text }: { text: string }) => {
+  return <div className="mt-16 mb-10 text-60 font-bold text-te2">{text}</div>
+}
 const createDao = async (
   wasm: Wasm,
   notification: Notification,
