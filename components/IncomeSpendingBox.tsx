@@ -1,7 +1,6 @@
 import {
   MutableRefObject,
   useContext,
-  useEffect,
   useLayoutEffect,
   useMemo,
   useRef,

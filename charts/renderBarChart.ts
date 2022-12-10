@@ -1,8 +1,14 @@
 import * as d3 from "d3"
+import { ChartDataPointJs } from "wasm"
 
 const SUBGROUPARRAY = ["spending", "income"]
 
-const renderBarChart = (svg, flatData, colors, format) => {
+const renderBarChart = (
+  svg: JSX.Element,
+  flatData: ChartDataPointJs[],
+  colors: string[],
+  format: string
+) => {
   const margin = { top: 10, right: 10, bottom: 30, left: 40 },
     width = 600 - margin.right,
     height = 280 - margin.top - margin.bottom
@@ -47,8 +53,8 @@ const renderBarChart = (svg, flatData, colors, format) => {
   selected.append("g").call(d3.axisBottom(x).tickSize(0))
   console.log(data)
   let yMax = Math.max(
-    ...data.map((d) => d.income),
-    ...data.map((d) => d.spending)
+    ...data.map((d) => parseInt(d.income)),
+    ...data.map((d) => parseInt(d.spending))
   )
 
   let offset = parseInt("1".padEnd(`${yMax}`.length, "0"))
