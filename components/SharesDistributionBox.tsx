@@ -153,7 +153,7 @@ const SubtitleWithCount = ({
   return (
     <div className="mb-8 flex items-center">
       <span className="nowrap mr-3 text-50 font-bold text-te">{title}</span>
-      <span className="text-60 font-bold text-te">{number}</span>
+      <span className="mr-3 text-60 font-bold text-te">{number}</span>
       <div>{changeArrow(change)}</div>
     </div>
   )
