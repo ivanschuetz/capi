@@ -19,9 +19,9 @@ export const ChartLegends = ({ legends }: { legends: Legend[] }) => {
 
 const ChartLegend = ({ legend }: { legend: Legend }) => {
   return (
-    <div className="chart_legend__container">
-      <svg className="chart_legend__color" fill={legend.color}>
-        <circle cx="50%" cy="50%" r="4" />
+    <div className="flex items-center justify-center gap-2 whitespace-nowrap">
+      <svg className="h-4 w-4" fill={legend.color}>
+        <rect width="100%" height="100%" rx={4} />
       </svg>
       <span className="chart_legend__text">{legend.text}</span>
     </div>

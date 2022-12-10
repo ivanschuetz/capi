@@ -50,8 +50,8 @@ const renderBarChart = (
     .append("g")
     .attr("transform", `translate(${margin.left},${margin.top})`)
 
-  selected.append("g").call(d3.axisBottom(x).tickSize(0))
   console.log(data)
+
   let yMax = Math.max(
     ...data.map((d) => parseInt(d.income)),
     ...data.map((d) => parseInt(d.spending))
@@ -63,8 +63,9 @@ const renderBarChart = (
     selected
       .append("text")
       .text("No funds activity yet")
-      .attr("fill", "black")
-      .attr("opacity", 0.5)
+      // note: tailwind config text-te
+      .attr("fill", "#847c9c")
+      // .attr("opacity", 0.5)
       .attr("font-size", 20)
       .attr("font-weight", 600)
       .attr("x", x.bandwidth() * data.length + margin.left)
@@ -96,6 +97,10 @@ const renderBarChart = (
     .call((g) =>
       g.selectAll(".tick text").attr("x", 4).attr("dy", 4).attr("opacity", 0.5)
     )
+    // should be inherited from body but for some reason isn't
+    .style("font-family", "Satoshi")
+    // note: tailwind theme
+    .attr("class", "text-45 text-te2")
 
   const timeFormat = format === "year" ? "%b" : "%d %b"
 
@@ -114,6 +119,11 @@ const renderBarChart = (
       g.select(".domain").remove()
     })
     .selectAll("text")
+    // should be inherited from body but for some reason isn't
+    .style("font-family", "Satoshi")
+    // note: tailwind theme
+    .attr("class", "text-45 text-te2")
+
   // for rotated labels
   // .attr("dx", "-1em")
   // .attr("dy", "-0.5em")

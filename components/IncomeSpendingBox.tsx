@@ -45,7 +45,8 @@ export const IncomeSpendingBox = ({
   const chart = useRef(null)
 
   const colors = useMemo(() => {
-    return ["#DE5C62", "#6BB9BC"]
+    // NOTE: colors from tailwind theme
+    return ["#6672d7", "#de5c62"]
   }, [])
 
   updateChartData(
@@ -74,7 +75,7 @@ export const IncomeSpendingBox = ({
     }
   }
 
-  return <div className="charts-container mt-80">{content()}</div>
+  return <div className="charts-container mt-20">{content()}</div>
 }
 
 const ChartBox = ({
@@ -83,11 +84,17 @@ const ChartBox = ({
   setSelectedBarsInterval,
   barsOptions,
   chart,
+}: {
+  colors: string[]
+  selectedBarsInterval: BarInterval
+  setSelectedBarsInterval: (interval: BarInterval) => void
+  barsOptions: BarInterval[]
+  chart: MutableRefObject<any>
 }) => {
   return (
     <LabeledBox label={"Income and spending"}>
-      <div className="d-flex flex-column gap-24">
-        <div className="select-legend-container">
+      <div className="flex flex-col gap-6">
+        <div className="flex h-8 w-full items-start justify-between lg:items-center">
           <div className="spacer"></div>
           <ChartLegends
             legends={[
