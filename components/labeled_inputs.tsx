@@ -264,6 +264,8 @@ export const LabeledTextArea = ({
   img,
   rows = 10,
 }: LabeledTextAreaPars) => {
+  const paddingLeft = img ? "pl-14" : "pl-5"
+
   const {
     remainingChars,
     inputErrorClass,
@@ -285,7 +287,7 @@ export const LabeledTextArea = ({
     >
       <div className={`${img ? "relative" : ""}`}>
         <textarea
-          className={`w-full bg-bg2 py-5 px-6 text-te ${inputErrorClass}`}
+          className={`w-full bg-bg2 py-5 ${paddingLeft} text-te ${inputErrorClass}`}
           rows={rows}
           cols={50}
           value={inputValue}

@@ -2,18 +2,13 @@ import Link from "next/link"
 import { BsArrowUpCircle } from "react-icons/bs"
 import { FundsAssetImg } from "../images/FundsAssetImg"
 
-export const Funds = ({
-  funds,
-  showWithdrawLink,
-  daoId,
-  containerClassNameOpt,
-}: FundsPars) => {
+export const Funds = ({ funds, showWithdrawLink, daoId }: FundsPars) => {
   return (
-    <div id="dao_funds__cont" className={containerClassNameOpt}>
-      <div>{"Available funds"}</div>
-      <div id="dao_funds__val">
-        <FundsAssetImg />
-        <div className="funds">{funds}</div>
+    <div className="mt-3 flex">
+      <div className="mr-3 text-bg">{"Available funds"}</div>
+      <div className="flex items-center gap-1">
+        <FundsAssetImg className="h-4" />
+        <div className="text-bg">{funds}</div>
         {showWithdrawLink && <WithdrawButton daoId={daoId} />}
       </div>
     </div>

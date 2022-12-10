@@ -22,7 +22,7 @@ export const Withdraw = ({ deps }: { deps: Deps }) => {
     if (deps.dao) {
       return (
         <div className="box-container mt-80">
-          <div className="title">{"Withdraw Funds from project"}</div>
+          <div className="text-70 text-bg font-bold">{"Withdraw Funds from project"}</div>
           <Funds
             funds={deps.funds}
             showWithdrawLink={false}
@@ -35,7 +35,6 @@ export const Withdraw = ({ deps }: { deps: Deps }) => {
             onChange={(input) => setWithdrawalAmount(input)}
           />
           <LabeledTextArea
-            className="textarea-withdraw"
             label={"For what?"}
             img={pencil}
             inputValue={withdrawalDescr}
