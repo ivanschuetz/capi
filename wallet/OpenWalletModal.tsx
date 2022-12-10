@@ -19,6 +19,7 @@ const OpenWalletModal = ({ setShowModal }: { setShowModal: SetBool }) => {
             <span>WalletConnect</span>
           </h2>
           <button
+            aria-label={"Close modal"}
             className="open-wallet-modal-close"
             onClick={() => setShowModal(false)}
           >
