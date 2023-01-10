@@ -5,21 +5,6 @@
   width: 420px
   flex-shrink: 0
 
-  .my-account-container
-    border: 1px solid $grey-100
-    padding: 40px
-    border-radius: $global-border-radius-m
-    height: auto
-    display: flex
-    flex-direction: column
-    gap: 24px
-
-    .text
-      color: $grey-190
-      font-weight: 700
-      font-size: 24px
-
-
 .my_address > a
   color: $black
   font-size: 18px
@@ -34,9 +19,6 @@
 @media only screen and (max-width: $desktop-max-width)
   #rightcol
     width: 350px
-
-    .my-account-container
-      padding: 24px
 
 @media only screen and (max-width: $tablet-max-width)
   #rightcol,
@@ -53,10 +35,6 @@
     animation-name: wallet
     animation-duration: 0.3s
     animation-fill-mode: forwards
-
-    .my-account-container
-      border: none
-      height: 350px
 
   #rightcol-closing
     transform: translateY(0%)
@@ -82,15 +60,6 @@
     z-index: 100
     transform: translateX(50%)
     border-radius: 0
-
-    .my-account-container
-      border-radius: 0
-
-      .text
-        font-size: 32px
-
-      .my-address
-        width: 100%
 
   @keyframes wallet
     100%

@@ -21,7 +21,7 @@ export const MyAccount = ({ deps, daoId }: { deps: Deps; daoId?: string }) => {
   const [showDisclaimerModal, setShowDisclaimerModal] = useState(false)
 
   return (
-    <div className="my-account-container">
+    <div className="flex h-auto flex-col gap-6 bg-bg2 p-10 text-70 xl:h-[350]">
       <div className="d-flex justify-between">
         <div className="text-60 font-semibold text-te">{"Wallet"}</div>
       </div>
