@@ -117,7 +117,7 @@ const CoverImg = ({ dao }: { dao: DaoJs }) => {
 
   return (
     dao.image_url && (
-      <div className="relative mb-10 h-[360px] w-full overflow-hidden">
+      <div className="relative mb-10 h-auto w-full overflow-hidden">
         {!imgLoaded && <Progress />}
         <img
           className={`mb-6 h-[266px] w-full object-cover sm:h-[240px] xl:h-auto ${imgVisible}`}

@@ -21,8 +21,10 @@ export const Withdraw = ({ deps }: { deps: Deps }) => {
   const view = () => {
     if (deps.dao) {
       return (
-        <div className="box-container mt-80">
-          <div className="text-70 text-bg font-bold">{"Withdraw Funds from project"}</div>
+        <div className="mt-20 bg-te p-10">
+          <div className="text-70 font-bold text-bg">
+            {"Withdraw Funds from project"}
+          </div>
           <Funds
             funds={deps.funds}
             showWithdrawLink={false}
