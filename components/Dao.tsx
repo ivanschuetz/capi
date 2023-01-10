@@ -74,7 +74,7 @@ const MaybeInvestView = ({ deps }: { deps: Deps }) => {
       return <InvestEmbedded deps={deps} dao={deps.dao} />
     } else {
       return (
-        <div>
+        <div className="">
           {
             "Investing currently is not possible, because the project hasn't added a prospectus."
           }

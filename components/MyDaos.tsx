@@ -3,8 +3,7 @@ import { MyDaoJs } from "wasm/wasm"
 import { Deps } from "../context/AppContext"
 import { safe } from "../functions/utils"
 import { ContentTitle } from "./ContentTitle"
-import { MyDaoCreateItem } from "./MyDaoCreateItem"
-import { MyDaoItem } from "./MyDaoItem"
+import { MyDaoItem, MyDaoCreateItem } from "./MyDaoItem"
 
 export const MyDaos = ({ deps }: { deps: Deps }) => {
   const [myDaos, setMyDaos] = useState([])
@@ -24,7 +23,7 @@ export const MyDaos = ({ deps }: { deps: Deps }) => {
 const MyDaosEntries = ({ myDaos }: { myDaos: MyDaoJs[] }) => {
   var elements = myDaos ? myDaos.map((dao) => <MyDaoItem dao={dao} />) : []
   elements.push(<MyDaoCreateItem />)
-  return myDaos && <div className="my-daos-container mt-40">{elements}</div>
+  return myDaos && <div className="mt-10 flex flex-wrap gap-10">{elements}</div>
 }
 
 const updateMyDaos = (deps: Deps, setMyDaos: (daos: MyDaoJs[]) => void) => {
