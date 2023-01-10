@@ -17,20 +17,14 @@ export const Team = ({ deps }: { deps: Deps }) => {
 
   updateTeam(deps, setTeam)
 
-  const shouldShowEmptyView = () => {
-    // no team added, or for some reason a team without members
-    return (deps.dao && !deps.dao?.team_url) || (team && team.length === 0)
-  }
-
   const shouldShowProgress = () => {
     // is loading the dao or is loading the team
     return !deps.dao || (deps.dao?.team_url && !team)
   }
 
   return (
-    <div className="mt-80">
+    <div className="mt-20">
       <ContentTitle title={"Team"} />
-      {shouldShowEmptyView() && <EmptyTeamView />}
       {shouldShowProgress() && <Progress />}
       {/* the team view contains the "add member" button, so we show it too if there's no team */}
       {<TeamView deps={deps} team={team ?? []} setIsAdding={setIsAdding} />}
@@ -76,10 +70,15 @@ const MaybeAddMemberButton = ({
 }) => {
   return (
     deps.myAddress && (
-      <div className={styles.add_member}>
-        <button className="btn_no_bg" onClick={async () => setIsAdding(true)}>
-          <img src={plus.src} alt="icon" />
-        </button>
+      <div className="flex flex-col items-center justify-center">
+        <div className="flex h-44 w-full items-center justify-center border-2 border-dashed border-te">
+          <button className="btn_no_bg" onClick={async () => setIsAdding(true)}>
+            <img className="cursor-pointer" src={plus.src} alt="icon" />
+          </button>
+        </div>
+        <div className="mt-5 text-60 font-bold text-te">
+          {"Add team member"}
+        </div>
       </div>
     )
   )
@@ -106,10 +105,6 @@ const TeamMembers = ({ team }: { team: TeamMemberJs[] }) => {
       ))}
     </>
   )
-}
-
-const EmptyTeamView = () => {
-  return <div>{"No team yet"}</div>
 }
 
 const updateTeam = (deps: Deps, setTeam: (team: TeamMemberJs[]) => void) => {
