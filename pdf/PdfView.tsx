@@ -7,7 +7,7 @@ import workerSrc from "../pdf-worker"
 
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc
 
-export const PdfView = ({ url }: { url: string }) => {
+export const PdfView = ({ url, title }: { url: string; title: string }) => {
   const [numPages, setNumPages] = useState(null)
   const [pageNumber, setPageNumber] = useState(1)
 
@@ -17,12 +17,15 @@ export const PdfView = ({ url }: { url: string }) => {
 
   return (
     <div>
+      <div className="flex items-center">
+        <div className="flex-grow text-70 font-bold text-te">{title}</div>
+        <div className="text-50 font-bold text-te">
+          {pageNumber}/{numPages}
+        </div>
+      </div>
       <Document file={url} onLoadSuccess={onDocumentLoadSuccess}>
         <Page pageNumber={pageNumber} />
       </Document>
-      <p>
-        Page {pageNumber} of {numPages}
-      </p>
       <button onClick={() => setPageNumber(pageNumber - 1)}>{"prev"}</button>
       <button onClick={() => setPageNumber(pageNumber + 1)}>{"next"}</button>
     </div>

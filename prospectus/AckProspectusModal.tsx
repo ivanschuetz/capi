@@ -13,7 +13,7 @@ export const AckProspectusModal = ({
 }) => {
   return (
     <OkCancelModal
-      title={"Prospectus"}
+      title={"Invest in " + deps.dao.name}
       closeModal={closeModal}
       okLabel={"Acknowledge"}
       onSubmit={() => onAccept()}

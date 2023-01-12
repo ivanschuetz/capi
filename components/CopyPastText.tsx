@@ -1,5 +1,6 @@
 import { CopyToClipboard } from "react-copy-to-clipboard"
 import myalgo from "../images/svg/myalgo.svg"
+import { Notification } from "../components/Notification"
 // import checkmark from "../images/svg/checkmark.svg";
 
 const CopyPasteText = ({
@@ -7,6 +8,14 @@ const CopyPasteText = ({
   text,
   copyText: copyTextOpt,
   copyMsg,
+}: {
+  notification: Notification
+  // text to show as label
+  text: string
+  // text to be copied - defaults to text shown if not passed
+  copyText?: string
+  // notification message (e.g. "x was copied to clipboard")
+  copyMsg: string
 }) => {
   return (
     <CopyPasteHtml
@@ -56,7 +65,13 @@ export const CopyPasteHtml = ({ notification, element, copyText, copyMsg }) => {
   )
 }
 
-export const CopyPasteCompleteText = ({ text, copyText: copyTextOpt }) => {
+export const CopyPasteCompleteText = ({
+  text,
+  copyTextOpt,
+}: {
+  text: string
+  copyTextOpt?: string
+}) => {
   return (
     <CopyPasteCompleteHtml
       element={<div className="grey-190">{text}</div>}

@@ -12,7 +12,8 @@ export const AckProspectusView = ({
 }) => {
   return (
     <div>
-      <ProspectusView url={url} hash={hash} />
+      <ProspectusView url={url} hash={hash} notification={deps.notification} />
+
       <div>
         {
           "By acknowledging, you accept the conditions presented in this prospectus."
