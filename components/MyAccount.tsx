@@ -146,7 +146,7 @@ const SubmitClaimButton = ({ deps, daoId }: { deps: Deps; daoId: string }) => {
       isLoading={submitting}
       // TODO return has dividend or unformatted 0 from wasm and check against that
       disabled={deps.myDividend === "0.00"}
-      fullWidth={true}
+      width="w-full"
       onClick={async () => {
         if (!deps.wasm) {
           // ignoring this seems reasonable, wasm file should be normally loaded before user can interact

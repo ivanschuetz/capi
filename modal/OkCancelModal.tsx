@@ -21,13 +21,13 @@ export const OkCancelModal = ({
       <div>
         {children}
         <div className="d-flex gap-40">
-          <SubmitButton
-            label={okLabel ?? "Continue"}
-            onClick={async () => onSubmit()}
-          />
           <CancelButton
             label={cancelLabel ?? "Cancel"}
             onClick={async () => onCancel()}
+          />
+          <SubmitButton
+            label={okLabel ?? "Continue"}
+            onClick={async () => onSubmit()}
           />
         </div>
       </div>

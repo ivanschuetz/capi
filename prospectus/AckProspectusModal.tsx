@@ -1,6 +1,7 @@
 import { useState } from "react"
+import { SubmitButton, TextButton } from "../components/SubmitButton"
 import { Deps } from "../context/AppContext"
-import { OkCancelModal } from "../modal/OkCancelModal"
+import Modal from "../modal/Modal"
 import { AckProspectusView } from "./AckProspectusView"
 
 type PdfPageState = "first" | "between" | "last"
@@ -32,14 +33,9 @@ export const AckProspectusModal = ({
   }
 
   return (
-    <OkCancelModal
+    <Modal
       title={"Invest in " + deps.dao.name}
-      okLabel={toOkLabel(pdfPageState)}
-      cancelLabel={toCancelLabel(pdfPageState)}
-      onCancel={() => {
-        handleCancel(back, closeModal, pdfPageState)
-      }}
-      onSubmit={() => handleOk(next, onAccept, pdfPageState)}
+      onClose={() => handleCancel(back, closeModal, pdfPageState)}
     >
       <AckProspectusView
         deps={deps}
@@ -51,7 +47,20 @@ export const AckProspectusModal = ({
           setPdfPageState(toPdfPageState(pageNumber, pageCount))
         }}
       />
-    </OkCancelModal>
+      <div>
+        <div className="d-flex gap-40">
+          <TextButton
+            label={toCancelLabel(pdfPageState)}
+            onClick={async () => handleCancel(back, closeModal, pdfPageState)}
+          />
+          <SubmitButton
+            label={toOkLabel(pdfPageState)}
+            width="w-auto"
+            onClick={async () => handleOk(next, onAccept, pdfPageState)}
+          />
+        </div>
+      </div>
+    </Modal>
   )
 }
 
