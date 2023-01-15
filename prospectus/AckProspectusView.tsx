@@ -24,7 +24,7 @@ export const AckProspectusView = ({
         pageNumber={pageNumber}
         onPageCount={onPageCount}
       />
-      <div>
+      <div className="mb-5 mt-5 text-te">
         {
           "By acknowledging, you accept the conditions presented in this prospectus."
         }
