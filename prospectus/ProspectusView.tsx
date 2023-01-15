@@ -1,16 +1,20 @@
 import { InfoView } from "../components/labeled_inputs"
 import CopyPasteText, { CopyPasteHtml } from "../components/CopyPastText"
-import { PdfView } from "../pdf/PdfView"
+import { PageInfo, PdfView } from "../pdf/PdfView"
 import { Notification } from "../components/Notification"
 
 export const ProspectusView = ({
   url,
   hash,
   notification,
+  pageNumber,
+  onPageCount,
 }: {
   url: string
   hash: string
   notification: Notification
+  pageNumber: number
+  onPageCount: (count: number) => void
 }) => {
   return (
     <div>
@@ -34,7 +38,12 @@ export const ProspectusView = ({
           />
         </div>
       </div>
-      <PdfView url={url} title={"Prospectus"} />
+      <PdfView
+        url={url}
+        title={"Prospectus"}
+        onPageCount={onPageCount}
+        pageNumber={pageNumber}
+      />
     </div>
   )
 }

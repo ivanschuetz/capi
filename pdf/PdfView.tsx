@@ -1,5 +1,4 @@
 import { useState } from "react"
-
 // import default react-pdf entry
 import { Document, Page, pdfjs } from "react-pdf"
 // import pdf worker as a url, see `next.config.js` and `pdf-worker.js`
@@ -7,12 +6,28 @@ import workerSrc from "../pdf-worker"
 
 pdfjs.GlobalWorkerOptions.workerSrc = workerSrc
 
-export const PdfView = ({ url, title }: { url: string; title: string }) => {
+export type PageInfo = {
+  current: number
+  isFirst: boolean
+  isLast: boolean
+}
+
+export const PdfView = ({
+  url,
+  title,
+  pageNumber,
+  onPageCount,
+}: {
+  url: string
+  title: string
+  pageNumber: number
+  onPageCount: (count: number) => void
+}) => {
   const [numPages, setNumPages] = useState(null)
-  const [pageNumber, setPageNumber] = useState(1)
 
   function onDocumentLoadSuccess({ numPages }) {
     setNumPages(numPages)
+    onPageCount(numPages)
   }
 
   return (
@@ -26,8 +41,6 @@ export const PdfView = ({ url, title }: { url: string; title: string }) => {
       <Document file={url} onLoadSuccess={onDocumentLoadSuccess}>
         <Page pageNumber={pageNumber} />
       </Document>
-      <button onClick={() => setPageNumber(pageNumber - 1)}>{"prev"}</button>
-      <button onClick={() => setPageNumber(pageNumber + 1)}>{"next"}</button>
     </div>
   )
 }

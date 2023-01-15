@@ -10,9 +10,7 @@ import { toValidationErrorMsg } from "../functions/validation"
 import { useDaoId } from "../hooks/useDaoId"
 import { storeIpfs, toMaybeIpfsUrl } from "../ipfs/store"
 import { OkCancelModal } from "../modal/OkCancelModal"
-import { ProspectusModal } from "../prospectus/ProspectusModal"
 import { SetBool, SetString } from "../type_alias"
-import { ContentTitle } from "./ContentTitle"
 import { FileUploader } from "./FileUploader"
 import { ImageUpload } from "./ImageUpload"
 import {
@@ -111,7 +109,7 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
           </React.Fragment>
         )}
         {deps.features.minMaxInvestment && (
-          <div className="flex mt-10 gap-8">
+          <div className="mt-10 flex gap-8">
             <div className="f-basis-50">
               <LabeledAmountInput
                 label={"Min investment (shares)"}
@@ -189,7 +187,7 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
       {showConfirmRekeyModal && (
         <OkCancelModal
           title="WARNING"
-          closeModal={() => setShowConfirmRekeyModal(false)}
+          onCancel={() => setShowConfirmRekeyModal(false)}
           okLabel="Continue"
           cancelLabel="Cancel"
           onSubmit={() => {

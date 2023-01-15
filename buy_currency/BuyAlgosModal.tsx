@@ -9,7 +9,7 @@ export const BuyAlgosModal = ({ deps, closeModal }) => {
   return (
     <OkCancelModal
       title={"Top your account"}
-      closeModal={closeModal}
+      onCancel={closeModal}
       onSubmit={() => startBuyCurrencyFlow(deps, "ALGO", "1", closeModal)}
     >
       <BuyAlgosContent />

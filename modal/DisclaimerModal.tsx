@@ -4,7 +4,7 @@ export const DisclaimerModal = ({ closeModal, onAccept }) => {
   return (
     <OkCancelModal
       title={"Disclaimer"}
-      closeModal={closeModal}
+      onCancel={closeModal}
       okLabel={"Accept"}
       cancelLabel={"Reject"}
       onSubmit={onAccept}

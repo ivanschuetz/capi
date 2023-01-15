@@ -18,7 +18,7 @@ export const BuyFundsAssetModal = ({
   return (
     <OkCancelModal
       title={"Top your account"}
-      closeModal={closeModal}
+      onCancel={closeModal}
       onSubmit={() => startBuyCurrencyFlow(deps, "USDC", amount, closeModal)}
     >
       <BuyFundsAssetContent />

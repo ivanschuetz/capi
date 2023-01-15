@@ -3,21 +3,21 @@ import Modal from "./Modal"
 
 export const OkCancelModal = ({
   title,
-  closeModal,
+  onCancel,
   children,
   onSubmit,
   okLabel,
   cancelLabel,
 }: {
   title: string
-  closeModal: () => void
+  onCancel: () => void
   children: JSX.Element
   onSubmit: () => void
   okLabel?: string
   cancelLabel?: string
 }) => {
   return (
-    <Modal title={title} onClose={() => closeModal()}>
+    <Modal title={title} onClose={() => onCancel()}>
       <div>
         {children}
         <div className="d-flex gap-40">
@@ -27,7 +27,7 @@ export const OkCancelModal = ({
           />
           <CancelButton
             label={cancelLabel ?? "Cancel"}
-            onClick={async () => closeModal()}
+            onClick={async () => onCancel()}
           />
         </div>
       </div>
