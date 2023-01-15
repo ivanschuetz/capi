@@ -229,13 +229,15 @@ const RightView = ({
       <div className="flex">
         <div className="items-center">
           <div className="flex flex-nowrap items-center gap-2 text-50 font-semibold">
-            {"Expected dividend"}
+            {"Dividend"}
             {
-              <InfoView
-                text={
-                  "Total expected dividend if you buy these shares (includes already locked shares)"
-                }
-              />
+              <div className="w-5">
+                <InfoView
+                  text={
+                    "Total expected dividend if you buy these shares (includes already locked shares)"
+                  }
+                />
+              </div>
             }
           </div>
           <div className="flex gap-2 ">
