@@ -171,7 +171,23 @@ const renderBarChart = (
     .attr("fill", function (d) {
       return colorsRange(d.key)
     })
+
+  updateFontSize(selected, width)
+  d3.select(window).on("resize", function () {
+    updateFontSize(selected, width)
+  })
 }
+
+// Calculate font size based on chart width, so it does *not* rescale when the chart rescales
+// we need this because of svg viewbox which scales everything, including the text
+const updateFontSize = (selected: any, chartWidth: number) => {
+  const newWidth = selected.style("width")
+  // note: consistent with tailwind theme
+  const fontSize = 16
+  const newFontSize = fontSize * (chartWidth / parseInt(newWidth))
+  d3.selectAll(".tick").select("text").style("font-size", newFontSize)
+}
+
 export default renderBarChart
 
 const barShape = (item, rx, ry, subGroup, top, bottom) => {
