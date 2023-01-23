@@ -1,12 +1,13 @@
 import moment, { Moment } from "moment"
 import { useMemo, useState } from "react"
+import ReactTooltip from "react-tooltip"
 import { useTextCounter } from "../hooks/useTextCounter"
 import calendar from "../images/calendar_today.svg"
 import funds from "../images/funds.svg"
 import error from "../images/svg/error.svg"
 import info from "../images/svg/info.svg"
 import { SelectDateModal } from "../modal/SelectDateModal"
-import styles from "./labeled_inputs.module.sass"
+import NoSsr from "./NoSsr"
 
 export const LabeledInput = ({
   label,
@@ -88,7 +89,9 @@ export const WithTooltip = ({
       <div className="flex items-center" data-tip={text}>
         {children}
       </div>
-      {/* <ReactTooltip uuid={"infoview" + text} /> */}
+      <NoSsr>
+        <ReactTooltip uuid={"infoview" + text} />
+      </NoSsr>
     </>
   )
 }
