@@ -1,6 +1,7 @@
 import moment, { Moment } from "moment"
 import { useMemo, useState } from "react"
-import ReactTooltip, { Tooltip } from "react-tooltip"
+import { Tooltip } from "react-tooltip"
+import { uniqueTextId } from "../functions/utils"
 import { useTextCounter } from "../hooks/useTextCounter"
 import calendar from "../images/calendar_today.svg"
 import funds from "../images/funds.svg"
@@ -84,14 +85,13 @@ export const WithTooltip = ({
   text: string
   children: JSX.Element
 }) => {
-  // just a unique id to connect the tooltip with the element
-  const anchorId = (hash(text).toString() + Math.random()).replaceAll(".", "")
+  const anchorId = uniqueTextId(text)
   // console.log("anchorId: " + anchorId)
   return (
     <>
       <div
         id={anchorId}
-        className="flex items-center"
+        // className="flex items-center"
         data-tooltip-content={text}
       >
         {children}

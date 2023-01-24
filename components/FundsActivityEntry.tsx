@@ -1,9 +1,11 @@
-import ReactTooltip from "react-tooltip"
+import { Tooltip } from "react-tooltip"
 import { FundsActivityViewData } from "wasm/wasm"
 import { Deps } from "../context/AppContext"
+import { uniqueTextId } from "../functions/utils"
 import funds from "../images/funds.svg"
 import SvgArrowDown from "./icons/SvgArrowDown"
 import SvgArrowUp from "./icons/SvgArrowUp"
+import NoSsr from "./NoSsr"
 
 export const FundsActivityEntry = ({
   deps,
@@ -160,14 +162,18 @@ const AmountView = ({
 }
 
 export const amountTextView = (entry: FundsActivityViewData) => {
+  const anchorId = uniqueTextId(entry.amount_without_fee)
+
   // show tooltip if the displayed amount was shortened
   if (entry.amount_without_fee !== entry.short_amount_without_fee) {
     return (
       <>
-        <div data-tip={entry.amount_without_fee}>
+        <div id={anchorId} data-tip={entry.amount_without_fee}>
           {entry.short_amount_without_fee}
         </div>
-        <ReactTooltip uuid={"nestedamount" + entry.amount_without_fee} />
+        <NoSsr>
+          <Tooltip anchorId={anchorId} />
+        </NoSsr>
       </>
     )
   } else {

@@ -112,3 +112,21 @@ export const showError = (notification: Notification, error: any) => {
 const jsErrorToErrorMsg = (jsError: any): string => {
   return jsError as string
 }
+
+export const uniqueTextId = (str: string): string => {
+  return (hash(str).toString() + Math.random()).replaceAll(".", "")
+}
+
+export const hash = (str: string): number => {
+  var hash = 0
+  var i = 0
+  var chr = null
+
+  if (str.length === 0) return hash
+  for (i = 0; i < str.length; i++) {
+    chr = str.charCodeAt(i)
+    hash = (hash << 5) - hash + chr
+    hash |= 0 // Convert to 32bit integer
+  }
+  return hash
+}
