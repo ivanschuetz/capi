@@ -25,6 +25,8 @@ import "../styles/_withdraw.sass"
 import "../styles/global.sass"
 import "../styles/shared_text.sass"
 import { NextPage } from "next"
+import "react-toastify/dist/ReactToastify.css"
+import "react-tooltip/dist/react-tooltip.css"
 
 export type NextPageWithLayout = NextPage & {
   getLayout?: (page: React.ReactElement) => React.ReactNode
