@@ -1,6 +1,6 @@
 import moment, { Moment } from "moment"
 import { useMemo, useState } from "react"
-import ReactTooltip from "react-tooltip"
+import ReactTooltip, { Tooltip } from "react-tooltip"
 import { useTextCounter } from "../hooks/useTextCounter"
 import calendar from "../images/calendar_today.svg"
 import funds from "../images/funds.svg"
@@ -84,17 +84,39 @@ export const WithTooltip = ({
   text: string
   children: JSX.Element
 }) => {
+  // just a unique id to connect the tooltip with the element
+  const anchorId = (hash(text).toString() + Math.random()).replaceAll(".", "")
+  // console.log("anchorId: " + anchorId)
   return (
     <>
-      <div className="flex items-center" data-tip={text}>
+      <div
+        id={anchorId}
+        className="flex items-center"
+        data-tooltip-content={text}
+      >
         {children}
       </div>
       <NoSsr>
-        <ReactTooltip uuid={"infoview" + text} />
+        <Tooltip anchorId={anchorId} />
       </NoSsr>
     </>
   )
 }
+
+const hash = (str: string): number => {
+  var hash = 0
+  var i = 0
+  var chr = null
+
+  if (str.length === 0) return hash
+  for (i = 0; i < str.length; i++) {
+    chr = str.charCodeAt(i)
+    hash = (hash << 5) - hash + chr
+    hash |= 0 // Convert to 32bit integer
+  }
+  return hash
+}
+
 const InputLength = ({ remainingChars, className }: InputLengthPars) => {
   return <div className={className}>{remainingChars}</div>
 }

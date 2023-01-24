@@ -1,5 +1,6 @@
 import { useContext } from "react"
 import "react-toastify/dist/ReactToastify.css"
+import "react-tooltip/dist/react-tooltip.css"
 import { AppContainer } from "../components/AppContainer"
 import { CreateDao } from "../components/CreateDao"
 import { AppContext } from "../context/AppContext"
