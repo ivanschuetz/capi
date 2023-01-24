@@ -64,8 +64,6 @@ const Button = ({
   width?: string
   onClick: () => void
 }) => {
-  // const width = fullWidth ? "w-full" : "w-60"
-
   return (
     <button
       className={`relative h-16 ${width} ${bgColor} px-8 text-45 font-bold text-bg transition hover:bg-te disabled:pointer-events-none disabled:bg-bg2 disabled:text-te2`}

@@ -15,6 +15,7 @@ export const SelectWallet = ({
     <div className="align-center mt-8 mb-5 flex flex-col">
       <SubmitButton
         label={"Wallet Connect"}
+        width={"w-72"}
         onClick={async () =>
           selectWallet(
             deps,
@@ -30,6 +31,7 @@ export const SelectWallet = ({
       <div className="mb-10" />
       <SubmitButton
         label={"My Algo"}
+        width={"w-72"}
         onClick={async () =>
           selectWallet(
             deps,
