@@ -121,13 +121,9 @@ const ChartBox = ({
             options={barsOptions}
             components={{ DropdownIndicator, Input }}
             styles={{
-              singleValue: (baseStyles) => ({
-                ...baseStyles,
-                gridArea: "1/1",
-                color: "#de5c62",
-                fontWeight: 700,
-                fontSize: "16px",
-              }),
+              singleValue: (baseStyles, state) =>
+                selectSingleValueStyle(baseStyles, state),
+
               indicatorSeparator: (baseStyles) => ({
                 ...baseStyles,
                 display: "none",
@@ -137,14 +133,15 @@ const ChartBox = ({
                 height: "50px",
                 fontWeight: "700",
               }),
-              control: (baseStyles) => ({
-                ...baseStyles,
-                borderStyle: "none",
-                borderWidth: "0",
-                boxShadow: "none",
-              }),
+              control: (baseStyles, state) =>
+                selectInputStyle(baseStyles, state),
             }}
           />
+          {/* workaround for react-select text jumping when opening the dropdown:
+          we add the text manually on front of the select, and make the select's text invisible. */}
+          <div className="pointer-events-none absolute right-[10%] text-45 font-bold text-pr">
+            {selectedBarsInterval.label}
+          </div>
         </div>
         <svg className="mb--40" ref={chart} />
       </div>
@@ -152,6 +149,24 @@ const ChartBox = ({
   )
 }
 
+const selectSingleValueStyle = (baseStyles: any, state: any) => {
+  // console.log("state: %o", state)
+  return {
+    ...baseStyles,
+    color: "#fff",
+    fontWeight: 700,
+    fontSize: "16px",
+  }
+}
+
+const selectInputStyle = (baseStyles: any, state: any) => {
+  return {
+    ...baseStyles,
+    borderStyle: "none",
+    borderWidth: "0",
+    boxShadow: "none",
+  }
+}
 const updateChartData = (
   deps: Deps,
   notification: Notification,
