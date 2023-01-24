@@ -6,7 +6,6 @@ import {
   useRef,
   useState,
 } from "react"
-import Select from "react-select"
 import { IncomeVsSpendingResJs } from "wasm/wasm"
 import { ChartLegends } from "../charts/ChartLegends"
 import renderBarChart from "../charts/renderBarChart"
@@ -15,6 +14,8 @@ import { safe } from "../functions/utils"
 import { LabeledBox } from "./LabeledBox"
 import { Notification } from "./Notification"
 import Progress from "./Progress"
+import Select, { components, DropdownIndicatorProps } from "react-select"
+import dropdown from "../images/svg/dropdown.svg"
 
 const barsOptions: BarInterval[] = [
   { value: "days7", label: "Last 7 days" },
@@ -91,6 +92,16 @@ const ChartBox = ({
   barsOptions: BarInterval[]
   chart: MutableRefObject<any>
 }) => {
+  const DropdownIndicator = (props) => {
+    return (
+      <components.DropdownIndicator {...props}>
+        <img src={dropdown.src} alt="info" />
+      </components.DropdownIndicator>
+    )
+  }
+
+  const Input = (props) => <components.Input {...props} readOnly={true} />
+
   return (
     <LabeledBox label={"Income and spending"}>
       <div className="flex flex-col gap-6">
@@ -102,11 +113,37 @@ const ChartBox = ({
               { color: colors[0], text: "Spending" },
             ]}
           />
+
           <Select
             className="charts-select"
             value={selectedBarsInterval}
             onChange={setSelectedBarsInterval}
             options={barsOptions}
+            components={{ DropdownIndicator, Input }}
+            styles={{
+              singleValue: (baseStyles) => ({
+                ...baseStyles,
+                gridArea: "1/1",
+                color: "#de5c62",
+                fontWeight: 700,
+                fontSize: "16px",
+              }),
+              indicatorSeparator: (baseStyles) => ({
+                ...baseStyles,
+                display: "none",
+              }),
+              input: (baseStyles) => ({
+                ...baseStyles,
+                height: "50px",
+                fontWeight: "700",
+              }),
+              control: (baseStyles) => ({
+                ...baseStyles,
+                borderStyle: "none",
+                borderWidth: "0",
+                boxShadow: "none",
+              }),
+            }}
           />
         </div>
         <svg className="mb--40" ref={chart} />
