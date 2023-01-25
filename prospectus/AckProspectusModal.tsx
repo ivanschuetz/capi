@@ -105,6 +105,8 @@ const handleOk = (
 }
 
 const toOkLabel = (pageState: PdfPageState) => {
+  console.log("in toOkLabel, page state: %o: ", pageState)
+
   switch (pageState) {
     case "first":
     case "between":
@@ -128,11 +130,15 @@ const toPdfPageState = (current: number, pageCount: number): PdfPageState => {
   if (current < 0 || current > pageCount) {
     throw Error("Invalid current page number: " + current)
   }
-
-  if (current === 1) {
-    return "first"
-  } else if (current === pageCount) {
+  console.log(
+    "to pdf page state: current page: %o pageCount: %o",
+    current,
+    pageCount
+  )
+  if (current === pageCount) {
     return "last"
+  } else if (current === 1) {
+    return "first"
   } else {
     return "between"
   }
