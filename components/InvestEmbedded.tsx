@@ -81,6 +81,7 @@ export const InvestEmbedded = ({ deps, dao }: { deps: Deps; dao: DaoJs }) => {
             <SubmitButton
               label={"Buy"}
               isLoading={submitting}
+              width={"w-60"}
               onClick={async () => {
                 if (deps.features.prospectus) {
                   setShowProspectusModal(true)

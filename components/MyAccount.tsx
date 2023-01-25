@@ -197,6 +197,7 @@ const ConnectButton = ({
   return (
     <SubmitButton
       label={"Connect wallet"}
+      width={"w-60"}
       onClick={async () => {
         if (await needsToAcceptDisclaimer()) {
           setShowDisclaimerModal(true)
