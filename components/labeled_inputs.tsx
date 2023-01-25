@@ -89,11 +89,7 @@ export const WithTooltip = ({
   // console.log("anchorId: " + anchorId)
   return (
     <>
-      <div
-        id={anchorId}
-        // className="flex items-center"
-        data-tooltip-content={text}
-      >
+      <div id={anchorId} data-tooltip-content={text}>
         {children}
       </div>
       <NoSsr>
