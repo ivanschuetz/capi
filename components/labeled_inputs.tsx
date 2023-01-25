@@ -129,6 +129,8 @@ export const LabeledCurrencyInput = ({
   errorMsg,
   info,
   labelColor,
+  bgColor,
+  placeholderColor,
 }: LabeledCurrencyInputPars) => {
   return (
     <WithLabel
@@ -144,6 +146,8 @@ export const LabeledCurrencyInput = ({
           onChange={onChange}
           placeholder={placeholder}
           hasImage={true}
+          bgColor={bgColor}
+          placeholderColor={placeholderColor}
         />
         <InputLeftImg img={funds} />
       </div>
@@ -275,12 +279,16 @@ const Input = ({
   placeholder,
   disabled,
   hasImage,
+  bgColor,
+  placeholderColor,
 }: InputPars) => {
   const paddingLeft = hasImage ? "pl-14" : "pl-5"
+  const bg = bgColor ?? "bg-bg2"
+  const plColor = placeholderColor ?? "placeholder-te"
 
   return (
     <input
-      className={`h-16 w-full bg-bg2 pr-5 ${paddingLeft} mb-8 pr-5 text-te`}
+      className={`h-16 w-full ${bg} pr-5 ${paddingLeft} mb-8 pr-5 text-te ${plColor}`}
       placeholder={placeholder}
       size={30}
       type={type}
@@ -304,6 +312,10 @@ const Input = ({
   )
 }
 
+// TODO refactor styling settings:
+// we only have 2 themes: white bg or purple bg
+// consider passing either a flag for one of the themes
+// or use one of those theming libraries for tailwind
 export const LabeledTextArea = ({
   label,
   inputValue,
@@ -314,8 +326,12 @@ export const LabeledTextArea = ({
   img,
   rows = 10,
   labelColor,
+  bgColor,
+  placeholderColor,
 }: LabeledTextAreaPars) => {
   const paddingLeft = img ? "pl-14" : "pl-5"
+  const bg = bgColor ?? "bg-bg2"
+  const plColor = placeholderColor ?? "placeholder-te"
 
   const {
     remainingChars,
@@ -339,7 +355,7 @@ export const LabeledTextArea = ({
     >
       <div className={`${img ? "relative" : ""}`}>
         <textarea
-          className={`w-full bg-bg2 py-5 ${paddingLeft} text-te ${inputErrorClass}`}
+          className={`${bg} w-full py-5 ${paddingLeft} text-te ${inputErrorClass} ${plColor}`}
           rows={rows}
           cols={50}
           value={inputValue}
@@ -434,6 +450,8 @@ type LabeledAmountInputPars = {
   img?: any
   info?: string
   labelColor?: string
+  bgColor?: string
+  placeholderColor?: string
 }
 
 type InputPars = {
@@ -444,6 +462,8 @@ type InputPars = {
   placeholder?: string
   disabled?: boolean
   hasImage?: boolean
+  bgColor?: string
+  placeholderColor?: string
 }
 
 type LabeledTextAreaPars = InputBase & {
@@ -451,6 +471,8 @@ type LabeledTextAreaPars = InputBase & {
   maxLength?: number
   rows?: number
   labelColor?: string
+  bgColor?: string
+  placeholderColor?: string
 }
 
 type LabeledDatePars = {

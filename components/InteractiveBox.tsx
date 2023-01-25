@@ -6,11 +6,15 @@ import poly3 from "../images/svg/poly3.svg"
 // Note that this component doesn't add itself any interactive elements.
 export const InteractiveBox = ({
   title,
+  noTitleBottomMargin,
   children,
 }: {
   title: string
+  // true to not add the default bottom margin below the title
+  noTitleBottomMargin?: boolean
   children: JSX.Element
 }) => {
+  const titleBottomMargin = noTitleBottomMargin ? "" : "mb-10"
   return (
     <div className="relative mt-20">
       <img src={poly1.src} title={null} className="absolute right-[25%]" />
@@ -25,7 +29,9 @@ export const InteractiveBox = ({
         className="absolute right-[35%] bottom-0"
       />
       <div className="dao_action_active_tab box-container">
-        <div className="box_header_on_acc">{title}</div>
+        <div className={`${titleBottomMargin} text-70 font-bold text-bg`}>
+          {title}
+        </div>
         {children}
       </div>
     </div>

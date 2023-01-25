@@ -22,7 +22,10 @@ export const Withdraw = ({ deps }: { deps: Deps }) => {
   const view = () => {
     if (deps.dao) {
       return (
-        <InteractiveBox title={"Withdraw Funds from project"}>
+        <InteractiveBox
+          title={"Withdraw Funds from project"}
+          noTitleBottomMargin={true}
+        >
           <>
             <Funds
               funds={deps.funds}
@@ -30,11 +33,14 @@ export const Withdraw = ({ deps }: { deps: Deps }) => {
               daoId={daoId}
               containerClassNameOpt="dao_funds__cont_in_withdraw"
             />
+            <div className="mt-10" />
             <LabeledCurrencyInput
               label={"How much?"}
               inputValue={withdrawalAmount}
               labelColor="text-bg"
               onChange={(input) => setWithdrawalAmount(input)}
+              bgColor={"bg-inp"}
+              placeholderColor={"text-te3"}
             />
             <LabeledTextArea
               labelColor="text-bg"
@@ -44,12 +50,15 @@ export const Withdraw = ({ deps }: { deps: Deps }) => {
               onChange={(input) => setWithdrawalDescr(input)}
               maxLength={200} // NOTE: has to match WASM
               rows={3}
+              bgColor={"bg-inp"}
+              placeholderColor={"text-te3"}
             />
 
             <SubmitButton
               label={"Withdraw"}
               isLoading={submitting}
               disabled={deps.myAddress === ""}
+              width="w-60"
               onClick={async () => {
                 if (!deps.wasm) {
                   // should be unlikely, as wasm should initialize quickly
