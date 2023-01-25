@@ -16,7 +16,7 @@ export const InteractiveBox = ({
 }) => {
   const titleBottomMargin = noTitleBottomMargin ? "" : "mb-10"
   return (
-    <div className="relative mt-20">
+    <div className="relative mt-7">
       <img src={poly1.src} title={null} className="absolute right-[25%]" />
       <img
         src={poly2.src}

@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react"
+import { ProspectusJs } from "wasm"
 import { Deps } from "../context/AppContext"
 import { safe } from "../functions/utils"
 import { useDaoId } from "../hooks/useDaoId"
@@ -8,6 +9,7 @@ import { InvestmentProfits } from "./InvestmentProfits"
 import { LockShares } from "./LockShares"
 import Progress from "./Progress"
 import { UnlockShares } from "./UnlockShares"
+import info from "../images/svg/info.svg"
 
 export const Investment = ({ deps }) => {
   let daoId = useDaoId()
@@ -19,26 +21,19 @@ export const Investment = ({ deps }) => {
 
   initAndUpdateInvestmentData(deps, daoId, setDao)
 
+  const prospectus = deps.dao?.prospectus
+
   const view = () => {
     return (
       <div>
         <div className="section_container">
-          {deps.features.prospectus && (
-            <div>
-              <a href={deps.dao.prospectus_url}>{"Acknowledged prospectus"}</a>
-            </div>
-          )}
-
           <ContentTitle title={"My investment"} />
 
           {deps.features.stillRaisingFundsLabels &&
-            dao.funds_raised === "false" && (
-              <div className="mb-40">
-                {
-                  "The project is still raising funds. Some features are disabled."
-                }
-              </div>
-            )}
+            dao.funds_raised === "false" && <StillRaisingFundsWarning />}
+          {deps.features.prospectus && prospectus && (
+            <ProspectusLink prospectus={prospectus} />
+          )}
 
           <InvestmentProfits deps={deps} />
           <Tabs
@@ -71,6 +66,27 @@ export const Investment = ({ deps }) => {
   } else {
     return <Progress />
   }
+}
+
+const StillRaisingFundsWarning = ({}) => {
+  return (
+    <div className="flex gap-2">
+      <img src={info.src} />
+      <div className="text-45 text-te">
+        {"The project is still raising funds. Some features are disabled."}
+      </div>
+    </div>
+  )
+}
+
+const ProspectusLink = ({ prospectus }: { prospectus: ProspectusJs }) => {
+  return (
+    <div className="mb-6 mt-6">
+      <a href={prospectus.url} target="_blank" className="font-bold text-pr">
+        {"Acknowledged prospectus"}
+      </a>
+    </div>
+  )
 }
 
 const Tabs = ({
