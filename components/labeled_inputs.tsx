@@ -128,9 +128,15 @@ export const LabeledCurrencyInput = ({
   placeholder,
   errorMsg,
   info,
+  labelColor,
 }: LabeledCurrencyInputPars) => {
   return (
-    <WithLabel label={label} info={info} errorMsg={errorMsg}>
+    <WithLabel
+      label={label}
+      info={info}
+      errorMsg={errorMsg}
+      labelColor={labelColor}
+    >
       <div className="relative">
         <Input
           value={inputValue}
@@ -152,9 +158,15 @@ export const LabeledAmountInput = ({
   placeholder,
   errorMsg,
   info,
+  labelColor,
 }: LabeledAmountInputPars) => {
   return (
-    <WithLabel label={label} info={info} errorMsg={errorMsg}>
+    <WithLabel
+      label={label}
+      info={info}
+      errorMsg={errorMsg}
+      labelColor={labelColor}
+    >
       <Input
         value={inputValue}
         type={"number"}
@@ -170,15 +182,17 @@ const WithLabel = ({
   info,
   errorMsg,
   children,
+  labelColor,
 }: {
   label: string
   info: string
   errorMsg?: string
   children: JSX.Element
+  labelColor?: string
 }) => {
   return (
     <div>
-      <Label text={label} info={info} />
+      <Label text={label} info={info} color={labelColor} />
       {children}
       <ValidationMsg errorMsg={errorMsg} />
     </div>
@@ -194,6 +208,7 @@ const WithLabelAndLength = ({
   maxLength,
   remainingChars,
   lengthClass,
+  labelColor,
 }: {
   label: string
   info?: string
@@ -203,12 +218,13 @@ const WithLabelAndLength = ({
   maxLength: number
   remainingChars?: number
   lengthClass?: string
+  labelColor?: string
 }) => {
   return (
     <div className="mb-6 sm:mb-8">
       <div>
         <div className="flex">
-          <Label text={label} info={info} />
+          <Label text={label} info={info} color={labelColor} />
           {showLength && maxLength && (
             <InputLength
               remainingChars={remainingChars}
@@ -223,10 +239,19 @@ const WithLabelAndLength = ({
   )
 }
 
-export const Label = ({ text, info }: { text: string; info: string }) => {
+export const Label = ({
+  text,
+  info,
+  color,
+}: {
+  text: string
+  info: string
+  color?: string
+}) => {
+  const textColor = color ?? "text-te"
   return (
     <div className="mb-1 flex grow items-center gap-2">
-      <div className="text-te">{text}</div>
+      <div className={`${textColor}`}>{text}</div>
       {info && <InfoView text={info} />}
     </div>
   )
@@ -288,6 +313,7 @@ export const LabeledTextArea = ({
   maxLength,
   img,
   rows = 10,
+  labelColor,
 }: LabeledTextAreaPars) => {
   const paddingLeft = img ? "pl-14" : "pl-5"
 
@@ -309,6 +335,7 @@ export const LabeledTextArea = ({
       maxLength={maxLength}
       remainingChars={remainingChars}
       lengthClass={lengthClass}
+      labelColor={labelColor}
     >
       <div className={`${img ? "relative" : ""}`}>
         <textarea
@@ -406,6 +433,7 @@ type LabeledAmountInputPars = {
   errorMsg?: string
   img?: any
   info?: string
+  labelColor?: string
 }
 
 type InputPars = {
@@ -422,6 +450,7 @@ type LabeledTextAreaPars = InputBase & {
   img?: any
   maxLength?: number
   rows?: number
+  labelColor?: string
 }
 
 type LabeledDatePars = {

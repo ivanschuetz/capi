@@ -33,9 +33,11 @@ export const Withdraw = ({ deps }: { deps: Deps }) => {
             <LabeledCurrencyInput
               label={"How much?"}
               inputValue={withdrawalAmount}
+              labelColor="text-bg"
               onChange={(input) => setWithdrawalAmount(input)}
             />
             <LabeledTextArea
+              labelColor="text-bg"
               label={"For what?"}
               img={pencil}
               inputValue={withdrawalDescr}
