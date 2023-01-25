@@ -5,6 +5,7 @@ import { useDaoId } from "../hooks/useDaoId"
 import pencil from "../images/svg/pencil.svg"
 import { SetBool } from "../type_alias"
 import { Funds } from "./Funds"
+import { InteractiveBox } from "./InteractiveBox"
 import { LabeledCurrencyInput, LabeledTextArea } from "./labeled_inputs"
 import Progress from "./Progress"
 import { SubmitButton } from "./SubmitButton"
@@ -21,51 +22,50 @@ export const Withdraw = ({ deps }: { deps: Deps }) => {
   const view = () => {
     if (deps.dao) {
       return (
-        <div className="mt-20 bg-te p-10">
-          <div className="text-70 font-bold text-bg">
-            {"Withdraw Funds from project"}
-          </div>
-          <Funds
-            funds={deps.funds}
-            showWithdrawLink={false}
-            daoId={daoId}
-            containerClassNameOpt="dao_funds__cont_in_withdraw"
-          />
-          <LabeledCurrencyInput
-            label={"How much?"}
-            inputValue={withdrawalAmount}
-            onChange={(input) => setWithdrawalAmount(input)}
-          />
-          <LabeledTextArea
-            label={"For what?"}
-            img={pencil}
-            inputValue={withdrawalDescr}
-            onChange={(input) => setWithdrawalDescr(input)}
-            maxLength={200} // NOTE: has to match WASM
-            rows={3}
-          />
+        <InteractiveBox title={"Withdraw Funds from project"}>
+          <>
+            <Funds
+              funds={deps.funds}
+              showWithdrawLink={false}
+              daoId={daoId}
+              containerClassNameOpt="dao_funds__cont_in_withdraw"
+            />
+            <LabeledCurrencyInput
+              label={"How much?"}
+              inputValue={withdrawalAmount}
+              onChange={(input) => setWithdrawalAmount(input)}
+            />
+            <LabeledTextArea
+              label={"For what?"}
+              img={pencil}
+              inputValue={withdrawalDescr}
+              onChange={(input) => setWithdrawalDescr(input)}
+              maxLength={200} // NOTE: has to match WASM
+              rows={3}
+            />
 
-          <SubmitButton
-            label={"Withdraw"}
-            isLoading={submitting}
-            disabled={deps.myAddress === ""}
-            onClick={async () => {
-              if (!deps.wasm) {
-                // should be unlikely, as wasm should initialize quickly
-                console.error("Click while wasm isn't ready. Ignoring.")
-                return
-              }
+            <SubmitButton
+              label={"Withdraw"}
+              isLoading={submitting}
+              disabled={deps.myAddress === ""}
+              onClick={async () => {
+                if (!deps.wasm) {
+                  // should be unlikely, as wasm should initialize quickly
+                  console.error("Click while wasm isn't ready. Ignoring.")
+                  return
+                }
 
-              await withdraw(
-                deps,
-                setSubmitting,
-                daoId,
-                withdrawalAmount,
-                withdrawalDescr
-              )
-            }}
-          />
-        </div>
+                await withdraw(
+                  deps,
+                  setSubmitting,
+                  daoId,
+                  withdrawalAmount,
+                  withdrawalDescr
+                )
+              }}
+            />
+          </>
+        </InteractiveBox>
       )
     } else {
       return <Progress />
