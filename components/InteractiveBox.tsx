@@ -1,3 +1,7 @@
+import poly1 from "../images/svg/poly1.svg"
+import poly2 from "../images/svg/poly2.svg"
+import poly3 from "../images/svg/poly3.svg"
+
 // Box with the design used for interactive contents (a button somewhere).
 // Note that this component doesn't add itself any interactive elements.
 export const InteractiveBox = ({
@@ -8,7 +12,18 @@ export const InteractiveBox = ({
   children: JSX.Element
 }) => {
   return (
-    <div className="mt-20">
+    <div className="relative mt-20">
+      <img src={poly1.src} title={null} className="absolute right-[25%]" />
+      <img
+        src={poly2.src}
+        title={null}
+        className="absolute right-[0%] bottom-0"
+      />
+      <img
+        src={poly3.src}
+        title={null}
+        className="absolute right-[35%] bottom-0"
+      />
       <div className="dao_action_active_tab box-container">
         <div className="box_header_on_acc">{title}</div>
         {children}
