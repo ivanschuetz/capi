@@ -8,6 +8,8 @@ import Progress from "./Progress"
 import { SubmitButton } from "./SubmitButton"
 import { DaoJs } from "wasm/wasm"
 import { InteractiveBox } from "./InteractiveBox"
+import { SetBool } from "../type_alias"
+import { WithTooltip } from "./labeled_inputs"
 
 export const InvestmentProfits = ({ deps }: { deps: Deps }) => {
   let daoId = useDaoId()
@@ -16,6 +18,9 @@ export const InvestmentProfits = ({ deps }: { deps: Deps }) => {
   const [submitting, setSubmitting] = useState(false)
 
   update(deps, daoId, setDao)
+
+  const claimButtonDisabled =
+    deps.investmentData.investor_claimable_dividend === "0"
 
   const box = () => {
     return (
@@ -29,31 +34,18 @@ export const InvestmentProfits = ({ deps }: { deps: Deps }) => {
                 {deps.investmentData.investor_claimable_dividend}
               </div>
             </div>
-            <SubmitButton
-              label={"Claim"}
-              isLoading={submitting}
-              disabled={deps.investmentData.investor_claimable_dividend === "0"}
-              onClick={async () => {
-                if (!deps.wasm) {
-                  // should be unlikely, as wasm should initialize quickly
-                  console.error("Click while wasm isn't ready. Ignoring.")
-                  return
-                }
-
-                await retrieveProfits(
-                  deps.wasm,
-                  deps.myAddress,
-                  setSubmitting,
-                  deps.notification,
-                  deps.updateMyBalance,
-                  daoId,
-                  deps.updateInvestmentData,
-                  deps.updateFunds,
-                  deps.updateMyDividend,
-                  deps.wallet
-                )
-              }}
-            />
+            <WithTooltipIfDisabled
+              disabled={claimButtonDisabled}
+              tooltip="Nothing to claim."
+            >
+              <SubmitClaimButton
+                submitting={submitting}
+                setSubmitting={setSubmitting}
+                deps={deps}
+                daoId={daoId}
+                disabled={claimButtonDisabled}
+              />
+            </WithTooltipIfDisabled>
           </div>
           <Retrieved
             amount={deps.investmentData.investor_already_retrieved_amount}
@@ -68,6 +60,68 @@ export const InvestmentProfits = ({ deps }: { deps: Deps }) => {
   } else {
     return <Progress />
   }
+}
+
+type SubmitClaimButtonProps = {
+  submitting: boolean
+  setSubmitting: SetBool
+  deps: Deps
+  daoId: string
+  disabled: boolean
+}
+
+type WithTooltipIfDisabledProps = {
+  disabled: boolean
+  tooltip: string
+  children: any
+}
+
+const WithTooltipIfDisabled = ({
+  disabled,
+  tooltip,
+  children,
+}: WithTooltipIfDisabledProps) => {
+  if (disabled) {
+    return <WithTooltip text={tooltip}>{children}</WithTooltip>
+  } else {
+    return children
+  }
+}
+
+const SubmitClaimButton = ({
+  submitting,
+  setSubmitting,
+  deps,
+  daoId,
+  disabled,
+}: SubmitClaimButtonProps) => {
+  return (
+    <SubmitButton
+      label={"Claim"}
+      isLoading={submitting}
+      disabled={disabled}
+      onClick={async () => {
+        if (!deps.wasm) {
+          // should be unlikely, as wasm should initialize quickly
+          console.error("Click while wasm isn't ready. Ignoring.")
+          return
+        }
+
+        await retrieveProfits(
+          deps.wasm,
+          deps.myAddress,
+          setSubmitting,
+          deps.notification,
+          deps.updateMyBalance,
+          daoId,
+          deps.updateInvestmentData,
+          deps.updateFunds,
+          deps.updateMyDividend,
+          deps.wallet
+        )
+      }}
+    />
+  )
 }
 
 const Retrieved = ({ amount }: { amount: string }) => {
