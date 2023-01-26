@@ -62,10 +62,24 @@ export const LabeledInput = ({
   )
 }
 
-export const InputLeftImg = ({ img }: { img: any }) => {
+export const InputLeftImg = ({
+  img,
+  onClick,
+}: {
+  img: any
+  onClick?: () => void
+}) => {
   return (
     <div className="center-children absolute top-0 left-0 h-16 pl-6">
-      <img src={img.src} alt="img" />
+      <img
+        src={img.src}
+        alt="img"
+        onClick={() => {
+          if (onClick) {
+            onClick()
+          }
+        }}
+      />
     </div>
   )
 }
@@ -401,7 +415,10 @@ export const LabeledDateInput = ({
             disabled={disabled}
             hasImage={true}
           />
-          <InputLeftImg img={calendar} />
+          <InputLeftImg
+            img={calendar}
+            onClick={() => setShowMinRaiseTargetEndDateModal(true)}
+          />
         </div>
       </WithLabel>
       {showMinRaiseTargetEndDateModal && (
