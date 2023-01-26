@@ -66,6 +66,7 @@ const Button = ({
 }) => {
   return (
     <button
+      // weird: sometimes the button's width doesn't work when interpolating (the classes string looks the same with inspector)
       className={`relative h-16 ${width} ${bgColor} px-8 text-45 font-bold text-bg transition hover:bg-te disabled:pointer-events-none disabled:bg-bg2 disabled:text-te2`}
       disabled={disabled}
       onClick={async () => {
