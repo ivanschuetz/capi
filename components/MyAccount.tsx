@@ -66,14 +66,14 @@ const MyData = ({ deps, daoId }: { deps: Deps; daoId?: string }) => {
         <div className="mb-8 flex flex-row justify-between">
           <MyDataColumn>
             <MyAddress deps={deps} />
-            <DividendLabel />
+            {daoId && <DividendLabel />}
           </MyDataColumn>
           <MyDataColumn>
             {deps.myBalance && <MyBalanceAndDisconnect deps={deps} />}
-            <DividendAmount dividend={deps.myDividend} />
+            {daoId && <DividendAmount dividend={deps.myDividend} />}
           </MyDataColumn>
         </div>
-        <SubmitClaimButton deps={deps} daoId={daoId} />
+        {daoId && <SubmitClaimButton deps={deps} daoId={daoId} />}
       </div>
     )
   } else {
