@@ -13,7 +13,7 @@ import { useDaoId } from "../hooks/useDaoId"
 import { storeIpfs, toMaybeIpfsUrl } from "../ipfs/store"
 import { SetAnyArr, SetBool } from "../type_alias"
 import styles from "./add_team_member.module.sass"
-import { CircleImageUpload, ImageUpload } from "./ImageUpload"
+import { CircleImageUpload } from "./ImageUpload"
 import { LabeledInput, LabeledTextArea } from "./labeled_inputs"
 import { SubmitButton } from "./SubmitButton"
 
@@ -43,6 +43,7 @@ export const AddTeamMember = ({
     return (
       <div className={styles.add_team_member}>
         <CircleImageUpload setImageBytes={setImageBytes} />
+        <Spacer />
         <LabeledInput
           label={"Name"}
           inputValue={name}
@@ -50,6 +51,7 @@ export const AddTeamMember = ({
           maxLength={40} // NOTE: has to match WASM
           errorMsg={errors.name}
         />
+        <Spacer />
         <LabeledInput
           label={"Role"}
           inputValue={role}
@@ -57,6 +59,7 @@ export const AddTeamMember = ({
           maxLength={40} // NOTE: has to match WASM
           errorMsg={errors.role}
         />
+        <Spacer />
         <LabeledTextArea
           label={"Description"}
           inputValue={descr}
@@ -64,6 +67,7 @@ export const AddTeamMember = ({
           maxLength={2000} // NOTE: has to match WASM
           errorMsg={errors.descr}
         />
+        <Spacer />
         <LabeledInput
           label={"Github"}
           inputValue={githubUrl}
@@ -71,6 +75,7 @@ export const AddTeamMember = ({
           maxLength={40} // NOTE: has to match WASM
           errorMsg={errors.github_url}
         />
+        <Spacer />
         <LabeledInput
           label={"Twitter"}
           inputValue={twitterUrl}
@@ -78,6 +83,7 @@ export const AddTeamMember = ({
           maxLength={40} // NOTE: has to match WASM
           errorMsg={errors.twitter_url}
         />
+        <Spacer />
         <LabeledInput
           label={"LinkedIn"}
           inputValue={linkedinUrl}
@@ -85,6 +91,7 @@ export const AddTeamMember = ({
           maxLength={40} // NOTE: has to match WASM
           errorMsg={errors.linkedin_url}
         />
+        <Spacer />
 
         <SubmitButton
           label={"Submit"}
@@ -121,6 +128,10 @@ export const AddTeamMember = ({
   }
 
   return deps.myAddress && contentView()
+}
+
+const Spacer = () => {
+  return <div className="h-8" />
 }
 
 export const addTeamMember = async (

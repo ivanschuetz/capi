@@ -92,12 +92,12 @@ export const CircleImageUpload = ({
     >
       {/* image uploader */}
       <div {...getRootProps({ className: styles.upload_container })}>
-        <div className={styles.drag_here}>
+        <div className="center-children h-36 w-36 border-spacing-12 rounded-full bg-dashed_border bg-cover bg-center bg-no-repeat p-7 text-center">
           <div>{"Drag and drop here"}</div>
         </div>
         <div>{"or"}</div>
         <div className="upload-custom">
-          <button className={styles.upload_image_btn}>Upload Image</button>
+          <button className="h-12 w-36 bg-te text-bg">Upload Image</button>
           <input
             {...getInputProps()}
             className="upload-input"

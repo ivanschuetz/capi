@@ -235,7 +235,7 @@ const WithLabelAndLength = ({
   labelColor?: string
 }) => {
   return (
-    <div className="mb-6 sm:mb-8">
+    <div className="">
       <div>
         <div className="flex">
           <Label text={label} info={info} color={labelColor} />
@@ -298,7 +298,7 @@ const Input = ({
 
   return (
     <input
-      className={`h-16 w-full ${bg} pr-5 ${paddingLeft} mb-8 pr-5 text-te ${plColor}`}
+      className={`h-16 w-full ${bg} pr-5 ${paddingLeft} pr-5 text-te ${plColor}`}
       placeholder={placeholder}
       size={30}
       type={type}
