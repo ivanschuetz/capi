@@ -92,7 +92,7 @@ export const CircleImageUpload = ({
     >
       {/* image uploader */}
       <div {...getRootProps({ className: styles.upload_container })}>
-        <div className="center-children h-36 w-36 border-spacing-12 rounded-full bg-dashed_border bg-cover bg-center bg-no-repeat p-7 text-center">
+        <div className="center-children h-36 w-36 border-spacing-12 rounded-full bg-dashed_border_round bg-cover bg-center bg-no-repeat p-7 text-center">
           <div>{"Drag and drop here"}</div>
         </div>
         <div>{"or"}</div>

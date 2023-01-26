@@ -46,6 +46,7 @@ module.exports = {
       },
       backgroundImage: {
         dashed_border: "url('/dashed_border.svg')",
+        dashed_border_round: "url('/dashed_border_round.svg')",
       },
       aspectRatio: {
         banner: "3",
