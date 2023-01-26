@@ -13,7 +13,7 @@ export const Settings = ({ deps }: { deps: Deps }) => {
   const daoId = useDaoId()
 
   return (
-    <div>
+    <div className="mb-10">
       <div>
         <ContentTitle title={"Project settings"} />
         {deps.myAddress && (

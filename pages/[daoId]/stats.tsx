@@ -15,7 +15,7 @@ const StatsPage = () => {
   }, [deps.updateDao, daoId])
 
   return (
-    <div>
+    <div className="mb-10">
       {deps.dao && <SharesDistributionBox deps={deps} />}
 
       <IncomeSpendingBox notification={deps.notification} daoId={daoId} />

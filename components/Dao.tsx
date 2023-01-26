@@ -42,7 +42,7 @@ const DaoView = ({
   daoId: string
 }) => {
   return (
-    <div>
+    <div className="mb-10">
       {description && (
         <div className="mb-10 w-full leading-8 text-te2 4xl:w-4/5">
           {description}
