@@ -128,6 +128,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           errorMsg={errors.name}
           maxLength={40} // NOTE: has to match WASM
         />
+        <FormSpacer />
         <LabeledTextArea
           label={"Description"}
           inputValue={daoDescr}
@@ -135,6 +136,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           errorMsg={errors.description}
           maxLength={2000} // NOTE: has to match WASM
         />
+        <FormSpacer />
         <LabeledInput
           label={"Primary social media (optional)"}
           inputValue={socialMediaUrl}
@@ -166,6 +168,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           errorMsg={errors.share_supply}
         />
 
+        <FormSpacer />
         <LabeledAmountInput
           label={"Investor's %"}
           info={"Percentage of project income directed to investors."}
@@ -174,6 +177,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           errorMsg={errors.investors_share}
           placeholder="Investor's part in %"
         />
+        <FormSpacer />
         <div className="d-flex gap-32">
           <div className="f-basis-50">
             <LabeledAmountInput
@@ -197,27 +201,31 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
             />
           </div>
         </div>
+        <FormSpacer />
         {deps.features.minMaxInvestment && (
-          <div className="d-flex gap-32">
-            <div className="f-basis-50">
-              <LabeledAmountInput
-                label={"Min investment (shares)"}
-                info={"Minimum amount of shares an investor has to buy"}
-                inputValue={minInvestShares}
-                onChange={(input) => setMinInvestShares(input)}
-                errorMsg={errors.min_invest_amount}
-              />
+          <>
+            <div className="d-flex gap-32">
+              <div className="f-basis-50">
+                <LabeledAmountInput
+                  label={"Min investment (shares)"}
+                  info={"Minimum amount of shares an investor has to buy"}
+                  inputValue={minInvestShares}
+                  onChange={(input) => setMinInvestShares(input)}
+                  errorMsg={errors.min_invest_amount}
+                />
+              </div>
+              <div className="f-basis-50">
+                <LabeledAmountInput
+                  label={"Max investment (shares)"}
+                  info={"Maximum total amount of shares an investor can buy"}
+                  inputValue={maxInvestShares}
+                  onChange={(input) => setMaxInvestShares(input)}
+                  errorMsg={errors.max_invest_amount}
+                />
+              </div>
             </div>
-            <div className="f-basis-50">
-              <LabeledAmountInput
-                label={"Max investment (shares)"}
-                info={"Maximum total amount of shares an investor can buy"}
-                inputValue={maxInvestShares}
-                onChange={(input) => setMaxInvestShares(input)}
-                errorMsg={errors.max_invest_amount}
-              />
-            </div>
-          </div>
+            <FormSpacer />
+          </>
         )}
         <div className="d-flex gap-32">
           <div className="f-basis-50">
@@ -231,6 +239,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           </div>
           <MaxFundingTargetLabel text={totalSharePrice} />
         </div>
+        <FormSpacer />
         <LabeledDateInput
           label={"Fundraising end date"}
           info={
@@ -241,6 +250,7 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
           disabled={true}
           errorMsg={errors.min_raise_target_end_date}
         />
+        <FormSpacer />
         <SubmitButton
           label={"Create project"}
           isLoading={submitting}
@@ -284,6 +294,10 @@ export const CreateDao = ({ deps }: { deps: Deps }) => {
       )}
     </div>
   )
+}
+
+export const FormSpacer = () => {
+  return <div className="h-14 sm:h-16" />
 }
 
 const SectionTitle = ({ text }: { text: string }) => {

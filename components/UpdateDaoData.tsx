@@ -11,6 +11,7 @@ import { useDaoId } from "../hooks/useDaoId"
 import { storeIpfs, toMaybeIpfsUrl } from "../ipfs/store"
 import { OkCancelModal } from "../modal/OkCancelModal"
 import { SetBool, SetString } from "../type_alias"
+import { FormSpacer } from "./CreateDao"
 import { FileUploader } from "./FileUploader"
 import { ImageUpload } from "./ImageUpload"
 import {
@@ -75,6 +76,7 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
           maxLength={40} // NOTE: has to match WASM
           errorMsg={errors.name}
         />
+        <FormSpacer />
         <LabeledTextArea
           label={"Description"}
           inputValue={daoDescr}
@@ -82,12 +84,14 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
           maxLength={2000} // NOTE: has to match WASM
           errorMsg={errors.description}
         />
+        <FormSpacer />
         <div className="info">Project Cover</div>
         <ImageUpload
           initImageBytes={imageBytes}
           setImageBytes={setImageBytes}
         />
         <ValidationMsg errorMsg={errors.image_url} />
+        <FormSpacer />
 
         {deps.features.prospectus && (
           <React.Fragment>
@@ -109,26 +113,29 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
           </React.Fragment>
         )}
         {deps.features.minMaxInvestment && (
-          <div className="mt-10 flex gap-8">
-            <div className="f-basis-50">
-              <LabeledAmountInput
-                label={"Min investment (shares)"}
-                info={"Minimum amount of shares an investor has to buy"}
-                inputValue={minInvestShares}
-                onChange={(input) => setMinInvestShares(input)}
-                errorMsg={errors.min_invest_shares}
-              />
+          <>
+            <div className="mt-10 flex gap-8">
+              <div className="f-basis-50">
+                <LabeledAmountInput
+                  label={"Min investment (shares)"}
+                  info={"Minimum amount of shares an investor has to buy"}
+                  inputValue={minInvestShares}
+                  onChange={(input) => setMinInvestShares(input)}
+                  errorMsg={errors.min_invest_shares}
+                />
+              </div>
+              <div className="f-basis-50">
+                <LabeledAmountInput
+                  label={"Max investment (shares)"}
+                  info={"Maximum total amount of shares an investor can buy"}
+                  inputValue={maxInvestShares}
+                  onChange={(input) => setMaxInvestShares(input)}
+                  errorMsg={errors.max_invest_shares}
+                />
+              </div>
             </div>
-            <div className="f-basis-50">
-              <LabeledAmountInput
-                label={"Max investment (shares)"}
-                info={"Maximum total amount of shares an investor can buy"}
-                inputValue={maxInvestShares}
-                onChange={(input) => setMaxInvestShares(input)}
-                errorMsg={errors.max_invest_shares}
-              />
-            </div>
-          </div>
+            <FormSpacer />
+          </>
         )}
         <LabeledInput
           label={"Primary social media (optional)"}
@@ -136,6 +143,7 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
           onChange={(input) => setSocialMediaUrl(input)}
           errorMsg={errors.social_media_url}
         />
+        <FormSpacer />
         <SubmitButton
           label={"Update data"}
           isLoading={submitting}
@@ -169,6 +177,7 @@ export const UpdateDaoData = ({ deps }: { deps: Deps }) => {
           onChange={(input) => setRekeyAuthAddress(input)}
           errorMsg={rekeyAddressError}
         />
+        <FormSpacer />
         <SubmitButton
           label={"Rekey owner"}
           isLoading={submitting}
