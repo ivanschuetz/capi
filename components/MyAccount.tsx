@@ -73,7 +73,10 @@ const MyData = ({ deps, daoId }: { deps: Deps; daoId?: string }) => {
             {daoId && <DividendAmount dividend={deps.myDividend} />}
           </MyDataColumn>
         </div>
-        {daoId && <SubmitClaimButton deps={deps} daoId={daoId} />}
+        {/* TODO return has dividend from wasm and check against that */}
+        {daoId && deps.myDividend !== "0.00" && (
+          <SubmitClaimButton deps={deps} daoId={daoId} />
+        )}
       </div>
     )
   } else {
@@ -144,8 +147,6 @@ const SubmitClaimButton = ({ deps, daoId }: { deps: Deps; daoId: string }) => {
     <SubmitButton
       label={"Claim"}
       isLoading={submitting}
-      // TODO return has dividend or unformatted 0 from wasm and check against that
-      disabled={deps.myDividend === "0.00"}
       width="w-full"
       onClick={async () => {
         if (!deps.wasm) {
