@@ -168,10 +168,10 @@ export const amountTextView = (entry: FundsActivityViewData) => {
   if (entry.amount_without_fee !== entry.short_amount_without_fee) {
     return (
       <>
-        <div id={anchorId} data-tip={entry.amount_without_fee}>
-          {entry.short_amount_without_fee}
-        </div>
         <NoSsr>
+          <div id={anchorId} data-tip={entry.amount_without_fee}>
+            {entry.short_amount_without_fee}
+          </div>
           <Tooltip anchorId={anchorId} />
         </NoSsr>
       </>

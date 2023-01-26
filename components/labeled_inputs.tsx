@@ -103,10 +103,10 @@ export const WithTooltip = ({
   // console.log("anchorId: " + anchorId)
   return (
     <>
-      <div id={anchorId} data-tooltip-content={text}>
-        {children}
-      </div>
       <NoSsr>
+        <div id={anchorId} data-tooltip-content={text}>
+          {children}
+        </div>
         <Tooltip anchorId={anchorId} />
       </NoSsr>
     </>
